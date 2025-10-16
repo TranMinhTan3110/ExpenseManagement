@@ -31,3 +31,4 @@ D:\QuanLyChiTieu_WebApp\obj\Debug\net8.0\refint\QuanLyChiTieu_WebApp.dll
 D:\QuanLyChiTieu_WebApp\obj\Debug\net8.0\QuanLyChiTieu_WebApp.pdb
 D:\QuanLyChiTieu_WebApp\obj\Debug\net8.0\QuanLyChiTieu_WebApp.genruntimeconfig.cache
 D:\QuanLyChiTieu_WebApp\obj\Debug\net8.0\ref\QuanLyChiTieu_WebApp.dll
+D:\QuanLyChiTieu_WebApp\obj\Debug\net8.0\QuanLyChiTieu_WebApp.sourcelink.json

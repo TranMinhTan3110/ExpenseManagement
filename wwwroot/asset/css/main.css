@@ -1,0 +1,319 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* --- CÀI ĐẶT CHUNG --- */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F6F9FC;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* --- BỐ CỤC CHÍNH --- */
+.app-container {
+    display: flex;
+}
+
+.main-content {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.page-content {
+    padding: 0 30px;
+}
+
+/* --- SIDEBAR (DESKTOP) --- */
+.sidebar {
+    flex-shrink: 0;
+    height: 100vh;
+    background-color: #2F2CD8;
+    width: 80px;
+}
+
+.menu {
+    width: 100%;
+    height: 100%;
+}
+
+    .menu .show {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 100%;
+    }
+
+        .menu .show li {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+.logo-item img {
+    max-width: 40px;
+    height: auto;
+}
+
+.sidebar-icon i {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.menu .show li:not(.logo-item) a:hover .sidebar-icon i {
+    color: white;
+}
+
+.menu .show a {
+    text-decoration: none;
+}
+
+/* --- HEADER (DESKTOP) --- */
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 15px 30px;
+}
+
+.header-logo {
+    display: block; /* Hiện logo trên desktop */
+}
+
+    .header-logo img {
+        max-height: 80px;
+        width: auto;
+    }
+
+.header-search {
+    flex-grow: 1;
+    max-width: 700px;
+}
+
+.header-logo, .header-right {
+    flex-shrink: 0;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: auto;
+}
+
+.dark-light-toggle i, .user-icon {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.user-icon {
+    background-color: #2F2CD8;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.lable-checkbox {
+    display: none;
+}
+
+.input-group .btn-primary {
+    background-color: #2F2CD8 !important;
+    border-color: #2F2CD8 !important;
+}
+
+.input-group .form-control:focus {
+    border-color: #2F2CD8;
+    box-shadow: 0 0 0 0.25rem rgba(47, 44, 216, 0.25);
+}
+
+/* --- MENU (VÔ HÌNH) --- */
+.overlay {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.4);
+    inset: 0;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.menu-content {
+    position: fixed;
+    background-color: #2F2CD8;
+    inset: 0 40% 0 0; /* Rộng 60% màn hình */
+    transform: translateX(-100%);
+    z-index: 101;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+#header-checkbox:checked ~ .overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+#header-checkbox:checked ~ .menu-content {
+    transform: translateX(0);
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+    .menu-header .img-fluid {
+        max-height: 80px;
+        max-width: 100%;
+    }
+
+    .menu-header .fa-x {
+        font-size: 22px;
+        color: #E0E5F2;
+        cursor: pointer;
+    }
+
+.menu-body ul.show {
+    list-style: none;
+    padding: 15px;
+    margin: 0;
+}
+
+.menu-body li a.item-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #E0E5F2;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+    .menu-body li a.item-content:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    .menu-body li a.item-content.active {
+        background-color: white;
+        color: #2F2CD8;
+        font-weight: 600;
+    }
+/* giao dịch */
+/* Style cho nút "Thêm giao dịch" */
+.btn-add-transaction {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+/* --- RESPONSIVE (TỪ 768px TRỞ XUỐNG) --- */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .header-logo {
+        display: none;
+    }
+
+    .lable-checkbox {
+        display: block;
+    }
+
+        .lable-checkbox svg {
+            width: 30px;
+            height: 30px;
+            fill: #2F2CD8;
+        }
+
+    .header-content {
+        flex-wrap: wrap;
+        padding: 15px;
+        gap: 15px;
+    }
+    /* Tầng trên */
+    .header-search {
+        flex-grow: 1;
+        max-width: none;
+    }
+
+    .header-action .btn-text {
+        display: none; /* Ẩn chữ đi */
+    }
+
+    .header-action .btn-add-transaction {
+        /* Biến nút thành hình tròn */
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    .header-action .fa-plus {
+        margin: 0; /* Xóa margin của icon */
+    }
+}
+
+/* --- RESPONSIVE (TỪ 576px TRỞ XUỐNG) --- */
+@media (max-width: 576px) {
+    /* Header 2 tầng */
+    .header-content {
+        justify-content: space-between;
+    }
+
+    .header-search {
+        width: 90%;
+        max-width: 400px;
+        margin: 0 auto;
+        order: 3;
+        flex-grow: 0;
+    }
+
+    .header-logo {
+        display: block;
+        flex-grow: 1;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+
+
+    .menu-body .sidebar-text {
+        font-size: 1rem !important;
+    }
+
+    /* Tương tự, ép buộc icon nhỏ lại */
+    .menu-body .sidebar-icon {
+        font-size: 1.2rem !important;
+    }
+
+    .menu-header .fa-x {
+        font-size: 24px !important;
+    }
+}
