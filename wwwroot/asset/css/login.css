@@ -17,7 +17,7 @@ body {
   height: 100vh;
 }
 .welcome-content {
-  background: url("./img/backgroundLogin.jpg") no-repeat;
+  background: url("~/asset/img/backgroundLogin.jpg") no-repeat;
   background-size: cover;
   background-position: center;
   height: 100%;
