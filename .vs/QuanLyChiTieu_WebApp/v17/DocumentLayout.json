@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|c:\\users\\hp\\documents\\btllaptrinhweb\\expensemanagement\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|c:\\users\\hp\\documents\\btllaptrinhweb\\expensemanagement\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|c:\\users\\hp\\documents\\btllaptrinhweb\\expensemanagement\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|c:\\users\\hp\\documents\\btllaptrinhweb\\expensemanagement\\wwwroot\\asset\\css\\main.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\asset\\css\\main.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|c:\\users\\hp\\documents\\btllaptrinhweb\\expensemanagement\\views\\login\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\login\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -15,24 +31,12 @@
       "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\login\\reset.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|c:\\users\\hp\\documents\\btllaptrinhweb\\expensemanagement\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|c:\\users\\hp\\documents\\btllaptrinhweb\\expensemanagement\\wwwroot\\asset\\css\\login.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\asset\\css\\login.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|c:\\users\\hp\\documents\\btllaptrinhweb\\expensemanagement\\quanlychitieu_webapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:quanlychitieu_webapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|c:\\users\\hp\\documents\\btllaptrinhweb\\expensemanagement\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|c:\\users\\hp\\documents\\btllaptrinhweb\\expensemanagement\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|c:\\users\\hp\\documents\\btllaptrinhweb\\expensemanagement\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
@@ -66,7 +70,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 12,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -94,33 +98,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "QuanLyChiTieu_WebApp",
+              "DocumentIndex": 8,
+              "Title": "QuanLyChiTieu_WebApp.csproj",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\QuanLyChiTieu_WebApp.csproj",
               "RelativeDocumentMoniker": "QuanLyChiTieu_WebApp.csproj",
               "ToolTip": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\QuanLyChiTieu_WebApp.csproj",
               "RelativeToolTip": "QuanLyChiTieu_WebApp.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-10-18T06:17:06.74Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-18T06:17:06.74Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "LoginController.cs",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Controllers\\LoginController.cs",
               "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
               "ToolTip": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Controllers\\LoginController.cs",
               "RelativeToolTip": "Controllers\\LoginController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-16T02:45:32.975Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "login.css",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\wwwroot\\asset\\css\\login.css",
               "RelativeDocumentMoniker": "wwwroot\\asset\\css\\login.css",
@@ -128,25 +131,24 @@
               "RelativeToolTip": "wwwroot\\asset\\css\\login.css",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-16T02:43:47.651Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-16T02:43:47.651Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-16T02:40:47.975Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "Reset.cshtml",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Views\\Login\\Reset.cshtml",
               "RelativeDocumentMoniker": "Views\\Login\\Reset.cshtml",
@@ -154,12 +156,11 @@
               "RelativeToolTip": "Views\\Login\\Reset.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-16T02:35:37.009Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-16T02:35:37.009Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "SignUp.cshtml",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Views\\Login\\SignUp.cshtml",
               "RelativeDocumentMoniker": "Views\\Login\\SignUp.cshtml",
@@ -167,37 +168,49 @@
               "RelativeToolTip": "Views\\Login\\SignUp.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-16T02:35:12.611Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-16T02:35:12.611Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "SignIn.cshtml",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Views\\Login\\SignIn.cshtml",
               "RelativeDocumentMoniker": "Views\\Login\\SignIn.cshtml",
               "ToolTip": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Views\\Login\\SignIn.cshtml",
               "RelativeToolTip": "Views\\Login\\SignIn.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAABQAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-16T02:34:25.716Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-16T02:34:25.716Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-15T16:04:52.863Z"
+              "WhenOpened": "2025-10-15T16:04:52.863Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 3,
+              "Title": "main.css",
+              "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\wwwroot\\asset\\css\\main.css",
+              "RelativeDocumentMoniker": "wwwroot\\asset\\css\\main.css",
+              "ToolTip": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\wwwroot\\asset\\css\\main.css",
+              "RelativeToolTip": "wwwroot\\asset\\css\\main.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-18T09:07:30.428Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
@@ -209,7 +222,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "bootstrap-reboot.css",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
               "RelativeDocumentMoniker": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
@@ -221,7 +234,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "bootstrap.css",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
               "RelativeDocumentMoniker": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
@@ -233,7 +246,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Transaction.cs",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Models\\Entities\\Transaction.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\Transaction.cs",
@@ -245,7 +258,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Category.cs",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Models\\Entities\\Category.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\Category.cs",
@@ -257,7 +270,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\BTLLapTrinhWeb\\ExpenseManagement\\Models\\EF\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "Models\\EF\\ApplicationDbContext.cs",

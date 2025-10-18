@@ -1,5 +1,4 @@
 wwwroot\asset\css\login.css
-wwwroot\asset\css\main.css
 wwwroot\asset\img\backgroundLogin.jpg
 wwwroot\asset\img\effects.gif
 wwwroot\asset\img\logo.png
@@ -64,3 +63,4 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\asset\css\main.css
