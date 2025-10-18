@@ -18,3 +18,5 @@ obj/
 
 # Others
 *.DS_Store
+
+*.user
