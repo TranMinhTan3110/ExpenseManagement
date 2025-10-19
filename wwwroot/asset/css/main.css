@@ -18,7 +18,8 @@ body {
 
 .main-content {
     flex-grow: 1;
-    width: 100%;
+    width: calc(100% - 80px);
+    margin-left: 80px;
 }
 
 .page-content {
@@ -31,6 +32,10 @@ body {
     height: 100vh;
     background-color: #2F2CD8;
     width: 80px;
+    position: fixed; /* Lock it to the viewport */
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    z-index: 100;
 }
 
 .menu {
@@ -276,6 +281,9 @@ body {
 
     .header-action .fa-plus {
         margin: 0; /* Xóa margin của icon */
+    }
+    .main-content {
+        margin-left: 0px;
     }
 }
 
