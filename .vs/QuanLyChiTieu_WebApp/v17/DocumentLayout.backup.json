@@ -3,6 +3,34 @@
   "WorkspaceRootPath": "D:\\QuanLyChiTieu_WebApp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\views\\shared\\_layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\shared\\_layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\views\\wallets\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\wallets\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\wwwroot\\asset\\js\\wallet.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\asset\\js\\wallet.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\wwwroot\\asset\\css\\wallet.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\asset\\css\\wallet.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\wwwroot\\asset\\css\\main.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\asset\\css\\main.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\controllers\\walletscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:controllers\\walletscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,12 +39,8 @@
       "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\views\\shared\\_layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\shared\\_layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\models\\entities\\wallet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -29,10 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\models\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:models\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\wwwroot\\asset\\css\\main.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\asset\\css\\main.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\quanlychitieu_webapp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
@@ -54,7 +74,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,7 +86,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
+              "Title": "Wallet.css",
+              "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\wwwroot\\asset\\css\\Wallet.css",
+              "RelativeDocumentMoniker": "wwwroot\\asset\\css\\Wallet.css",
+              "ToolTip": "D:\\QuanLyChiTieu_WebApp\\wwwroot\\asset\\css\\Wallet.css",
+              "RelativeToolTip": "wwwroot\\asset\\css\\Wallet.css",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAAFIBAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-19T05:10:03.136Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\Views\\Wallets\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Wallets\\Index.cshtml",
+              "ToolTip": "D:\\QuanLyChiTieu_WebApp\\Views\\Wallets\\Index.cshtml",
+              "RelativeToolTip": "Views\\Wallets\\Index.cshtml",
+              "ViewState": "AgIAAAcBAAAAAAAAAAAAAAwBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-19T04:48:32.636Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "WalletsController.cs",
+              "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\Controllers\\WalletsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\WalletsController.cs",
+              "ToolTip": "D:\\QuanLyChiTieu_WebApp\\Controllers\\WalletsController.cs",
+              "RelativeToolTip": "Controllers\\WalletsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T04:48:09.605Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
@@ -79,20 +138,45 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 5,
               "Title": "main.css",
               "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\wwwroot\\asset\\css\\main.css",
               "RelativeDocumentMoniker": "wwwroot\\asset\\css\\main.css",
               "ToolTip": "D:\\QuanLyChiTieu_WebApp\\wwwroot\\asset\\css\\main.css",
               "RelativeToolTip": "wwwroot\\asset\\css\\main.css",
-              "ViewState": "AgIAAOEAAAAAAAAAAAAYwCYBAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAIBAAAAAAAAAAAAABwBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2025-10-16T06:53:50.893Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 10,
+              "Title": "Wallet.cs",
+              "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\Models\\Entities\\Wallet.cs",
+              "RelativeDocumentMoniker": "Models\\Entities\\Wallet.cs",
+              "ToolTip": "D:\\QuanLyChiTieu_WebApp\\Models\\Entities\\Wallet.cs",
+              "RelativeToolTip": "Models\\Entities\\Wallet.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T16:07:14.267Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\QuanLyChiTieu_WebApp\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACQAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-15T16:04:52.863Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "_Layout.cshtml.css",
               "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\Views\\Shared\\_Layout.cshtml.css",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml.css",
@@ -105,46 +189,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Wallet.cs",
-              "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\Models\\Entities\\Wallet.cs",
-              "RelativeDocumentMoniker": "Models\\Entities\\Wallet.cs",
-              "ToolTip": "D:\\QuanLyChiTieu_WebApp\\Models\\Entities\\Wallet.cs",
-              "RelativeToolTip": "Models\\Entities\\Wallet.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T16:07:14.267Z",
+              "DocumentIndex": 3,
+              "Title": "Wallet.js",
+              "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\wwwroot\\asset\\js\\Wallet.js",
+              "RelativeDocumentMoniker": "wwwroot\\asset\\js\\Wallet.js",
+              "ToolTip": "D:\\QuanLyChiTieu_WebApp\\wwwroot\\asset\\js\\Wallet.js",
+              "RelativeToolTip": "wwwroot\\asset\\js\\Wallet.js",
+              "ViewState": "AgIAACMAAAAAAAAAAAAAAC4AAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-10-19T05:13:06.535Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "D:\\QuanLyChiTieu_WebApp\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAADwAAAAAAAAAAAAAAEgAAAAcAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "Privacy.cshtml",
+              "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\Views\\Home\\Privacy.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Privacy.cshtml",
+              "ToolTip": "D:\\QuanLyChiTieu_WebApp\\Views\\Home\\Privacy.cshtml",
+              "RelativeToolTip": "Views\\Home\\Privacy.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-15T16:04:52.863Z",
+              "WhenOpened": "2025-10-18T09:20:35.592Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 7,
               "Title": "HomeController.cs",
               "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
               "ToolTip": "D:\\QuanLyChiTieu_WebApp\\Controllers\\HomeController.cs",
               "RelativeToolTip": "Controllers\\HomeController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-15T16:04:13.887Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 12,
               "Title": "Category.cs",
               "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\Models\\Entities\\Category.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\Category.cs",
@@ -152,12 +236,11 @@
               "RelativeToolTip": "Models\\Entities\\Category.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T15:58:17.293Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-15T15:58:17.293Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 11,
               "Title": "Transaction.cs",
               "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\Models\\Entities\\Transaction.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\Transaction.cs",
@@ -165,12 +248,11 @@
               "RelativeToolTip": "Models\\Entities\\Transaction.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T15:58:39.728Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-15T15:58:39.728Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 13,
               "Title": "bootstrap-reboot.css",
               "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
               "RelativeDocumentMoniker": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
@@ -182,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "bootstrap.css",
               "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
               "RelativeDocumentMoniker": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
@@ -194,7 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 15,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "D:\\QuanLyChiTieu_WebApp\\Models\\EF\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "Models\\EF\\ApplicationDbContext.cs",

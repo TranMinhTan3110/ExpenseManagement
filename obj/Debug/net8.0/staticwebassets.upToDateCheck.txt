@@ -1,6 +1,9 @@
 wwwroot\asset\css\main.css
+wwwroot\asset\css\Wallet.css
 wwwroot\asset\img\effects.gif
 wwwroot\asset\img\logo.png
+wwwroot\asset\img\more.png
+wwwroot\asset\js\Wallet.js
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\js\site.js
