@@ -1,5 +1,7 @@
 wwwroot\asset\css\main.css
+wwwroot\asset\css\profile.css
 wwwroot\asset\css\Wallet.css
+wwwroot\asset\img\Avatar.jpg
 wwwroot\asset\img\effects.gif
 wwwroot\asset\img\logo.png
 wwwroot\asset\img\more.png
