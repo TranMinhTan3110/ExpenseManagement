@@ -1,0 +1,410 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\BTL_WED\\ExpenseManagement\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\wwwroot\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\views\\home\\goals.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\home\\goals.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\wwwroot\\css\\goals.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\css\\goals.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\wwwroot\\lib\\jquery\\dist\\jquery.min.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\lib\\jquery\\dist\\jquery.min.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\wwwroot\\lib\\jquery\\dist\\jquery.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\lib\\jquery\\dist\\jquery.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\wwwroot\\lib\\bootstrap\\license||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\lib\\bootstrap\\license||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\views\\shared\\_layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:views\\shared\\_layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\models\\entities\\wallet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:models\\entities\\wallet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\models\\entities\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:models\\entities\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\models\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:models\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|d:\\btl_wed\\expensemanagement\\models\\ef\\applicationdbcontext.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{421648E9-1D5E-4142-9F1B-0CC84A792A7C}|QuanLyChiTieu_WebApp.csproj|solutionrelative:models\\ef\\applicationdbcontext.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Goals.cshtml",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\Views\\Home\\Goals.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Goals.cshtml",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\Views\\Home\\Goals.cshtml",
+              "RelativeToolTip": "Views\\Home\\Goals.cshtml",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAABIAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-17T16:57:55.574Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": ".gitignore",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\.gitignore",
+              "RelativeDocumentMoniker": "wwwroot\\.gitignore",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\.gitignore",
+              "RelativeToolTip": "wwwroot\\.gitignore",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-10-20T17:45:11.741Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:4:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:5:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:6:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:7:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:3:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Goals.css",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\css\\Goals.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\Goals.css",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\css\\Goals.css",
+              "RelativeToolTip": "wwwroot\\css\\Goals.css",
+              "ViewState": "AgIAAOoAAAAAAAAAAAAIwBgBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-16T14:55:37.613Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-20T15:17:18.617Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Privacy.cshtml",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\Views\\Home\\Privacy.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Privacy.cshtml",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\Views\\Home\\Privacy.cshtml",
+              "RelativeToolTip": "Views\\Home\\Privacy.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-20T14:01:08.496Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-20T14:00:47.257Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T16:04:13.887Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "jquery.min.js",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+              "RelativeDocumentMoniker": "wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+              "RelativeToolTip": "wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-10-17T17:14:17.013Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "jquery.js",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "RelativeDocumentMoniker": "wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "RelativeToolTip": "wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "ViewState": "AgIAAAwBAAAAAAAAAAAQwCQBAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-10-17T17:14:21.873Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "_ValidationScriptsPartial.cshtml",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-17T17:25:17.056Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "bootstrap.js",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+              "RelativeDocumentMoniker": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+              "RelativeToolTip": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-10-17T17:14:05.417Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "LICENSE",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\lib\\bootstrap\\LICENSE",
+              "RelativeDocumentMoniker": "wwwroot\\lib\\bootstrap\\LICENSE",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\lib\\bootstrap\\LICENSE",
+              "RelativeToolTip": "wwwroot\\lib\\bootstrap\\LICENSE",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-10-17T17:14:06.236Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "site.js",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\js\\site.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\site.js",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\js\\site.js",
+              "RelativeToolTip": "wwwroot\\js\\site.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-10-17T17:13:24.497Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "Views\\_ViewImports.cshtml",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "Views\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-16T14:46:57.929Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "site.css",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "wwwroot\\css\\site.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-16T14:08:00.139Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "bootstrap.css",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+              "RelativeDocumentMoniker": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+              "RelativeToolTip": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-15T16:03:44.728Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "_Layout.cshtml.css",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\Views\\Shared\\_Layout.cshtml.css",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml.css",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\Views\\Shared\\_Layout.cshtml.css",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml.css",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAoAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-16T06:33:33.212Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Wallet.cs",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\Models\\Entities\\Wallet.cs",
+              "RelativeDocumentMoniker": "Models\\Entities\\Wallet.cs",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\Models\\Entities\\Wallet.cs",
+              "RelativeToolTip": "Models\\Entities\\Wallet.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T16:07:14.267Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Category.cs",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\Models\\Entities\\Category.cs",
+              "RelativeDocumentMoniker": "Models\\Entities\\Category.cs",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\Models\\Entities\\Category.cs",
+              "RelativeToolTip": "Models\\Entities\\Category.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T15:58:17.293Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Transaction.cs",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\Models\\Entities\\Transaction.cs",
+              "RelativeDocumentMoniker": "Models\\Entities\\Transaction.cs",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\Models\\Entities\\Transaction.cs",
+              "RelativeToolTip": "Models\\Entities\\Transaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T15:58:39.728Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "bootstrap-reboot.css",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+              "RelativeDocumentMoniker": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+              "RelativeToolTip": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-15T16:03:46.342Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "D:\\BTL_WED\\ExpenseManagement\\Models\\EF\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Models\\EF\\ApplicationDbContext.cs",
+              "ToolTip": "D:\\BTL_WED\\ExpenseManagement\\Models\\EF\\ApplicationDbContext.cs",
+              "RelativeToolTip": "Models\\EF\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T15:58:05.043Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

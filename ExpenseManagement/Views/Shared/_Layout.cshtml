@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css">
+    <link rel="stylesheet" href="~/asset/css/main.css">
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="menu">
+                <ul class="show">
+                    <li class="logo-item">
+                        <a href="#">
+                            <img src="~/asset/img/effects.gif" alt="Logo">
+                        </a>
+                    </li>
+                    <li><a href="#"><span class="sidebar-icon"><i class="fi fi-rr-dashboard"></i></span></a></li>
+                    <li><a href="#"><span class="sidebar-icon"><i class="fa-solid fa-wallet"></i></span></a></li>
+                    <li><a href="#"><span class="sidebar-icon"><i class="fi fi-rr-donate"></i></span></a></li>
+                    <li><a asp-controller="Home" asp-action="Goals" class="sidebar-icon"><i class="fi fi-br-bullseye-arrow"></i></span></a></li>
+                    <li><a href="#"><span class="sidebar-icon"><i class="fi fi-rr-user"></i></span></a></li>
+                    <li><a href="#"><span class="sidebar-icon"><i class="fi fi-rr-chart-histogram"></i></span></a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+
+            <input type="checkbox" id="header-checkbox" hidden>
+            <label class="overlay" for="header-checkbox"></label>
+            <div class="menu-content">
+                <div class="menu-header">
+                    <a href="#">
+                        <img src="~/asset/img/logo.png" class="img-fluid" alt="Logo">
+                    </a>
+                    <label for="header-checkbox" class="menu-close-button"><i class="fa-solid fa-x"></i></label>
+                </div>
+                <div class="menu-body">
+                    <ul class="show">
+                        <li>
+                            <a class="item-content " href="#">
+                                <span class="sidebar-icon"><i class="fi fi-rr-dashboard"></i></span>
+                                <span class="sidebar-text fs-5">Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="item-content" href="#">
+                                <span class="sidebar-icon"><i class="fa-solid fa-wallet"></i></span>
+                                <span class="sidebar-text fs-5">Wallet</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="item-content" href="#">
+                                <span class="sidebar-icon"><i class="fi fi-rr-donate"></i></span>
+                                <span class="sidebar-text fs-5">Budgets</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Home" asp-action="Goals" class="item-content">
+                                <span class="sidebar-icon"><i class="fi fi-br-bullseye-arrow"></i></span>
+                                <span class="sidebar-text fs-5">Goals</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="item-content" href="#">
+                                <span class="sidebar-icon"><i class="fi fi-rr-user"></i></span>
+                                <span class="sidebar-text fs-5">Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="item-content" href="#">
+                                <span class="sidebar-icon"><i class="fi fi-rr-chart-histogram"></i></span>
+                                <span class="sidebar-text fs-5">Analytics</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <header class="header">
+                <div class="header-content">
+                    <label for="header-checkbox" class="lable-checkbox">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                        </svg>
+                    </label>
+
+                    <div class="header-logo">
+                        <a href="#">
+                            <img class="img-fluid" src="~/asset/img/logo.png" alt="Logo">
+                        </a>
+                    </div>
+
+                    <div class="header-search">
+                        <form class="input-group">
+                            <input class="form-control" type="search" placeholder="Search Here">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="header-action">
+                        <button class="btn btn-primary btn-add-transaction">
+                            <i class="fa-solid fa-plus"></i>
+                            <span class="btn-text">Thêm giao dịch</span>
+                        </button>
+                    </div>
+                    <div class="header-right">
+                        <div class="dark-light-toggle">
+                            <span class="light"><i class="fa-solid fa-sun sun"></i></span>
+                        </div>
+                        <div class="user-icon">
+                            <span><i class="fa-solid fa-user text-white"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                @RenderBody()
+            </div>
+
+        </main>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>
