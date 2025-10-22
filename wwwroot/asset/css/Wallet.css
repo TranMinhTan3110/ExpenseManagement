@@ -1,0 +1,348 @@
+﻿/* Wallet page */
+
+/* Style cho breadcrumb bên phải */
+.page-header {
+    padding-right: 2rem;
+    padding-left: 3.1rem;
+    /* border: solid 1px red; */
+}
+
+.breadcrumb a {
+    color: #6c757d;
+    text-decoration: none;
+}
+
+    .breadcrumb a:hover {
+        color: #0d6efd;
+    }
+
+.breadcrumb-item {
+    cursor: pointer;
+}
+/* MÀN HÌNH NHỎ HƠN 768px */
+@media (max-width: 768px) {
+    .page-header {
+        display: flex;
+        flex-direction: column;
+        /* Đổi justify-content thành align-items */
+        align-items: flex-start !important; /* <<-- SỬA Ở ĐÂY */
+
+        gap: 0.5rem; /* Thêm khoảng cách giữa 2 dòng cho đẹp */
+        font-size: 0.9em !important;
+    }
+}
+/* wallet-container */
+.wallet-container {
+    display: grid;
+    /* grid-template-columns: 400px calc(100% - 400px); */
+    /* grid-template-columns: auto 2fr; */
+    grid-template-columns: minmax(280px, 300px) 1fr;
+    margin: 20px 40px;
+    grid-column-gap: 2rem;
+}
+
+.wallet-sidebar {
+    /* border: solid 1px red; */
+    height: auto;
+}
+
+.wallet-main {
+    /* border: solid 1px green; */
+    height: auto;
+}
+/* wallet-sidebar */
+.wallet-list {
+    width: 100%;
+    height: auto;
+    /* border: solid 1px yellow; */
+}
+
+.wallet-list__item {
+    border-radius: 10px;
+    /* border: solid 1px black; */
+    width: 100%;
+    /* max-width: 300px !important; */
+    /* padding: 20px; */
+    height: 100px;
+    list-style: none;
+    background-color: #ffffff;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s ease;
+}
+
+/* add wallet */
+
+.add-wallet {
+    /* height: auto; */
+    padding: 20px;
+    /* border: solid 1px blue; */
+    width: 100%;
+    border-radius: 10px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between; /* Đẩy 2 mục ra hai phía */
+    align-items: center; /* Căn giữa chúng theo chiều dọc */
+    cursor: pointer;
+    transition: all 0.2s ease, transform 0.15s ease;
+}
+
+    .add-wallet p {
+        margin: 0;
+        font-weight: 600;
+        color: #1f2c73;
+    }
+
+.wallet-list__item:hover {
+    background-color: #2F2CD8;
+}
+
+.wallet-sidebar .add-wallet:hover {
+    background-color: #2F2CD8;
+}
+
+.add-wallet:hover p {
+    color: white;
+    /
+}
+
+.add-wallet:hover {
+    /* ... các style hover cũ ... */
+    transform: scale(0.99); /* Phóng to nhẹ 3% */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Thêm đổ bóng (tùy chọn) */
+}
+
+.add-wallet img {
+    width: 24px;
+    height: 24px;
+}
+
+.wallet-list__item--active {
+    background-color: #2F2CD8; /* Đổi nền thành màu xanh đậm */
+    color: white; /* Đổi màu chữ thành trắng */
+}
+    /* .wallet-list__item--active .wallet-list__name,
+.wallet-list__item--active .wallet-list__balance,.wallet-list__icon  {
+    color: white;
+} */
+    .wallet-list__item--active .wallet-list__name {
+        color: white;
+    }
+
+    .wallet-list__item--active .wallet-list__balance {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .wallet-list__item--active .wallet-list__icon {
+        color: white;
+    }
+
+.wallet-list__item a {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    gap: 15px;
+    text-decoration: none;
+    color: #343a40; /* Màu chữ mặc định */
+    height: 100px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.wallet-list__info {
+    flex-grow: 1; /* Cho phép vùng info giãn ra */
+}
+
+.wallet-list__name {
+    margin: 0 0 4px 0; /* Khoảng cách nhỏ dưới tên */
+    font-size: 1.3rem; /* Cỡ chữ tên ví */
+    font-weight: 600; /* Đậm hơn */
+    color: #1f2c73;
+}
+
+.wallet-list__balance {
+    margin: 0;
+    font-size: 0.9rem; /* Cỡ chữ số dư */
+    color: #6c757d; /* Màu xám */
+}
+
+/* Khi hover, chữ và icon đậm lên một chút */
+.wallet-list__item a:hover .wallet-list__name,
+.wallet-list__item a:hover .wallet-list__balance,
+.wallet-list__item a:hover .wallet-list__icon {
+    color: white; /* Đổi thành màu đen đậm */
+}
+
+
+
+
+
+/* wallet-main */
+.wallet-main {
+}
+
+.wallet-title {
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: #1f2c73;
+}
+
+.wallet-main .wallet-title h4 {
+    margin: 0;
+}
+
+.wallet-change__text, .wallet-change__amount {
+    color: #6c757d !important;
+    font-weight: 500 !important;
+}
+
+.balance-amount {
+    font-weight: 600 !important; /* Dùng font-weight 600 giống tiêu đề, !important để ghi đè fw-bold */
+    color: #1f2c73; /* Màu xanh đậm giống tiêu đề */
+}
+
+.card-main {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.wallet-pie-chart {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+    .wallet-pie-chart h5 {
+        color: #1f2c73;
+    }
+
+/* canvas */
+.chart-container canvas {
+    width: 100% !important;
+    max-width: 100%;
+    height: auto !important;
+    display: block;
+    box-sizing: border-box;
+}
+
+
+
+
+
+/* table */
+/* Style cho icon trong bảng giao dịch */
+.transaction-icon {
+    display: inline-flex; /* Để căn icon bên trong */
+    align-items: center;
+    justify-content: center;
+    width: 35px; /* Kích thước vòng tròn */
+    height: 35px;
+    border-radius: 50%; /* Bo tròn */
+    margin-right: 10px; /* Khoảng cách với chữ */
+    font-size: 16px; /* Kích thước icon bên trong */
+}
+
+.table-responsive .transaction-date,
+.table-responsive .transaction-description,
+.table-responsive .transaction-amount {
+    color: #6c757d;
+}
+
+.table-responsive th {
+    color: #1f2c73;
+}
+
+.transaction-history h5 {
+    color: #1f2c73 !important;
+}
+
+
+
+/* Thêm màu nền nhạt (ví dụ) */
+.bg-primary-light {
+    background-color: rgba(13, 110, 253, 0.1);
+}
+/* Xanh dương */
+.bg-secondary-light {
+    background-color: rgba(108, 117, 125, 0.1);
+}
+/* Xám */
+.bg-success-light {
+    background-color: rgba(25, 135, 84, 0.1);
+}
+/* Xanh lá */
+.bg-danger-light {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+/* Đỏ */
+.bg-warning-light {
+    background-color: rgba(255, 193, 7, 0.1);
+}
+/* Vàng */
+.bg-info-light {
+    background-color: rgba(13, 202, 240, 0.1);
+}
+/* Xanh ngọc */
+/* Bạn có thể định nghĩa thêm các màu khác cho từng loại category */
+
+/* end table */
+/* Reponsive  */
+/*         */
+@media (max-width: 920px) {
+    .wallet-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 15px; /* 👈 tạo khoảng cách hai bên */
+    }
+
+    .wallet-container {
+        display: flex;
+        flex-direction: column;
+        margin: 10px auto; /* 👈 căn giữa container */
+        gap: 1rem;
+        max-width: 100%;
+        padding: 0 15px; /* 👈 thêm khoảng cách hai bên */
+        box-sizing: border-box;
+    }
+
+    .wallet-main,
+    .wallet-sidebar,
+    .card-main,
+    .wallet-title,
+    .wallet-pie-chart,
+    .transaction-history {
+        width: 100%;
+        max-width: 600px; /* 👈 giữ chiều rộng tối đa để không bị quá bự */
+        margin: 0 auto; /* 👈 căn giữa từng khối */
+        box-sizing: border-box;
+    }
+
+    .chart-container {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .balance-amount {
+        font-size: 1.2rem;
+    }
+
+    .wallet-change__text,
+    .wallet-change__amount {
+        font-size: 0.85rem;
+    }
+}
+
+
+/* modal */
+.modal-header h5 {
+    color: #1f2c73;
+}

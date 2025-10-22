@@ -282,6 +282,9 @@ body {
     .header-action .fa-plus {
         margin: 0; /* Xóa margin của icon */
     }
+    .main-content {
+        margin-left: 0px;
+    }
 }
 
 /* --- RESPONSIVE (TỪ 576px TRỞ XUỐNG) --- */
