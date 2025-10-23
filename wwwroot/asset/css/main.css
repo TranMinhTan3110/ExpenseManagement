@@ -4,9 +4,39 @@
 * {
     box-sizing: border-box;
 }
+/*Biến màu*/
+:root {
+    /* --- Màu Chế Độ Sáng (Mặc định) --- */
+    --bg-color: #F6F9FC; /* Nền chính */
+    --card-bg-color: #FFFFFF; /* Nền thẻ */
+    --text-color: #212529; /* Chữ chính (đen xám) */
+    --text-muted-color: #6c757d; /* Chữ phụ (xám) */
+    --primary-color: #2F2CD8; /* Màu xanh chính */
+    --sidebar-bg: #2F2CD8; /* Nền sidebar */
+    --sidebar-text: rgba(255, 255, 255, 0.7); /* Chữ sidebar */
+    --border-color: #dee2e6; /* Viền */
+    --text-title: #1f2c73;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+    --bs-body-bg: #fff;
+    --bs-secondary-color: rgba(33, 37, 41, 0.75);
+    /* --wallet:rgb(31, 41, 55) */
+}
+.dark-mode {
+    --bg-color: rgb(17, 24, 39);
+    --text-title: #ffffff;
+    --card-bg-color: rgb(17, 24, 39);
+    --shadow-color: rgba(255, 255, 255, 0.05);
+    --bs-body-bg: rgb(17, 24, 39);
+    --text-color: #fff;
+    --primary-color: rgb(17, 24, 39);
+    --bs-secondary-color: #fff;
+    /* --text-muted-color: #adb5bd; */
+    /* --card-bg: #1e1e1e; */
+    /* --border-color: #444; */
+}
 
 body {
-    background-color: #F6F9FC;
+    background-color: var(--bg-color);
     margin: 0;
     font-family: 'Poppins', sans-serif;
 }
@@ -18,7 +48,8 @@ body {
 
 .main-content {
     flex-grow: 1;
-    width: 100%;
+    width: calc(100% - 80px);
+    margin-left: 80px;
 }
 
 .page-content {
@@ -29,8 +60,12 @@ body {
 .sidebar {
     flex-shrink: 0;
     height: 100vh;
-    background-color: #2F2CD8;
+    background-color: var(--sidebar-bg);
     width: 80px;
+    position: fixed; /* Lock it to the viewport */
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    z-index: 100;
 }
 
 .menu {
@@ -62,7 +97,7 @@ body {
 
 .sidebar-icon i {
     font-size: 24px;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--sidebar-text);
     cursor: pointer;
     transition: color 0.2s ease;
 }
@@ -112,7 +147,9 @@ body {
     font-size: 24px;
     cursor: pointer;
 }
-
+.dark-mode .header-logo img { /*dòng đã sửa*/
+    filter: invert(1); /*dòng đã sửa*/
+}
 .user-icon {
     background-color: #2F2CD8;
     width: 40px;
@@ -129,15 +166,18 @@ body {
 }
 
 .input-group .btn-primary {
-    background-color: #2F2CD8 !important;
-    border-color: #2F2CD8 !important;
+    background-color: var(--primary-color) !important; 
+    border-color: var(--border-color) !important; 
 }
 
 .input-group .form-control:focus {
     border-color: #2F2CD8;
     box-shadow: 0 0 0 0.25rem rgba(47, 44, 216, 0.25);
 }
-
+.form-control::placeholder { 
+    color: var(--text-muted-color); 
+    opacity: 1; 
+}
 /* --- MENU (VÔ HÌNH) --- */
 .overlay {
     position: fixed;
@@ -277,6 +317,9 @@ body {
     .header-action .fa-plus {
         margin: 0; /* Xóa margin của icon */
     }
+    .main-content {
+        margin-left: 0px;
+    }
 }
 
 /* --- RESPONSIVE (TỪ 576px TRỞ XUỐNG) --- */
@@ -316,4 +359,88 @@ body {
     .menu-header .fa-x {
         font-size: 24px !important;
     }
+}
+
+/* sáng tối màn hình */
+
+/* toggle */
+.toggle-dark-light {
+    background-color: rgb(17, 24, 39);
+    flex-grow: 1;
+    width: calc(100% - 80px);
+    margin-left: 80px;
+}
+/* css icon dark */
+
+.dark {
+    color: yellow;
+}
+
+/* ======================================= */
+/* STYLE CHO MÀN HÌNH CHỜ (LOADER)         */
+/* ======================================= */
+
+#page-loader {
+    position: fixed;
+    inset: 0;
+    background-color: var(--bg-color);
+    z-index: 2000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+/* Hộp chứa 5 cột */
+.spinner {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+    /* Từng cột */
+    .spinner .item-collum {
+        height: 100%;
+        width: 5px;
+        background-color: var(--primary-color);
+        border-radius: 30px;
+        animation: tranfer 0.4s infinite alternate;
+    }
+
+/* Keyframes: "lên xuống" */
+@keyframes tranfer {
+    0% {
+        height: 20%; 
+    }
+
+    100% {
+        height: 100%; 
+    }
+}
+
+
+.spinner .col1 {
+    animation-delay: 0.2s;
+}
+
+.spinner .col2 {
+    animation-delay: 0.1s;
+}
+
+.spinner .col3 {
+    animation-delay: 0s;
+}
+/* Cột giữa chạy ngay */
+.spinner .col4 {
+    animation-delay: 0.1s;
+}
+
+.spinner .col5 {
+    animation-delay: 0.2s;
+}
+/* Class 'hidden' để ẩn loader đi */
+#page-loader.hidden {
+    opacity: 0; /* Làm mờ đi */
+    visibility: hidden; /* Ẩn hoàn toàn */
 }

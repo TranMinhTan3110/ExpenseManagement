@@ -1,0 +1,273 @@
+﻿@section Styles {
+    <link rel="stylesheet" href="~/asset/css/Wallet.css" />
+}
+
+<!-- Wallet Page -->
+<div class="page-header d-flex justify-content-between align-items-center ">
+
+    <div class="page-title">
+        <h2 class="mb-0">Wallets</h2>
+        <p class="mb-0 text-muted">Welcome Ekash Finance Management</p>
+    </div>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0  ">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Wallets</li>
+        </ol>
+    </nav>
+
+</div>
+<!-- end page header -->
+<!-- wallet container -->
+<div class="wallet-container">
+    <div class="wallet-sidebar">
+        <ul class="wallet-list p-0">
+            <li class="wallet-list__item  wallet-list__item--active mb-3">
+                <a href="">
+                    <div class="wallet-list__icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                    <div class="wallet-list__info">
+                        <h5 class="wallet-list__name">Cash</h5>
+                        <p class="wallet-list__balance">2000000</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="wallet-list__item  mb-3">
+                <a href="">
+                    <div class="wallet-list__icon"><i class="fa-regular fa-credit-card"></i></div>
+                    <div class="wallet-list__info">
+                        <h5 class="wallet-list__name">Visa Card</h5>
+                        <p class="wallet-list__balance">500000</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="wallet-list__item mb-3">
+                <a href="">
+                    <div class="wallet-list__icon"> <i class="fa-solid fa-building-columns"></i></div>
+                    <div class="wallet-list__info">
+                        <h5 class="wallet-list__name">BIDV Bank</h5>
+                        <p class="wallet-list__balance">4000000</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+
+        <div class="add-wallet" data-bs-toggle="modal" data-bs-target="#addWalletModal">
+            <p>Add new wallet</p>
+            <img src="/asset/img/more.png" alt="">
+        </div>
+    </div>
+    <div class="wallet-main  ">
+
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="">
+                    <div class="card-body wallet-title">
+                        <h4 class="mb-0">City Bank</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-12 col-md-6 total-balance">
+
+                <div class="card-main h-100">
+                    <div class="card-body">
+
+                        <p class="text-muted mb-1">Total Balance</p>
+
+                        <h3 class="balance-amount mb-3">$ 432,568</h3>
+                        <hr class="my-2">
+                        <p class="mb-0 small wallet-change ">
+                            <span class="wallet-change__icon">
+                                <i class="fa-solid fa-arrow-trend-up text-success"></i>
+                            </span>
+                            <span class="wallet-change__percentage text-success">2.47%</span>
+                            <span class="wallet-change__text">Last month</span>
+                            <span class="wallet-change__amount">$24,478</span>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <div class=" col-12 col-md-6 monthly-expense">
+                <div class="card-main h-100">
+                    <div class="card-body">
+
+                        <p class="text-muted mb-1">Monthly Expenses</p>
+
+                        <h3 class="balance-amount mb-3">$ 432,568</h3>
+
+                        <hr class="my-2">
+
+                        <p class="mb-0 small wallet-change text-danger">
+                            <span class="wallet-change__icon">
+                                <i class="fa-solid fa-arrow-trend-down"></i>
+                            </span>
+                            <span class="wallet-change__percentage">2.47%</span>
+                            <span class="wallet-change__text">Last month</span>
+                            <span class="wallet-change__amount">$24,478</span>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- biểu đồ -->
+        <div class="row g-4 mb-4">
+            <div class="col-12">
+                <div class=" h-100 wallet-pie-chart">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Chi Tiêu Theo Danh Mục</h5>
+
+                        <div class="chart-container" style=" height:250px; width:100%">
+                            <canvas id="categoryPieChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- end biểu đồ -->
+                </div>
+            </div>
+        </div>
+        <!-- table -->
+        <div class="row table-contain">
+            <div class="col-12 card-table">
+                <div class="card    ">
+                    <div class="card-body transaction-history">
+                        <h5 class="card-title mb-3">Transaction History</h5>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col" class="text-end">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span class="transaction-icon bg-danger-light text-danger">
+                                                <i class="fa-solid fa-utensils"></i>
+                                            </span>
+                                            <span class="category-name">Ăn uống</span>
+                                        </td>
+                                        <td class="transaction-date">18/10/2025</td>
+                                        <td class="transaction-description">Cà phê Highland</td>
+                                        <td class="transaction-amount text-danger text-end">-45,000đ</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <span class="transaction-icon bg-warning-light text-warning">
+                                                <i class="fa-solid fa-gas-pump"></i>
+                                            </span>
+                                            <span class="category-name">Đi lại</span>
+                                        </td>
+                                        <td class="transaction-date">17/10/2025</td>
+                                        <td class="transaction-description">Đổ xăng xe máy</td>
+                                        <td class="transaction-amount text-danger text-end">-50,000đ</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <span class="transaction-icon bg-success-light text-success">
+                                                <i class="fa-solid fa-briefcase"></i>
+                                            </span>
+                                            <span class="category-name">Lương</span>
+                                        </td>
+                                        <td class="transaction-date">15/10/2025</td>
+                                        <td class="transaction-description">Lương tháng 10</td>
+                                        <td class="transaction-amount text-success text-end">
+                                            +15,000,000đ
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <span class="transaction-icon bg-primary-light text-primary">
+                                                <i class="fa-solid fa-shirt"></i>
+                                            </span>
+                                            <span class="category-name">Mua sắm</span>
+                                        </td>
+                                        <td class="transaction-date">14/10/2025</td>
+                                        <td class="transaction-description">Mua áo sơ mi mới</td>
+                                        <td class="transaction-amount text-danger text-end">-350,000đ</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <span class="transaction-icon bg-info-light text-info">
+                                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                                            </span>
+                                            <span class="category-name">Hóa đơn</span>
+                                        </td>
+                                        <td class="transaction-date">12/10/2025</td>
+                                        <td class="transaction-description">Tiền điện tháng 9</td>
+                                        <td class="transaction-amount text-danger text-end">-280,000đ</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end table -->
+    </div>
+
+</div>
+<!-- end wallet-container -->
+</div>
+<!-- modal -->
+<div class="modal fade" id="addWalletModal" tabindex="-1" aria-labelledby="addWalletModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addWalletModalLabel">Thêm Ví Mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addWalletForm">
+                    <div class="mb-3">
+                        <label for="walletNameInput" class="form-label">Tên ví</label>
+                        <input type="text" class="form-control" id="walletNameInput"
+                               placeholder="Ví dụ: Tiền mặt, Vietcombank..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="walletBalanceInput" class="form-label">Số dư ban đầu</label>
+                        <input type="number" class="form-control" id="walletBalanceInput" placeholder="0" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="walletTypeSelect" class="form-label">Loại ví</label>
+                        <select class="form-select" id="walletTypeSelect" required>
+                            <option selected disabled value="">Chọn loại ví...</option>
+                            <option value="Cash">Tiền mặt (Cash)</option>
+                            <option value="Bank">Ngân hàng (Bank)</option>
+                            <option value="E-Wallet">Ví điện tử (E-Wallet)</option>
+                            <option value="Credit Card">Thẻ tín dụng (Credit Card)</option>
+                            <option value="Other">Khác (Other)</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="submit" class="btn btn-primary" form="addWalletForm">Lưu Ví</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal -->
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="~/asset/js/Wallet.js"></script>
+}
