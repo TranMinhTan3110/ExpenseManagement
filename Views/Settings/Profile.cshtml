@@ -64,8 +64,8 @@
                                                 <div class="form-file">
                                                     <input type="file" class="form-file-input" id="customFile">
                                                     <label class="form-file-label" for="customFile">
-                                                        <!-- <span class="form-file-text">Choose file...</span>
-                                                        <span class="form-file-button">Browse</span> -->
+                                                         <span class="form-file-text">Choose file...</span>
+                                                        <span class="form-file-button">Browse</span> 
                                                     </label>
                                                 </div>
                                             </div>
@@ -133,8 +133,13 @@
                                                        name="city">
                                             </div>
                                             <div class="col-xxl-6 col-xl-6 col-lg-6">
-                                                <label class="form-label">Date of birth</label>
-                                                <input type="date" class="form-control" name="dob">
+                                                <div class="input-group date" id="datepicker">
+                                                    <input type="text" class="form-control" placeholder="Chọn ngày" data-input>
+                                                    <span class="input-group-text" data-toggle>
+                                                        <i class="fa fa-calendar calendar-icon"></i>
+                                                    </span>
+                                                </div>
+
                                             </div>
                                             <div class="col-xxl-6 col-xl-6 col-lg-6">
                                                 <label class="form-label">Country</label>
@@ -534,3 +539,6 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script src="~/asset/js/Setting.js"></script>
+}
