@@ -375,3 +375,72 @@ body {
 .dark {
     color: yellow;
 }
+
+/* ======================================= */
+/* STYLE CHO MÀN HÌNH CHỜ (LOADER)         */
+/* ======================================= */
+
+#page-loader {
+    position: fixed;
+    inset: 0;
+    background-color: var(--bg-color);
+    z-index: 2000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+/* Hộp chứa 5 cột */
+.spinner {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+    /* Từng cột */
+    .spinner .item-collum {
+        height: 100%;
+        width: 5px;
+        background-color: var(--primary-color);
+        border-radius: 30px;
+        animation: tranfer 0.4s infinite alternate;
+    }
+
+/* Keyframes: "lên xuống" */
+@keyframes tranfer {
+    0% {
+        height: 20%; 
+    }
+
+    100% {
+        height: 100%; 
+    }
+}
+
+
+.spinner .col1 {
+    animation-delay: 0.2s;
+}
+
+.spinner .col2 {
+    animation-delay: 0.1s;
+}
+
+.spinner .col3 {
+    animation-delay: 0s;
+}
+/* Cột giữa chạy ngay */
+.spinner .col4 {
+    animation-delay: 0.1s;
+}
+
+.spinner .col5 {
+    animation-delay: 0.2s;
+}
+/* Class 'hidden' để ẩn loader đi */
+#page-loader.hidden {
+    opacity: 0; /* Làm mờ đi */
+    visibility: hidden; /* Ẩn hoàn toàn */
+}
