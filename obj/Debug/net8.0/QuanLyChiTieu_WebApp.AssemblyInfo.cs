@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QuanLyChiTieu_WebApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b89ac7abd6797fb92881f654c82167e4f14df29a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7f3153d516d7ead00b060b2f98e84b61ca9933ea")]
 [assembly: System.Reflection.AssemblyProductAttribute("QuanLyChiTieu_WebApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QuanLyChiTieu_WebApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

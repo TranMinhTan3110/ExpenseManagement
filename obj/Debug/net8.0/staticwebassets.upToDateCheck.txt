@@ -1,4 +1,3 @@
-wwwroot\asset\css\main.css
 wwwroot\asset\css\profile.css
 wwwroot\asset\css\Wallet.css
 wwwroot\asset\img\Avatar.jpg
@@ -66,3 +65,4 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\asset\css\main.css

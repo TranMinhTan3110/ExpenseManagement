@@ -12,55 +12,53 @@ walletList.forEach(wallet => {
     })
 })
 
-
-const pie = document.getElementById('categoryPieChart')
+const pie = document.getElementById('categoryPieChart');
 const categoryLabels = ['Ăn sáng', 'Mua sắm', 'Thời Trang', 'Đi lại'];
 const categoryData = [500000, 200000, 300000, 150000];
-new Chart(pie, {
+
+function getLegendColor() {
+    return getComputedStyle(document.documentElement)
+        .getPropertyValue('--text-color').trim();
+}
+
+const myChart = new Chart(pie, {
     type: 'pie',
     data: {
         labels: categoryLabels,
-        datasets: [
-            {
-                label: 'Chi tiêu',
-                data: categoryData,
-                backgroundColor: [ // Mảng các màu cho từng miếng bánh
-                    'rgba(255, 99, 132, 0.7)',
-                    'rgba(54, 162, 235, 0.7)',
-                    'rgba(255, 206, 86, 0.7)',
-                    'rgba(75, 192, 192, 0.7)',
-                    // Thêm màu khác nếu có nhiều danh mục hơn
-                ],
-
-            }
-        ]
+        datasets: [{
+            label: 'Chi tiêu',
+            data: categoryData,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+            ]
+        }]
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
             legend: {
-                display: true,         // Hiển thị legend hay không
-                position: 'right',       // Vị trí: 'top', 'bottom', 'left', 'right'
-                align: 'center',       // Căn giữa, trái, phải
+                display: true,
+                position: 'right',
+                align: 'center',
                 labels: {
-                    color: '#333',       // Màu chữ
+                    color: getLegendColor(), // lấy màu lúc khởi tạo
                     font: {
-                        size: 14,          // Cỡ chữ
-                        weight: 'bold'     // Độ đậm
+                        size: 14,
+                        weight: 'bold'
                     },
-                    padding: 10,         // Khoảng cách giữa các mục
-                    boxWidth: 20,        // Kích thước ô màu
-                    usePointStyle: false // Dùng hình tròn thay vì hình vuông
+                    padding: 10,
+                    boxWidth: 20,
+                    usePointStyle: false
                 }
             },
-
             animation: {
-                animateRotate: true,   // Xoay biểu đồ khi xuất hiện
-                animateScale: true     // Phóng to từ tâm ra
+                animateRotate: true,
+                animateScale: true
             }
-
         }
     }
-
-})
+});
