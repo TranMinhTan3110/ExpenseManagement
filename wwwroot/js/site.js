@@ -54,3 +54,45 @@
     }
 
 }); // Kết thúc DOMContentLoaded
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    // --- Code ẩn loader khi trang tải xong  ---
+    window.addEventListener('load', function () {
+        const loader = document.getElementById('page-loader');
+        if (loader) {
+            loader.classList.add('hidden');
+        }
+    });
+
+
+    // Code hiển thị loader khi bấm chuyển trang
+
+    const allLinks = document.querySelectorAll('a'); // Tìm tất cả các thẻ <a>
+    const loader = document.getElementById('page-loader');
+
+    allLinks.forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+
+            // Chỉ kích hoạt loader cho các link chuyển trang thực sự
+            // (Không kích hoạt cho link "#" hoặc link gọi modal)
+            if (href && href !== "#" && !href.startsWith('#') && !this.getAttribute('data-bs-toggle')) {
+                 e.preventDefault(); 
+
+                // Hiển thị lại màn hình chờ
+                if (loader) {
+                    loader.classList.remove('hidden');
+                }
+
+              //delay
+                setTimeout(() => {
+
+                    window.location.href = href;
+                 }, 500); 
+            }
+        });
+    });
+
+});
