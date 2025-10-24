@@ -1,5 +1,7 @@
 ﻿
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap'); */
+
+
 
 * {
     box-sizing: border-box;
@@ -20,6 +22,10 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p {
     font-weight: bold;
     line-height: 1.6;
     color: #1f2c73;
+}
+
+.card {
+    background: #fff;
 }
 
 
@@ -66,6 +72,10 @@ a {
 * {
     outline: none;
     padding: 0;
+}
+
+.col-auto {
+    text-align: right;
 }
 
 .budgets-nav {
@@ -135,30 +145,39 @@ a {
 
 .add-budgets-link {
     background: #fff;
-    padding: 20px;
-    border-radius: 6px;
-    box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
-    margin-bottom: 20px;
-    position: relative;
+    padding: 16px;
     cursor: pointer;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    ;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    -webkit-box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
-    box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
-    margin-bottom: 20px;
+    border-radius: 16px;
+    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 16px;
+    gap: 16px;
+    transition: all 0.2s ease;
+    width: 100%;
+    min-height: 84px;
+    justify-content:space-between;
+    align-items:center;
+}
+.add-link-image{
+    width:12px;
+    height:12px;
+    float:right;
 }
 
 
 .budgets-tab-title {
+    margin-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-right: calc(var(--bs-gutter-x) * 0.5);
     background: #fff;
     padding: 20px;
     border-radius: 6px;
-    box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     margin-bottom: 20px;
     position: relative;
     cursor: pointer;
@@ -170,11 +189,17 @@ a {
     -webkit-box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 84px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 0 20px;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
-.col-xl-9 {
-    padding-top: 20px
-}
 
 tab-content > .active {
     display: block;
@@ -248,7 +273,7 @@ div {
 
 .progress {
     height: 10px;
-    background-color: #fff;
+    background-color: transparent;
     border-radius: 10px;
     overflow: hidden;
     margin-top: 10px;
@@ -310,9 +335,6 @@ div {
     flex-shrink: 0;
     width: 100%;
     max-width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-top: var(--bs-gutter-y);
 }
 
 .col-xl-3 {
@@ -372,81 +394,7 @@ div {
 }
 
 
-@media (max-width: 1000px) and (min-width: 771px) {
 
-    .budgets-tab {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-
-    .col-xl-3,
-    .col-xl-9 {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-
-
-        .col-xl-3 .nav .row {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            width: 100%;
-        }
-
-
-            .col-xl-3 .nav .row > div {
-                max-width: 100%;
-            }
-
-
-        .col-xl-3 .budgets-nav {
-            padding: 16px;
-            border-radius: 14px;
-            height: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-    .budgets-nav .budgets-nav-icon {
-        width: 48px;
-        height: 48px;
-    }
-
-    .budgets-nav .budgets-nav-text h3 {
-        font-size: 17px;
-        margin: 0;
-    }
-
-    .budgets-nav .budgets-nav-text p {
-        font-size: 14px;
-        margin: 0;
-    }
-
-
-    .add-budgets-link {
-        width: 100%;
-        margin-top: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        color: #2F2CD8;
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: rgba(145, 158, 171, 0.12) 0px 4px 10px -2px;
-    }
-
-        .add-budgets-link:hover {
-            background-color: #f4f5ff;
-        }
-
-
-    .col-xl-9 {
-        margin-top: 20px;
-    }
-}
 
 @media (max-width: 770px) {
     .col-xl-3, .col-xl-9 {
@@ -557,4 +505,9 @@ div {
     font-size: 15px;
     color: #7184AD;
     margin: 0;
+}
+
+
+.budget-nav{
+    margin-left:12px;
 }
