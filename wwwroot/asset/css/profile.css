@@ -3,24 +3,30 @@
     background: transparent;
     border-radius: 6px;
 }
-
+    .page-title h3 {
+        color: var(--text-title) !important;
+        
+    }
     .page-title .page-title-content h3,
     .page-title .page-title-content .h3 {
         font-size: 24px;
         margin-bottom: 0px;
     }
-
-.settings-menu {
-    margin-bottom: 30px;
-}
-
-    .settings-menu a {
-        display: inline-block;
-        margin-right: 20px;
-        color: #7184ad;
-        font-size: 16px;
-        text-decoration: none;
+    .page-title .page-title-content p {
+        color: var( --text-muted-color);
     }
+
+    .settings-menu {
+        margin-bottom: 30px;
+    }
+
+        .settings-menu a {
+            display: inline-block;
+            margin-right: 20px;
+            color: var( --text-muted-color) !important;
+            font-size: 16px;
+            text-decoration: none;
+        }
 
         .settings-menu a:hover,
         .settings-menu a:focus,
@@ -30,7 +36,7 @@
         }
 
 .breadcrumbs a {
-    color: #7184ad;
+    color: var( --text-muted-color);
     display: inline-block;
     font-size: 14px;
     text-decoration: none;
@@ -46,15 +52,17 @@
     line-height: 0;
     position: relative;
     top: 5px;
+    color: var( --text-muted-color);
 }
 
 .card {
     border: 0px solid rgb(229, 234, 239);
     margin-bottom: 30px;
     border-radius: 6px;
-    -webkit-box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
-    box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
-    background-color: #fff;
+        -webkit-box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
+        box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
+    background-color: var(--card-bg-color);
+
 }
 
 .card-header {
@@ -68,7 +76,7 @@
     -ms-flex-align: center;
     align-items: center;
     border-bottom: 0px solid rgb(229, 234, 239);
-    background-color: transparent;
+    background-color: var(--bg-color) !important;
     padding: 20px 20px 0px;
 }
 
@@ -87,7 +95,7 @@
 .card-title {
     font-size: 18px;
     margin-bottom: 0px;
-    color: #1f2c73;
+    color: var(--text-title) !important;
 }
 
 .card.transparent {
@@ -108,9 +116,16 @@
 
 .card .card-body {
     padding: 20px;
-    background: transparent;
+    background-color:var(--bg-color) !important;
 }
-
+.form-label {
+    color: var( --text-muted-color);
+}
+.media-body p,
+.media-body h4 {
+    color: var( --text-muted-color) !important;
+    padding:0;
+}
 .card .card-footer {
     padding: 20px;
     background: #fff;
@@ -126,7 +141,59 @@
     max-width: 100%;
     overflow: hidden;
 }
+/* 1. Ẩn input thật đi */
+.form-file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
 
+/* 2. Style cái label giả cho giống ô input */
+.form-file-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Đẩy 2 phần ra 2 phía */
+    width: 100%;
+    padding: .375rem .75rem;
+    border: 1px solid var(--border-color); /* Dùng biến màu viền */
+    border-radius: .375rem;
+    background-color: var(--card-bg-color); /* Dùng biến màu nền thẻ */
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* 3. Style chữ "Choose file..." (Đổi màu ở đây) */
+.form-file-text {
+    color: var(--text-muted-color); /* <<-- ĐỔI MÀU BẰNG BIẾN */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+/* 4. Style nút "Browse" giả */
+.form-file-button {
+    background-color: var(--bg-color); /* Dùng màu nền chính (nhạt) */
+    border-left: 1px solid var(--border-color);
+    padding: .375rem .75rem;
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    /* Dùng margin âm để nó dính vào cạnh phải */
+    margin-top: -.375rem;
+    margin-right: -.75rem;
+    margin-bottom: -.375rem;
+}
+.form-select {
+    color: var( --text-muted-color) !important;
+}
+.form-control {
+    color: var( --text-muted-color) !important;
+}
 .card, form {
     max-width: 100%;
 }
