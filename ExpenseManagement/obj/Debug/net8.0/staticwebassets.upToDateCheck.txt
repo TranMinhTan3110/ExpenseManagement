@@ -1,8 +1,8 @@
 wwwroot\.gitignore
+wwwroot\asset\css\Goals.css
 wwwroot\asset\css\main.css
 wwwroot\asset\img\effects.gif
 wwwroot\asset\img\logo.png
-wwwroot\css\Goals.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\js\site.js

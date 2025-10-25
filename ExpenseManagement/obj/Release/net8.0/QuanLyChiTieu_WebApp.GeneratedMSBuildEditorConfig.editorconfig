@@ -20,8 +20,8 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/BTL_WED/ExpenseManagement/Views/Home/Goals.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxHb2Fscy5jc2h0bWw=
+[D:/BTL_WED/ExpenseManagement/Views/Goals/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR29hbHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/BTL_WED/ExpenseManagement/Views/Home/Index.cshtml]

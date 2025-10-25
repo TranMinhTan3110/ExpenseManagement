@@ -1,15 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\ExpenseManagement",
-    "\\ExpenseManagement\\Controllers",
-    "\\ExpenseManagement\\Models",
-    "\\ExpenseManagement\\Properties",
-    "\\ExpenseManagement\\Views",
-    "\\ExpenseManagement\\Views\\Home",
-    "\\ExpenseManagement\\wwwroot",
-    "\\ExpenseManagement\\wwwroot\\asset"
+    ""
   ],
-  "SelectedNode": "\\ExpenseManagement\\QuanLyChiTieu_WebApp.sln",
+  "SelectedNode": "\\QuanLyChiTieu_WebApp.sln",
   "PreviewInSolutionExplorer": false
 }

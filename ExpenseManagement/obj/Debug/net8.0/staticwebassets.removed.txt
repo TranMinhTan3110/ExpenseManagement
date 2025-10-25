@@ -1,4 +1,0 @@
-D:\BTL_WED\ExpenseManagement\wwwroot\js\plugins\chart.js
-D:\BTL_WED\ExpenseManagement\wwwroot\js\plugins\circle-progress-init.js
-D:\BTL_WED\ExpenseManagement\wwwroot\js\plugins\script.js
-D:\BTL_WED\ExpenseManagement\wwwroot\js\plugins\toastr.min.js
