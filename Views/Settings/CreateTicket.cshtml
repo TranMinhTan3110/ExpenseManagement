@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Create Ticket";
+}
+@section Styles {
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet"
+          href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="~/asset/css/createTicket.css" />
+}
+<div class="content-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-xl-4">
+                            <div class="page-title-content">
+                                <h3>Create Ticket</h3>
+                                <p class="mb-2">Welcome Ekash Finance Management</p>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="breadcrumbs">
+                                <a href="#">Home </a>
+                                <span><i class="fi fi-rr-angle-small-right"></i></span>
+                                <a href="#">Create Ticket</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Create Ticket</h4>
+                        <span>Cancel</span>
+                    </div>
+                    <div class="card-body">
+                        <form action="support-tickets.html">
+                            <div class="mb-3">
+                                <label class="form-label">What the type question do you want?</label>
+                                <select class="form-select">
+                                    <option> Earning</option>
+                                    <option> Withdrawals</option>
+                                    <option> Profile</option>
+                                    <option> General</option>
+                                    <option> Others</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Employe Respond</label>
+                                <select class="form-select">
+                                    <option> Earning</option>
+                                    <option> Withdrawals</option>
+                                    <option> Profile</option>
+                                    <option> General</option>
+                                    <option> Others</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">What language do you prefer to be answered?</label>
+                                <select class="form-select">
+                                    <option> Earning</option>
+                                    <option> Withdrawals</option>
+                                    <option> Profile</option>
+                                    <option> General</option>
+                                    <option> Others</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Please provide a description of the problem you are
+                                    encountering
+                                </label>
+                                <textarea rows="5" class="form-control"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

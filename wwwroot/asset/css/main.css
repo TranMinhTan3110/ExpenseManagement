@@ -22,6 +22,7 @@
     --bs-heading-color: #1f2c73;
     --loading-color: #2F2CD8; /* Màu loading*/
     /* --wallet:rgb(31, 41, 55) */
+
 }
 .dark-mode {
     --bg-color: rgb(17, 24, 39);

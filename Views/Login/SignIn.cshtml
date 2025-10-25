@@ -1,0 +1,98 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in</title>
+
+    <link rel="icon" type="image/png" href="~/asset/img/webIcon.png">
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontisto/3.0.4/css/fontisto/fontisto.min.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-brands/css/uicons-brands.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+
+    <link rel="stylesheet" href="~/asset/css/login.css">
+</head>
+
+
+<body class="dashboard">
+    <div class="authincation">
+        <div class="container">
+            <div class="row justify-content-center align-items-center g-0">
+                <div class="col-xl-8">
+                    <div class="row g-0">
+                        <div class="col-lg-6">
+                            <div class="welcome-content">
+                                <div class="welcome-title">
+                                    <h3>Welcome to My Financial Management</h3>
+                                </div>
+                                <div class="privacy-social">
+                                    <div class="privacy-link">
+                                        <a href="#">Have an issue with 2 factor authencation?</a>
+                                        <br>
+                                        <a href="#">Privacy</a>
+                                    </div>
+                                    <div class="intro-social">
+                                        <ul>
+                                            <li><a href="#"><i class="fi fi-brands-facebook"></i></a></li>
+                                            <li><a href="#"><i class="fi fi-brands-linkedin"></i></a></li>
+                                            <li><a href="#"><i class="fi fi-brands-pinterest"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="auth-form">
+                                <h4>Sign in</h4>
+                                <form action="">
+                                    <div class="row">
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input name="email" class="form-control" type="text"
+                                                   placeholder="Enter email" />
+                                        </div>
+                                        <div class=" col-12 mb-3">
+                                            <label class="form-label">Password</label>
+                                            <input name="password" class="form-control" type="password"
+                                                   placeholder="Enter password" />
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-check">
+                                                <input name="acceptTerms" id="acceptTerms" type="checkbox"
+                                                       class="form-check-input" />
+                                                <label class="form-check-label" for="acceptTerms">Remember me</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 text-end"><a asp-controller="Login" asp-action="Reset">Forgot Password?</a></div>
+                                    </div>
+                                    <div class="mt-3 d-grid gap-2">
+                                        <button type="submit"
+                                                class="btn btn-primary me-8 text-white">
+                                            Sign
+                                            in
+                                        </button>
+                                    </div>
+                                </form>
+                                <p class="mt-3 mb-0 undefiend">
+                                    Don't have an account? <a class="text-primary"
+                                                              asp-controller="Login" asp-action="SignUp">Sign up</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

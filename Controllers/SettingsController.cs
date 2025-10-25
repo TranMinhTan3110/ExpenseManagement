@@ -9,5 +9,18 @@ namespace QuanLyChiTieu_WebApp.Controllers
         {
             return View();
         }
+
+        public IActionResult Category()
+        {
+            return View();
+        }
+        public IActionResult Support()
+        {
+            return View();
+        }
+        public IActionResult CreateTicket()
+        {
+            return View();
+        }
     }
 }
