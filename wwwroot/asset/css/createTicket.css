@@ -3,30 +3,32 @@
     background: transparent;
     border-radius: 6px;
 }
+
     .page-title h3 {
         color: var(--text-title) !important;
-        
     }
+
     .page-title .page-title-content h3,
     .page-title .page-title-content .h3 {
         font-size: 24px;
         margin-bottom: 0px;
     }
+
     .page-title .page-title-content p {
         color: var( --text-muted-color);
     }
 
-    .settings-menu {
-        margin-bottom: 30px;
-    }
+.settings-menu {
+    margin-bottom: 30px;
+}
 
-        .settings-menu a {
-            display: inline-block;
-            margin-right: 20px;
-            color: var( --text-muted-color) !important;
-            font-size: 16px;
-            text-decoration: none;
-        }
+    .settings-menu a {
+        display: inline-block;
+        margin-right: 20px;
+        color: var( --text-muted-color) !important;
+        font-size: 16px;
+        text-decoration: none;
+    }
 
         .settings-menu a:hover,
         .settings-menu a:focus,
@@ -115,96 +117,16 @@
 
 .card .card-body {
     padding: 20px;
-    background-color:var(--bg-color) !important;
+    background-color: var(--bg-color) !important;
 }
+
 .form-label {
     color: var( --text-muted-color);
-}
-.media-body p,
-.media-body h4 {
-    color: var( --text-muted-color) !important;
-    padding:0;
-}
-.card .card-footer {
-    padding: 20px;
-    background: #fff;
-}
-.form-file-text {
-    font-size: 16px;
-    max-width: 200px;
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis; 
-}
-.form-file {
-    max-width: 100%;
-    overflow: hidden;
-}
-/* 1. Ẩn input thật đi */
-.form-file-input {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-}
-
-/* 2. Style cái label giả cho giống ô input */
-.form-file-label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Đẩy 2 phần ra 2 phía */
-    width: 100%;
-    padding: .375rem .75rem;
-    border: 1px solid var(--border-color); /* Dùng biến màu viền */
-    border-radius: .375rem;
-    background-color: var(--card-bg-color); /* Dùng biến màu nền thẻ */
-    cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-/* 3. Style chữ "Choose file..." (Đổi màu ở đây) */
-.form-file-text {
-    color: var(--text-muted-color); /* <<-- ĐỔI MÀU BẰNG BIẾN */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    transition: color 0.3s ease;
-}
-
-/* 4. Style nút "Browse" giả */
-.form-file-button {
-    background-color: var(--bg-color); /* Dùng màu nền chính (nhạt) */
-    border-left: 1px solid var(--border-color);
-    padding: .375rem .75rem;
-    color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    /* Dùng margin âm để nó dính vào cạnh phải */
-    margin-top: -.375rem;
-    margin-right: -.75rem;
-    margin-bottom: -.375rem;
 }
 .form-select {
     color: var( --text-muted-color) !important;
 }
+
 .form-control {
     color: var( --text-muted-color) !important;
-}
-.card, form {
-    max-width: 100%;
-}
-
-@media screen and (max-width: 375px) {
-    .page-content {
-        padding: 0px !important;
-    }
-}
-@media (max-width: 576px) {
-    .form-file-text {
-        font-size: 14px;
-        max-width: 100px;
-    }
 }

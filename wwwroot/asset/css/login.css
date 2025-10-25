@@ -1,0 +1,122 @@
+body {
+  font-family: "Inter", sans-serif;
+}
+.dashboard .content-body {
+  margin-left: 80px;
+  margin-right: 0px;
+  margin-top: 0px;
+}
+.authincation {
+  height: 100vh;
+  background-color: #e6f0fa;
+}
+.authincation > .container {
+  height: 100vh;
+}
+.authincation > .container > .row {
+  height: 100vh;
+}
+.welcome-content {
+    background: url("/asset/img/backgroundLogin.jpg") no-repeat !important;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    min-height: 160px;
+    margin-bottom: 100px;
+}
+.welcome-content::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #2f2cd8;
+  opacity: 0.75;
+  z-index: -1;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.welcome-content .welcome-title {
+  padding-left: 30px;
+  padding-top: 30px;
+}
+.welcome-content .welcome-title h3,
+.welcome-content .welcome-title .h3 {
+  color: #fff;
+  font-size: 18px;
+  margin-top: 20px;
+  font-family: sans-serif;
+}
+.welcome-content .privacy-social {
+  position: absolute;
+  bottom: 0;
+  bottom: 30px;
+  left: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: column-reverse;
+  flex-direction: column-reverse;
+}
+.welcome-content .privacy-link a {
+  color: #fff;
+  font-size: 12px;
+  line-height: 0;
+}
+.welcome-content .intro-social {
+  margin-bottom: 20px;
+}
+.welcome-content .intro-social ul {
+  margin-bottom: 0;
+  padding: 0;
+}
+.welcome-content .intro-social ul li {
+  display: inline-block;
+  transition: transform 200ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 200ms;
+}
+.welcome-content .intro-social ul li a {
+  color: #fff;
+  font-size: 14px;
+  padding-right: 15px;
+}
+.welcome-content .intro-social ul li:hover {
+  transform: scale(1.2);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+  outline: none;
+}
+.auth-form {
+  padding: 30px 20px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  background: #fff;
+  min-height: 260px;
+}
+
+.privacy-link a {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 28px;
+  color: #0f172a;
+}
+.authincation a {
+  color: #615fe1;
+  text-decoration: none;
+}
+.undefiend {
+  color: rgba(0, 0, 0, 0.371);
+}
+.mt-3.d-grid.gap-2 {
+  transition: transform 200ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 200ms;
+}
+.mt-3.d-grid.gap-2:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+  outline: none;
+}

@@ -31,9 +31,9 @@
             <div class="row">
                 <div class="col-xxl-12 col-xl-12">
                     <div class="settings-menu">
-                        <a href="~/Profile.html">Profile</a>
-                        <a href="~/Category.html">Categories</a>
-                        <a href="~/Support.html">Support</a>
+                        <a asp-controller="Settings" asp-action="Profile">Profile</a>
+                        <a asp-controller="Settings" asp-action="Category" ">Categories</a>
+                        <a asp-controller="Settings" asp-action="Support">Support</a>
                     </div>
                     <div class="row">
                         <div class="col-xxl-6 col-xl-6 col-lg-6">
@@ -133,8 +133,9 @@
                                                        name="city">
                                             </div>
                                             <div class="col-xxl-6 col-xl-6 col-lg-6">
+                                                <label class="form-label">Birth of date</label>
                                                 <div class="input-group date" id="datepicker">
-                                                    <input type="text" class="form-control" placeholder="Chọn ngày" data-input>
+                                                    <input type="text" class="form-control" placeholder="choose date" data-input>
                                                     <span class="input-group-text" data-toggle>
                                                         <i class="fa fa-calendar calendar-icon"></i>
                                                     </span>
