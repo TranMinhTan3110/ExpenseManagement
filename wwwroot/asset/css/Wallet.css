@@ -72,7 +72,7 @@
 
 .wallet-list__item {
     border-radius: 10px;
-    /* border: solid 1px black; */
+    border: solid 1px var(--border-color);
     width: 100%;
     /* max-width: 300px !important; */
     /* padding: 20px; */
@@ -89,7 +89,7 @@
 .add-wallet {
     /* height: auto; */
     padding: 20px;
-    /* border: solid 1px blue; */
+    border: solid 1px var(--border-color);
     width: 100%;
     border-radius: 10px;
     box-shadow: 0 4px 15px var(--shadow-color);
@@ -199,7 +199,7 @@
 .wallet-title {
     width: 100%;
     box-shadow: 0 4px 15px var(--shadow-color);
-    background-color: var(--card-bg-color);
+    border: solid 1px var(--border-color) ;
     border-radius: 10px;
     padding: 15px;
     display: flex;
@@ -211,7 +211,10 @@
 .wallet-main .wallet-title h4 {
     margin: 0;
 }
-
+.border-box {
+    border: solid 1px var(--border-color);
+    border-radius:10px;
+}
 .wallet-change__text, .wallet-change__amount {
     color: #6c757d !important;
     font-weight: 500 !important;
@@ -265,14 +268,22 @@
     margin-right: 10px; /* Khoảng cách với chữ */
     font-size: 16px; /* Kích thước icon bên trong */
 }
-
+.transaction-history {
+    --bs-card-border-color: none;
+}
 .table-responsive .transaction-date,
 .table-responsive .transaction-description,
 .table-responsive .transaction-amount {
     color: #6c757d;
 }
+.card {
+    border-radius: 10px;
+    overflow: hidden; /* nếu có nội dung tràn */
+}
+
 .table-contain {
     box-shadow: 0 4px 15px var(--shadow-color) !important;
+    --bs-gutter-x: 0;
 }
 .table-responsive th {
     color: var(--text-title);
@@ -350,6 +361,7 @@
         max-width: 600px; /* 👈 giữ chiều rộng tối đa để không bị quá bự */
         margin: 0 auto; /* 👈 căn giữa từng khối */
         box-sizing: border-box;
+        
     }
 
     .chart-container {
