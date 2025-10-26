@@ -30,13 +30,6 @@
         text-decoration: none;
     }
 
-        .settings-menu a:hover,
-        .settings-menu a:focus,
-        .settings-menu a:active,
-        .settings-menu a.active {
-            color: #1816b9;
-        }
-
 .breadcrumbs a {
     color: var( --text-muted-color);
     display: inline-block;
@@ -55,6 +48,13 @@
     position: relative;
     top: 5px;
     color: var( --text-muted-color);
+}
+
+.settings-menu a:hover,
+.settings-menu a:focus,
+.settings-menu a:active,
+.settings-menu a.active {
+    color: #1816b9 !important;
 }
 .card {
     margin-bottom: 30px;
