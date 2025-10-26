@@ -58,7 +58,7 @@
                         </a>
                     </li>
 
-                    <li><a href="#"><span class="sidebar-icon"><i class="fi fi-br-bullseye-arrow"></i></span></a></li>
+                   
                     <li>
                         <a asp-controller="Settings" asp-action="Profile">
                             <span class="sidebar-icon"><i class="fi fi-rr-user"></i></span>
@@ -145,10 +145,10 @@
                         </form>
                     </div>
                     <div class="header-action">
-                        <button class="btn btn-primary btn-add-transaction">
+                        <a asp-controller="AddTransaction" asp-action="Index" class="btn  btn-add-transaction">
                             <i class="fa-solid fa-plus"></i>
                             <span class="btn-text">Thêm giao dịch</span>
-                        </button>
+                        </a>
                     </div>
                     <div class="header-right">
                         <div class="dark-light-toggle">

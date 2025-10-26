@@ -1,0 +1,173 @@
+﻿/* ======================================= */
+/* TRANG THÊM GIAO DỊCH                    */
+/* ======================================= */
+
+
+/* 1. KHUNG NỔI CHÍNH */
+.transaction-form-card {
+    background-color: var(--card-bg-color); /* Nền trắng (hoặc tối) */
+    padding: 2.5rem; /* Đệm lớn xung quanh form */
+    border-radius: 16px; /* Bo góc */
+    box-shadow: 0 10px 30px var(--shadow-color); /* Đổ bóng */
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.form-label {
+    color: var(--text-title);
+}
+/*.date-transaction {
+    color: var(--text-muted-color);
+    border: none;
+    background-color: var( --bg-color);
+}*/
+/* 2. Style cho các ô input chung (Số tiền, Ngày, Ghi chú) */
+.add-transaction-page .form-control,
+.add-transaction-page .form-select,
+.add-transaction-page .input-group { /* Áp dụng cho cả input-group */
+    background-color: var(--bg-color) !important; /* Nền xám nhạt (hoặc nền tối) */
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    box-shadow: none; /* BỎ ĐỔ BÓNG CỦA Ô INPUT */
+    transition: border-color 0.2s ease;
+    color: var(--text-color);
+}
+
+    /* Xử lý riêng cho input-group để viền đẹp */
+    .add-transaction-page .input-group .form-control {
+        color: var(--text-color) ;
+        border: none;
+        background-color: var( --bg-color);
+    }
+
+    .add-transaction-page .input-group .input-group-text {
+        border: none;
+        background-color: transparent !important;
+        color: var(--text-color);
+    }
+
+    .add-transaction-page .form-control::placeholder {
+        color: var(--text-muted-color);
+    }
+/* Ẩn mũi tên mặc định của input number cho Chrome, Safari, Edge */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Ẩn mũi tên mặc định cho Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+/*
+    .add-transaction-page .form-control:focus,*/
+    .add-transaction-page .input-group:focus-within { /* Hiệu ứng focus cho cả group */
+        background-color: var(--card-bg-color) !important;
+        color: var(--text-color);
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(47, 44, 216, 0.25);
+    }
+    .add-transaction-page .form-control:focus {
+        box-shadow: none; /* Bỏ viền glow */
+        border-color: transparent; /* Bỏ viền màu */
+    }
+
+/* 3. Style cho nút CHỌN LOẠI (Chi tiêu / Thu nhập) */
+.transaction-type-toggle .type-card {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px var(--shadow-color); /* Giữ đổ bóng cho 2 nút này */
+    color: var(--text-title) !important;
+}
+
+    .transaction-type-toggle .type-card img {
+        width: 24px;
+        height: 24px;
+    }
+    .transaction-type-toggle .type-card .expense {
+        color: (--text-title) !important;
+    }
+    .transaction-type-toggle .type-card.active {
+        background: linear-gradient(to right, #3b82f6, #a78bfa);
+        border-color: var(--border-color);
+        color: var(--primary-color);
+        box-shadow: 0 4px 10px rgba(47, 44, 216, 0.1);
+    }
+
+/* 4. Style cho các thẻ CHỌN DANH MỤC */
+.category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0.5rem;
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted-color);
+    box-shadow: 0 4px 15px var(--shadow-color); /* Giữ đổ bóng cho các thẻ này */
+}
+
+    .category-card:hover {
+        background-color: #f8f9fa;
+    }
+
+body.dark-mode .category-card:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.category-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.category-card.active {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    box-shadow: 0 4px 10px rgba(47, 44, 216, 0.1);
+}
+
+    .category-card.active .category-icon {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+/* 5. Style cho NÚT SUBMIT */
+.btn-gradient-primary {
+    background-image: linear-gradient(to right, #3b82f6, #a78bfa);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(47, 44, 216, 0.3);
+    border-radius: 12px; /* Thêm bo tròn */
+}
+
+    .btn-gradient-primary:hover {
+        opacity: 0.9;
+        box-shadow: 0 4px 15px rgba(47, 44, 216, 0.4);
+    }

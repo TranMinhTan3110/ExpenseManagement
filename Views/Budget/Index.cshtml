@@ -1,5 +1,8 @@
 ﻿@section Styles {
-    <link rel="stylesheet" href="~/asset/css/Budget.css" />
+    <link rel="stylesheet" href="~/asset/css/Budget.css?v=@DateTime.Now.Ticks" />
+}
+@section Scripts {
+    <script src="~/js/index.js"></script>
 }
 
 <div id="main-wrapper">
@@ -20,7 +23,7 @@
                                 <div class="col-auto">
                                     <div class="breadcrumbs">
                                         <a href="#">Home </a>
-                                        <span><i class="fi fi-rr-angle-small-right"></i></span>
+                                        <span> / </span>
                                         <a href="#">Budgets</a>
                                     </div>
                                 </div>
@@ -39,7 +42,7 @@
                                                 <span><i class="fi fi-rr-carrot"></i></span>
                                             </div>
                                             <div class="budgets-nav-text">
-                                                <h3>Grocery</h3>
+                                                <h3 class="budgets-nav-title">Grocery</h3>
                                                 <p>$1458.30</p>
                                             </div>
 
@@ -48,10 +51,12 @@
                                     <div class="col-xl-12 col-md-6">
                                         <div class="budgets-nav" data-bs-toggle="pill" data-bs-target="#a2">
                                             <div class="budgets-nav-icon">
-                                                <span><i class="fi fi-rr-shirt-long-sleeve"></i></span>
+                                                <span>
+                                                    <i class="fi fi-rr-shopping-bag"></i>
+                                                </span>
                                             </div>
                                             <div class="budgets-nav-text">
-                                                <h3>Cloths</h3>
+                                                <h3 class="budgets-nav-title">Cloths</h3>
                                                 <p>$1458.30</p>
                                             </div>
 
@@ -63,7 +68,7 @@
                                                 <span><i class="fi fi-rr-car-bus"></i></span>
                                             </div>
                                             <div class="budgets-nav-text">
-                                                <h3>Transportation</h3>
+                                                <h3 class="budgets-nav-title">Transportation</h3>
                                                 <p>$1458.30</p>
                                             </div>
 
@@ -75,7 +80,7 @@
                                                 <span><i class="fi fi-rr-graduation-cap"></i></span>
                                             </div>
                                             <div class="budgets-nav-text">
-                                                <h3>Education</h3>
+                                                <h3 class="budgets-nav-title">Education</h3>
                                                 <p>$1458.30</p>
                                             </div>
 

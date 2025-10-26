@@ -1,0 +1,101 @@
+﻿@* Đặt tên cho trang *@
+@{
+    ViewData["Title"] = "Thêm Giao Dịch";
+}
+
+@* Link file CSS riêng cho trang này *@
+@section Styles {
+    @* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> *@
+    <link rel="stylesheet" href="~/asset/css/AddTransaction.css" />
+}
+
+<div class="add-transaction-page">
+    <div class="page-title-transaction mb-4">
+        <h2 class="mb-0">Bạn vừa tiêu gì thế?</h2>
+        <p class="mb-0 text-muted">Hãy ghi lại ngay để không bỏ sót khoản nào nhé!</p>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 mb-4">
+
+            <div class="transaction-form-card">
+                <form asp-action="Create" method="post" id="transactionForm">
+
+                    <div class="row g-3 mb-4 transaction-type-toggle">
+                        <div class="col-6">
+                            <div class="type-card active" data-type="Expense">
+                                <img src="~/asset/img/100-dollar.gif" alt="Chi tiêu"> <span class="expense">Chi tiêu</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="type-card" data-type="Income">
+                                <img src="~/asset/img/money-bag.gif" alt="Thu nhập"> <span>Thu nhập</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="TransactionType" name="TransactionType" value="Expense" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="Amount" class="form-label">Số tiền</label>
+                        <div class="input-group input-group-lg">
+                            <input type="number" id="Amount" name="Amount" class="form-control" placeholder="0" required>
+                            <span class="input-group-text">VNĐ</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Danh mục</label>
+                        <div class="row g-3 category-grid">
+                            <div class="col-3 col-md-2">
+                                <div class="category-card" data-category-id="1">
+                                    <div class="category-icon"><i class="fa-solid fa-burger"></i></div>
+                                    <span>Ăn uống</span>
+                                </div>
+                            </div>
+                            <div class="col-3 col-md-2">
+                                <div class="category-card" data-category-id="2">
+                                    <div class="category-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                    <span>Mua sắm</span>
+                                </div>
+                            </div>
+                            <div class="col-3 col-md-2">
+                                <div class="category-card" data-category-id="3">
+                                    <div class="category-icon"><i class="fa-solid fa-car"></i></div>
+                                    <span>Di chuyển</span>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="CategoryId" name="CategoryId" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="Date" class="form-label">Ngày giao dịch</label>
+                        <div class="input-group input-group-lg date" id="datepicker">
+                            <input  type="text" id="Date" name="Date" class="form-control" placeholder="Chọn ngày..." data-input required>
+                            <span class="input-group-text" data-toggle>
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="Notes" class="form-label">Ghi chú (tùy chọn)</label>
+                        <textarea id="Notes" name="Notes" class="form-control form-control-lg" rows="3" placeholder="Thêm ghi chú..."></textarea>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-gradient-primary btn-lg">
+                            <i class="fa-solid fa-plus me-2"></i> Thêm giao dịch
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Link file JS riêng cho trang này *@
+@section Scripts {
+    @* <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>  *@
+    <script src="~/asset/js/AddTransaction.js"></script>
+}

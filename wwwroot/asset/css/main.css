@@ -19,6 +19,8 @@
     --shadow-color: rgba(0, 0, 0, 0.05);
     --bs-body-bg: #fff;
     --bs-secondary-color: rgba(33, 37, 41, 0.75);
+    --bs-heading-color: #1f2c73;
+    --loading-color: #2F2CD8; /* Màu loading*/
     /* --wallet:rgb(31, 41, 55) */
 
 }
@@ -31,6 +33,8 @@
     --text-color: #fff;
     --primary-color: rgb(17, 24, 39);
     --bs-secondary-color: #fff;
+    --bs-heading-color: #fff;
+    --loading-color: #e0e5f2; /* Màu loading*/
     /* --text-muted-color: #adb5bd; */
     /* --card-bg: #1e1e1e; */
     /* --border-color: #444; */
@@ -267,7 +271,13 @@ body {
     padding: 8px 16px;
     border-radius: 8px;
     white-space: nowrap;
+    background: linear-gradient(to right, #3b82f6, #a78bfa) !important;
+    transition:all ease 0.2s;
 }
+    .btn-add-transaction:active {
+        transform: scale(0.9) !important;
+    }
+
 
 /* --- RESPONSIVE (TỪ 768px TRỞ XUỐNG) --- */
 @media (max-width: 768px) {
@@ -313,11 +323,12 @@ body {
         justify-content: center;
         align-items: center;
         padding: 0;
+       
     }
 
-    .header-action .fa-plus {
-        margin: 0; /* Xóa margin của icon */
-    }
+        .header-action .fa-plus {
+            margin: 0; /* Xóa margin của icon */
+        }
     .main-content {
         margin-left: 0px;
     }
@@ -404,7 +415,7 @@ body {
     .spinner .item-collum {
         height: 100%;
         width: 5px;
-        background-color: var(--primary-color);
+        background-color: var(--loading-color);
         border-radius: 30px;
         animation: tranfer 0.4s infinite alternate;
     }
