@@ -1,0 +1,299 @@
+﻿@{
+    ViewBag.Title = "Analytics - Expense";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/asset/css/Analytics.css" />
+}
+<div class="content-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-xl-4">
+                            <div class="page-title-content">
+                                <h3>Analytics</h3>
+                                <p class="mb-2">Welcome Ekash Finance Management</p>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="breadcrumbs">
+                                <a href="#">Home </a>
+                                <span><i class="fi fi-rr-angle-small-right"></i></span>
+                                <a asp-controller="Analytics" asp-action="Expense">Expense</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xxl-12 col-xl-12">
+                <div class="settings-menu">
+                    <a asp-controller="Analytics" asp-action="Expense" class="active">Expenses</a>
+                    <a asp-controller="Analytics" asp-action="Income">Income</a>
+                </div>
+                <div class="row">
+                    <div class=" col-xxl-4 col-xl-4 col-lg-4 col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Expenses Breakdown</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-wrapper">
+                                    <div class="chart-container">
+                                        <canvas id="chartjsExpense"></canvas>
+                                    </div>
+                                </div>
+                                <div class="list-1 mt-3">
+                                    <ul>
+                                        <li>
+                                            <p class="mb-0">Food</p>
+                                            <h5 class="mb-0"><span>$1200</span>38%</h5>
+                                        </li>
+                                        <li>
+                                            <p class="mb-0">Transport</p>
+                                            <h5 class="mb-0"><span>$1200</span>38%</h5>
+                                        </li>
+                                        <li>
+                                            <p class="mb-0">Healthcare</p>
+                                            <h5 class="mb-0"><span>$1200</span>38%</h5>
+                                        </li>
+                                        <li>
+                                            <p class="mb-0">Education</p>
+                                            <h5 class="mb-0"><span>$1200</span>38%</h5>
+                                        </li>
+                                        <li>
+                                            <p class="mb-0">Clothes</p>
+                                            <h5 class="mb-0"><span>$1200</span>38%</h5>
+                                        </li>
+                                        <li>
+                                            <p class="mb-0">Pets</p>
+                                            <h5 class="mb-0"><span>$1200</span>38%</h5>
+                                        </li>
+                                        <li>
+                                            <p class="mb-0">Entertainment</p>
+                                            <h5 class="mb-0"><span>$1200</span>38%</h5>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-8 col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Transaction History</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="transaction-table">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0 table-responsive-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Category</th>
+                                                    <th>Date</th>
+                                                    <th>Description</th>
+                                                    <th>Amount</th>
+                                                    <th>Currency</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <span class="table-category-icon">
+                                                            <i class="bg-emerald-500 fi fi-rr-barber-shop"></i>
+                                                            Beauty
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        12.12.2023
+                                                    </td>
+                                                    <td>
+                                                        Grocery Items and Beverage soft drinks
+                                                    </td>
+                                                    <td>
+                                                        -32.20
+                                                    </td>
+                                                    <td>USD</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="table-category-icon">
+                                                            <i class="bg-teal-500 fi fi-rr-receipt"></i> Bills &
+                                                            Fees
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        12.12.2023
+                                                    </td>
+                                                    <td>
+                                                        Grocery Items and Beverage soft drinks
+                                                    </td>
+                                                    <td>
+                                                        -32.20
+                                                    </td>
+                                                    <td>USD</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="table-category-icon">
+                                                            <i class="bg-cyan-500 fi fi-rr-car-side"></i>
+                                                            Car
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        12.12.2023
+                                                    </td>
+                                                    <td>
+                                                        Grocery Items and Beverage soft drinks
+                                                    </td>
+                                                    <td>
+                                                        -32.20
+                                                    </td>
+                                                    <td>USD</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="table-category-icon">
+                                                            <i class="bg-sky-500 fi fi-rr-graduation-cap"></i>
+                                                            Education
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        12.12.2023
+                                                    </td>
+                                                    <td>
+                                                        Grocery Items and Beverage soft drinks
+                                                    </td>
+                                                    <td>
+                                                        -32.20
+                                                    </td>
+                                                    <td>USD</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="table-category-icon">
+                                                            <i class="bg-blue-500 fi fi-rr-clapperboard-play"></i>
+                                                            Entertainment
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        12.12.2023
+                                                    </td>
+                                                    <td>
+                                                        Grocery Items and Beverage soft drinks
+                                                    </td>
+                                                    <td>
+                                                        -32.20
+                                                    </td>
+                                                    <td>USD</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="table-category-icon">
+                                                            <i class="bg-emerald-500 fi fi-rr-barber-shop"></i>
+                                                            Beauty
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        12.12.2023
+                                                    </td>
+                                                    <td>
+                                                        Grocery Items and Beverage soft drinks
+                                                    </td>
+                                                    <td>
+                                                        -32.20
+                                                    </td>
+                                                    <td>USD</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="table-category-icon">
+                                                            <i class="bg-teal-500 fi fi-rr-receipt"></i> Bills &
+                                                            Fees
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        12.12.2023
+                                                    </td>
+                                                    <td>
+                                                        Grocery Items and Beverage soft drinks
+                                                    </td>
+                                                    <td>
+                                                        -32.20
+                                                    </td>
+                                                    <td>USD</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="table-category-icon">
+                                                            <i class="bg-cyan-500 fi fi-rr-car-side"></i>
+                                                            Car
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        12.12.2023
+                                                    </td>
+                                                    <td>
+                                                        Grocery Items and Beverage soft drinks
+                                                    </td>
+                                                    <td>
+                                                        -32.20
+                                                    </td>
+                                                    <td>USD</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="table-category-icon">
+                                                            <i class="bg-sky-500 fi fi-rr-graduation-cap"></i>
+                                                            Education
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        12.12.2023
+                                                    </td>
+                                                    <td>
+                                                        Grocery Items and Beverage soft drinks
+                                                    </td>
+                                                    <td>
+                                                        -32.20
+                                                    </td>
+                                                    <td>USD</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="table-category-icon">
+                                                            <i class="bg-blue-500 fi fi-rr-clapperboard-play"></i>
+                                                            Entertainment
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        12.12.2023
+                                                    </td>
+                                                    <td>
+                                                        Grocery Items and Beverage soft drinks
+                                                    </td>
+                                                    <td>
+                                                        -32.20
+                                                    </td>
+                                                    <td>USD</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.js"></script>
+    <script src="~/asset/js/Expense.js"></script>
+}
