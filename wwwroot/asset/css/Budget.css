@@ -8,10 +8,10 @@
 }
 
 body {
-    background-color: #F6F9FC;
+    background-color: var(--bg-color);
     margin: 0;
-    font-family: "Rubik", sans-serif;
-    color: #0c0b5d;
+    font-family: "Poppins", sans-serif;
+    color: var(--text-color);
     padding-left: 12px;
     padding-right: 12px;
 }
@@ -21,16 +21,16 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p {
     margin-bottom: 0.5rem;
     font-weight: bold;
     line-height: 1.6;
-    color: #1f2c73;
+    color: var(--text-title);
 }
 
 .card {
-    background: #fff;
+    background: var(--card-bg-color);
 }
 
 
 .card-body {
-    background: #fff;
+    background: var(--card-bg-color);
     padding: 20px;
     border-radius: 6px;
     box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
@@ -58,13 +58,13 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p {
 }
 
 .breadcrumbs a {
-    color: #7184ad;
+    
     display: inline-block;
     font-size: 14px;
 }
 
 a {
-    color: #2F2CD8;
+    color: var(--text-color);
     text-decoration: none;
     outline: none;
 }
@@ -79,7 +79,7 @@ a {
 }
 
 .budgets-nav {
-    background: #fff;
+    background: var(--card-bg-color);
     padding: 16px;
     cursor: pointer;
     position: relative;
@@ -106,22 +106,22 @@ a {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #F4F3FF;
+        background: #FFFFFF;
     }
 
     .budgets-nav.active .budgets-nav-icon,
     .budgets-nav:hover .budgets-nav-icon {
-        background: rgba(255,255,255,0.2);
+        background: var(--sidebar-text);
     }
 
     .budgets-nav .budgets-nav-icon span {
         font-size: 24px;
-        color: #2F2CD8;
+        color: var(--primary-color);
     }
 
     .budgets-nav.active .budgets-nav-icon span,
     .budgets-nav:hover .budgets-nav-icon span {
-        color: #fff;
+        color: var(--card-bg-color);
     }
 
 .row > * {
@@ -135,16 +135,10 @@ a {
 }
 
 
-/* .budgets-nav .budgets-nav-text p {
-    color: #7184ad;
-    opacity: 0.85;
-    font-size: 14px;
-    font-weight: 400;
-    margin-bottom: 0px;
-} */
+
 
 .add-budgets-link {
-    background: #fff;
+    background: var(--card-bg-color);
     padding: 16px;
     cursor: pointer;
     position: relative;
@@ -173,11 +167,11 @@ a {
 
 
 .budgets-tab-title {
-    margin-left: calc(var(--bs-gutter-x) * 0.5);
-    margin-right: calc(var(--bs-gutter-x) * 0.5);
-    background: #fff;
+    
+    background: var(--card-bg-color);
     padding: 20px;
     border-radius: 6px;
+    box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     margin-bottom: 20px;
     position: relative;
     cursor: pointer;
@@ -189,15 +183,6 @@ a {
     -webkit-box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    height: 84px;
-    background: #fff;
-    border-radius: 12px;
-    padding: 0 20px;
-    margin-bottom: 20px;
-    width: 100%;
 }
 
 
@@ -218,21 +203,13 @@ div {
 }
 
 .progress, .progress-stacked {
-    --bs-progress-height: 1rem;
-    --bs-progress-font-size: 0.65625rem;
-    --bs-progress-bg: var(--bs-secondary-bg);
-    --bs-progress-border-radius: var(--bs-border-radius);
-    --bs-progress-box-shadow: var(--bs-box-shadow-inset);
-    --bs-progress-bar-color: #fff;
-    --bs-progress-bar-bg: #2F2CD8;
-    --bs-progress-bar-transition: width 0.6s ease;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     height: 16px;
     overflow: hidden;
     font-size: 13px;
-    background-color: rgb(229,231,235);
+    background-color: var(--border-color);
     border-radius: 6px;
 }
 
@@ -242,8 +219,8 @@ div {
     justify-content: center;
     text-align: center;
     white-space: nowrap;
-    color: #fff;
-    background-color: #2F2CD8;
+    color: var(--sidebar-bg);
+    background-color: var(--sidebar-bg);
     transition: width 0.6s ease;
     border-radius: 6px;
 }
@@ -281,7 +258,7 @@ div {
 
 .progress-bar {
     height: 100%;
-    background-color: #2F2CD8;
+    background-color: var(--sidebar-bg);
     transition: width 0.6s ease;
 }
 
@@ -320,14 +297,14 @@ div {
 
     .budget-widget p {
         margin-bottom: 6px;
-        color: #6c757d;
+        color: var(--text-muted-color);
         font-weight: 500;
     }
 
     .budget-widget h3 {
         font-size: 20px;
         font-weight: 600;
-        color: #0c0b5d;
+        color: var(--text-title);
     }
 
 .row > * {
@@ -450,9 +427,9 @@ div {
 }
 
     .budgets-nav.active, .budgets-nav:hover {
-        background-color: #2F2CD8;
-        color: #fff;
-        box-shadow: 0 4px 8px rgba(47,44,216,0.2);
+        background-color: var(--sidebar-bg);
+        color: var(--sidebar-text);
+        box-shadow: 0 4px 8px var(--shadow-color)
     }
 
         .budgets-nav.active .budgets-nav-text h3,
@@ -461,7 +438,7 @@ div {
         .budgets-nav:hover .budgets-nav-text p,
         .budgets-nav.active .show-time,
         .budgets-nav:hover .show-time {
-            color: #fff;
+            color: var(--sidebar-text);
         }
 
 
@@ -487,18 +464,13 @@ div {
 
 
 
-.budgets-nav .show-time {
-    position: absolute;
-    right: 16px;
-    color: #7184AD;
-    font-size: 14px;
-}
+
 
 .budgets-nav .budgets-nav-text h3, .budgets-nav .budgets-nav-text .h3 {
     font-size: 17px;
     margin-bottom: 4px;
     font-weight: 600;
-    color: #1A1A1A;
+    color: var((--sidebar-text);
 }
 
 .budgets-nav .budgets-nav-text p {
