@@ -1,6 +1,12 @@
 ﻿
 /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap'); */
 
+:root {
+    --progress-bg-color: #e5e7eb;
+}
+.dark-mode {
+    --progress-bg-color: #1E293B;
+}
 
 
 * {
@@ -22,10 +28,12 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p {
     font-weight: bold;
     line-height: 1.6;
     color: var(--text-title);
+    
 }
 
 .card {
     background: var(--card-bg-color);
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 
@@ -45,6 +53,7 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p {
     -webkit-box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 
@@ -97,6 +106,7 @@ a {
     transition: all 0.2s ease;
     width: 100%;
     min-height: 84px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
     .budgets-nav .budgets-nav-icon {
@@ -140,6 +150,7 @@ a {
 .add-budgets-link {
     background: var(--card-bg-color);
     padding: 16px;
+    padding-right:16px;
     cursor: pointer;
     position: relative;
     display: -webkit-box;
@@ -156,18 +167,23 @@ a {
     transition: all 0.2s ease;
     width: 100%;
     min-height: 84px;
-    justify-content:space-between;
-    align-items:center;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
-.add-link-image{
-    width:12px;
-    height:12px;
-    float:right;
+.add-link-image {
+    width: 24px;
+    height: 24px;
+    float: right;
+    filter: invert(0); /* mặc định màu gốc (đen) */
+    transition: filter 0.3s ease;
+}
+.dark-mode .add-link-image {
+    filter:invert(1);
 }
 
 
 .budgets-tab-title {
-    
     background: var(--card-bg-color);
     padding: 20px;
     border-radius: 6px;
@@ -183,6 +199,7 @@ a {
     -webkit-box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 
@@ -209,7 +226,8 @@ div {
     height: 16px;
     overflow: hidden;
     font-size: 13px;
-    background-color: var(--border-color);
+    background-color: var(--progress-bg-color);
+    color:var(--progress-bg-color);
     border-radius: 6px;
 }
 
@@ -250,10 +268,10 @@ div {
 
 .progress {
     height: 10px;
-    background-color: transparent;
     border-radius: 10px;
     overflow: hidden;
     margin-top: 10px;
+    background-color: var(--progress-bg-color);
 }
 
 .progress-bar {
@@ -346,6 +364,7 @@ div {
     .budgets-nav {
         padding: 12px;
         border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
     }
 
         .budgets-nav .budgets-nav-text h3 {
@@ -373,7 +392,7 @@ div {
 
 
 
-@media (max-width: 770px) {
+@media (max-width: 992px) {
     .col-xl-3, .col-xl-9 {
         -ms-flex: 0 0 100%;
         flex: 0 0 100%;
