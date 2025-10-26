@@ -197,7 +197,7 @@ body {
 .menu-content {
     position: fixed;
     background-color: #2F2CD8;
-    inset: 0 40% 0 0; /* Rộng 60% màn hình */
+    inset: 0 50% 0 0; /* Rộng 60% màn hình */
     transform: translateX(-100%);
     z-index: 101;
     transition: transform 0.3s ease-in-out;
@@ -455,4 +455,18 @@ body {
 #page-loader.hidden {
     opacity: 0; /* Làm mờ đi */
     visibility: hidden; /* Ẩn hoàn toàn */
+}
+@media (min-width: 769px) {
+
+    /* Bắt buộc ẩn menu di động */
+    .menu-content {
+        transform: translateX(-100%) !important; /* Ép trượt ra ngoài */
+        visibility: hidden !important; /* Ẩn hoàn toàn */
+    }
+
+    /* Bắt buộc ẩn lớp phủ mờ */    
+    .overlay {
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
 }
