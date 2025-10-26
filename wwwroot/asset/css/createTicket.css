@@ -34,7 +34,7 @@
         .settings-menu a:focus,
         .settings-menu a:active,
         .settings-menu a.active {
-            color: #1816b9;
+            color: #1816b9 !important;
         }
 
 .breadcrumbs a {
