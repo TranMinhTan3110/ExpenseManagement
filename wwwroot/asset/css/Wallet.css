@@ -121,8 +121,7 @@
 }
 
 .add-wallet:hover {
-    /* ... các style hover cũ ... */
-    transform: scale(0.99); /* Phóng to nhẹ 3% */
+    transform: scale(0.99);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Thêm đổ bóng (tùy chọn) */
 }
 
@@ -382,5 +381,37 @@
 
 /* modal */
 .modal-header h5 {
-    color: #1f2c73;
+    color: var(--text-title);
+}
+#addWalletForm .mb-3 {
+    color: var(--text-title) !important;
+}
+.form-control {
+    color: var(--text-muted-color) !important;
+}
+.form-select option {
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+}
+    .form-select:invalid,
+    .form-select option[value=""] {
+        color: var(--text-muted-color);
+    }
+.form-select {
+    color: var(--text-muted-color); /* Màu chữ đã chọn */
+  
+}
+/* Ẩn nút tăng/giảm trên Chrome, Safari, Edge */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Ẩn nút tăng/giảm trên Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+.dark-mode .btn-close {
+    filter: invert(1); /* Đảo màu để nút sáng hơn */
 }

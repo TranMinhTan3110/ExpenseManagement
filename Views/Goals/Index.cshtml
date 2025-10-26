@@ -17,24 +17,28 @@ ViewData["Title"] = "Goals";
 }
 
 @section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
-    $(document).ready(function() {
-        // Xử lý chuyển đổi active state cho goals-nav
-        $('.goals-nav').on('click', function() {
-            $('.goals-nav').removeClass('active');
-            $(this).addClass('active');
-        });
-    });
-    </script>
- 
-}
+        // Đợi cho trang tải xong (sử dụng cú pháp của jQuery)
+        $(document).ready(function() {
 
+            // --- 1. Xử lý active state cho goals-nav ---
+
+
+            // --- 2. Kích hoạt lịch flatpickr ---
+            // Đảm bảo selector của bạn đúng, ở đây là #goal-datepicker
+            flatpickr("#goal-datepicker", {
+                wrap: true, // Quan trọng để click vào icon
+                dateFormat: "d-m-Y",
+            });
+
+        });
+    </script>
+}
 
 <div class="container">
                 <div class="row">
@@ -47,11 +51,13 @@ ViewData["Title"] = "Goals";
                                         <p class="mb-2">Welcome Ekash Finance Management</p>
                                     </div>
                                 </div>
-                                <div class="col-auto">
-                                    <div class="breadcrumbs"><a href="#">Home </a>
-                                        <span><i class="fi fi-rr-angle-small-right"></i></span>
-                                        <a href="#">Goals</a>
-                                    </div>
+                                <div class="col-auto mb-3">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0  ">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Goals</li>
+                            </ol>
+                        </nav>
                                 </div>
                             </div>
                         </div>
@@ -66,7 +72,7 @@ ViewData["Title"] = "Goals";
                                         <div class="goals-nav active"  data-bs-toggle="pill" data-bs-target="#a1" aria-selected="true" role="tab">
                                             <div class="goals-nav-circle">
                                                 <div id="circle5"><canvas width="75" height="75" style="height: 50px; width: 50px;"></canvas></div>
-                                                <span>20%</span>
+                                                <span class="percent-goal">20%</span>
                                             </div>
                                             <div class="goals-nav-text">
                                                 <h3>Car</h3>
@@ -78,7 +84,7 @@ ViewData["Title"] = "Goals";
                                         <div class="goals-nav"data-bs-toggle="pill" data-bs-target="#a2" aria-selected="false" tabindex="-1" role="tab">
                                             <div class="goals-nav-circle">
                                                 <div id="circle6"><canvas width="75" height="75" style="height: 50px; width: 50px;"></canvas></div>
-                                                <span>20%</span>
+                                    <span class="percent-goal">20%</span>
                                             </div>
                                             <div class="goals-nav-text">
                                                 <h3>Laptop</h3>
@@ -90,7 +96,7 @@ ViewData["Title"] = "Goals";
                                         <div class="goals-nav"data-bs-toggle="pill" data-bs-target="#a3" aria-selected="false" tabindex="-1" role="tab">
                                             <div class="goals-nav-circle">
                                                 <div id="circle7"><canvas width="75" height="75" style="height: 50px; width: 50px;"></canvas></div>
-                                                <span>20%</span>
+                                    <span class="percent-goal">20%</span>
                                             </div>
                                             <div class="goals-nav-text">
                                                 <h3>Vacation</h3>
@@ -102,7 +108,7 @@ ViewData["Title"] = "Goals";
                                         <div class="goals-nav"data-bs-toggle="pill" data-bs-target="#a4" aria-selected="false" tabindex="-1" role="tab">
                                             <div class="goals-nav-circle">
                                                 <div id="circle8"><canvas width="75" height="75" style="height: 50px; width: 50px;"></canvas></div>
-                                                <span>20%</span>
+                                    <span class="percent-goal">20%</span>
                                             </div>
                                             <div class="goals-nav-text">
                                                 <h3>Phone</h3>
@@ -129,7 +135,7 @@ ViewData["Title"] = "Goals";
                                         <div class="col-xl-12">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
+                                                    <div class="d-flex justify-content-between card-save">
                                                         <div>
                                                             <span>Saved</span>
                                                             <h3>$1458.30</h3>
@@ -143,7 +149,7 @@ ViewData["Title"] = "Goals";
                                                         <div class="progress-bar" style="width: 25%;" role="progressbar">
                                                         </div>
                                                     </div>
-                                                    <div class="d-flex justify-content-between mt-2">
+                                                    <div class="d-flex justify-content-between mt-2 card-save">
                                                         <span>25%</span>    
                                                         <span>75%</span>
                                                     </div>
@@ -318,7 +324,7 @@ ViewData["Title"] = "Goals";
                                         <div class="col-xl-12">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
+                                                    <div class="d-flex justify-content-between card-save">
                                                         <div>
                                                             <span>Saved</span>
                                                             <h3>$1458.30</h3>
@@ -332,7 +338,7 @@ ViewData["Title"] = "Goals";
                                                         <div class="progress-bar" style="width: 25%;" role="progressbar">
                                                         </div>
                                                     </div>
-                                                    <div class="d-flex justify-content-between mt-2">
+                                                    <div class="d-flex justify-content-between mt-2 card-save">
                                                         <span>25%</span>
                                                         <span>75%</span>
                                                     </div>
@@ -507,7 +513,7 @@ ViewData["Title"] = "Goals";
                                         <div class="col-xl-12">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
+                                                    <div class="d-flex justify-content-between card-save">
                                                         <div>
                                                             <span>Saved</span>
                                                             <h3>$1458.30</h3>
@@ -521,7 +527,7 @@ ViewData["Title"] = "Goals";
                                                         <div class="progress-bar" style="width: 25%;" role="progressbar">
                                                         </div>
                                                     </div>
-                                                    <div class="d-flex justify-content-between mt-2">
+                                                    <div class="d-flex justify-content-between mt-2 card-save">
                                                         <span>25%</span>
                                                         <span>75%</span>
                                                     </div>
@@ -696,7 +702,7 @@ ViewData["Title"] = "Goals";
                                         <div class="col-xl-12">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
+                                                    <div class="d-flex justify-content-between card-save">
                                                         <div>
                                                             <span>Saved</span>
                                                             <h3>$1458.30</h3>
@@ -710,7 +716,7 @@ ViewData["Title"] = "Goals";
                                                         <div class="progress-bar" style="width: 25%;" role="progressbar">
                                                         </div>
                                                     </div>
-                                                    <div class="d-flex justify-content-between mt-2">
+                                                    <div class="d-flex justify-content-between mt-2 card-save">
                                                         <span>25%</span>
                                                         <span>75%</span>
                                                     </div>
@@ -900,10 +906,16 @@ ViewData["Title"] = "Goals";
                         <input type="number" class="form-control" id="goalTargetAmountInput" placeholder="0" required min="0">
                     </div>
 
-                    <div class="mb-3">
-                        <label for="goalTargetDateInput" class="form-label">Ngày dự kiến hoàn thành (Tùy chọn)</label>
-                        <input type="date" class="form-control" id="goalTargetDateInput">
-                    </div>
+                        <div class="mb-3">
+                            <label for="goalTargetDateInput" class="form-label">Ngày dự kiến hoàn thành (Tùy chọn)</label>
+                            <div class="input-group input-group-lg date" id="goal-datepicker" data-wrap>
+                                <input type="text" id="goalTargetDateInput" name="TargetDate" class="form-control" placeholder="Chọn ngày..." data-input>
+                                <span class="input-group-text" data-toggle>
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+
 
                         <div class="mb-3">
                         <label for="goalInitialAmountInput" class="form-label">Số tiền đã có (Tùy chọn)</label>

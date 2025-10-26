@@ -8,7 +8,7 @@
 }
 
 body {
-    background-color: #F6F9FC;
+    background-color: var(--bg-color);
     margin: 0;
     font-family: 'Poppins', sans-serif;
 }
@@ -17,6 +17,34 @@ body {
     display: flex;
 }
 
+.page-title-content p {
+    color: var(--text-muted-color) !important;
+}
+
+.breadcrumbs .fi-rr-angle-small-right {
+    color: var(--text-muted-color);
+}
+.breadcrumb a {
+    color: var(--text-muted-color); /*dòng đã sửa111*/
+    text-decoration: none;
+}
+
+.breadcrumb-item + .breadcrumb-item::before { /*dòng đã sửa111*/
+    color: var(--text-muted-color); /*dòng đã sửa111*/
+}
+/*dòng đã sửa*/
+
+.breadcrumb .breadcrumb-item {
+    color: var(--text-muted-color); /*dòng đã sửa111*/
+}
+
+.breadcrumb a:hover {
+    color: #0d6efd;
+}
+
+.breadcrumb-item {
+    cursor: pointer;
+}
 /* Các quy tắc Margin/Padding/Display của Bootstrap đã được giữ lại */
 .d-flex {
     display: flex !important;
@@ -49,7 +77,12 @@ body {
 .me-3 {
     margin-right: 1rem !important;
 }
-
+.mb-3 {
+    color: var(--text-title) !important;
+}
+.form-control {
+    color: var(--text-muted-color) !important;
+}
 .page-content {
     padding: 0 30px;
 }
@@ -65,28 +98,37 @@ body {
 .bg-purple-500 {
     background-color: #a855f7; /* tím */
 }
-
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--bs-heading-color);
+}
 /* =========================================================
    SIDEBAR NAV & MENU ITEMS
    ========================================================= */
 .goals-nav {
-    background: #fff;
+    background: var(--bg-color);
     padding: 20px;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 10px;
     position: relative;
     display: flex;
     align-items: center;
     box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     margin-bottom: 20px;
+    border: solid 1px var(--border-color)
+}
+.goals-nav-circle .percent-goal {
+    color: var(--text-muted-color) ;
+}
+.goals-nav.active {
+    background: #2F2CD8;
 }
 
-    .goals-nav.active {
-        background: #2F2CD8;
-    }
-
     .goals-nav .goals-nav-text p {
-        color: #7184ad;
+        color: var(--text-muted-color);
         opacity: 0.85;
         font-size: 14px;
         font-weight: 400;
@@ -99,12 +141,13 @@ body {
     }
 
     /* Màu chữ khi goals-nav ACTIVE */
-    .goals-nav.active .goals-nav-text h3,
-    .goals-nav.active .goals-nav-text p,
-    .goals-nav.active .goals-nav-text strong,
-    .goals-nav.active .goals-nav-circle span {
-        color: #fff;
-    }
+.goals-nav.active .goals-nav-text h3,
+.goals-nav.active .goals-nav-text p,
+.goals-nav.active .goals-nav-text strong,
+.goals-nav.active .goals-nav-circle span,
+.goals-nav.active .percent-goal {
+    color:#fff;
+}
 
     .goals-nav .goals-nav-circle {
         margin-right: 12px;
@@ -116,8 +159,8 @@ body {
             left: 15px;
             top: 15px;
             font-size: 12px;
-            font-weight: 700;
-            color: inherit;
+            font-weight: 600;
+/*            color: inherit;*/
         }
 
 /* Link "Add New Goals" */
@@ -126,12 +169,20 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background: #fff;
+    background: var(--bg-color);
     box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
+    border: solid 1px var(--border-color) !important;
+    transition: all 0.2s ease, transform 0.15s ease;
 }
-
+    .add-goals-link:hover {
+        background-color: #2F2CD8;
+        transform: scale(0.99);
+    }
+.add-goals-link:hover h5 {
+            color: white !important;
+        }
 
 /* =========================================================
    NỘI DUNG CHÍNH & TIÊU ĐỀ (CONTENT & TITLES)
@@ -142,10 +193,11 @@ body {
 
     .goals-tab-content .goals-tab-title {
         padding: 16px 20px;
-        background: #fff;
+        background: var(--bg-color);
         margin-bottom: 30px;
         box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
-        border-radius: 6px;
+        border-radius: 10px;
+        border: solid 1px var(--border-color);
     }
 
         .goals-tab-content .goals-tab-title h3, .goals-tab-content .goals-tab-title .h3 {
@@ -163,6 +215,22 @@ body {
     position: relative;
     top: 4px;
     margin-right: 5px;
+}
+
+/* Ẩn nút tăng/giảm trên Chrome, Safari, Edge */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Ẩn nút tăng/giảm trên Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.dark-mode .btn-close {
+    filter: invert(1); /* Đảo màu để nút sáng hơn */
 }
 
 
@@ -195,7 +263,9 @@ body {
     font-size: 16px;
     flex-shrink: 0;
 }
-
+.goals-icon{
+    margin-right:20px;
+}
 /* Khu vực Thông tin (Tên Ví, Progress, Số tiền) */
 .available-wallet .goals-info {
     display: flex;
@@ -254,9 +324,48 @@ body {
     background: #1D1933;
     box-shadow: none;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    color: #E0E5F2; /* Màu chữ sáng */
+    color: var(--text-title); /* Màu chữ sáng */
 }
 
+.card-body {
+    border: solid 1px var(--border-color) !important;
+    border-radius:10px;
+}
+    .card-body .card-save span {
+        color: var(--text-title);
+    }
+.card-title {
+    color: var(--text-title);
+}
+.goals-nav:hover {
+    background-color: #2F2CD8;
+
+}
+    .goals-nav:hover .goals-nav-text p {
+        color: white;
+
+}
+    .goals-nav:hover .goals-nav-circle .percent-goal {
+        color: white;
+    }
+    .goals-nav:hover .goals-nav-text h3 {
+        color:#fff;
+    }
+
+
+.goals-widget p {
+    color: var(--text-title);
+}
+
+.table-responsive th {
+    color: var(--text-title);
+}
+.table-responsive td {
+    color: var(--text-muted-color) !important;
+}
+.table-responsive .table {
+    background-color: var(--bs-body-bg) !important;
+}
 /* Responsive cho màn hình nhỏ hơn 1200px */
 @media only screen and (max-width: 1199px) {
     .goals-tab-content {
