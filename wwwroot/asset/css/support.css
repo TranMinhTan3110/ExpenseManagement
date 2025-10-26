@@ -36,7 +36,6 @@
         .settings-menu a.active {
             color: #1816b9;
         }
-
 .breadcrumbs a {
     color: var( --text-muted-color);
     display: inline-block;

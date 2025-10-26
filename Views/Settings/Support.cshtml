@@ -23,9 +23,9 @@
                         </div>
                         <div class="col-auto">
                             <div class="breadcrumbs">
-                                <a href="#">Home </a>
+                                <a asp-controller="Settings" asp-action="Profile">Settings </a>
                                 <span><i class="fi fi-rr-angle-small-right"></i></span>
-                                <a href="#">Support</a>
+                                <a asp-controller="Settings" asp-action="Support">Support</a>
                             </div>
                         </div>
                     </div>
@@ -33,15 +33,25 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-xxl-12 col-xl-12">
+                <div class="settings-menu">
+                    <a asp-controller="Settings" asp-action="Profile">Profile</a>
+                    <a asp-controller="Settings" asp-action="Category">Categories</a>
+                    <a asp-controller="Settings" asp-action="Support" class="active">Support</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Your Ticket</h4>
-                        <a href="support-create-ticket.html" class="btn btn-primary">Create Ticket</a>
+                        <a asp-controller="Settings" asp-action="CreateTicket" class="btn btn-primary">Create Ticket</a>
                     </div>
                     <div class="card-body height-200 d-flex align-items-center justify-content-center">
                         <p class="mt-5">
-                            You have no ticket yet! Create one by hitting the <a href="support-create-ticket.html" class="text-primary">
+                            You have no ticket yet! Create one by hitting the <a asp-controller="Settings" asp-action="CreateTicket" class="text-primary">
                                 Create
                                 Ticket
                             </a>
