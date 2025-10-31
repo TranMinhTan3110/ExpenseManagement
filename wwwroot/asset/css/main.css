@@ -22,7 +22,11 @@
     --bs-heading-color: #1f2c73;
     --loading-color: #2F2CD8; /* Màu loading*/
     /* --wallet:rgb(31, 41, 55) */
-
+    /* === THÊM 4 DÒNG NÀY VÀO :ROOT === */
+        --chart-grid-color: rgba(0, 0, 0, 0.1); /* Màu lưới (mờ) */
+        --chart-label-color: #555; /* Màu chữ số (tối) */
+        --chart-line-color: rgba(75, 192, 192, 1);
+        --chart-fill-color: rgba(75, 192, 192, 0.2);
 }
 .dark-mode {
     --bg-color: rgb(17, 24, 39);
@@ -38,6 +42,11 @@
     /* --text-muted-color: #adb5bd; */
     /* --card-bg: #1e1e1e; */
     /* --border-color: #444; */
+    /* === THÊM 4 DÒNG NÀY VÀO .DARK-MODE === */
+    --chart-grid-color: rgba(255, 255, 255, 0.15); /* Màu lưới (SÁNG) */
+    --chart-label-color: #b0b0c0;                  /* Màu chữ số (SÁNG) */
+    --chart-line-color: rgba(75, 192, 192, 1);
+    --chart-fill-color: rgba(75, 192, 192, 0.3);
 }
 
 body {
@@ -52,13 +61,13 @@ body {
 }
 
 .main-content {
-    flex-grow: 1;
+    flex-grow: 1;t
     width: calc(100% - 80px);
     margin-left: 80px;
 }
 
 .page-content {
-    padding: 0 30px;
+    padding: 0 50px;
 }
 
 /* --- SIDEBAR (DESKTOP) --- */

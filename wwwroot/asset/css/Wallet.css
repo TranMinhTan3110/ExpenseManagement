@@ -1,11 +1,7 @@
 ﻿/* Wallet page */
 
 /* Style cho breadcrumb bên phải */
-.page-header {
-    padding-right: 2rem;
-    padding-left: 3.1rem;
-    /* border: solid 1px red; */
-}
+
 .page-title h2 {
     color: var(--text-title); 
 }
@@ -47,10 +43,9 @@
 /* wallet-container */
 .wallet-container {
     display: grid;
-    /* grid-template-columns: 400px calc(100% - 400px); */
-    /* grid-template-columns: auto 2fr; */
+
     grid-template-columns: minmax(280px, 300px) 1fr;
-    margin: 20px 40px;
+
     grid-column-gap: 2rem;
 }
 
@@ -414,4 +409,25 @@ input[type=number] {
 }
 .dark-mode .btn-close {
     filter: invert(1); /* Đảo màu để nút sáng hơn */
+}
+
+/* ======================================= */
+/* CSS CHO BẢNG GIAO DỊCH CUỘN DỌC (SCROLL) */
+/* ======================================= */
+
+
+.card-body.transaction-history {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.transaction-history .d-flex {
+    flex-shrink: 0;
+}
+
+
+.transaction-history .table-responsive {
+    max-height: 350px;
+    overflow-y: auto;
 }

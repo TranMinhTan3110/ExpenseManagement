@@ -1,0 +1,442 @@
+﻿/* THẺ THỐNG KÊ (SUMMARY CARDS) */
+
+
+
+.container-dashboard{
+    padding:0 30px;
+}
+.summary-card-link {
+    text-decoration: none;
+}
+.summary-cards{
+    padding:20px 0;
+}
+.breadcrumb-item a {
+    text-decoration: none;
+   color: var(--bs-breadcrumb-item-active-color);
+}
+
+.summary-card {
+    background-color: var(--card-bg-color); 
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    transition: all 0.3s ease;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+    .summary-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px var(--shadow-color);
+    }
+
+    .summary-card .card-body {
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+    .summary-card .card-title {
+        font-size: 0.95rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: var(--text-title) !important;
+    }
+
+    .summary-card .card-value {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .summary-card .card-change {
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-top: auto;
+    }
+
+    .summary-card .progress {
+        margin-top: 0.5rem;
+        height: 6px;
+        border-radius: 3px;
+    }
+
+    .summary-card .card-change span {
+        display: inline;
+        margin-top: 0;
+    }
+
+.card-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted-color);
+    margin-top: 0.25rem;
+}
+
+
+
+
+
+
+/*  */
+.dashboard-charts .card {
+    border-radius: 12px;
+    overflow: hidden;
+}
+.card {
+    --bs-card-border-color: var(--border-color);
+}
+.card-title {
+    color: var(--text-title) !important;
+}
+.expense-legend {
+    list-style: none;
+    padding-left: 0;
+    font-size: 0.9rem;
+}
+
+    .expense-legend li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 6px;
+    }
+
+.color-box {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+/* Màu tùy chỉnh */
+.bg-orange {
+    background-color: #fd7e14;
+}
+
+.bg-teal {
+    background-color: #20c997;
+}
+
+
+
+/*biểu đồ*/
+/* ======================================= */
+/* KHỐI CHI TIÊU DANH MỤC (BREAKDOWN)      */
+/* ======================================= */
+
+/* Thanh progress bar nhiều màu */
+.multi-color-progress {
+    display: flex;
+    width: 100%;
+    background-color: var(--border-color); /* Màu nền mờ */
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+    .multi-color-progress .progress-bar {
+        /* Không cần style gì thêm, chỉ cần width và background-color */
+        height: 8px;
+    }
+
+/* Danh sách chi tiết */
+.expense-breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Khoảng cách giữa các dòng */
+}
+
+.expense-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.expense-breakdown-list .expense-item:last-child {
+    border-bottom: none; /* Bỏ viền cho dòng cuối */
+    padding-bottom: 0;
+}
+
+.expense-category {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.category-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.expense-details {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.expense-amount {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.expense-percentage {
+    font-size: 0.9rem;
+    color: var(--text-muted-color);
+}
+
+/* ======================================= */
+/* CSS CHO KHỐI NGÂN SÁCH HÀNG THÁNG      */
+/* ======================================= */
+
+.budget-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Khoảng cách giữa các ngân sách */
+}
+
+.budget-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.budget-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+}
+
+.budget-details {
+    flex-grow: 1;
+}
+
+.budget-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.35rem;
+}
+
+.budget-name {
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.budget-amount {
+    font-size: 0.9rem;
+    color: var(--text-muted-color);
+}
+
+.budget-progress {
+    background-color: var(--border-color); /* Màu nền mờ của progress bar */
+    border-radius: 3px;
+    height: 6px !important;
+}
+
+/* ======================================= */
+/* CSS CHO KHỐI NGÂN SÁCH HÀNG THÁNG      */
+/* ======================================= */
+
+.budget-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Khoảng cách giữa các ngân sách */
+}
+
+.budget-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.budget-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+}
+
+.budget-details {
+    flex-grow: 1;
+}
+
+.budget-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.35rem;
+}
+
+.budget-name {
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.budget-amount {
+    font-size: 0.9rem;
+    color: var(--text-muted-color);
+}
+
+.budget-progress {
+    background-color: var(--border-color); /* Màu nền mờ của progress bar */
+    border-radius: 3px;
+    height: 6px !important;
+}
+
+
+/* ======================================= */
+/* CSS CHO KHỐI SAVING GOALS (BIỂU ĐỒ TRÒN) */
+/* ======================================= */
+
+.goals-grid {
+    display: grid;
+    /* Tạo grid 2 cột */
+    grid-template-columns: repeat(2, 1fr);
+    /* Khoảng cách giữa các item */
+    gap: 1.5rem;
+    padding-top: 1rem;
+}
+
+.goal-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.goal-chart-container {
+    position: relative;
+    /* Kích thước biểu đồ */
+    width: 100px;
+    height: 100px;
+    margin-bottom: 0.75rem;
+}
+
+.goal-percentage {
+    /* Đặt % vào giữa */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    font-weight: 600;
+    /* Tự động đổi màu Sáng/Tối */
+    color: var(--text-color);
+}
+
+.goal-label {
+    font-weight: 500;
+    /* Tự động đổi màu Sáng/Tối */
+    color: var(--text-muted-color);
+    font-size: 0.95rem;
+}
+
+
+
+/* table */
+/* Style cho icon trong bảng giao dịch */
+.transaction-icon {
+    display: inline-flex; /* Để căn icon bên trong */
+    align-items: center;
+    justify-content: center;
+    width: 35px; /* Kích thước vòng tròn */
+    height: 35px;
+    border-radius: 50%; /* Bo tròn */
+    margin-right: 10px; /* Khoảng cách với chữ */
+    font-size: 16px; /* Kích thước icon bên trong */
+}
+
+.transaction-history {
+    --bs-card-border-color: none;
+}
+
+.table-responsive .transaction-date,
+.table-responsive .transaction-description,
+.table-responsive .transaction-amount {
+    color: #6c757d;
+}
+
+.card {
+    border-radius: 10px;
+    overflow: hidden; /* nếu có nội dung tràn */
+}
+
+.table-contain {
+    box-shadow: 0 4px 15px var(--shadow-color) !important;
+    --bs-gutter-x: 0;
+}
+
+.table-responsive th {
+    color: var(--text-title);
+}
+
+.table-responsive .table {
+    background-color: var(--bs-body-bg) !important;
+}
+
+.transaction-history h5 {
+    color: var(--text-title) !important;
+}
+
+.card-table .card-body {
+    background-color: var(--card-bg-color) !important;
+}
+
+.category-name {
+    color: var(--text-color) !important;
+}
+
+
+/* Thêm màu nền nhạt (ví dụ) */
+.bg-primary-light {
+    background-color: rgba(13, 110, 253, 0.1);
+}
+/* Xanh dương */
+.bg-secondary-light {
+    background-color: rgba(108, 117, 125, 0.1);
+}
+/* Xám */
+.bg-success-light {
+    background-color: rgba(25, 135, 84, 0.1);
+}
+/* Xanh lá */
+.bg-danger-light {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+/* Đỏ */
+.bg-warning-light {
+    background-color: rgba(255, 193, 7, 0.1);
+}
+/* Vàng */
+.bg-info-light {
+    background-color: rgba(13, 202, 240, 0.1);
+}
+/* Xanh ngọc */
+/* Bạn có thể định nghĩa thêm các màu khác cho từng loại category */
+
+/* end table */
+
+
+
