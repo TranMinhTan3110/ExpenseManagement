@@ -40,7 +40,10 @@
                             <img src="~/asset/img/effects.gif" alt="Logo">
                         </a>
                     </li>
-                    <li><a href="#"><span class="sidebar-icon"><i class="fi fi-rr-dashboard"></i></span></a></li>
+                    <li><a asp-controller="DashBoard" asp-action="Index">
+                        <span class="sidebar-icon"><i class="fi fi-rr-dashboard"></i></span>
+                        </a>
+                        </li>
                     <li>
                         <a asp-controller="Wallets" asp-action="Index">
                             <span class="sidebar-icon"><i class="fa-solid fa-wallet"></i></span>
@@ -83,7 +86,7 @@
                 <div class="menu-body">
                     <ul class="show">
                         <li>
-                            <a class="item-content " >
+                            <a class="item-content " asp-controller="DashBoard" asp-action="Index">
                                 <span class="sidebar-icon"><i class="fi fi-rr-dashboard"></i></span>
                                 <span class="sidebar-text fs-5">Dashboard</span>
                             </a>

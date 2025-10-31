@@ -1,0 +1,436 @@
+﻿@{
+
+    ViewData["Title"] = "Goals";
+
+}
+
+@section Styles {
+
+    <link rel="stylesheet" href="~/asset/css/DashBoard.css" />
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
+
+}
+
+<!-- Transaction page -->
+<div  class="container-dashboard" >
+<div class="page-header d-flex justify-content-between align-items-center ">
+
+    <div class="page-title">
+        <h2 class="mb-0">DashBoard</h2>
+        <p class="mb-0 text-muted">Welcome Ekash Finance Management</p>
+    </div>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0  ">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">DashBoard</li>
+        </ol>
+    </nav>
+
+</div>
+
+<div class="row g-4 mb-4 summary-cards">
+
+    <!-- Tổng Số Dư -->
+    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <a asp-controller="Wallets" asp-action="Index" class="summary-card-link">
+            <div class="summary-card h-100">
+                <div class="card-body">
+                    <p class="card-title text-muted">Tổng Số Dư</p>
+                    <h3 class="card-value">$ 432,568</h3>
+                    <hr class="my-3">
+                    <p class="card-change text-success mb-0">
+                        <i class="fa-solid fa-arrow-trend-up me-1"></i>
+                        <span>2.47%</span>
+                        <span class="text-muted ms-2">Tháng trước: $424,780</span>
+                    </p>
+
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Thu Nhập -->
+    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <a href="#" class="summary-card-link">
+            <div class="summary-card h-100">
+                <div class="card-body">
+                    <p class="card-title text-muted">Thu Nhập (Tháng Này)</p>
+                    <h3 class="card-value text-success">$ 1,500.00</h3>
+                    <hr class="my-3">
+                    <p class="card-change text-success mb-0">
+                        <i class="fa-solid fa-arrow-trend-up me-1"></i>
+                        <span>2.47%</span>
+                        <span class="text-muted ms-2">Tháng trước: $424,780</span>
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+    <!-- Chi Tiêu -->
+    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <a href="#" class="summary-card-link">
+            <div class="summary-card h-100">
+                <div class="card-body">
+                    <p class="card-title text-muted">Chi Tiêu (Tháng Này)</p>
+                    <h3 class="card-value text-danger">$ 850.50</h3>
+                    <hr class="my-3">
+                    <p class="card-change text-success mb-0">
+                        <i class="fa-solid fa-arrow-trend-up me-1"></i>
+                        <span>2.47%</span>
+                        <span class="text-muted ms-2">Tháng trước: $424,780</span>
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Ngân Sách Ăn Uống -->
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <a asp-controller="Budgets" asp-action="Index" class="summary-card-link">
+                <div class="summary-card h-100">
+                    <div class="card-body">
+                        <p class="card-title text-muted">Ngân Sách "Ăn Uống"</p>
+                        <h3 class="card-value">$ 500.000 / 2.000.000</h3>
+
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 25%"></div>
+                        </div>
+                        <p class="card-change text-muted text-center mt-2 mb-0">
+                            <span>Đã dùng 25%</span>
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+</div>
+
+<!-- end summary cards -->
+<!-- biểu đồ -->
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="card-title mb-0">Xu Hướng Số Dư (Balace Trends)</h5>
+                </div>
+                <h3 class="card-value mb-2">$221,478</h3>
+                <p class="card-change text-success small mb-3">
+                    <i class="fa-solid fa-arrow-trend-up me-1"></i>
+                    <span>12.25%</span> Last Month
+                </p>
+
+                <div class="chart-container" style="position: relative; height:250px; width:100%">
+                    <canvas id="balanceTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Chi Tiêu Tháng Này (Expenses Breakdown)</h5>
+
+                <div class="progress multi-color-progress mb-3" style="height: 8px;">
+                    <div class="progress-bar" role="progressbar" style="width: 38%; background-color: #FF6384;" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar" role="progressbar" style="width: 25%; background-color: #FF9F40;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar" role="progressbar" style="width: 20%; background-color: #FFCE56;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar" role="progressbar" style="width: 17%; background-color: #4BC0C0;" aria-valuenow="17" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+
+                <div class="expense-breakdown-list">
+                    <div class="expense-item">
+                        <div class="expense-category">
+                            <span class="category-dot" style="background-color: #FF6384;"></span>
+                            Food
+                        </div>
+                        <div class="expense-details">
+                            <span class="expense-amount">$1200</span>
+                            <span class="expense-percentage text-muted">38%</span>
+                        </div>
+                    </div>
+                    <div class="expense-item">
+                        <div class="expense-category">
+                            <span class="category-dot" style="background-color: #FF9F40;"></span>
+                            Transport
+                        </div>
+                        <div class="expense-details">
+                            <span class="expense-amount">$800</span>
+                            <span class="expense-percentage text-muted">25%</span>
+                        </div>
+                    </div>
+                    <div class="expense-item">
+                        <div class="expense-category">
+                            <span class="category-dot" style="background-color: #FFCE56;"></span>
+                            Healthcare
+                        </div>
+                        <div class="expense-details">
+                            <span class="expense-amount">$600</span>
+                            <span class="expense-percentage text-muted">20%</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <!-- BẮT ĐẦU HÀNG MỚI (Budgets & Income)      -->
+
+    <div class="row g-4 mb-4">
+
+        <!-- --- Cột Ngân Sách Hàng Tháng (Monthly Budgets) --- -->
+        <div class="col-lg-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Ngân Sách Hàng Tháng (Monthly Budgets)</h5>
+
+                    <div class="budget-list">
+                        <!-- Mẫu 1 Ngân Sách (Backend sẽ lặp ra) -->
+                        <div class="budget-item">
+                            <div class="budget-icon" style="background-color: #e0f2fe; color: #0ea5e9;">
+                                <i class="fa-solid fa-store"></i> <!-- Thay icon ở đây -->
+                            </div>
+                            <div class="budget-details">
+                                <div class="budget-info">
+                                    <span class="budget-name">Ăn Uống (Grocery)</span>
+                                    <span class="budget-amount">$750 / $1000</span>
+                                </div>
+                                <div class="progress budget-progress" style="height: 6px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 75%; background-color: #0ea5e9;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hết Mẫu 1 -->
+                        <!-- Mẫu 2 Ngân Sách -->
+                        <div class="budget-item">
+                            <div class="budget-icon" style="background-color: #fef2f2; color: #ef4444;">
+                                <i class="fa-solid fa-bus"></i> <!-- Thay icon ở đây -->
+                            </div>
+                            <div class="budget-details">
+                                <div class="budget-info">
+                                    <span class="budget-name">Đi Lại (Transport)</span>
+                                    <span class="budget-amount">$250 / $400</span>
+                                </div>
+                                <div class="progress budget-progress" style="height: 6px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 62.5%; background-color: #ef4444;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hết Mẫu 2 -->
+                        <!-- Mẫu 3 Ngân Sách -->
+                        <div class="budget-item">
+                            <div class="budget-icon" style="background-color: #f0fdf4; color: #22c55e;">
+                                <i class="fa-solid fa-heart-pulse"></i> <!-- Thay icon ở đây -->
+                            </div>
+                            <div class="budget-details">
+                                <div class="budget-info">
+                                    <span class="budget-name">Sức Khỏe (Healthcare)</span>
+                                    <span class="budget-amount">$100 / $500</span>
+                                </div>
+                                <div class="progress budget-progress" style="height: 6px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 20%; background-color: #22c55e;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hết Mẫu 3 -->
+                        <!-- Mẫu 4 Ngân Sách -->
+                        <div class="budget-item">
+                            <div class="budget-icon" style="background-color: #fffbeb; color: #f59e0b;">
+                                <i class="fa-solid fa-graduation-cap"></i> <!-- Thay icon ở đây -->
+                            </div>
+                            <div class="budget-details">
+                                <div class="budget-info">
+                                    <span class="budget-name">Giáo Dục (Education)</span>
+                                    <span class="budget-amount">$450 / $1000</span>
+                                </div>
+                                <div class="progress budget-progress" style="height: 6px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 45%; background-color: #f59e0b;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hết Mẫu 4 -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- --- Cột Thu Nhập vs Chi Tiêu (Income vs Expenses) --- -->
+        <div class="col-lg-7">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Thu Nhập vs Chi Tiêu (Income vs Expenses)</h5>
+                        <!-- (Tùy chọn) Bạn có thể thêm 1 dropdown filter theo năm ở đây -->
+                    </div>
+
+                    <!-- Canvas cho biểu đồ cột -->
+                    <div class="chart-container" style="position: relative; height: 320px; width:100%">
+                        <canvas id="incomeVsExpensesChart"></canvas>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- KẾT THÚC HÀNG MỚI                       -->
+ 
+  
+    <div class="row g-4 mb-4">
+        @* Mục lịch sử giao dịch *@
+        <div class="col-lg-7">
+            <div class="card card-table border-box h-100">
+                <div class="card-body transaction-history ">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Giao Dịch Gần Đây</h5>
+                        <a href="/Wallets#history" class="btn btn-sm btn-link" style="text-decoration: none;">Xem tất cả</a>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col" class="text-end">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span class="transaction-icon bg-danger-light text-danger">
+                                            <i class="fa-solid fa-utensils"></i>
+                                        </span>
+                                        <span class="category-name">Ăn uống</span>
+                                    </td>
+                                    <td class="transaction-date">18/10/2025</td>
+                                    <td class="transaction-description">Cà phê Highland</td>
+                                    <td class="transaction-amount text-danger text-end">-45,000đ</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="transaction-icon bg-warning-light text-warning">
+                                            <i class="fa-solid fa-gas-pump"></i>
+                                        </span>
+                                        <span class="category-name">Đi lại</span>
+                                    </td>
+                                    <td class="transaction-date">17/10/2025</td>
+                                    <td class="transaction-description">Đổ xăng xe máy</td>
+                                    <td class="transaction-amount text-danger text-end">-50,000đ</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="transaction-icon bg-success-light text-success">
+                                            <i class="fa-solid fa-briefcase"></i>
+                                        </span>
+                                        <span class="category-name">Lương</span>
+                                    </td>
+                                    <td class="transaction-date">15/10/2025</td>
+                                    <td class="transaction-description">Lương tháng 10</td>
+                                    <td class="transaction-amount text-success text-end">
+                                        +15,000,000đ
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="transaction-icon bg-primary-light text-primary">
+                                            <i class="fa-solid fa-shirt"></i>
+                                        </span>
+                                        <span class="category-name">Mua sắm</span>
+                                    </td>
+                                    <td class="transaction-date">14/10/2025</td>
+                                    <td class="transaction-description">Mua áo sơ mi mới</td>
+                                    <td class="transaction-amount text-danger text-end">-350,000đ</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <span class="transaction-icon bg-info-light text-info">
+                                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                                        </span>
+                                        <span class="category-name">Hóa đơn</span>
+                                    </td>
+                                    <td class="transaction-date">12/10/2025</td>
+                                    <td class="transaction-description">Tiền điện tháng 9</td>
+                                    <td class="transaction-amount text-danger text-end">-280,000đ</td>
+                                </tr>
+                          
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* Mục Saving  *@
+        <div class="col-lg-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Mục Tiêu Tiết Kiệm (Saving Goals)</h5>
+
+                    <div class="goals-grid">
+
+                        <div class="goal-item">
+                            <div class="goal-chart-container">
+                                <canvas id="goalChartVacation"></canvas>
+                                <div class="goal-percentage">80%</div>
+                            </div>
+                            <span class="goal-label">Du lịch (Vacation)</span>
+                        </div>
+
+                        <div class="goal-item">
+                            <div class="goal-chart-container">
+                                <canvas id="goalChartGift"></canvas>
+                                <div class="goal-percentage">20%</div>
+                            </div>
+                            <span class="goal-label">Quà tặng (Gift)</span>
+                        </div>
+
+                        <div class="goal-item">
+                            <div class="goal-chart-container">
+                                <canvas id="goalChartCar"></canvas>
+                                <div class="goal-percentage">80%</div>
+                            </div>
+                            <span class="goal-label">Xe mới (New Car)</span>
+                        </div>
+
+                        <div class="goal-item">
+                            <div class="goal-chart-container">
+                                <canvas id="goalChartLaptop"></canvas>
+                                <div class="goal-percentage">80%</div>
+                            </div>
+                            <span class="goal-label">Laptop</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+   
+    </div>
+@* End dashBoard *@
+</div>
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="~/asset/js/DashBoard.js"></script>
+}
