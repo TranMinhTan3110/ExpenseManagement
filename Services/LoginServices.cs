@@ -1,0 +1,134 @@
+﻿using BCrypt.Net; // Cần dùng BCrypt
+using Microsoft.EntityFrameworkCore;
+using QuanLyChiTieu_WebApp.Models.EF;
+using QuanLyChiTieu_WebApp.Models.Entities;
+using QuanLyChiTieu_WebApp.ViewModels; // Cần dùng SignUpViewModel
+using System.Security.Cryptography; // dùng để tạo token ngẫu nhiên
+
+namespace QuanLyChiTieu_WebApp.Services
+{
+    // Lớp này phải kế thừa từ interface CỦA BẠN
+    public class LoginServices : ILoginServices
+    {
+        private readonly ApplicationDbContext _context;
+
+        // Service này giờ chỉ cần DbContext
+        public LoginServices(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        // Triển khai hàm AuthenticateAsync
+        public async Task<User> AuthenticateAsync(string email, string password)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == email && u.IsActive);
+
+            if (user == null)
+            {
+                return null; // Không tìm thấy user
+            }
+
+            // Xác thực mật khẩu
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+
+            if (!isPasswordValid)
+            {
+                return null; // Sai mật khẩu
+            }
+
+            // Đúng hết, trả về user
+            return user;
+        }
+
+        // Triển khai hàm CheckEmailExistsAsync
+        public async Task<bool> CheckEmailExistsAsync(string email)
+        {
+            return await _context.Users.AnyAsync(u => u.Email == email);
+        }
+
+        // Triển khai hàm RegisterUserAsync
+        public async Task<User> RegisterUserAsync(SignUpViewModel model)
+        {
+            // Băm mật khẩu
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
+
+            var user = new User
+            {
+                UserID = Guid.NewGuid().ToString(),
+                FullName = model.FullName,
+                Email = model.Email,
+                PasswordHash = hashedPassword,
+                IsActive = true,
+                Role = "User",
+                CreatedAt = DateTime.Now,
+
+                // --- THÊM CÁC GIÁ TRỊ MẶC ---
+                Address = string.Empty,
+                City = string.Empty,
+                Country = string.Empty,
+                AvatarUrl = string.Empty
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync(); 
+
+            return user;
+        }
+
+        // hàm UpdateLastLoginAsync
+        public async Task UpdateLastLoginAsync(User user)
+        {
+            user.LastLogin = DateTime.Now;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+        }
+        public async Task<User?> GeneratePasswordResetTokenAsync(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null)
+            {
+                // Không tìm thấy user
+                return null;
+            }
+
+            // Tạo token ngẫu nhiên, an toàn
+            string token = Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+
+            user.PasswordResetToken = token;
+            user.PasswordResetTokenExpiry = DateTime.Now.AddHours(1); // Cho token 1 giờ
+
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
+        // 
+        public async Task<bool> ResetPasswordAsync(string email, string token, string newPassword)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(
+                u => u.Email == email &&
+                     u.PasswordResetToken == token &&
+                     u.PasswordResetTokenExpiry > DateTime.Now); // Token còn hạn
+
+            if (user == null)
+            {
+                // Token không hợp lệ hoặc đã hết hạn
+                return false;
+            }
+
+            // Hash mật khẩu mới
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(newPassword);
+
+            // Vô hiệu hóa token sau khi dùng
+            user.PasswordResetToken = null;
+            user.PasswordResetTokenExpiry = null;
+
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+    }
+}

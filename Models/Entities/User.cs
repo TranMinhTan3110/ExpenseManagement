@@ -43,6 +43,10 @@ namespace QuanLyChiTieu_WebApp.Models.Entities
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        //reset password
+        public string? PasswordResetToken { get; set; }
+        public DateTime? PasswordResetTokenExpiry { get; set; }
+
         // Navigation properties
         public ICollection<Ticket> Tickets { get; set; }
         public ICollection<Wallet> Wallets { get; set; }

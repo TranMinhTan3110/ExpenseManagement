@@ -52,24 +52,21 @@
                         <div class="col-lg-6">
                             <div class="auth-form">
                                 <h4>Sign in</h4>
-                                <form action="">
+                                <form id="login_form" asp-action="LoginToSystem" asp-controller="Login" method="post">
                                     <div class="row">
                                         <div class="col-12 mb-3">
                                             <label class="form-label">Email</label>
-                                            <input name="email" class="form-control" type="text"
-                                                   placeholder="Enter email" />
+                                            <input id="username" name="username" class="form-control" type="text" placeholder="Enter email" required />
                                         </div>
                                         <div class=" col-12 mb-3">
                                             <label class="form-label">Password</label>
-                                            <input name="password" class="form-control" type="password"
-                                                   placeholder="Enter password" />
+                                            <input id="password" name="password" class="form-control" type="password" placeholder="Enter password" required />
                                         </div>
 
                                         <div class="col-6">
                                             <div class="form-check">
-                                                <input name="acceptTerms" id="acceptTerms" type="checkbox"
-                                                       class="form-check-input" />
-                                                <label class="form-check-label" for="acceptTerms">Remember me</label>
+                                                <input name="rememberMe" id="rememberMe" type="checkbox" class="form-check-input" />
+                                                <label class="form-check-label" for="rememberMe">Remember me</label>
                                             </div>
                                         </div>
                                         <div class="col-6 text-end"><a asp-controller="Login" asp-action="Reset">Forgot Password?</a></div>
@@ -97,6 +94,9 @@
             </div>
         </div>
     </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/asset/js/Login.js"></script>
 </body>
 
 </html>
