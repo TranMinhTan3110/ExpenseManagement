@@ -60,7 +60,7 @@
                                                 <option>Expenses</option>
                                             </select>
                                         </div>
-                                        <div class="mb-3 col-12">
+                                        <div class="mb-3 col-6">
                                             <label class="form-label">Icon </label>
                                             <div class="border rounded p-2 d-flex align-items-center justify-content-between form-control"
                                                  id="iconPickerToggle" style="cursor:pointer;">
@@ -75,6 +75,21 @@
                                                 <div id="iconPickerContainer" class="d-flex flex-wrap gap-2"></div>
                                             </div>
                                             <input type="hidden" id="selectedIcon" name="icon">
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label">Color </label>
+                                            <div class="border rounded p-2 d-flex align-items-center justify-content-between form-control"
+                                                 id="colorPickerToggle" style="cursor:pointer;">
+                                                <span id="selectedColorPreview" class="d-flex align-items-center gap-2 text-muted">
+                                                    Choose color...
+                                                </span>
+                                                <i class="fi fi-rr-angle-small-down"></i>
+                                            </div>
+                                            <div id="colorPickerList" class="border rounded p-2 mt-2"
+                                                 style="display:none; background:#fff; max-height:160px; overflow-y:auto;">
+                                                <div id="colorPickerContainer" class="d-flex flex-wrap gap-2"></div>
+                                            </div>
+                                            <input type="hidden" id="selectedColor" name="ColorClass">
                                         </div>
                                         <div class="col-12">
                                             <button class="btn btn-success w-100">Create new category</button>
