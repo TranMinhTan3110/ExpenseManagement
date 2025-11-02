@@ -10,13 +10,7 @@
     <title>Sign up</title>
 
     <link rel="icon" type="image/png" href="~/asset/img/webIcon.png">
-
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontisto/3.0.4/css/fontisto/fontisto.min.css">
-    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-brands/css/uicons-brands.css">
-    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
 
     <link rel="stylesheet" href="~/asset/css/login.css">
 </head>
@@ -32,42 +26,36 @@
                                 <div class="welcome-title">
                                     <h3>Welcome to My Financial Management</h3>
                                 </div>
-                                <div class="privacy-social">
-                                    <div class="privacy-link">
-                                        <a href="#">Have an issue with 2 factor authencation?</a>
-                                        <br>
-                                        <a href="#">Privacy</a>
-                                    </div>
-                                    <div class="intro-social">
-                                        <ul>
-                                            <li><a href="#"><i class="fi fi-brands-facebook"></i></a></li>
-                                            <li><a href="#"><i class="fi fi-brands-linkedin"></i></a></li>
-                                            <li><a href="#"><i class="fi fi-brands-pinterest"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="auth-form">
                                 <h4>Sign up</h4>
-                                <form action="">
+
+                                <form id="signup_form" asp-controller="Login" asp-action="SignUp" method="post">
                                     <div class="row">
                                         <div class="col-12 mb-3">
                                             <label class="form-label">Full Name</label>
-                                            <input name="fullName" class="form-control" type="text"
-                                                   placeholder="Enter full name" />
+                                            <input id="fullName" name="FullName" class="form-control" type="text"
+                                                   placeholder="Enter full name" required />
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label class="form-label">Email</label>
-                                            <input name="email" type="text" class="form-control"
-                                                   placeholder="Enter email">
+                                            <input id="email" name="Email" type="email" class="form-control"
+                                                   placeholder="Enter email" required>
                                         </div>
                                         <div class=" col-12 mb-3">
                                             <label class="form-label">Password</label>
-                                            <input name="password" class="form-control" type="password"
-                                                   placeholder="Enter password" />
+                                            <input id="password" name="Password" class="form-control" type="password"
+                                                   placeholder="Enter password" required />
                                         </div>
+
+                                        <div class=" col-12 mb-3">
+                                            <label class="form-label">Confirm Password</label>
+                                            <input id="confirmPassword" class="form-control" type="password"
+                                                   placeholder="Confirm password" required />
+                                        </div>
+
                                         <div class="col-12">
                                             <a href="#" class="btn btn-outline-light d-flex align-items-center justify-content-center gap-2 rounded-pill py-2 w-33 mx-auto mt-3 google">
                                                 <img src="~/asset/img/google-color.svg" width="20" height="20">
@@ -85,7 +73,7 @@
                                 </form>
                                 <p class="mt-3 mb-0 undefiend">
                                     Already have an account? <a class="text-primary"
-                                                                asp-controller="Login" asp-action="SignIn" ">
+                                                                asp-controller="Login" asp-action="Index">
                                         Sign
                                         in
                                     </a>
@@ -97,6 +85,9 @@
             </div>
         </div>
     </div>
-</body>
 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/asset/js/SignUp.js"></script>
+</body>
 </html>
