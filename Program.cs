@@ -33,6 +33,8 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
+
     pattern: "{controller=DashBoard}/{action=Index}/{id?}");
+
 
 app.Run();
