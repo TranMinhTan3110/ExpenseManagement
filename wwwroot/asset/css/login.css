@@ -1,6 +1,6 @@
 ﻿body {
     font-family: "Inter", sans-serif;
-    background-image: url("/asset/img/backgroundBigg.jpg");
+    background-image: url("/asset/img/background.png");
     background-size: cover;
     background-position: center;
 }
@@ -48,12 +48,26 @@
   padding-left: 30px;
   padding-top: 30px;
 }
-.welcome-content .welcome-title h3,
-.welcome-content .welcome-title .h3 {
-  color: #fff;
-  font-size: 18px;
-  margin-top: 20px;
-  font-family: sans-serif;
+    .welcome-content .welcome-title h3,
+    .welcome-content .welcome-title .h3 {
+        font-size: 28px; /* to hơn */
+        font-weight: 700; /* đậm hơn */
+        color: #ffffff; /* giữ trắng */
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* hiệu ứng đổ bóng nhẹ */
+        letter-spacing: 0.5px; /* giãn chữ nhẹ */
+        animation: fadeInDown 1s ease-in-out;
+    }
+/* Hiệu ứng mờ dần hiện xuống */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 .welcome-content .privacy-social {
   position: absolute;
