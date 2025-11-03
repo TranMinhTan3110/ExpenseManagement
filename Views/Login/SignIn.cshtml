@@ -78,7 +78,10 @@
                                             in
                                         </button>
                                     </div>
-                                    <a href="#" class="btn btn-outline-light d-flex align-items-center justify-content-center gap-2 rounded-pill py-2 w-33 mx-auto mt-3 google">
+                                    <a asp-controller="Login"
+                                       asp-action="ExternalLogin"
+                                       asp-route-provider="Google"
+                                       class="btn btn-outline-light d-flex align-items-center justify-content-center gap-2 rounded-pill py-2 w-33 mx-auto mt-3 google">
                                         <img src="~/asset/img/google-color.svg" width="20" height="20">
                                         Tiếp tục với Google
                                     </a>

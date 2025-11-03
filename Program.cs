@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using QuanLyChiTieu_WebApp.Models.EF;
+using Microsoft.Extensions.DependencyInjection;
 using QuanLyChiTieu_WebApp.Models;
+using QuanLyChiTieu_WebApp.Models.EF;
 using QuanLyChiTieu_WebApp.Services;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,16 +18,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")),
     ServiceLifetime.Scoped);
 
-// 2. Cấu hình Cookie Authentication
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Login/Index"; // Đường dẫn đến trang đăng nhập
-        options.LogoutPath = "/Login/Logout"; // Đường dẫn để đăng xuất
-        options.AccessDeniedPath = "/Home/AccessDenied"; // Đường dẫn khi bị từ chối truy cập
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Thời gian hết hạn cookie
-        options.SlidingExpiration = true;
-    });
+//// 2. Cấu hình Cookie Authentication
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//    .AddCookie(options =>
+//    {
+//        options.LoginPath = "/Login/Index"; // Đường dẫn đến trang đăng nhập
+//        options.LogoutPath = "/Login/Logout"; // Đường dẫn để đăng xuất
+//        options.AccessDeniedPath = "/Home/AccessDenied"; // Đường dẫn khi bị từ chối truy cập
+//        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Thời gian hết hạn cookie
+//        options.SlidingExpiration = true;
+//    });
 
 // 3. Đăng ký dịch vụ Session
 builder.Services.AddSession(options =>
@@ -48,6 +51,66 @@ builder.Services.AddScoped<ILoginServices, LoginServices>();
 // Đăng ký EmailService
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+// Đăng ký SettingsService
+builder.Services.AddScoped<ISettingsService, SettingsService>();
+
+// 1. Lấy Client ID và Secret từ appsettings.json
+var googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
+var clientId = googleAuthNSection["ClientId"];
+var clientSecret = googleAuthNSection["ClientSecret"];
+
+// 2. Cấu hình Dịch vụ Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        // ... (Cấu hình cookie của bạn như cũ)
+        options.LoginPath = "/Login/Index";
+    })
+    .AddGoogle(options => // THÊM GOOGLE TẠI ĐÂY
+    {
+        options.ClientId = clientId;
+        options.ClientSecret = clientSecret;
+
+        // 3. XỬ LÝ SỰ KIỆN: Đây là phần quan trọng nhất
+        // Sau khi Google xác thực thành công, sự kiện này sẽ chạy
+        options.Events.OnCreatingTicket = async context =>
+        {
+            // Lấy email và tên từ Google
+            var email = context.Principal.FindFirstValue(ClaimTypes.Email);
+            var name = context.Principal.FindFirstValue(ClaimTypes.Name);
+
+            if (string.IsNullOrEmpty(email))
+            {
+                // Không lấy được email thì không cho đăng nhập
+                return;
+            }
+
+            // Lấy ILoginServices từ hệ thống DI (Dependency Injection)
+            var loginService = context.HttpContext.RequestServices
+                .GetRequiredService<ILoginServices>();
+
+            // 4. Tìm hoặc Tạo User trong DB 
+            // (Chúng ta sẽ tạo hàm này ở bước 4)
+            var appUser = await loginService.FindOrCreateExternalUserAsync(email, name);
+
+            // 5. THAY THẾ CLAIMS (QUAN TRỌNG)
+            // Xóa các Claim mặc định của Google...
+            context.Identity.RemoveClaim(context.Identity.FindFirst(ClaimTypes.NameIdentifier));
+
+            // ...Và thêm các Claim của ứng dụng BẠN
+            // Điều này đảm bảo `User.FindFirstValue(ClaimTypes.NameIdentifier)`
+            // sẽ trả về UserID TỪ DATABASE của bạn.
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, appUser.UserID),
+                new Claim(ClaimTypes.Name, appUser.FullName ?? appUser.Email),
+                new Claim(ClaimTypes.Email, appUser.Email),
+                new Claim(ClaimTypes.Role, appUser.Role)
+            };
+
+            context.Identity.AddClaims(claims);
+        };
+    });
 // --- GỌI BUILD() SAU KHI ĐĂNG KÝ XONG ---
 var app = builder.Build();
 
