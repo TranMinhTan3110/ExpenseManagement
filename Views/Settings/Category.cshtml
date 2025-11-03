@@ -7,6 +7,7 @@
           href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="~/asset/css/category.css" />
 }
 <div class="content-body">
@@ -47,17 +48,18 @@
                             </div>
                             <div class="card-body">
                                 <div class="create-new-category">
-                                    <form class="row">
+
+                                    <form class="row" id="create-category-form">
                                         <div class="mb-3 col-12">
                                             <label class="form-label">Name </label>
-                                            <input type="text" class="form-control" placeholder="category name">
+                                            <input name="CategoryName" type="text" class="form-control" placeholder="category name">
                                         </div>
                                         <div class="mb-3 col-12">
                                             <label class="form-label">Type </label>
-                                            <select class="form-select">
-                                                <option selected class="form-control">Choose...</option>
-                                                <option>Income</option>
-                                                <option>Expenses</option>
+                                            <select name="Type" class="form-select">
+                                                <option selected class="form-control" value="">Choose...</option>
+                                                <option value="Income">Income</option>
+                                                <option value="Expense">Expenses</option>
                                             </select>
                                         </div>
                                         <div class="mb-3 col-6">
@@ -65,8 +67,7 @@
                                             <div class="border rounded p-2 d-flex align-items-center justify-content-between form-control"
                                                  id="iconPickerToggle" style="cursor:pointer;">
                                                 <span id="selectedIconPreview" class="text-muted">
-                                                    Choose
-                                                    icon...
+                                                    Choose icon...
                                                 </span>
                                                 <i class="fi fi-rr-angle-small-down"></i>
                                             </div>
@@ -74,7 +75,7 @@
                                                  style="display:none; background:#fff; max-height:160px; overflow-y:auto;">
                                                 <div id="iconPickerContainer" class="d-flex flex-wrap gap-2"></div>
                                             </div>
-                                            <input type="hidden" id="selectedIcon" name="icon">
+                                            <input type="hidden" id="selectedIcon" name="IconID">
                                         </div>
                                         <div class="mb-3 col-6">
                                             <label class="form-label">Color </label>
@@ -89,10 +90,10 @@
                                                  style="display:none; background:#fff; max-height:160px; overflow-y:auto;">
                                                 <div id="colorPickerContainer" class="d-flex flex-wrap gap-2"></div>
                                             </div>
-                                            <input type="hidden" id="selectedColor" name="ColorClass">
+                                            <input type="hidden" id="selectedColor" name="ColorID">
                                         </div>
                                         <div class="col-12">
-                                            <button class="btn btn-success w-100">Create new category</button>
+                                            <button type="submit" class="btn btn-success w-100">Create new category</button>
                                         </div>
                                     </form>
                                 </div>
@@ -106,98 +107,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="category-type">
-                                    <ul>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-purple-500 fi fi-rr-usd-circle"></i> Salary
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-red-500 fi fi-rr-store-alt"></i> Business
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-orange-500 fi fi-rr-life-ring"></i> Client
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-amber-500 fi fi-rr-gift"></i> Gifts
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-yellow-500 fi fi-bs-user-shield"></i> Insurance
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-lime-500 fi fi-rr-sack-dollar"></i> Loan
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-green-500 fi fi-rr-add-document"></i> Other
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
+                                    <ul id="income-category-list">
                                     </ul>
                                 </div>
                             </div>
@@ -208,237 +118,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="category-type">
-                                    <ul>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-emerald-500 fi fi-rr-barber-shop"></i>
-                                                    Beauty
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-teal-500 fi fi-rr-receipt"></i> Bills &
-                                                    Fees
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-cyan-500 fi fi-rr-car-side"></i> Car
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-sky-500 fi fi-rr-graduation-cap"></i>
-                                                    Education
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-blue-500 fi fi-rr-clapperboard-play"></i>
-                                                    Entertainment
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-indigo-500 fi fi-sr-family"></i> Family
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-violet-500 fi fi-rr-hamburger-soda"></i> Food &
-                                                    Drink
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-purple-500 fi fi-rr-money-bills-simple"></i>
-                                                    Salary
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-fuchsia-500 fi fi-rs-pineapple"></i>
-                                                    Groceries
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-pink-500 fi fi-rr-user-md"></i> Healthcare
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-purple-500 fi fi-rr-home"></i> Home
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-rose-500 fi fi-rs-shopping-bag"></i>
-                                                    Shopping
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-orange-500 fi fi-br-running"></i> Sports
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-emerald-500 fi fi-rr-bowling"></i> Hobbies
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-teal-500 fi fi-rr-plane"></i> Travel
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-cyan-500 fi fi-rr-bus"></i>
-                                                    Transport
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="left-category">
-                                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
-                                                <span class="category-icon">
-                                                    <i class="bg-indigo-500 fi fi-rr-briefcase"></i> Work
-                                                </span>
-                                            </div>
-                                            <div class="right-category">
-                                                <span><i class="fi fi-rs-pencil"></i></span>
-
-                                                <span><i class="fi fi-rr-trash"></i></span>
-                                            </div>
-                                        </li>
+                                    <ul id="expense-category-list">
                                     </ul>
                                 </div>
                             </div>
@@ -449,7 +129,349 @@
         </div>
     </div>
 </div>
+
 @section Scripts {
-    <script src="~/asset/js/Icons.js"></script>
-    <script src="~/asset/js/Category.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // --- (MỚI) Biến toàn cục để lưu ID khi SỬA ---
+            let currentEditCategoryId = null;
+
+            // 1. LẤY CÁC ELEMENT
+            const createForm = document.getElementById('create-category-form');
+            // Lấy nút submit
+            const submitButton = createForm.querySelector('button[type="submit"]');
+
+            const iconToggle = document.getElementById('iconPickerToggle');
+            const iconList = document.getElementById('iconPickerList');
+            const iconContainer = document.getElementById('iconPickerContainer');
+            const iconPreview = document.getElementById('selectedIconPreview');
+            const iconHiddenInput = document.getElementById('selectedIcon');
+
+            const colorToggle = document.getElementById('colorPickerToggle');
+            const colorList = document.getElementById('colorPickerList');
+            const colorContainer = document.getElementById('colorPickerContainer');
+            const colorPreview = document.getElementById('selectedColorPreview');
+            const colorHiddenInput = document.getElementById('selectedColor');
+
+            const incomeListContainer = document.getElementById('income-category-list');
+            const expenseListContainer = document.getElementById('expense-category-list');
+
+            // 2. GỌI API (Sửa lại)
+            async function loadPageData() {
+                try {
+                    // Sửa: Gọi API mới
+                    const response = await fetch('/api/category/page-data');
+                    if (!response.ok) throw new Error(`Lỗi tải dữ liệu: ${response.status}`);
+
+                    const data = await response.json();
+
+                    populateIconPicker(data.allIcons);
+                    populateColorPicker(data.allColors);
+                    renderCategoryLists(data.userCategories);
+
+                } catch (error) {
+                    console.error("Lỗi fetch data:", error);
+                    if(iconContainer) iconContainer.innerHTML = "Lỗi tải icon.";
+                    if(colorContainer) colorContainer.innerHTML = "Lỗi tải màu.";
+                }
+            }
+
+            // 3. HÀM VẼ ICON
+            function populateIconPicker(icons) {
+                iconContainer.innerHTML = '';
+                icons.forEach(icon => {
+                    const iconOption = document.createElement('div');
+                    iconOption.className = 'icon-option';
+                    iconOption.title = icon.iconName;
+                    iconOption.dataset.iconId = icon.iconID;
+                    iconOption.dataset.iconClass = icon.iconClass;
+                    iconOption.innerHTML = `<i class="${icon.iconClass}"></i>`;
+                    iconContainer.appendChild(iconOption);
+                });
+            }
+
+            // 4. HÀM VẼ MÀU
+            function populateColorPicker(colors) {
+                colorContainer.innerHTML = '';
+                colors.forEach(color => {
+                    const colorOption = document.createElement('div');
+                    colorOption.className = 'color-option';
+                    colorOption.title = color.colorName;
+                    colorOption.style.backgroundColor = color.hexCode;
+                    colorOption.style.width = '24px';
+                    colorOption.style.height = '24px';
+                    colorOption.style.borderRadius = '50%';
+                    colorOption.style.cursor = 'pointer';
+                    colorOption.style.border = '1px solid #ddd';
+
+                    colorOption.dataset.colorId = color.colorID;
+                    colorOption.dataset.colorName = color.colorName;
+                    colorOption.dataset.hexCode = color.hexCode;
+
+                    colorContainer.appendChild(colorOption);
+                });
+            }
+
+            // 5. HÀM VẼ DANH SÁCH CATEGORY (Mới)
+            function renderCategoryLists(categories) {
+                incomeListContainer.innerHTML = '';
+                expenseListContainer.innerHTML = '';
+
+                const incomeCategories = categories.filter(c => c.type === 'Income');
+                const expenseCategories = categories.filter(c => c.type === 'Expenses' || c.type === 'Expense');
+
+                function createCategoryListItem(cat) {
+
+                    return `
+                        <li>
+                            <div class="left-category">
+                                <span class="drag-icon"><i class="fi fi-ss-grip-lines"></i></span>
+                                <span class="category-icon">
+                                    <i style="color:${cat.color.hexCode} "
+                                       class="${cat.icon.iconClass}"></i>
+                                    ${cat.categoryName}
+                                </span>
+                            </div>
+                            <div class="right-category">
+                                <span class="btn-edit" data-id="${cat.categoryID}" style="cursor: pointer; color: #3b82f6;">
+                                    <i class="fi fi-rs-pencil"></i>
+                                </span>
+                                <span class="btn-delete" data-id="${cat.categoryID}" style="cursor: pointer; color: #ef4444;">
+                                    <i class="fi fi-rr-trash"></i>
+                                </span>
+                            </div>
+                        </li>
+                    `;
+                }
+
+                incomeCategories.forEach(cat => { incomeListContainer.innerHTML += createCategoryListItem(cat); });
+                expenseCategories.forEach(cat => { expenseListContainer.innerHTML += createCategoryListItem(cat); });
+            }
+
+            // 6. GỌI HÀM KHI TẢI TRANG
+            loadPageData();
+
+            // 7. CODE ĐÓNG/MỞ PICKER
+            if (iconToggle) {
+                iconToggle.addEventListener('click', () => {
+                    if (colorList) colorList.style.display = 'none';
+                    iconList.style.display = iconList.style.display === 'none' ? 'block' : 'none';
+                });
+            }
+            if (colorToggle) {
+                colorToggle.addEventListener('click', () => {
+                    if (iconList) iconList.style.display = 'none';
+                    colorList.style.display = colorList.style.display === 'none' ? 'block' : 'none';
+                });
+            }
+
+            // 8. CODE CHỌN ICON
+            if (iconContainer) {
+                iconContainer.addEventListener('click', function (e) {
+                    const iconOption = e.target.closest('.icon-option');
+                    if (!iconOption) return;
+                    iconContainer.querySelectorAll('.icon-option').forEach(opt => opt.classList.remove('active'));
+                    iconOption.classList.add('active');
+                    const iconId = iconOption.dataset.iconId;
+                    const iconClass = iconOption.dataset.iconClass;
+                    const iconName = iconOption.title;
+                    iconPreview.innerHTML = `<i class="${iconClass}"></i> ${iconName}`;
+                    iconPreview.classList.remove('text-muted');
+                    iconHiddenInput.value = iconId;
+                    iconList.style.display = 'none';
+                });
+            }
+
+            // 9. CODE CHỌN MÀU
+            if (colorContainer) {
+                colorContainer.addEventListener('click', function (e) {
+                    const colorOption = e.target.closest('.color-option');
+                    if (!colorOption) return;
+                    colorContainer.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                    colorOption.classList.add('active');
+                    const colorId = colorOption.dataset.colorId;
+                    const colorName = colorOption.dataset.colorName;
+                    const hexCode = colorOption.dataset.hexCode;
+                    colorPreview.innerHTML = `
+                        <span style="width: 20px; height: 20px; background-color:${hexCode}; border-radius: 50%; display: inline-block; border: 1px solid #ddd;"></span>
+                        ${colorName}
+                    `;
+                    colorPreview.classList.remove('text-muted');
+                    colorHiddenInput.value = colorId;
+                    colorList.style.display = 'none';
+                });
+            }
+
+            // 10. XỬ LÝ SUBMIT FORM (ĐÃ NÂNG CẤP)
+            if (createForm) {
+                createForm.addEventListener("submit", async function(event) {
+                    event.preventDefault();
+
+                    const formData = new FormData(createForm);
+                    const data = {
+                        CategoryName: formData.get("CategoryName"),
+                        Type: formData.get("Type"),
+                        IconID: parseInt(formData.get("IconID")),
+                        ColorID: parseInt(formData.get("ColorID"))
+                    };
+
+                    if (!data.CategoryName || !data.Type || !data.IconID || !data.ColorID) {
+                        Swal.fire("Thiếu thông tin", "Vui lòng điền đầy đủ 4 ô.", "warning");
+                        return;
+                    }
+
+                    // Kiểm tra xem đây là TẠO MỚI hay CẬP NHẬT
+                    let url = '/api/category';
+                    let method = 'POST';
+
+                    if (currentEditCategoryId) {
+                        // Đây là CẬP NHẬT (Sửa)
+                        url = `/api/category/${currentEditCategoryId}`;
+                        method = 'PUT';
+                    }
+
+                    try {
+                        const response = await fetch(url, {
+                            method: method, // Dùng POST hoặc PUT
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        });
+
+                        if (response.ok) {
+                            const successTitle = currentEditCategoryId ? "Cập nhật thành công!" : "Tạo thành công!";
+                            Swal.fire({ icon: "success", title: successTitle, showConfirmButton: false, timer: 1500 });
+
+                            loadPageData(); // Tải lại list
+                            resetCreateForm(); // Reset form về trạng thái "Tạo mới"
+
+                        } else {
+                            const errorData = await response.json();
+                            Swal.fire("Lỗi!", errorData.message || "Vui lòng kiểm tra lại.", "error");
+                        }
+                    } catch (error) {
+                        Swal.fire("Lỗi kết nối!", "Không thể kết nối đến server.", "error");
+                    }
+                });
+            }
+
+            // 11. BẮT SỰ KIỆN BẤM NÚT SỬA/XÓA
+            [incomeListContainer, expenseListContainer].forEach(container => {
+                container.addEventListener('click', function(e) {
+                    const editBtn = e.target.closest('.btn-edit');
+                    const deleteBtn = e.target.closest('.btn-delete');
+
+                    if (editBtn) {
+                        const categoryId = editBtn.dataset.id;
+                        handleEdit(categoryId);
+                    }
+
+                    if (deleteBtn) {
+                        const categoryId = deleteBtn.dataset.id;
+                        handleDelete(categoryId);
+                    }
+                });
+            });
+
+            // 12. HÀM XỬ LÝ KHI BẤM NÚT XÓA
+            function handleDelete(categoryId) {
+                Swal.fire({
+                    title: 'Bạn có chắc không?',
+                    text: "Bạn sẽ không thể hoàn tác hành động này!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Vâng, xóa nó đi!',
+                    cancelButtonText: 'Hủy'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            const response = await fetch(`/api/category/${categoryId}`, {
+                                method: 'DELETE'
+                            });
+
+                            if (response.ok) {
+                                Swal.fire('Đã xóa!', 'Category của bạn đã được xóa.', 'success');
+                                loadPageData(); // Tải lại toàn bộ trang
+                            } else {
+                                const error = await response.json();
+                                Swal.fire('Lỗi!', error.message || 'Xóa thất bại.', 'error');
+                            }
+                        } catch (error) {
+                            Swal.fire('Lỗi kết nối!', 'Không thể kết nối đến server.', 'error');
+                        }
+                    }
+                });
+            }
+
+            // 13. HÀM XỬ LÝ KHI BẤM NÚT SỬA
+            async function handleEdit(categoryId) {
+                try {
+                    // 1. Gọi API GET /api/category/{id}
+                    const response = await fetch(`/api/category/${categoryId}`);
+                    if (!response.ok) {
+                        Swal.fire('Lỗi!', 'Không thể tìm thấy category này.', 'error');
+                        return;
+                    }
+
+                    const cat = await response.json();
+
+                    // 2. "Fill" dữ liệu vào form bên trái
+                    createForm.querySelector('[name="CategoryName"]').value = cat.categoryName;
+                    createForm.querySelector('[name="Type"]').value = cat.type;
+
+                    // Cập nhật Icon picker
+                    iconHiddenInput.value = cat.iconID;
+                    iconPreview.innerHTML = `<i class="${cat.icon.iconClass}"></i> ${cat.icon.iconName}`;
+                    iconPreview.classList.remove('text-muted');
+
+                    // Cập nhật Color picker
+                    colorHiddenInput.value = cat.colorID;
+                    colorPreview.innerHTML = `
+                        <span style="width: 20px; height: 20px; background-color:${cat.color.hexCode}; border-radius: 50%; display: inline-block; border: 1px solid #ddd;"></span>
+                        ${cat.color.colorName}
+                    `;
+                    colorPreview.classList.remove('text-muted');
+
+                    // 3. Đổi nút "Create" thành "Update"
+                    submitButton.textContent = "Lưu thay đổi";
+                    submitButton.classList.remove('btn-success');
+                    submitButton.classList.add('btn-primary'); // (Đổi sang màu xanh dương)
+
+                    // 4. Lưu ID đang sửa
+                    currentEditCategoryId = categoryId;
+
+                    // 5. Scroll lên đầu trang để user thấy form
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                } catch(error) {
+                    console.error("Lỗi khi lấy dữ liệu sửa:", error);
+                    Swal.fire('Lỗi!', 'Không thể lấy dữ liệu để sửa.', 'error');
+                }
+            }
+
+            // 14. HÀM RESET FORM
+            function resetCreateForm() {
+                createForm.reset();
+
+                submitButton.textContent = "Create new category";
+                submitButton.classList.add('btn-success');
+                submitButton.classList.remove('btn-primary');
+
+                iconPreview.innerHTML = 'Choose icon...';
+                iconPreview.classList.add('text-muted');
+                iconHiddenInput.value = '';
+
+                colorPreview.innerHTML = 'Choose color...';
+                colorPreview.classList.add('text-muted');
+                colorHiddenInput.value = '';
+
+                currentEditCategoryId = null;
+            }
+
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 }

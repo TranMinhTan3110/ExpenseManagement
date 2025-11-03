@@ -15,8 +15,6 @@ namespace QuanLyChiTieu_WebApp.Controllers
         {
             _settingsService = settingsService;
         }
-
-        // [GET] /Settings/Profile
         [HttpGet]
         public async Task<IActionResult> Profile()
         {

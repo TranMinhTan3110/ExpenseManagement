@@ -111,6 +111,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
             context.Identity.AddClaims(claims);
         };
     });
+//Đăng ký CategoryService
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 // --- GỌI BUILD() SAU KHI ĐĂNG KÝ XONG ---
 var app = builder.Build();
 
@@ -140,5 +142,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");
+
 
 app.Run();
