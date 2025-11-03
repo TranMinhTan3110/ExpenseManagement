@@ -66,8 +66,13 @@
                                             </div>
                                             <div class="col-xxl-12 col-12 mb-3">
                                                 <div class="d-flex align-items-center">
-                                                    <img class="me-3 rounded-circle me-0 me-sm-3"
-                                                         src="~/asset/img/Avatar.jpg" width="55" height="55" alt="">
+                                                    <img id="avatar-preview"
+                                                         class="me-3 rounded-circle me-0 me-sm-3"
+                                                         src="@Url.Content(string.IsNullOrEmpty(Model.CurrentAvatarUrl)
+                                                                            ? "~/asset/img/AvatarDefault.jpg" 
+                                                                            : Model.CurrentAvatarUrl)"
+                                                         width="55" height="55" alt="Avatar">
+
                                                     <div class="media-body">
                                                         <h4 class="mb-0">@Model.AvatarForm.FullName</h4>
                                                         <p class="mb-0">Max file size is 20mb</p>
@@ -76,7 +81,7 @@
                                             </div>
                                             <div class="col-xxl-12 col-12 mb-3">
                                                 <div class="form-file">
-                                                    <input type="file" class="form-file-input" id="customFile">
+                                                    <input asp-for="AvatarForm.AvatarFile" type="file" class="form-file-input" id="customFile" accept="image/*">
                                                     <label class="form-file-label" for="customFile">
                                                         <span class="form-file-text">Choose file...</span>
                                                         <span class="form-file-button">Browse</span>

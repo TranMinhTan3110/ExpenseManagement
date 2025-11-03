@@ -6,6 +6,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BCrypt.Net;
 using System.Globalization;
+using Microsoft.AspNetCore.Hosting; 
+using System.IO;
 
 namespace QuanLyChiTieu_WebApp.Services
 {
@@ -13,11 +15,15 @@ namespace QuanLyChiTieu_WebApp.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly ILoginServices _loginServices;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public SettingsService(ApplicationDbContext context, ILoginServices loginServices)
+        public SettingsService(ApplicationDbContext context,
+                           ILoginServices loginServices,
+                           IWebHostEnvironment webHostEnvironment) 
         {
             _context = context;
             _loginServices = loginServices;
+            _webHostEnvironment = webHostEnvironment; 
         }
 
         private string GetUserId(ClaimsPrincipal userClaimsPrincipal)
@@ -56,7 +62,9 @@ namespace QuanLyChiTieu_WebApp.Services
                 // 1. Kiểm tra xem có phải tài khoản Google không
                 IsExternalUser = (user.PasswordHash == "EXTERNAL_AUTH_ONLY"),
                 // 2. Lấy email hiện tại
-                CurrentEmail = user.Email
+                CurrentEmail = user.Email,
+                //3. AvatarUrl (nếu cần)
+                CurrentAvatarUrl = user.AvatarUrl
             };
 
             return viewModel;
@@ -69,11 +77,44 @@ namespace QuanLyChiTieu_WebApp.Services
             var user = await _context.Users.FindAsync(userId);
             if (user == null) return new UpdateProfileResult { Success = false, ErrorMessage = "Không tìm thấy user." };
 
+            // 1. Cập nhật FullName (đã có)
             user.FullName = model.FullName;
-            // TODO: Thêm logic xử lý upload file "model.AvatarFile" ở đây
 
+            // 2. Xử lý logic upload file
+            if (model.AvatarFile != null && model.AvatarFile.Length > 0)
+            {
+                // (Tùy chọn: Xóa file avatar cũ nếu có)
+                if (!string.IsNullOrEmpty(user.AvatarUrl))
+                {
+                    var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, user.AvatarUrl.TrimStart('/'));
+                    if (File.Exists(oldFilePath))
+                    {
+                        File.Delete(oldFilePath);
+                    }
+                }
+
+                // Tạo đường dẫn và tên file mới (dùng UserID + extension để đảm bảo là duy nhất)
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", "avatars");
+                string uniqueFileName = user.UserID + Path.GetExtension(model.AvatarFile.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                // Đảm bảo thư mục tồn tại
+                Directory.CreateDirectory(uploadsFolder);
+
+                // Lưu file mới vào thư mục
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.AvatarFile.CopyToAsync(fileStream);
+                }
+
+                // 3. Cập nhật đường dẫn vào CSDL (phải là đường dẫn web, không phải đường dẫn vật lý)
+                user.AvatarUrl = "/uploads/avatars/" + uniqueFileName;
+            }
+
+            // 4. Lưu thay đổi vào CSDL
             _context.Update(user);
             await _context.SaveChangesAsync();
+
             return new UpdateProfileResult { Success = true };
         }
 
