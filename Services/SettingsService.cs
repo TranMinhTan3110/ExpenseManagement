@@ -52,7 +52,11 @@ namespace QuanLyChiTieu_WebApp.Services
                     DateOfBirth = user.DateOfBirth.HasValue
                                   ? user.DateOfBirth.Value.ToString("yyyy-MM-dd")
                                   : null
-                }
+                },
+                // 1. Kiểm tra xem có phải tài khoản Google không
+                IsExternalUser = (user.PasswordHash == "EXTERNAL_AUTH_ONLY"),
+                // 2. Lấy email hiện tại
+                CurrentEmail = user.Email
             };
 
             return viewModel;
@@ -74,47 +78,82 @@ namespace QuanLyChiTieu_WebApp.Services
         }
 
         // HÀM CHO FORM 2 (SECURITY)
+        // Trong Services/SettingsService.cs
         public async Task<UpdateProfileResult> UpdateSecurityAsync(ClaimsPrincipal userClaimsPrincipal, UpdateSecurityViewModel model)
         {
             var userId = GetUserId(userClaimsPrincipal);
             var user = await _context.Users.FindAsync(userId);
             if (user == null) return new UpdateProfileResult { Success = false, ErrorMessage = "Không tìm thấy user." };
 
-            if (string.IsNullOrEmpty(model.CurrentPassword))
-                return new UpdateProfileResult { Success = false, ErrorMessage = "Mật khẩu hiện tại là bắt buộc." };
+            bool isExternal = (user.PasswordHash == "EXTERNAL_AUTH_ONLY");
+            bool changed = false;
 
-            if (user.PasswordHash != "EXTERNAL_AUTH_ONLY")
+            // --- 1. LOGIC CHO USER GOOGLE ---
+            if (isExternal)
             {
+                // Yêu cầu 1: Cấm đổi email
+                if (!string.IsNullOrEmpty(model.NewEmail))
+                {
+                    return new UpdateProfileResult { Success = false, ErrorMessage = "Không thể thay đổi email của tài khoản liên kết Google." };
+                }
+
+                // Cho phép đặt mật khẩu lần đầu (không cần CurrentPassword)
+                if (!string.IsNullOrEmpty(model.NewPassword))
+                {
+                    if (model.NewPassword != model.ConfirmNewPassword)
+                        return new UpdateProfileResult { Success = false, ErrorMessage = "Mật khẩu mới không khớp." };
+
+                    user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+                    changed = true;
+                }
+            }
+            // --- 2. LOGIC CHO USER THƯỜNG ---
+            else
+            {
+                // Kiểm tra xem có yêu cầu thay đổi gì không
+                if (string.IsNullOrEmpty(model.NewEmail) && string.IsNullOrEmpty(model.NewPassword))
+                    return new UpdateProfileResult { Success = false, ErrorMessage = "Không có thông tin nào được thay đổi." };
+
+                // Bắt buộc phải có mật khẩu hiện tại
+                if (string.IsNullOrEmpty(model.CurrentPassword))
+                    return new UpdateProfileResult { Success = false, ErrorMessage = "Mật khẩu hiện tại là bắt buộc." };
+
                 bool isPasswordValid = BCrypt.Net.BCrypt.Verify(model.CurrentPassword, user.PasswordHash);
                 if (!isPasswordValid)
                     return new UpdateProfileResult { Success = false, ErrorMessage = "Mật khẩu hiện tại không chính xác." };
+
+                // Mật khẩu đúng, giờ kiểm tra các thay đổi
+                if (!string.IsNullOrEmpty(model.NewEmail) && user.Email != model.NewEmail)
+                {
+                    if (await _loginServices.CheckEmailExistsAsync(model.NewEmail))
+                        return new UpdateProfileResult { Success = false, ErrorMessage = "Email mới đã được sử dụng." };
+
+                    user.Email = model.NewEmail;
+                    changed = true;
+                }
+
+                if (!string.IsNullOrEmpty(model.NewPassword))
+                {
+                    if (model.NewPassword != model.ConfirmNewPassword)
+                        return new UpdateProfileResult { Success = false, ErrorMessage = "Mật khẩu mới không khớp." };
+
+                    user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+                    changed = true;
+                }
             }
 
-            bool changed = false;
-            if (!string.IsNullOrEmpty(model.NewEmail) && user.Email != model.NewEmail)
-            {
-                // ... (Logic kiểm tra email trùng)
-                user.Email = model.NewEmail;
-                changed = true;
-            }
-
-            if (!string.IsNullOrEmpty(model.NewPassword))
-            {
-                // ... (Logic đổi mật khẩu)
-                changed = true;
-            }
-
-            if (!changed) return new UpdateProfileResult { Success = false, ErrorMessage = "Không có thông tin nào được thay đổi." };
+            // Nếu không có gì thay đổi (ví dụ: user Google chỉ bấm Save)
+            if (!changed)
+                return new UpdateProfileResult { Success = false, ErrorMessage = "Không có thông tin nào được thay đổi." };
 
             _context.Update(user);
             await _context.SaveChangesAsync();
 
-            if (!string.IsNullOrEmpty(model.NewEmail) && user.Email == model.NewEmail)
+            // Nếu user thường vừa đổi email, làm mới cookie của họ
+            if (changed && !isExternal && !string.IsNullOrEmpty(model.NewEmail) && user.Email == model.NewEmail)
             {
-                // Nếu email đã được thay đổi, phát hành lại cookie
                 await _loginServices.SignInUserAsync(user);
             }
-            // ----------------------------------------
 
             return new UpdateProfileResult { Success = true };
         }

@@ -62,7 +62,7 @@
                                             <div class="col-xxl-12 col-12 mb-3">
                                                 <label class="form-label">Current Email</label>
                                                 <input type="email" class="form-control"
-                                                       value="@User.FindFirstValue(System.Security.Claims.ClaimTypes.Email)" readonly>
+                                                       value="@Model.CurrentEmail" readonly>
                                             </div>
                                             <div class="col-xxl-12 col-12 mb-3">
                                                 <div class="d-flex align-items-center">
@@ -98,39 +98,54 @@
                                 </div>
                                 <div class="card-body">
                                     <form id="security-form" asp-controller="Settings" asp-action="UpdateSecurity" method="post">
-                                        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
-                                        @if (ViewBag.SuccessMessage != null)
-                                        {
-                                            <div class="alert alert-success">@ViewBag.SuccessMessage</div>
-                                        }
                                         <div class="row g-3">
-                                            <div class="col-12 mb-3">
-                                                <label class="form-label">New Email</label>
-                                                <input asp-for="SecurityForm.NewEmail" type="email" class="form-control" placeholder="Để trống nếu không đổi">
-                                            </div>
-                                            <div class="col-12 mb-3">
-                                                <label class="form-label">Current Password (Required)</label>
-                                                <div class="input-group">
-                                                    <input id="current-password" asp-for="SecurityForm.CurrentPassword" type="password" class="form-control"
-                                                           placeholder="**********" required>
 
-                                                    <button class="btn btn-outline-secondary" type="button" id="toggle-current-password">
-                                                        <i class="fa fa-eye"></i>
-                                                    </button>
+                                            @if (Model.IsExternalUser)
+                                            {
+                                                <div class="col-12 mb-3">
+                                                    <label class="form-label">Email (Liên kết Google)</label>
+                                                    <input type="email" class="form-control" value="@Model.CurrentEmail" readonly>
+                                                    <small class="form-text text-muted">Không thể thay đổi email của tài khoản liên kết.</small>
                                                 </div>
-                                            </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-12 mb-3">
+                                                    <label class="form-label">New Email</label>
+                                                    <input asp-for="SecurityForm.NewEmail" type="email" class="form-control" placeholder="Để trống nếu không đổi">
+                                                </div>
+                                            }
+
+
+                                            @if (!Model.IsExternalUser)
+                                            {
+                                                <div class="col-12 mb-3">
+                                                    <label class="form-label">Current Password (Required)</label>
+                                                    <div class="input-group">
+                                                        <input id="current-password" asp-for="SecurityForm.CurrentPassword" type="password" class="form-control"
+                                                               placeholder="**********">
+                                                        <button class="btn btn-outline-secondary" type="button" id="toggle-current-password">
+                                                            <i class="fa fa-eye"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <input asp-for="SecurityForm.CurrentPassword" type="hidden" />
+                                            }
 
                                             <div class="col-12 mb-3">
-                                                <label class="form-label">New Password</label>
+                                                <label class="form-label">@(Model.IsExternalUser ? "Set Password" : "New Password")</label>
                                                 <input asp-for="SecurityForm.NewPassword" type="password" class="form-control"
-                                                       placeholder="Để trống nếu không đổi">
+                                                       placeholder="@(Model.IsExternalUser ? "Đặt mật khẩu để đăng nhập thường" : "Để trống nếu không đổi")">
                                             </div>
-
                                             <div class="col-12 mb-3">
                                                 <label class="form-label">Confirm New Password</label>
                                                 <input asp-for="SecurityForm.ConfirmNewPassword" type="password" class="form-control"
-                                                       placeholder="Để trống nếu không đổi">
+                                                       placeholder="Nhập lại mật khẩu mới">
                                             </div>
+
                                             <div class="col-12 col-12 mb-3">
                                                 <button type="submit" class="btn btn-primary">Save</button>
                                             </div>
