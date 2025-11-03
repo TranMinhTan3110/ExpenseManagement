@@ -232,5 +232,18 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 return Json(new { status = WebConstants.ERROR, message = "Đã xảy ra lỗi hệ thống." });
             }
         }
+        [AllowAnonymous]
+        [HttpGet] // Quan trọng: Đây là [HttpGet]
+        public IActionResult ExternalLogin(string provider)
+        {
+            // Yêu cầu ASP.NET Core chuyển hướng đến Google
+            // Sau khi Google OK, nó sẽ chuyển hướng về /Dashboard/Index
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("Index", "DashBoard")
+            };
+
+            return Challenge(properties, provider);
+        }
     }
 }
