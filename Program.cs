@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+
 using QuanLyChiTieu_WebApp.Models;
 using QuanLyChiTieu_WebApp.Models.EF;
+using QuanLyChiTieu_WebApp.Models.Entities;
 using QuanLyChiTieu_WebApp.Services;
+using System;
 using System.Security.Claims;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +41,7 @@ builder.Services.AddSession(options =>
 });
 
 
+
 // Thêm HttpContextAccessor để có thể truy cập HttpContext từ các service khác
 builder.Services.AddHttpContextAccessor();
 
@@ -50,6 +54,10 @@ builder.Services.AddScoped<ILoginServices, LoginServices>();
 
 // Đăng ký EmailService
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+// Đăng ký GoalsServices
+builder.Services.AddScoped<IGoalService, GoalService>();
+
 
 // Đăng ký SettingsService
 builder.Services.AddScoped<ISettingsService, SettingsService>();
