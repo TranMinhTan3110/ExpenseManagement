@@ -66,7 +66,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
                     authProperties);
 
                 // 3. Cập nhật LastLogin
-                await _loginServices.UpdateLastLoginAsync(user);
+                await _loginServices.UpdateLastLoginAsync(user.UserID);
 
                 return Json(new { status = WebConstants.SUCCESS });
             }

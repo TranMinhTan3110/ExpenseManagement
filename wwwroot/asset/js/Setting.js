@@ -51,5 +51,15 @@
             }
         });
     });
-
+    $("#customFile").on("change", function (event) {
+        var file = event.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                // Hiển thị ảnh preview
+                $("#avatar-preview").attr("src", e.target.result);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
 });

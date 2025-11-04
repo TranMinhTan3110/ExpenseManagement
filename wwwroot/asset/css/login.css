@@ -1,6 +1,6 @@
 ﻿body {
     font-family: "Inter", sans-serif;
-    background-image: url("/asset/img/backgroundBigg.jpg");
+    background-image: url("/asset/img/background.png");
     background-size: cover;
     background-position: center;
 }
@@ -48,12 +48,26 @@
   padding-left: 30px;
   padding-top: 30px;
 }
-.welcome-content .welcome-title h3,
-.welcome-content .welcome-title .h3 {
-  color: #fff;
-  font-size: 18px;
-  margin-top: 20px;
-  font-family: sans-serif;
+    .welcome-content .welcome-title h3,
+    .welcome-content .welcome-title .h3 {
+        font-size: 28px; /* to hơn */
+        font-weight: 700; /* đậm hơn */
+        color: #ffffff; /* giữ trắng */
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* hiệu ứng đổ bóng nhẹ */
+        letter-spacing: 0.5px; /* giãn chữ nhẹ */
+        animation: fadeInDown 1s ease-in-out;
+    }
+/* Hiệu ứng mờ dần hiện xuống */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 .welcome-content .privacy-social {
   position: absolute;
@@ -119,7 +133,7 @@
   transition: transform 200ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 200ms;
 }
 .mt-3.d-grid.gap-2:hover {
-  transform: scale(1.08);
+  transform: scale(0.99);
   box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
   outline: none;
 }
@@ -129,4 +143,44 @@
 }
 .google:hover{
         background-color: #f5f5f5;
+}
+/* ----- THÊM MỚI CSS CHO LOADER ----- */
+
+/* Lớp phủ mờ toàn màn hình */
+#loader-overlay {
+    display: none; /* Ẩn đi theo mặc định */
+    position: fixed; /* Che toàn bộ màn hình */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7); /* Màu trắng mờ */
+    z-index: 9998; /* Nằm trên mọi thứ */
+}
+
+/* Biểu tượng quay tròn (spinner) */
+.loader-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin-left: -25px; /* Căn giữa (một nửa chiều rộng) */
+    margin-top: -25px; /* Căn giữa (một nửa chiều cao) */
+    border: 5px solid #f3f3f3; /* Vòng màu xám nhạt */
+    border-top: 5px solid #3498db; /* Vòng màu xanh */
+    border-radius: 50%;
+    animation: spin 1s linear infinite; /* Animation quay */
+    z-index: 9999;
+}
+
+/* Keyframe cho animation quay */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

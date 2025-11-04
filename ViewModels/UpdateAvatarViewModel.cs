@@ -7,6 +7,6 @@ namespace QuanLyChiTieu_WebApp.ViewModels
         public string FullName { get; set; }
 
         // Sẽ dùng cho logic upload file sau
-        // public IFormFile AvatarFile { get; set; }
+        public IFormFile AvatarFile { get; set; }
     }
 }

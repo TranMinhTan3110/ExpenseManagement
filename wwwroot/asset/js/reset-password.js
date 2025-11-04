@@ -4,14 +4,16 @@
 
         var newPassword = $("#newPassword").val();
         var confirmPassword = $("#confirmPassword").val();
+        var formData = $(this).serialize();
+        var actionUrl = $(this).attr("action");
 
         if (newPassword !== confirmPassword) {
             Swal.fire('Lỗi', 'Mật khẩu không khớp.', 'error');
             return;
         }
 
-        var formData = $(this).serialize(); // Gói toàn bộ form (gồm cả token ẩn)
-        var actionUrl = $(this).attr("action");
+        // --- 1. HIỆN LOADER ---
+        $("#loader-overlay").show();
 
         $.ajax({
             type: "POST",
@@ -19,13 +21,16 @@
             data: formData,
             dataType: "json",
             success: function (response) {
+                // --- 2. ẨN LOADER ---
+                $("#loader-overlay").hide();
+
+                // 3. Hiện SweetAlert
                 if (response.status === 'success') {
                     Swal.fire({
                         icon: 'success',
                         title: 'Thành công!',
                         text: response.message,
                     }).then(function () {
-                        // Chuyển về trang đăng nhập
                         window.location.href = '/Login/Index';
                     });
                 } else {
@@ -33,6 +38,10 @@
                 }
             },
             error: function () {
+                // --- 2. ẨN LOADER (Khi bị lỗi) ---
+                $("#loader-overlay").hide();
+
+                // 3. Hiện SweetAlert
                 Swal.fire('Lỗi', 'Không thể kết nối đến máy chủ.', 'error');
             }
         });
