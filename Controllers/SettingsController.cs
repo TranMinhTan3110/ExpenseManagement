@@ -77,13 +77,45 @@ namespace QuanLyChiTieu_WebApp.Controllers
         {
             return View();
         }
-        public IActionResult Support()
+
+        // --- SỬA ACTION NÀY (từ [GET] thường sang [GET] async) ---
+        [HttpGet]
+        public async Task<IActionResult> Support()
         {
-            return View();
+            // Lấy dữ liệu ticket từ service
+            var viewModel = await _settingsService.GetSupportViewModelAsync(User);
+            return View(viewModel); // Gửi model ra View
         }
+
+        // --- SỬA ACTION NÀY ([GET] không đổi) ---
+        [HttpGet]
         public IActionResult CreateTicket()
         {
+            // Chỉ cần trả về view rỗng để điền form
             return View();
+        }
+
+        // --- THÊM ACTION MỚI NÀY ([POST] CreateTicket) ---
+        [HttpPost]
+        public async Task<IActionResult> CreateTicket(CreateTicketViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                // Có lỗi (ví dụ: bỏ trống description), trả về form với lỗi
+                return View(model);
+            }
+
+            // Gọi service để lưu
+            var result = await _settingsService.CreateTicketAsync(User, model);
+
+            if (!result.Success)
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(model);
+            }
+
+            // Thành công, chuyển hướng về trang danh sách ticket
+            return RedirectToAction("Support");
         }
     }
 }
