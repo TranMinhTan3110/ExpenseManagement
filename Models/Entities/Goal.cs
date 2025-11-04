@@ -13,6 +13,7 @@
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime? CompletionDate { get; set; }
 
         // Navigation properties
         public User User { get; set; }
