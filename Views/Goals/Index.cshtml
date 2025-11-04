@@ -1,934 +1,412 @@
-﻿ @{
+﻿@model QuanLyChiTieu_WebApp.ViewModels.GoalsIndexViewModel
 
-ViewData["Title"] = "Goals";
-
+@{
+    ViewData["Title"] = "Goals";
 }
 
 @section Styles {
-
-<link rel="stylesheet" href="~/asset/css/Goals.css"/>
-
-@* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/> *@
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-
-
+    <link rel="stylesheet" href="~/asset/css/Goals.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 }
 
-@section Scripts {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-    <script>
-        // Đợi cho trang tải xong (sử dụng cú pháp của jQuery)
-        $(document).ready(function() {
-
-            // --- 1. Xử lý active state cho goals-nav ---
-
-
-            // --- 2. Kích hoạt lịch flatpickr ---
-            // Đảm bảo selector của bạn đúng, ở đây là #goal-datepicker
-            flatpickr("#goal-datepicker", {
-                wrap: true, // Quan trọng để click vào icon
-                dateFormat: "d-m-Y",
-            });
-
-        });
-    </script>
+<!-- Thêm CSRF Token cho AJAX -->
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@{
+    var requestToken = Antiforgery.GetAndStoreTokens(Context).RequestToken;
 }
+<input type="hidden" name="__RequestVerificationToken" value="@requestToken" />
+
 
 <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="page-title">
-                            <div class="row align-items-center justify-content-between">
-                                <div class="col-xl-4">
-                                    <div class="page-title-content">
-                                        <h3>Goals</h3>
-                                        <p class="mb-2">Welcome Ekash Finance Management</p>
-                                    </div>
-                                </div>
-                                <div class="col-auto mb-3">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-xl-4">
+                        <div class="page-title-content">
+                            <h3>Goals</h3>
+                            <p class="mb-2">Welcome Ekash Finance Management</p>
+                        </div>
+                    </div>
+                    <div class="col-auto mb-3">
                         <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0  ">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Goals</li>
                             </ol>
                         </nav>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <div class="goals-tab">
-                    <div class="row g-0">
-                        <div class="col-xl-3">
-                            <div class="nav d-block" role="tablist">
+            </div>
+        </div>
+    </div>
+
+    @if (!Model.Goals.Any())
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card text-center py-5">
+                    <div class="card-body">
+                        <i class="fi fi-rr-target" style="font-size: 64px; color: #ccc;"></i>
+                        <h4 class="mt-3">Chưa có mục tiêu nào</h4>
+                        <p class="text-muted">Hãy tạo mục tiêu đầu tiên của bạn để bắt đầu tiết kiệm!</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGoalModal">
+                            <i class="fi fi-rr-plus"></i> Thêm mục tiêu mới
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="goals-tab">
+            <div class="row g-0">
+                <div class="col-xl-3">
+                    <div class="nav d-block" role="tablist">
+                        <div class="row">
+                            @for (int i = 0; i < Model.Goals.Count; i++)
+                            {
+                                var goal = Model.Goals[i];
+                                var isActive = i == 0 ? "active" : "";
+                                var tabId = $"goal-{goal.GoalID}";
+                                
+                                <div class="col-xl-12 col-md-6">
+                                    <div class="goals-nav @isActive" data-bs-toggle="pill" data-bs-target="#@tabId" role="tab">
+                                        <div class="goals-nav-circle">
+                                            <div id="circle@(i+5)">
+                                                <canvas width="75" height="75" style="height: 50px; width: 50px;"></canvas>
+                                            </div>
+                                            <span class="percent-goal">@goal.ProgressPercentage%</span>
+                                        </div>
+                                        <div class="goals-nav-text">
+                                            <h3>@goal.GoalName</h3>
+                                            <p><strong>@goal.CurrentAmount.ToString("C0")</strong> / @goal.TargetAmount.ToString("C0")</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="add-goals-link" data-bs-toggle="modal" data-bs-target="#addGoalModal">
+                        <h5 class="mb-0">Add new goals</h5>
+                        <a href="javascript:void(0)">
+                            <i class="fi fi-rr-square-plus"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-xl-9">
+                    <div class="tab-content goals-tab-content">
+                        @for (int i = 0; i < Model.Goals.Count; i++)
+                        {
+                            var goal = Model.Goals[i];
+                            var isActive = i == 0 ? "show active" : "";
+                            var tabId = $"goal-{goal.GoalID}";
+
+                            <div class="tab-pane @isActive" id="@tabId" role="tabpanel">
+                                <div class="goals-tab-title d-flex justify-content-between align-items-center">
+                                    <h3>@goal.GoalName</h3>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-success btn-sm px-3" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#depositModal"
+                                                data-goal-id="@goal.GoalID">
+                                            <i class="fi fi-rr-plus"></i> Nạp tiền
+                                        </button>
+                                        <button class="btn btn-danger btn-sm px-3" onclick="deleteGoal(@goal.GoalID)">
+                                            <i class="fi fi-rr-trash"></i> Xóa
+                                        </button>
+                                    </div>
+                                </div>
+
+                                
                                 <div class="row">
-                                    <div class="col-xl-12 col-md-6">
-                                        <div class="goals-nav active"  data-bs-toggle="pill" data-bs-target="#a1" aria-selected="true" role="tab">
-                                            <div class="goals-nav-circle">
-                                                <div id="circle5"><canvas width="75" height="75" style="height: 50px; width: 50px;"></canvas></div>
-                                                <span class="percent-goal">20%</span>
-                                            </div>
-                                            <div class="goals-nav-text">
-                                                <h3>Car</h3>
-                                                <p><strong>$1458.30</strong> / $4580.85</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-md-6">
-                                        <div class="goals-nav"data-bs-toggle="pill" data-bs-target="#a2" aria-selected="false" tabindex="-1" role="tab">
-                                            <div class="goals-nav-circle">
-                                                <div id="circle6"><canvas width="75" height="75" style="height: 50px; width: 50px;"></canvas></div>
-                                    <span class="percent-goal">20%</span>
-                                            </div>
-                                            <div class="goals-nav-text">
-                                                <h3>Laptop</h3>
-                                                <p><strong>$1458.30</strong> / $4580.85</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-md-6">
-                                        <div class="goals-nav"data-bs-toggle="pill" data-bs-target="#a3" aria-selected="false" tabindex="-1" role="tab">
-                                            <div class="goals-nav-circle">
-                                                <div id="circle7"><canvas width="75" height="75" style="height: 50px; width: 50px;"></canvas></div>
-                                    <span class="percent-goal">20%</span>
-                                            </div>
-                                            <div class="goals-nav-text">
-                                                <h3>Vacation</h3>
-                                                <p><strong>$1458.30</strong> / $4580.85</p>
+                                    <!-- Progress Card -->
+                                    <div class="col-xl-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between card-save">
+                                                    <div>
+                                                        <span>Saved</span>
+                                                        <h3>@goal.CurrentAmount.ToString("C2")</h3>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <span>Goals</span>
+                                                        <h3>@goal.TargetAmount.ToString("C2")</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar" style="width: @goal.ProgressPercentage%;" role="progressbar"></div>
+                                                </div>
+                                                <div class="d-flex justify-content-between mt-2 card-save">
+                                                    <span>@goal.ProgressPercentage%</span>
+                                                    <span>@(100 - goal.ProgressPercentage)%</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-12 col-md-6">
-                                        <div class="goals-nav"data-bs-toggle="pill" data-bs-target="#a4" aria-selected="false" tabindex="-1" role="tab">
-                                            <div class="goals-nav-circle">
-                                                <div id="circle8"><canvas width="75" height="75" style="height: 50px; width: 50px;"></canvas></div>
-                                    <span class="percent-goal">20%</span>
-                                            </div>
-                                            <div class="goals-nav-text">
-                                                <h3>Phone</h3>
-                                                <p><strong>$1458.30</strong> / $4580.85</p>
+
+                                    <!-- Statistics Card -->
+                                    <div class="col-xxl-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                                                        <div class="goals-widget">
+                                                            <p>Last Month</p>
+                                                            <h3>@goal.LastMonthSavings.ToString("C0")</h3>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                                                        <div class="goals-widget">
+                                                            <p>Expenses</p>
+                                                            <h3>@goal.TotalExpenses.ToString("C0")</h3>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                                                        <div class="goals-widget">
+                                                            <p>Taxes</p>
+                                                            <h3>@goal.TotalTaxes.ToString("C2")</h3>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                                                        <div class="goals-widget">
+                                                            <p>Debt</p>
+                                                            <h3>@goal.TotalDebt.ToString("C0")</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- Available by Wallet -->
+                                    @if (goal.WalletContributions.Any())
+                                    {
+                                        <div class="col-xl-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h4 class="card-title">Available by Wallet</h4>
+                                                </div>
+                                                <div class="card-body available-wallet">
+                                                    @foreach (var wallet in goal.WalletContributions)
+                                                    {
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <div class="d-flex flex-grow-2 goals-wallet-progress">
+                                                                <div class="goals-icon">
+                                                                    <span class="@wallet.ColorClass"><i class="@wallet.IconClass"></i></span>
+                                                                </div>
+                                                                <div class="goals-info flex-grow-2 me-3">
+                                                                    <div class="d-flex justify-content-between mb-1">
+                                                                        <h5 class="mb-1">@wallet.WalletName</h5>
+                                                                        <p class="mb-0">@wallet.Amount.ToString("C0")</p>
+                                                                    </div>
+                                                                    <div class="progress">
+                                                                        <div class="progress-bar" role="progressbar" style="width: @wallet.ProgressPercentage%;"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <!-- History -->
+                                    @if (goal.DepositHistory.Any())
+                                    {
+                                        <div class="col-xl-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h4 class="card-title">History</h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table mb-0 table-responsive-sm goals-history-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Date</th>
+                                                                    <th>Wallet</th>
+                                                                    <th>Description</th>
+                                                                    <th>Amount</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var history in goal.DepositHistory)
+                                                                {
+                                                                    <tr>
+                                                                        <td><span><i class="fi fi-rr-calendar"></i></span> @history.Date.ToString("dd MMM yyyy")</td>
+                                                                        <td><span><i class="fi fi-rr-credit-card"></i></span> @history.WalletName</td>
+                                                                        <td>@history.Description</td>
+                                                                        <td>
+                                                                            <h5>+@history.Amount.ToString("C2")</h5>
+                                                                            <span>@history.Balance.ToString("C2")</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
-                            <div class="add-goals-link" data-bs-toggle="modal" data-bs-target="#addGoalModal">
-                                <h5 class="mb-0">Add new goals</h5>
-                                <a href="add-new-account.html">
-                                    <i class="fi fi-rr-square-plus"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xl-9">
-                            <div class="tab-content goals-tab-content">
-                                <div class="tab-pane show active" id="a1" role="tabpanel">
-                                    <div class="goals-tab-title">
-                                        <h3>Car</h3>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between card-save">
-                                                        <div>
-                                                            <span>Saved</span>
-                                                            <h3>$1458.30</h3>
-                                                        </div>
-                                                        <div class="text-end">
-                                                            <span>Goals</span>
-                                                            <h3>$1458.30</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" style="width: 25%;" role="progressbar">
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between mt-2 card-save">
-                                                        <span>25%</span>    
-                                                        <span>75%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xxl-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Last Month</p>
-                                                                <h3>$42,678</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Expenses</p>
-                                                                <h3>$1,798</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Taxes</p>
-                                                                <h3>$255.25</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Debt</p>
-                                                                <h3>$365,478</h3>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4 class="card-title">Available by Wallet</h4>
-                                                </div>
-                                                <div class="card-body available-wallet">
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex flex-grow-2 goals-wallet-progress">
-                                                            <div class="goals-icon">
-                                                                <span class="bg-yellow-500"><i class="fi fi-rr-bank"></i></span>
-                                                            </div>
-                                                            <div class="goals-info flex-grow-2 me-3">
-                                                                <div class="d-flex justify-content-between mb-1">
-                                                                    <h5 class="mb-1">City Bank</h5>
-                                                                    <p class="mb-0">150$</p>
-                                                                </div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar" role="progressbar" style="width: 75%;">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex flex-grow-2 goals-wallet-progress">
-                                                            <div class="goals-icon">
-                                                                <span class="bg-indigo-500"><i class="fi fi-rr-money-bills-simple"></i></span>
-                                                            </div>
-                                                            <div class="goals-info flex-grow-2 me-3">
-                                                                <div class="d-flex justify-content-between mb-1">
-                                                                    <h5 class="mb-1">Cash Wallet</h5>
-                                                                    <p class="mb-0">150$</p>
-                                                                </div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex flex-grow-2 goals-wallet-progress">
-                                                            <div class="goals-icon">
-                                                                <span class="bg-purple-500"><i class="fi fi-rr-credit-card"></i></span>
-                                                            </div>
-                                                            <div class="goals-info flex-grow-2 me-3">
-                                                                <div class="d-flex justify-content-between mb-1">
-                                                                    <h5 class="mb-1">Visa Card</h5>
-                                                                    <p class="mb-0">150$</p>
-                                                                </div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4 class="card-title">History </h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="table-responsive">
-                                                        <table class="table mb-0 table-responsive-sm goals-history-table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Date</th>
-                                                                    <th>wallet</th>
-                                                                    <th>Description</th>
-                                                                    <th>Amount</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="a2" role="tabpanel">
-                                    <div class="goals-tab-title">
-                                        <h3>Laptop</h3>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between card-save">
-                                                        <div>
-                                                            <span>Saved</span>
-                                                            <h3>$1458.30</h3>
-                                                        </div>
-                                                        <div class="text-end">
-                                                            <span>Goals</span>
-                                                            <h3>$1458.30</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" style="width: 25%;" role="progressbar">
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between mt-2 card-save">
-                                                        <span>25%</span>
-                                                        <span>75%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xxl-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Last Month</p>
-                                                                <h3>$42,678</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Expenses</p>
-                                                                <h3>$1,798</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Taxes</p>
-                                                                <h3>$255.25</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Debt</p>
-                                                                <h3>$365,478</h3>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4 class="card-title">Available by Wallet</h4>
-                                                </div>
-                                                <div class="card-body available-wallet">
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex flex-grow-2 goals-wallet-progress">
-                                                            <div class="goals-icon">
-                                                                <span class="bg-yellow-500"><i class="fi fi-rr-bank"></i></span>
-                                                            </div>
-                                                            <div class="goals-info flex-grow-2 me-3">
-                                                                <div class="d-flex justify-content-between mb-1">
-                                                                    <h5 class="mb-1">City Bank</h5>
-                                                                    <p class="mb-0">150$</p>
-                                                                </div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar" role="progressbar" style="width: 75%;">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex flex-grow-2 goals-wallet-progress">
-                                                            <div class="goals-icon">
-                                                                <span class="bg-indigo-500"><i class="fi fi-rr-money-bills-simple"></i></span>
-                                                            </div>
-                                                            <div class="goals-info flex-grow-2 me-3">
-                                                                <div class="d-flex justify-content-between mb-1">
-                                                                    <h5 class="mb-1">Cash Wallet</h5>
-                                                                    <p class="mb-0">150$</p>
-                                                                </div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex flex-grow-2 goals-wallet-progress">
-                                                            <div class="goals-icon">
-                                                                <span class="bg-purple-500"><i class="fi fi-rr-credit-card"></i></span>
-                                                            </div>
-                                                            <div class="goals-info flex-grow-2 me-3">
-                                                                <div class="d-flex justify-content-between mb-1">
-                                                                    <h5 class="mb-1">Visa Card</h5>
-                                                                    <p class="mb-0">150$</p>
-                                                                </div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4 class="card-title">History </h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="table-responsive">
-                                                        <table class="table mb-0 table-responsive-sm goals-history-table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Date</th>
-                                                                    <th>wallet</th>
-                                                                    <th>Description</th>
-                                                                    <th>Amount</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="a3" role="tabpanel">
-                                    <div class="goals-tab-title">
-                                        <h3>Vacation</h3>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between card-save">
-                                                        <div>
-                                                            <span>Saved</span>
-                                                            <h3>$1458.30</h3>
-                                                        </div>
-                                                        <div class="text-end">
-                                                            <span>Goals</span>
-                                                            <h3>$1458.30</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" style="width: 25%;" role="progressbar">
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between mt-2 card-save">
-                                                        <span>25%</span>
-                                                        <span>75%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xxl-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Last Month</p>
-                                                                <h3>$42,678</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Expenses</p>
-                                                                <h3>$1,798</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Taxes</p>
-                                                                <h3>$255.25</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Debt</p>
-                                                                <h3>$365,478</h3>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4 class="card-title">Available by Wallet</h4>
-                                                </div>
-                                                <div class="card-body available-wallet">
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex flex-grow-2 goals-wallet-progress">
-                                                            <div class="goals-icon">
-                                                                <span class="bg-yellow-500"><i class="fi fi-rr-bank"></i></span>
-                                                            </div>
-                                                            <div class="goals-info flex-grow-2 me-3">
-                                                                <div class="d-flex justify-content-between mb-1">
-                                                                    <h5 class="mb-1">City Bank</h5>
-                                                                    <p class="mb-0">150$</p>
-                                                                </div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar" role="progressbar" style="width: 75%;">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex flex-grow-2 goals-wallet-progress">
-                                                            <div class="goals-icon">
-                                                                <span class="bg-indigo-500"><i class="fi fi-rr-money-bills-simple"></i></span>
-                                                            </div>
-                                                            <div class="goals-info flex-grow-2 me-3">
-                                                                <div class="d-flex justify-content-between mb-1">
-                                                                    <h5 class="mb-1">Cash Wallet</h5>
-                                                                    <p class="mb-0">150$</p>
-                                                                </div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex flex-grow-2 goals-wallet-progress">
-                                                            <div class="goals-icon">
-                                                                <span class="bg-purple-500"><i class="fi fi-rr-credit-card"></i></span>
-                                                            </div>
-                                                            <div class="goals-info flex-grow-2 me-3">
-                                                                <div class="d-flex justify-content-between mb-1">
-                                                                    <h5 class="mb-1">Visa Card</h5>
-                                                                    <p class="mb-0">150$</p>
-                                                                </div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4 class="card-title">History </h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="table-responsive">
-                                                        <table class="table mb-0 table-responsive-sm goals-history-table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Date</th>
-                                                                    <th>wallet</th>
-                                                                    <th>Description</th>
-                                                                    <th>Amount</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="a4" role="tabpanel">
-                                    <div class="goals-tab-title">
-                                        <h3>Phone</h3>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between card-save">
-                                                        <div>
-                                                            <span>Saved</span>
-                                                            <h3>$1458.30</h3>
-                                                        </div>
-                                                        <div class="text-end">
-                                                            <span>Goals</span>
-                                                            <h3>$1458.30</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" style="width: 25%;" role="progressbar">
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between mt-2 card-save">
-                                                        <span>25%</span>
-                                                        <span>75%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xxl-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Last Month</p>
-                                                                <h3>$42,678</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Expenses</p>
-                                                                <h3>$1,798</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Taxes</p>
-                                                                <h3>$255.25</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="goals-widget">
-                                                                <p>Debt</p>
-                                                                <h3>$365,478</h3>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4 class="card-title">Available by Wallet</h4>
-                                                </div>
-                                                <div class="card-body available-wallet">
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex flex-grow-2 goals-wallet-progress">
-                                                            <div class="goals-icon">
-                                                                <span class="bg-yellow-500"><i class="fi fi-rr-bank"></i></span>
-                                                            </div>
-                                                            <div class="goals-info flex-grow-2 me-3">
-                                                                <div class="d-flex justify-content-between mb-1">
-                                                                    <h5 class="mb-1">City Bank</h5>
-                                                                    <p class="mb-0">150$</p>
-                                                                </div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar" role="progressbar" style="width: 75%;">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex flex-grow-2 goals-wallet-progress">
-                                                            <div class="goals-icon">
-                                                                <span class="bg-indigo-500"><i class="fi fi-rr-money-bills-simple"></i></span>
-                                                            </div>
-                                                            <div class="goals-info flex-grow-2 me-3">
-                                                                <div class="d-flex justify-content-between mb-1">
-                                                                    <h5 class="mb-1">Cash Wallet</h5>
-                                                                    <p class="mb-0">150$</p>
-                                                                </div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex flex-grow-2 goals-wallet-progress">
-                                                            <div class="goals-icon">
-                                                                <span class="bg-purple-500"><i class="fi fi-rr-credit-card"></i></span>
-                                                            </div>
-                                                            <div class="goals-info flex-grow-2 me-3">
-                                                                <div class="d-flex justify-content-between mb-1">
-                                                                    <h5 class="mb-1">Visa Card</h5>
-                                                                    <p class="mb-0">150$</p>
-                                                                </div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4 class="card-title">History </h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="table-responsive">
-                                                        <table class="table mb-0 table-responsive-sm goals-history-table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Date</th>
-                                                                    <th>wallet</th>
-                                                                    <th>Description</th>
-                                                                    <th>Amount</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><span><i class="fi fi-rr-calendar"></i></span> 29 Jan 2024</td>
-                                                                    <td><span><i class="fi fi-rr-credit-card"></i></span> Master Card</td>
-                                                                    <td>Necessities</td>
-                                                                    <td>
-                                                                        <h5>+100.00$</h5>
-                                                                        <span>12.368$</span>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
-                <div class="modal fade" id="addGoalModal" tabindex="-1" aria-labelledby="addGoalModalLabel" aria-hidden="true">
+            </div>
+        </div>
+    }
+
+
+   <!-- Modal Nạp tiền -->
+<div class="modal fade" id="depositModal" tabindex="-1" aria-labelledby="depositModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addGoalModalLabel">Thêm Mục Tiêu Mới</h5>
+                <h5 class="modal-title" id="depositModalLabel">💰 Nạp tiền vào mục tiêu</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
-
             <div class="modal-body">
-                <form id="addGoalForm"> <div class="mb-3">
-                        <label for="goalNameInput" class="form-label">Tên mục tiêu</label>
-                        <input type="text" class="form-control" id="goalNameInput" placeholder="Ví dụ: Mua Laptop mới, Du lịch..." required>
-                    </div>
+                <form id="depositForm">
+                    <!-- Hidden field để lưu GoalID -->
+                    <input type="hidden" id="depositGoalId" />
 
+                    <!-- Chọn ví -->
                     <div class="mb-3">
-                        <label for="goalTargetAmountInput" class="form-label">Số tiền cần đạt</label>
-                        <input type="number" class="form-control" id="goalTargetAmountInput" placeholder="0" required min="0">
+                        <label for="depositWallet" class="form-label">
+                            <i class="fi fi-rr-wallet"></i> Chọn ví
+                        </label>
+                        <select id="depositWallet" class="form-select" required>
+                            <option value="">-- Chọn ví --</option>
+                            @if (ViewBag.Wallets != null)
+                            {
+                                @foreach (var wallet in ViewBag.Wallets)
+                                {
+                                    <option value="@wallet.WalletID">
+                                        @wallet.WalletName - Số dư: @wallet.Balance.ToString("N0") VNĐ
+                                    </option>
+                                }
+                            }
+                        </select>
+                        <small class="text-muted">Chọn ví để chuyển tiền vào mục tiêu</small>
                     </div>
 
+                    <!-- Số tiền -->
+                    <div class="mb-3">
+                        <label for="depositAmount" class="form-label">
+                            <i class="fi fi-rr-money"></i> Số tiền nạp (VNĐ)
+                        </label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="depositAmount" 
+                               placeholder="Nhập số tiền..." 
+                               min="1000" 
+                               step="1000"
+                               required>
+                        <small class="text-muted">Số tiền tối thiểu: 1,000 VNĐ</small>
+                    </div>
+
+                    <!-- Ghi chú (tùy chọn) -->
+                    <div class="mb-3">
+                        <label for="depositNote" class="form-label">
+                            <i class="fi fi-rr-edit"></i> Ghi chú (Tùy chọn)
+                        </label>
+                        <textarea 
+                            class="form-control" 
+                            id="depositNote" 
+                            rows="2" 
+                            placeholder="Ví dụ: Tiết kiệm tháng 1, Thưởng cuối năm..."
+                            maxlength="500"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fi fi-rr-cross"></i> Hủy
+                </button>
+                <button type="submit" class="btn btn-primary" form="depositForm">
+                    <i class="fi fi-rr-check"></i> Xác nhận nạp tiền
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Add Goal Modal -->
+    <div class="modal fade" id="addGoalModal" tabindex="-1" aria-labelledby="addGoalModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addGoalModalLabel">Thêm Mục Tiêu Mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addGoalForm">
+                        <div class="mb-3">
+                            <label for="goalNameInput" class="form-label">Tên mục tiêu</label>
+                            <input type="text" class="form-control" id="goalNameInput" placeholder="Ví dụ: Mua Laptop mới, Du lịch..." required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="goalTargetAmountInput" class="form-label">Số tiền cần đạt</label>
+                            <input type="number" class="form-control" id="goalTargetAmountInput" placeholder="0" required min="1">
+                        </div>
                         <div class="mb-3">
                             <label for="goalTargetDateInput" class="form-label">Ngày dự kiến hoàn thành (Tùy chọn)</label>
                             <div class="input-group input-group-lg date" id="goal-datepicker" data-wrap>
-                                <input type="text" id="goalTargetDateInput" name="TargetDate" class="form-control" placeholder="Chọn ngày..." data-input>
+                                <input type="text" id="goalTargetDateInput" class="form-control" placeholder="Chọn ngày..." data-input>
                                 <span class="input-group-text" data-toggle>
                                     <i class="fa fa-calendar"></i>
                                 </span>
                             </div>
                         </div>
-
-
                         <div class="mb-3">
-                        <label for="goalInitialAmountInput" class="form-label">Số tiền đã có (Tùy chọn)</label>
-                        <input type="number" class="form-control" id="goalInitialAmountInput" placeholder="0" min="0">
-                    </div>
-
-                </form>
+                            <label for="goalInitialAmountInput" class="form-label">Số tiền đã có (Tùy chọn)</label>
+                            <input type="number" class="form-control" id="goalInitialAmountInput" placeholder="0" min="0">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary" form="addGoalForm">Lưu Mục Tiêu</button>
+                </div>
             </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="submit" class="btn btn-primary" form="addGoalForm">Lưu Mục Tiêu</button> </div>
         </div>
     </div>
 </div>
-            </div>
+
+
+
+    @section Scripts {
+    <!-- jQuery phải load trước -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    
+    <!-- Bootstrap -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Third-party libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
+    <!-- SweetAlert2 (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Your custom script - PHẢI ĐẶT CUỐI CÙNG -->
+    <script src="~/asset/js/Goals.js"></script>
+    
+    <!-- Cấu hình toastr -->
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "3000"
+        };
+    </script>
+}

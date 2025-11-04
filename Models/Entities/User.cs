@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace QuanLyChiTieu_WebApp.Models.Entities
 {
-    public class User
+    public class User 
     {
         [Key]
         public string UserID { get; set; }

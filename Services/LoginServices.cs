@@ -27,7 +27,8 @@ namespace QuanLyChiTieu_WebApp.Services
         // Triển khai hàm AuthenticateAsync
         public async Task<User> AuthenticateAsync(string email, string password)
         {
-            var user = await _context.Users
+            // Báo cho DbContext: "Lấy dữ liệu nhưng đừng theo dõi nó."
+            var user = await _context.Users.AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Email == email && u.IsActive);
 
             if (user == null)
@@ -43,7 +44,7 @@ namespace QuanLyChiTieu_WebApp.Services
                 return null; // Sai mật khẩu
             }
 
-            // Đúng hết, trả về user
+            // Trả về một đối tượng 'user' KHÔNG BỊ THEO DÕI
             return user;
         }
 
@@ -83,11 +84,22 @@ namespace QuanLyChiTieu_WebApp.Services
         }
 
         // hàm UpdateLastLoginAsync
-        public async Task UpdateLastLoginAsync(User user)
+        public async Task UpdateLastLoginAsync(string userId)
         {
-            user.LastLogin = DateTime.Now;
-            _context.Update(user);
-            await _context.SaveChangesAsync();
+            // 1. Tự tìm user bằng ID (dùng FindAsync là nhanh nhất)
+            var userToUpdate = await _context.Users.FindAsync(userId);
+
+            // 2. Kiểm tra (dù hiếm khi xảy ra)
+            if (userToUpdate != null)
+            {
+                // 3. Cập nhật thuộc tính
+                userToUpdate.LastLogin = DateTime.Now;
+
+                // 4. Lưu
+                // Vì đây là đối tượng duy nhất hàm này theo dõi,
+                // nó sẽ không bao giờ bị xung đột.
+                await _context.SaveChangesAsync();
+            }
         }
         public async Task<User?> GeneratePasswordResetTokenAsync(string email)
         {
