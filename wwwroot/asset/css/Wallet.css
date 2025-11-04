@@ -200,6 +200,7 @@
     align-items: center;
     font-weight: 600;
     color: var(--text-title);
+    justify-content:space-between;
 }
 
 .wallet-main .wallet-title h4 {
@@ -430,4 +431,9 @@ input[type=number] {
 .transaction-history .table-responsive {
     max-height: 350px;
     overflow-y: auto;
+}
+
+html, body {
+    height: auto !important;
+    overflow: auto !important;
 }

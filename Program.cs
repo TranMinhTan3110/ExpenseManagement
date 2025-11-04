@@ -113,6 +113,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 //Đăng ký CategoryService
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+//Đăng ký WalletService
+builder.Services.AddScoped<IWalletService, WalletService>();
 // --- GỌI BUILD() SAU KHI ĐĂNG KÝ XONG ---
 var app = builder.Build();
 
