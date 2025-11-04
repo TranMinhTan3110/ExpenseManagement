@@ -1,57 +1,14 @@
 ﻿@section Styles {
     <link rel="stylesheet" href="~/asset/css/Wallet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 }
 
-<!-- Wallet Page -->
 <div class="page-header d-flex justify-content-between align-items-center ">
-
-    <div class="page-title">
-        <h2 class="mb-0">Wallets</h2>
-        <p class="mb-0 text-muted">Welcome Ekash Finance Management</p>
-    </div>
-
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb mb-0  ">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Wallets</li>
-        </ol>
-    </nav>
-
 </div>
-<!-- end page header -->
-<!-- wallet container -->
+
 <div class="wallet-container">
     <div class="wallet-sidebar">
         <ul class="wallet-list p-0">
-            <li class="wallet-list__item  wallet-list__item--active mb-3">
-                <a href="">
-                    <div class="wallet-list__icon"><i class="fa-solid fa-money-bill-wave"></i></div>
-                    <div class="wallet-list__info">
-                        <h5 class="wallet-list__name">Cash</h5>
-                        <p class="wallet-list__balance">2000000</p>
-                    </div>
-                </a>
-            </li>
-
-            <li class="wallet-list__item  mb-3">
-                <a href="">
-                    <div class="wallet-list__icon"><i class="fa-regular fa-credit-card"></i></div>
-                    <div class="wallet-list__info">
-                        <h5 class="wallet-list__name">Visa Card</h5>
-                        <p class="wallet-list__balance">500000</p>
-                    </div>
-                </a>
-            </li>
-
-            <li class="wallet-list__item mb-3">
-                <a href="">
-                    <div class="wallet-list__icon"> <i class="fa-solid fa-building-columns"></i></div>
-                    <div class="wallet-list__info">
-                        <h5 class="wallet-list__name">BIDV Bank</h5>
-                        <p class="wallet-list__balance">4000000</p>
-                    </div>
-                </a>
-            </li>
         </ul>
 
         <div class="add-wallet" data-bs-toggle="modal" data-bs-target="#addWalletModal">
@@ -59,14 +16,21 @@
             <img src="/asset/img/more.png" alt="">
         </div>
     </div>
-    <div class="wallet-main  ">
 
-
+    <div class="wallet-main">
         <div class="row mb-4">
             <div class="col-12">
                 <div class="">
                     <div class="card-body wallet-title">
-                        <h4 class="mb-0">City Bank</h4>
+                        <h4 class="mb-0">Tất cả ví</h4>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-primary me-2 rounded" id="btn-edit-wallet">
+                                <i class="fi fi-rr-edit"></i> Sửa
+                            </button>
+                            <button class="btn btn-sm btn-danger rounded" id="btn-delete-wallet">
+                                <i class="fi fi-rr-trash"></i> Xóa
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -74,71 +38,43 @@
 
         <div class="row g-4 mb-4">
             <div class="col-12 col-md-6 total-balance ">
-
                 <div class="card-main h-100 border-box">
                     <div class="card-body">
-
                         <p class="text-muted mb-1">Total Balance</p>
-
-                        <h3 class="balance-amount mb-3">$ 432,568</h3>
+                        <h3 class="balance-amount mb-3">0đ</h3>
                         <hr class="my-2">
-                        <p class="mb-0 small wallet-change ">
-                            <span class="wallet-change__icon">
-                                <i class="fa-solid fa-arrow-trend-up text-success"></i>
-                            </span>
-                            <span class="wallet-change__percentage text-success">2.47%</span>
-                            <span class="wallet-change__text">Last month</span>
-                            <span class="wallet-change__amount">$24,478</span>
-                        </p>
-
                     </div>
                 </div>
             </div>
             <div class=" col-12 col-md-6 monthly-expense">
                 <div class="card-main h-100 border-box">
                     <div class="card-body">
-
                         <p class="text-muted mb-1">Monthly Expenses</p>
-
-                        <h3 class="balance-amount mb-3">$ 432,568</h3>
-
+                        <h3 class="balance-amount mb-3">0đ</h3>
                         <hr class="my-2">
-
-                        <p class="mb-0 small wallet-change text-danger">
-                            <span class="wallet-change__icon">
-                                <i class="fa-solid fa-arrow-trend-down"></i>
-                            </span>
-                            <span class="wallet-change__percentage">2.47%</span>
-                            <span class="wallet-change__text">Last month</span>
-                            <span class="wallet-change__amount">$24,478</span>
-                        </p>
-
                     </div>
                 </div>
             </div>
         </div>
-        <!-- biểu đồ -->
+
         <div class="row g-4 mb-4 ">
             <div class="col-12">
                 <div class=" h-100 wallet-pie-chart border-box">
                     <div class="card-body">
                         <h5 class="card-title mb-3">Chi Tiêu Theo Danh Mục</h5>
-
                         <div class="chart-container" style=" height:250px; width:100%">
                             <canvas id="categoryPieChart"></canvas>
                         </div>
                     </div>
-                    <!-- end biểu đồ -->
                 </div>
             </div>
         </div>
-        <!-- table -->
+
         <div class="row table-contain">
             <div class="col-12 card-table border-box">
-                <div class="card    ">
+                <div class="card">
                     <div class="card-body transaction-history ">
                         <h5 class="card-title mb-3" id="history">Transaction History</h5>
-
                         <div class="table-responsive">
                             <table class="table table-hover align-middle">
                                 <thead>
@@ -150,68 +86,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <span class="transaction-icon bg-danger-light text-danger">
-                                                <i class="fa-solid fa-utensils"></i>
-                                            </span>
-                                            <span class="category-name">Ăn uống</span>
-                                        </td>
-                                        <td class="transaction-date">18/10/2025</td>
-                                        <td class="transaction-description">Cà phê Highland</td>
-                                        <td class="transaction-amount text-danger text-end">-45,000đ</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <span class="transaction-icon bg-warning-light text-warning">
-                                                <i class="fa-solid fa-gas-pump"></i>
-                                            </span>
-                                            <span class="category-name">Đi lại</span>
-                                        </td>
-                                        <td class="transaction-date">17/10/2025</td>
-                                        <td class="transaction-description">Đổ xăng xe máy</td>
-                                        <td class="transaction-amount text-danger text-end">-50,000đ</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <span class="transaction-icon bg-success-light text-success">
-                                                <i class="fa-solid fa-briefcase"></i>
-                                            </span>
-                                            <span class="category-name">Lương</span>
-                                        </td>
-                                        <td class="transaction-date">15/10/2025</td>
-                                        <td class="transaction-description">Lương tháng 10</td>
-                                        <td class="transaction-amount text-success text-end">
-                                            +15,000,000đ
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <span class="transaction-icon bg-primary-light text-primary">
-                                                <i class="fa-solid fa-shirt"></i>
-                                            </span>
-                                            <span class="category-name">Mua sắm</span>
-                                        </td>
-                                        <td class="transaction-date">14/10/2025</td>
-                                        <td class="transaction-description">Mua áo sơ mi mới</td>
-                                        <td class="transaction-amount text-danger text-end">-350,000đ</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <span class="transaction-icon bg-info-light text-info">
-                                                <i class="fa-solid fa-file-invoice-dollar"></i>
-                                            </span>
-                                            <span class="category-name">Hóa đơn</span>
-                                        </td>
-                                        <td class="transaction-date">12/10/2025</td>
-                                        <td class="transaction-description">Tiền điện tháng 9</td>
-                                        <td class="transaction-amount text-danger text-end">-280,000đ</td>
-                                    </tr>
-
+                                    <tr><td colspan="4" class="text-center">Chưa có giao dịch nào.</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -219,12 +94,9 @@
                 </div>
             </div>
         </div>
-        <!-- end table -->
     </div>
+</div>
 
-</div>
-<!-- end wallet-container -->
-</div>
 <!-- modal -->
 <div class="modal fade" id="addWalletModal" tabindex="-1" aria-labelledby="addWalletModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -237,17 +109,17 @@
                 <form id="addWalletForm">
                     <div class="mb-3">
                         <label for="walletNameInput" class="form-label">Tên ví</label>
-                        <input type="text" class="form-control" id="walletNameInput"
+                        <input name="WalletName" type="text" class="form-control" id="walletNameInput"
                                placeholder="Ví dụ: Tiền mặt, Vietcombank..." required>
                     </div>
                     <div class="mb-3">
                         <label for="walletBalanceInput" class="form-label">Số dư ban đầu</label>
-                        <input type="number" class="form-control" id="walletBalanceInput" placeholder="0" required>
+                        <input name="InitialBalance" type="number" class="form-control" id="walletBalanceInput" placeholder="0" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="walletTypeSelect" class="form-label">Loại ví</label>
-                        <select class="form-select" id="walletTypeSelect" required>
+                        <select name="WalletType" class="form-select" id="walletTypeSelect" required>
                             <option selected disabled value="">Chọn loại ví...</option>
                             <option value="Cash">Tiền mặt (Cash)</option>
                             <option value="Bank">Ngân hàng (Bank)</option>
@@ -269,5 +141,308 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="~/asset/js/Wallet.js"></script>
+
+    <script>
+        let currentWalletId = null;
+        document.addEventListener('DOMContentLoaded', function () {
+            
+
+            const walletListContainer = document.querySelector(".wallet-list");
+            const addWalletForm = document.getElementById('addWalletForm');
+            const transactionHistoryBody = document.querySelector(".transaction-history tbody");
+
+                // (MỚI) Lấy 2 nút Sửa/Xóa
+        const btnEditWallet = document.getElementById('btn-edit-wallet');
+        const btnDeleteWallet = document.getElementById('btn-delete-wallet');
+            // (MỚI) Lấy các element của Modal (để Sửa)
+        const addWalletModalEl = document.getElementById('addWalletModal');
+        const addWalletModal = new bootstrap.Modal(addWalletModalEl);
+        const modalTitle = document.getElementById('addWalletModalLabel');
+        const modalSubmitBtn = document.querySelector('button[form="addWalletForm"]');
+
+        // (MỚI) Lấy nút "Add new wallet"
+        const btnShowAddModal = document.querySelector('.add-wallet');
+            if (!walletListContainer) return;
+
+            // --- CODE WALLET CLICK (SỰ KIỆN) ---
+            walletListContainer.addEventListener('click', function (e) {
+                const clickedWallet = e.target.closest('.wallet-list__item');
+                if (!clickedWallet) return;
+                e.preventDefault();
+                var currentWallet = document.querySelector(".wallet-list__item--active")
+                if (currentWallet) {
+                    currentWallet.classList.remove('wallet-list__item--active')
+                }
+                clickedWallet.classList.add('wallet-list__item--active');
+                const walletId = clickedWallet.dataset.walletId;
+                 currentWalletId = walletId;
+                loadWalletDetails(walletId);
+            });
+
+            // --- CODE AJAX (TẢI DỮ LIỆU) ---
+
+            async function loadWalletList() {
+                try {
+                    const response = await fetch('/api/wallet');
+                    if (!response.ok) throw new Error('Không tải được danh sách ví');
+                    const wallets = await response.json();
+
+                    walletListContainer.innerHTML = ''; // Xóa list cũ
+
+                    if (wallets.length === 0) {
+                        loadWalletDetails(null);
+                        return;
+                    }
+
+                    wallets.forEach(wallet => {
+                        const li = document.createElement('li');
+                        li.className = 'wallet-list__item mb-3';
+                        li.dataset.walletId = wallet.walletID;
+
+                        li.innerHTML = `
+                            <a href="">
+                                <div class="wallet-list__icon"><i class="${wallet.icon}"></i></div>
+                                <div class="wallet-list__info">
+                                    <h5 class="wallet-list__name">${wallet.walletName}</h5>
+                                    <p class="wallet-list__balance">${wallet.balance.toLocaleString()}đ</p>
+                                </div>
+                            </a>
+                        `;
+                        walletListContainer.appendChild(li);
+                    });
+
+                    const firstWallet = walletListContainer.querySelector('.wallet-list__item');
+                    if (firstWallet) {
+                        firstWallet.classList.add('wallet-list__item--active');
+                        currentWalletId = firstWallet.dataset.walletId;
+                        loadWalletDetails(firstWallet.dataset.walletId);
+                    }
+                } catch (error) {
+                    console.error("Lỗi tải danh sách ví:", error);
+                }
+            }
+
+            async function loadWalletDetails(walletId) {
+                // Nếu không có ví nào (lần đầu vào)
+                if (!walletId) {
+                    document.querySelector('.wallet-title h4').textContent = "Chưa có ví";
+                    document.querySelector('.total-balance .balance-amount').textContent = "0đ";
+                    document.querySelector('.monthly-expense .balance-amount').textContent = "0đ";
+
+                    // GỌI HÀM GLOBAL (từ Wallet.js)
+                    if (typeof renderPieChart === 'function') {
+                        renderPieChart([]);
+                    }
+                    renderTransactionHistory([]);
+                    return;
+                }
+
+                // Nếu có ví, gọi API
+                try {
+                    const response = await fetch(`/api/wallet/${walletId}/details`);
+                    if (!response.ok) throw new Error('Không tải được chi tiết ví');
+                    const details = await response.json();
+
+                    // Đổ dữ liệu vào HTML (bên phải)
+                    document.querySelector('.wallet-title h4').textContent = details.walletName;
+                    document.querySelector('.total-balance .balance-amount').textContent = `${details.totalBalance.toLocaleString()}đ`;
+                    document.querySelector('.monthly-expense .balance-amount').textContent = `${details.monthlyExpenses.toLocaleString()}đ`;
+
+                    // GỌI HÀM GLOBAL VẼ BIỂU ĐỒ (từ file Wallet.js)
+                    if (typeof renderPieChart === 'function') {
+                        renderPieChart(details.expenseBreakdown);
+                    }
+
+                    renderTransactionHistory(details.transactionHistory);
+                } catch (error) {
+                    console.error("Lỗi tải chi tiết ví:", error);
+                }
+            }
+
+            // HÀM VẼ BẢNG LỊCH SỬ GIAO DỊCH
+            function renderTransactionHistory(history) {
+                if (!transactionHistoryBody) return;
+                transactionHistoryBody.innerHTML = '';
+                if (history.length === 0) {
+                    transactionHistoryBody.innerHTML = '<tr><td colspan="4" class="text-center">Chưa có giao dịch nào.</td></tr>';
+                    return;
+                }
+                history.forEach(tx => {
+                    // (Code vẽ <tr> ... )
+                });
+            }
+
+            // CHẠY HÀM TẢI DỮ LIỆU KHI MỞ TRANG
+            loadWalletList();
+
+            // --- CODE FORM "THÊM VÍ MỚI" ---
+            if (addWalletForm) {
+                addWalletForm.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    const formData = new FormData(addWalletForm);
+                    const data = {
+                        WalletName: formData.get("WalletName"),
+                        InitialBalance: formData.get("InitialBalance"),
+                        WalletType: formData.get("WalletType")
+                    };
+
+                    if (!data.WalletName || !data.WalletType || data.InitialBalance === null) {
+                        Swal.fire("Thiếu thông tin", "Vui lòng điền đầy đủ 3 ô.", "warning");
+                        return;
+                    }
+
+                    try {
+                        const res = await fetch('/api/wallet', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        });
+            if (res.ok) {
+                // Đóng modal sau khi SweetAlert đóng
+                       Swal.fire({
+                icon: "success",
+                title: "Tạo thành công!",
+                showConfirmButton: false,
+                timer: 1500,
+                willClose: () => {
+                    const modalEl = document.getElementById('addWalletModal');
+                    const modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                    modalInstance.hide();
+
+                    // Đợi modal đóng xong rồi reset cuộn
+                    setTimeout(() => {
+                        // Xóa lớp phủ modal nếu còn
+                        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+
+                        // Xóa class và style khóa cuộn
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = 'auto';
+                        document.body.style.position = '';
+                        document.body.style.height = 'auto';
+                        document.body.style.paddingRight = '';
+
+                        // Reset thêm cho thẻ <html> nếu cần
+                        document.documentElement.style.overflow = 'auto';
+                        document.documentElement.style.position = '';
+                        document.documentElement.style.height = 'auto';
+                    }, 300);
+                }
+            });
+
+
+                // Tải lại danh sách ví
+                loadWalletList();
+                        loadWalletList();
+        setTimeout(() => {
+            const firstWallet = document.querySelector('.wallet-list__item');
+            if (firstWallet) {
+                currentWalletId = firstWallet.dataset.walletId;
+            } else {
+                currentWalletId = null;
+            }
+        }, 500);
+
+            }
+         else {
+                            const errorData = await res.json();
+                            Swal.fire("Lỗi!", errorData.message || "Vui lòng kiểm tra lại.", "error");
+                        }
+                    } catch (error) {
+                        console.error("Lỗi khi tạo ví:", error);
+                        Swal.fire("Lỗi kết nối!", "Không thể kết nối đến server.", "error");
+                    }
+                });
+
+            }
+                // --- 8. (MỚI) SỰ KIỆN CHO NÚT "ADD NEW WALLET" ---
+        // (Để reset form về trạng thái TẠO MỚI)
+        if (btnShowAddModal) {
+            btnShowAddModal.addEventListener('click', function() {
+                isEditMode = false;
+                modalTitle.textContent = "Thêm Ví Mới";
+                modalSubmitBtn.textContent = "Lưu Ví";
+                addWalletForm.reset();
+                document.getElementById('walletBalanceInput').closest('.mb-3').style.display = 'block';
+            });
+        }
+
+        // --- 9. (MỚI) SỰ KIỆN CHO NÚT "SỬA" ---
+        if (btnEditWallet) {
+            btnEditWallet.addEventListener('click', async function() {
+                if (!currentWalletId) return; // Chưa chọn ví
+
+                isEditMode = true;
+
+                // 1. Gọi API GET /api/wallet/{id}
+                const response = await fetch(`/api/wallet/${currentWalletId}`);
+                if (!response.ok) return;
+
+                const wallet = await response.json();
+
+                // 2. Đổ dữ liệu cũ vào Form
+                addWalletForm.querySelector('[name="WalletName"]').value = wallet.walletName;
+                addWalletForm.querySelector('[name="WalletType"]').value = wallet.walletType;
+                addWalletForm.querySelector('[name="InitialBalance"]').value = wallet.initialBalance;
+                document.getElementById('walletBalanceInput').closest('.mb-3').style.display = 'none'; // Ẩn ô Số dư
+
+                // 3. Đổi tiêu đề Modal
+                modalTitle.textContent = "Sửa thông tin ví";
+                modalSubmitBtn.textContent = "Lưu thay đổi";
+
+                // 4. Mở Modal
+                addWalletModal.show();
+            });
+        }
+
+        // --- 10. (MỚI) SỰ KIỆN CHO NÚT "XÓA" ---
+        if (btnDeleteWallet) {
+            btnDeleteWallet.addEventListener('click', function() {
+                if (!currentWalletId) return; // Chưa chọn ví
+
+                Swal.fire({
+                    title: 'Bạn có chắc không?',
+                    text: "Bạn sẽ không thể hoàn tác hành động này!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Vâng, xóa nó đi!',
+                    cancelButtonText: 'Hủy'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            const response = await fetch(`/api/wallet/${currentWalletId}`, {
+                                method: 'DELETE'
+                            });
+
+                            if (response.ok) {
+                                Swal.fire('Đã xóa!', 'Ví của bạn đã được xóa.', 'success');
+                                loadWalletList(); // Tải lại toàn bộ trang
+                                        setTimeout(() => {
+            const firstWallet = document.querySelector('.wallet-list__item');
+            if (firstWallet) {
+                currentWalletId = firstWallet.dataset.walletId;
+            } else {
+                currentWalletId = null;
+            }
+        }, 500);
+
+                            } else {
+                                const error = await response.json();
+                                Swal.fire('Lỗi!', error.message, 'error');
+                            }
+                        } catch (error) {
+                            Swal.fire('Lỗi kết nối!', 'Không thể kết nối đến server.', 'error');
+                        }
+                    }
+                });
+            });
+        }
+
+
+        }); // kết thúc DOMContentLoaded
+    </script>
 }
