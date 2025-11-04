@@ -8,6 +8,7 @@ using BCrypt.Net;
 using System.Globalization;
 using Microsoft.AspNetCore.Hosting; 
 using System.IO;
+using System.Linq; 
 
 namespace QuanLyChiTieu_WebApp.Services
 {
@@ -232,6 +233,50 @@ namespace QuanLyChiTieu_WebApp.Services
 
             _context.Update(user);
             await _context.SaveChangesAsync();
+            return new UpdateProfileResult { Success = true };
+        }
+        public async Task<SupportViewModel> GetSupportViewModelAsync(ClaimsPrincipal userClaimsPrincipal)
+        {
+            var userId = GetUserId(userClaimsPrincipal);
+
+            // Lấy tất cả ticket của user này, sắp xếp mới nhất lên đầu
+            var tickets = await _context.Tickets
+                .Where(t => t.UserID == userId)
+                .OrderByDescending(t => t.CreatedAt)
+                .ToListAsync();
+
+            var viewModel = new SupportViewModel
+            {
+                MyTickets = tickets
+            };
+
+            return viewModel;
+        }
+
+        // --- TRIỂN KHAI HÀM [POST] CREATE TICKET ---
+        public async Task<UpdateProfileResult> CreateTicketAsync(ClaimsPrincipal userClaimsPrincipal, CreateTicketViewModel model)
+        {
+            var userId = GetUserId(userClaimsPrincipal);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return new UpdateProfileResult { Success = false, ErrorMessage = "Không tìm thấy người dùng." };
+            }
+
+            // Map từ ViewModel sang Entity
+            var ticket = new Ticket
+            {
+                UserID = userId,
+                QuestionType = model.QuestionType,
+                RespondType = model.RespondType,
+                Description = model.Description,
+                Status = "Open", // Giá trị mặc định
+                CreatedAt = DateTime.Now
+            };
+
+            // Lưu vào CSDL
+            _context.Tickets.Add(ticket);
+            await _context.SaveChangesAsync();
+
             return new UpdateProfileResult { Success = true };
         }
     }

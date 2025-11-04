@@ -17,5 +17,11 @@ namespace QuanLyChiTieu_WebApp.Services
 
         // Hàm cho Form 3
         Task<UpdateProfileResult> UpdatePersonalInfoAsync(ClaimsPrincipal userClaimsPrincipal, UpdatePersonalInfoViewModel model);
+
+        /// Lấy danh sách ticket của user để hiển thị trên trang Support
+        Task<SupportViewModel> GetSupportViewModelAsync(ClaimsPrincipal userClaimsPrincipal);
+
+        /// Tạo một ticket mới
+        Task<UpdateProfileResult> CreateTicketAsync(ClaimsPrincipal userClaimsPrincipal, CreateTicketViewModel model);
     }
 }

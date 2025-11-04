@@ -257,6 +257,9 @@ namespace QuanLyChiTieu_WebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GoalID"));
 
+                    b.Property<DateTime?>("CompletionDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
