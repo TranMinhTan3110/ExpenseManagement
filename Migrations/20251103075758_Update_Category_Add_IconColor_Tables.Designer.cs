@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLyChiTieu_WebApp.Models.EF;
 
@@ -11,9 +12,11 @@ using QuanLyChiTieu_WebApp.Models.EF;
 namespace QuanLyChiTieu_WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251103075758_Update_Category_Add_IconColor_Tables")]
+    partial class Update_Category_Add_IconColor_Tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,128 +128,6 @@ namespace QuanLyChiTieu_WebApp.Migrations
                     b.HasKey("ColorID");
 
                     b.ToTable("Colors");
-
-                    b.HasData(
-                        new
-                        {
-                            ColorID = 1,
-                            ColorName = "Red",
-                            HexCode = "#ef4444"
-                        },
-                        new
-                        {
-                            ColorID = 2,
-                            ColorName = "Orange",
-                            HexCode = "#f97316"
-                        },
-                        new
-                        {
-                            ColorID = 3,
-                            ColorName = "Amber",
-                            HexCode = "#f59e0b"
-                        },
-                        new
-                        {
-                            ColorID = 4,
-                            ColorName = "Yellow",
-                            HexCode = "#eab308"
-                        },
-                        new
-                        {
-                            ColorID = 5,
-                            ColorName = "Lime",
-                            HexCode = "#84cc16"
-                        },
-                        new
-                        {
-                            ColorID = 6,
-                            ColorName = "Green",
-                            HexCode = "#22c55e"
-                        },
-                        new
-                        {
-                            ColorID = 7,
-                            ColorName = "Emerald",
-                            HexCode = "#10b981"
-                        },
-                        new
-                        {
-                            ColorID = 8,
-                            ColorName = "Teal",
-                            HexCode = "#14b8a6"
-                        },
-                        new
-                        {
-                            ColorID = 9,
-                            ColorName = "Cyan",
-                            HexCode = "#06b6d4"
-                        },
-                        new
-                        {
-                            ColorID = 10,
-                            ColorName = "Sky",
-                            HexCode = "#0ea5e9"
-                        },
-                        new
-                        {
-                            ColorID = 11,
-                            ColorName = "Blue",
-                            HexCode = "#3b82f6"
-                        },
-                        new
-                        {
-                            ColorID = 12,
-                            ColorName = "Indigo",
-                            HexCode = "#6366f1"
-                        },
-                        new
-                        {
-                            ColorID = 13,
-                            ColorName = "Violet",
-                            HexCode = "#8b5cf6"
-                        },
-                        new
-                        {
-                            ColorID = 14,
-                            ColorName = "Purple",
-                            HexCode = "#a855f7"
-                        },
-                        new
-                        {
-                            ColorID = 15,
-                            ColorName = "Fuchsia",
-                            HexCode = "#d946ef"
-                        },
-                        new
-                        {
-                            ColorID = 16,
-                            ColorName = "Pink",
-                            HexCode = "#ec4899"
-                        },
-                        new
-                        {
-                            ColorID = 17,
-                            ColorName = "Rose",
-                            HexCode = "#f43f5e"
-                        },
-                        new
-                        {
-                            ColorID = 18,
-                            ColorName = "Slate",
-                            HexCode = "#64748b"
-                        },
-                        new
-                        {
-                            ColorID = 19,
-                            ColorName = "Gray",
-                            HexCode = "#9ca3af"
-                        },
-                        new
-                        {
-                            ColorID = 20,
-                            ColorName = "Stone",
-                            HexCode = "#a8a29e"
-                        });
                 });
 
             modelBuilder.Entity("QuanLyChiTieu_WebApp.Models.Entities.Goal", b =>
@@ -371,188 +252,6 @@ namespace QuanLyChiTieu_WebApp.Migrations
                     b.HasKey("IconID");
 
                     b.ToTable("Icons");
-
-                    b.HasData(
-                        new
-                        {
-                            IconID = 1,
-                            IconClass = "fa-solid fa-utensils",
-                            IconName = "Ăn uống"
-                        },
-                        new
-                        {
-                            IconID = 2,
-                            IconClass = "fa-solid fa-bus-simple",
-                            IconName = "Đi lại"
-                        },
-                        new
-                        {
-                            IconID = 3,
-                            IconClass = "fa-solid fa-gas-pump",
-                            IconName = "Xăng xe"
-                        },
-                        new
-                        {
-                            IconID = 4,
-                            IconClass = "fa-solid fa-file-invoice-dollar",
-                            IconName = "Hóa đơn"
-                        },
-                        new
-                        {
-                            IconID = 5,
-                            IconClass = "fa-solid fa-house-user",
-                            IconName = "Thuê nhà"
-                        },
-                        new
-                        {
-                            IconID = 6,
-                            IconClass = "fa-solid fa-shirt",
-                            IconName = "Mua sắm"
-                        },
-                        new
-                        {
-                            IconID = 7,
-                            IconClass = "fa-solid fa-cart-shopping",
-                            IconName = "Tạp hóa"
-                        },
-                        new
-                        {
-                            IconID = 8,
-                            IconClass = "fa-solid fa-screwdriver-wrench",
-                            IconName = "Sửa chữa"
-                        },
-                        new
-                        {
-                            IconID = 9,
-                            IconClass = "fa-solid fa-heart-pulse",
-                            IconName = "Sức khỏe"
-                        },
-                        new
-                        {
-                            IconID = 10,
-                            IconClass = "fa-solid fa-graduation-cap",
-                            IconName = "Giáo dục"
-                        },
-                        new
-                        {
-                            IconID = 11,
-                            IconClass = "fa-solid fa-film",
-                            IconName = "Giải trí"
-                        },
-                        new
-                        {
-                            IconID = 12,
-                            IconClass = "fa-solid fa-dumbbell",
-                            IconName = "Thể thao"
-                        },
-                        new
-                        {
-                            IconID = 13,
-                            IconClass = "fa-solid fa-wand-magic-sparkles",
-                            IconName = "Làm đẹp"
-                        },
-                        new
-                        {
-                            IconID = 14,
-                            IconClass = "fa-solid fa-mug-hot",
-                            IconName = "Cà phê"
-                        },
-                        new
-                        {
-                            IconID = 15,
-                            IconClass = "fa-solid fa-plane-departure",
-                            IconName = "Du lịch"
-                        },
-                        new
-                        {
-                            IconID = 16,
-                            IconClass = "fa-solid fa-palette",
-                            IconName = "Sở thích"
-                        },
-                        new
-                        {
-                            IconID = 17,
-                            IconClass = "fa-solid fa-gift",
-                            IconName = "Quà tặng"
-                        },
-                        new
-                        {
-                            IconID = 18,
-                            IconClass = "fa-solid fa-child-reaching",
-                            IconName = "Con cái"
-                        },
-                        new
-                        {
-                            IconID = 19,
-                            IconClass = "fa-solid fa-paw",
-                            IconName = "Thú cưng"
-                        },
-                        new
-                        {
-                            IconID = 20,
-                            IconClass = "fa-solid fa-money-bill-wave",
-                            IconName = "Lương"
-                        },
-                        new
-                        {
-                            IconID = 21,
-                            IconClass = "fa-solid fa-briefcase",
-                            IconName = "Kinh doanh"
-                        },
-                        new
-                        {
-                            IconID = 22,
-                            IconClass = "fa-solid fa-arrow-trend-up",
-                            IconName = "Đầu tư"
-                        },
-                        new
-                        {
-                            IconID = 23,
-                            IconClass = "fa-solid fa-piggy-bank",
-                            IconName = "Tiết kiệm"
-                        },
-                        new
-                        {
-                            IconID = 24,
-                            IconClass = "fa-solid fa-sack-dollar",
-                            IconName = "Thu nhập phụ"
-                        },
-                        new
-                        {
-                            IconID = 25,
-                            IconClass = "fa-solid fa-shield-halved",
-                            IconName = "Bảo hiểm"
-                        },
-                        new
-                        {
-                            IconID = 26,
-                            IconClass = "fa-solid fa-building-columns",
-                            IconName = "Ngân hàng"
-                        },
-                        new
-                        {
-                            IconID = 27,
-                            IconClass = "fa-solid fa-store",
-                            IconName = "Cửa hàng"
-                        },
-                        new
-                        {
-                            IconID = 28,
-                            IconClass = "fa-solid fa-mobile-screen-button",
-                            IconName = "Điện thoại"
-                        },
-                        new
-                        {
-                            IconID = 29,
-                            IconClass = "fa-solid fa-wifi",
-                            IconName = "Internet"
-                        },
-                        new
-                        {
-                            IconID = 30,
-                            IconClass = "fa-solid fa-ellipsis",
-                            IconName = "Khác"
-                        });
                 });
 
             modelBuilder.Entity("QuanLyChiTieu_WebApp.Models.Entities.Ticket", b =>
@@ -671,18 +370,22 @@ namespace QuanLyChiTieu_WebApp.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("AvatarUrl")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 

@@ -21,5 +21,9 @@ namespace QuanLyChiTieu_WebApp.Services
 
         // Xác thực token và đổi mật khẩu
         Task<bool> ResetPasswordAsync(string email, string token, string newPassword);
+
+        Task<User> FindOrCreateExternalUserAsync(string email, string fullName);
+
+        Task SignInUserAsync(User user);
     }
 }
