@@ -603,3 +603,39 @@ body {
     z-index: 100; /* Đảm bảo header luôn nằm trên nội dung khác */
     background-color: var(--bg-color);
 }
+/* Sidebar lớn (chỉ icon) khi active */
+.sidebar .menu a.active {
+    color: #fff
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+    .sidebar .menu a.active .sidebar-icon i {
+        color: #fff; /* Đổi màu icon thành màu xanh/tím (màu chính) */
+    }
+
+/* Sidebar nhỏ (menu mobile) khi active */
+.menu-content .menu-body a.item-content.active {
+    color: #5669FF; /* Màu chữ */
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+    .menu-content .menu-body a.item-content.active .sidebar-icon i {
+        color: #5669FF;
+    }
+
+/* Tùy chỉnh tooltip mặc định của Bootstrap */
+.tooltip .tooltip-inner {
+    background-color: #ffffff; /* Nền trắng (giống hình) */
+    color: #5669FF; /* Màu chữ (giống hình) */
+    font-weight: 500;
+    font-size: 15px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip.bs-tooltip-end .tooltip-arrow::before {
+    border-right-color: #ffffff; /* Màu của mũi tên */
+}
