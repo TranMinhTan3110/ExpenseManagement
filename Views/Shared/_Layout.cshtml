@@ -1,4 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    // Lấy AvatarUrl từ cookie (claims)
+    var avatarUrl = User.FindFirstValue("AvatarUrl");
+
+    // Nếu rỗng/null, dùng ảnh mặc định
+    var userAvatar = string.IsNullOrEmpty(avatarUrl)
+                     ? "~/asset/img/AvatarDefault.jpg"
+                     : avatarUrl;
+}
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -40,34 +51,48 @@
                             <img src="~/asset/img/effects.gif" alt="Logo">
                         </a>
                     </li>
-                    <li><a asp-controller="DashBoard" asp-action="Index">
-                        <span class="sidebar-icon"><i class="fi fi-rr-dashboard"></i></span>
-                        </a>
-                        </li>
                     <li>
-                        <a asp-controller="Wallets" asp-action="Index">
+                        <a asp-controller="DashBoard" asp-action="Index"
+                           title="Dashboard" data-bs-toggle="tooltip" data-bs-placement="right"
+                           class="@(currentController == "DashBoard" ? "active" : "")">
+                            <span class="sidebar-icon"><i class="fi fi-rr-dashboard"></i></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Wallets" asp-action="Index"
+                           title="Wallets" data-bs-toggle="tooltip" data-bs-placement="right"
+                           class="@(currentController == "Wallets" ? "active" : "")">
                             <span class="sidebar-icon"><i class="fa-solid fa-wallet"></i></span>
                         </a>
                     </li>
-                    
                     <li>
-                        <a asp-controller="Budget" asp-action="Index">
+                        <a asp-controller="Budget" asp-action="Index"
+                           title="Budgets" data-bs-toggle="tooltip" data-bs-placement="right"
+                           class="@(currentController == "Budget" ? "active" : "")">
                             <span class="sidebar-icon"><i class="fi fi-rr-donate"></i></span>
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Goals" asp-action="Index">
+                        <a asp-controller="Goals" asp-action="Index"
+                           title="Goals" data-bs-toggle="tooltip" data-bs-placement="right"
+                           class="@(currentController == "Goals" ? "active" : "")">
                             <span class="sidebar-icon"><i class="fi fi-br-bullseye-arrow"></i></span>
                         </a>
                     </li>
-
-                   
                     <li>
-                        <a asp-controller="Settings" asp-action="Profile">
+                        <a asp-controller="Settings" asp-action="Profile"
+                           title="Settings" data-bs-toggle="tooltip" data-bs-placement="right"
+                           class="@(currentController == "Settings" ? "active" : "")">
                             <span class="sidebar-icon"><i class="fi fi-rr-user"></i></span>
                         </a>
                     </li>
-                    <li><a asp-controller="Analytics" asp-action="Income"><span class="sidebar-icon"><i class="fi fi-rr-chart-histogram"></i></span></a></li>
+                    <li>
+                        <a asp-controller="Analytics" asp-action="Income"
+                           title="Analytics" data-bs-toggle="tooltip" data-bs-placement="right"
+                           class="@(currentController == "Analytics" ? "active" : "")">
+                            <span class="sidebar-icon"><i class="fi fi-rr-chart-histogram"></i></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </aside>
@@ -86,37 +111,37 @@
                 <div class="menu-body">
                     <ul class="show">
                         <li>
-                            <a class="item-content " asp-controller="DashBoard" asp-action="Index">
+                            <a class="item-content @(currentController == "DashBoard" ? "active" : "")" asp-controller="DashBoard" asp-action="Index">
                                 <span class="sidebar-icon"><i class="fi fi-rr-dashboard"></i></span>
                                 <span class="sidebar-text fs-5">Dashboard</span>
                             </a>
                         </li>
                         <li>
-                            <a class="item-content"  asp-controller="Wallets" asp-action="Index">
+                            <a class="item-content @(currentController == "Wallets" ? "active" : "")" asp-controller="Wallets" asp-action="Index">
                                 <span class="sidebar-icon"><i class="fa-solid fa-wallet"></i></span>
                                 <span class="sidebar-text fs-5">Wallet</span>
                             </a>
                         </li>
                         <li>
-                            <a class="item-content"  asp-controller="Budget" asp-action="Index">
+                            <a class="item-content @(currentController == "Budget" ? "active" : "")" asp-controller="Budget" asp-action="Index">
                                 <span class="sidebar-icon"><i class="fi fi-rr-donate"></i></span>
                                 <span class="sidebar-text fs-5">Budgets</span>
                             </a>
                         </li>
                         <li>
-                            <a class="item-content" asp-controller="Goals" asp-action="Index">
+                            <a class="item-content @(currentController == "Goals" ? "active" : "")" asp-controller="Goals" asp-action="Index">
                                 <span class="sidebar-icon"><i class="fi fi-br-bullseye-arrow"></i></span>
                                 <span class="sidebar-text fs-5">Goals</span>
                             </a>
                         </li>
                         <li>
-                            <a class="item-content"  asp-controller="Settings" asp-action="Profile">
+                            <a class="item-content @(currentController == "Settings" ? "active" : "")" asp-controller="Settings" asp-action="Profile">
                                 <span class="sidebar-icon"><i class="fi fi-rr-user"></i></span>
                                 <span class="sidebar-text fs-5">Setting</span>
                             </a>
                         </li>
                         <li>
-                            <a class="item-content" asp-controller="Analytics" asp-action="Income">
+                            <a class="item-content @(currentController == "Analytics" ? "active" : "")" asp-controller="Analytics" asp-action="Income">
                                 <span class="sidebar-icon"><i class="fi fi-rr-chart-histogram"></i></span>
                                 <span class="sidebar-text fs-5">Analytics</span>
                             </a>
@@ -157,9 +182,50 @@
                         <div class="dark-light-toggle">
                             <span class="light"><i class="fa-solid fa-sun sun"></i></span>
                         </div>
-                        <div class="user-icon">
-                            <span><i class="fa-solid fa-user text-white"></i></span>
-                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="user-profile-dropdown">
+                                <a href="#" class="user-dropdown-toggle">
+                                    <img src="@Url.Content(userAvatar)" alt="User">
+                                </a>
+
+                                <div class="user-dropdown-menu">
+                                    <div class="dropdown-user-info">
+                                        <img src="@Url.Content(userAvatar)" alt="User">
+                                        <div class="user-details">
+                                            <h4>@User.FindFirstValue(ClaimTypes.Name)</h4>
+                                            <span>@User.FindFirstValue(ClaimTypes.Email)</span>
+                                        </div>
+                                    </div>
+
+                                    <a asp-controller="Settings" asp-action="Profile" class="dropdown-link">
+                                        <i class="fi fi-rr-user"></i>
+                                        <span>Profile</span>
+                                    </a>
+                                    <a asp-controller="Wallets" asp-action="Index" class="dropdown-link">
+                                        <i class="fa-solid fa-wallet"></i>
+                                        <span>Wallets</span>
+                                    </a>
+                                    <a asp-controller="Settings" asp-action="Profile" class="dropdown-link">
+                                        <i class="fi fi-rr-settings"></i>
+                                        <span>Settings</span>
+                                    </a>
+
+                                    <a asp-controller="Login" asp-action="Logout" class="dropdown-logout">
+                                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="user-icon">
+                                <a asp-controller="Login" asp-action="Index">
+                                    <span><i class="fa-solid fa-user text-white"></i></span>
+                                </a>
+                            </div>
+                        }
                     </div>
                 </div>
             </header>

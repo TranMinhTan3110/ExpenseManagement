@@ -115,6 +115,8 @@ namespace QuanLyChiTieu_WebApp.Services
             // 4. Lưu thay đổi vào CSDL
             _context.Update(user);
             await _context.SaveChangesAsync();
+            // Gọi hàm SignInUserAsync để phát hành lại cookie với AvatarUrl mới
+            await _loginServices.SignInUserAsync(user);
 
             return new UpdateProfileResult { Success = true };
         }
