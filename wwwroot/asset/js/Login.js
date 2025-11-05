@@ -27,7 +27,7 @@
                     Swal.fire({
                         icon: 'success',
                         title: 'Đăng nhập thành công!',
-                        text: 'Đang chuyển hướng...',
+                        text: 'Đăng nhập thành công!',
                         timer: 1500,
                         showConfirmButton: false
                     }).then(function () {

@@ -96,4 +96,34 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 });
+// Thêm vào cuối file /js/site.js
 
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Tìm nút bấm và menu
+    var dropdownToggle = document.querySelector(".user-dropdown-toggle");
+    var dropdownMenu = document.querySelector(".user-dropdown-menu");
+
+    if (dropdownToggle && dropdownMenu) {
+
+        // 1. Khi bấm vào icon
+        dropdownToggle.addEventListener("click", function (event) {
+            event.preventDefault(); // Ngăn link '#' nhảy trang
+            event.stopPropagation(); // Ngăn sự kiện 'click' lan ra 'window'
+            dropdownMenu.classList.toggle("show");
+        });
+
+        // 2. Khi bấm vào menu (để không bị đóng)
+        dropdownMenu.addEventListener("click", function (event) {
+            event.stopPropagation();
+        });
+    }
+
+    // 3. Khi bấm ra ngoài (bất cứ đâu trên trang)
+    window.addEventListener("click", function () {
+        if (dropdownMenu && dropdownMenu.classList.contains("show")) {
+            dropdownMenu.classList.remove("show");
+        }
+    });
+
+});

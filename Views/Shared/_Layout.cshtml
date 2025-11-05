@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@{
+    // Lấy AvatarUrl từ cookie (claims)
+    var avatarUrl = User.FindFirstValue("AvatarUrl");
+
+    // Nếu rỗng/null, dùng ảnh mặc định
+    var userAvatar = string.IsNullOrEmpty(avatarUrl)
+                     ? "~/asset/img/AvatarDefault.jpg"
+                     : avatarUrl;
+}
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -157,9 +167,50 @@
                         <div class="dark-light-toggle">
                             <span class="light"><i class="fa-solid fa-sun sun"></i></span>
                         </div>
-                        <div class="user-icon">
-                            <span><i class="fa-solid fa-user text-white"></i></span>
-                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="user-profile-dropdown">
+                                <a href="#" class="user-dropdown-toggle">
+                                    <img src="@Url.Content(userAvatar)" alt="User">
+                                </a>
+
+                                <div class="user-dropdown-menu">
+                                    <div class="dropdown-user-info">
+                                        <img src="@Url.Content(userAvatar)" alt="User">
+                                        <div class="user-details">
+                                            <h4>@User.FindFirstValue(ClaimTypes.Name)</h4>
+                                            <span>@User.FindFirstValue(ClaimTypes.Email)</span>
+                                        </div>
+                                    </div>
+
+                                    <a asp-controller="Settings" asp-action="Profile" class="dropdown-link">
+                                        <i class="fi fi-rr-user"></i>
+                                        <span>Profile</span>
+                                    </a>
+                                    <a asp-controller="Wallets" asp-action="Index" class="dropdown-link">
+                                        <i class="fa-solid fa-wallet"></i>
+                                        <span>Wallets</span>
+                                    </a>
+                                    <a asp-controller="Settings" asp-action="Profile" class="dropdown-link">
+                                        <i class="fi fi-rr-settings"></i>
+                                        <span>Settings</span>
+                                    </a>
+
+                                    <a asp-controller="Login" asp-action="Logout" class="dropdown-logout">
+                                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="user-icon">
+                                <a asp-controller="Login" asp-action="Index">
+                                    <span><i class="fa-solid fa-user text-white"></i></span>
+                                </a>
+                            </div>
+                        }
                     </div>
                 </div>
             </header>
