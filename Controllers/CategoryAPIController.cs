@@ -19,7 +19,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
         }
 
         // --- 1. API (GET) ĐỂ TẢI TẤT CẢ DỮ LIỆU CẦN CHO TRANG ---
-        // JavaScript sẽ gọi API này khi trang vừa tải xong
+      
         // Đường dẫn: GET /api/category/page-data
         [HttpGet("page-data")]
         public async Task<IActionResult> GetPageData()

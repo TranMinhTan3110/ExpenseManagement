@@ -123,6 +123,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 //Đăng ký WalletService
 builder.Services.AddScoped<IWalletService, WalletService>();
+//Đăng ký Transaction
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+
 // --- GỌI BUILD() SAU KHI ĐĂNG KÝ XONG ---
 var app = builder.Build();
 
@@ -153,5 +156,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");
 
-
+app.MapControllers();
 app.Run();

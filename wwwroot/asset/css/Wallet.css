@@ -52,6 +52,7 @@
 .wallet-sidebar {
     /* border: solid 1px red; */
     height: auto;
+
 }
 
 .wallet-main {
@@ -64,6 +65,7 @@
     height: auto;
     /* border: solid 1px yellow; */
 }
+
 
 .wallet-list__item {
     border-radius: 10px;

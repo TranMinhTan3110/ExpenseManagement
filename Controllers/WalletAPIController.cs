@@ -50,6 +50,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
         public async Task<IActionResult> GetWalletDetails(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+           
             var details = await _walletService.GetWalletDetailsAsync(id, userId);
             if (details == null) return NotFound();
             return Ok(details);

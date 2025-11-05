@@ -74,50 +74,104 @@ namespace QuanLyChiTieu_WebApp.Services
         public async Task<WalletDetailsViewModel> GetWalletDetailsAsync(int walletId, string userId)
         {
             var wallet = await _context.Wallets
+                .AsNoTracking()
                 .FirstOrDefaultAsync(w => w.WalletID == walletId && w.UserID == userId);
 
             if (wallet == null) return null;
 
-            var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            var endDate = startDate.AddMonths(1);
+            // --- 1. LẤY NGÀY ĐĂNG KÝ CỦA USER ---
+            var user = await _context.Users  // <--- Đổi từ _context.Users thành tên DbSet của bạn
+                .AsNoTracking()
+                .Where(u => u.UserID == userId)  // <--- Đổi từ u.Id thành u.UserID
+                .Select(u => new { u.CreatedAt })  // Chỉ lấy field cần thiết
+                .FirstOrDefaultAsync();
 
-            // a. Lấy chi tiêu (Dùng ?? 0 để an toàn nếu rỗng)
+            if (user == null) return null;
+
+            // --- 2. TÍNH THỜI GIAN ĐỘNG ---
+            var now = DateTime.Now;
+            DateTime startDate;
+            DateTime endDate;
+
+            // Kiểm tra có phải tháng đầu tiên không
+            if (now.Year == user.CreatedAt.Year && now.Month == user.CreatedAt.Month)
+            {
+                // THÁNG ĐẦU: Từ ngày đăng ký → cuối tháng
+                startDate = user.CreatedAt;
+                endDate = new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month), 23, 59, 59);
+            }
+            else
+            {
+                // CÁC THÁNG SAU: Từ đầu tháng → hiện tại
+                startDate = new DateTime(now.Year, now.Month, 1);
+                endDate = now;
+            }
+
+            // --- 3. TÍNH CHI TIÊU HÀNG THÁNG ---
             var monthlyExpenses = await _context.Transactions
+                .AsNoTracking()
                 .Where(t => t.WalletID == walletId &&
-                            (t.Type == "Expense" || t.Type == "Expenses") &&
+                            t.Type == "Expense" &&
                             t.TransactionDate >= startDate &&
-                            t.TransactionDate < endDate)
-                .SumAsync(t => (decimal?)t.Amount) ?? 0m; // <-- Thêm 'm'
+                            t.TransactionDate <= endDate)
+                .SumAsync(t => (decimal?)t.Amount) ?? 0m;
 
-            // b. Lấy dữ liệu biểu đồ (An toàn)
-            var pieData = await _context.Transactions
-                .Where(t => t.WalletID == walletId &&
-                            (t.Type == "Expense" || t.Type == "Expenses") &&
-                            t.TransactionDate >= startDate &&
-                            t.TransactionDate < endDate)
-                .Include(t => t.Category).ThenInclude(c => c.Color)
-                .GroupBy(t => new {
-                    CategoryName = t.Category.CategoryName ?? "Chưa phân loại", // <-- Xử lý Category null
-                    HexCode = t.Category.Color.HexCode ?? "#808080" // <-- Xử lý Color null
-                })
-                .Select(g => new PieChartSliceViewModel
-                {
-                    CategoryName = g.Key.CategoryName,
-                    Amount = g.Sum(t => t.Amount),
-                    ColorHex = g.Key.HexCode
-                })
-                .ToListAsync();
-
-            // c. Lấy lịch sử (An toàn)
-            var history = await _context.Transactions
+            // --- 4. LOAD TRANSACTIONS ---
+            var allTransactionsInWallet = await _context.Transactions
+                .AsNoTracking()
                 .Where(t => t.WalletID == walletId)
-                .Include(t => t.Category).ThenInclude(c => c.Icon)
-                .Include(t => t.Category).ThenInclude(c => c.Color)
                 .OrderByDescending(t => t.TransactionDate)
-                .Take(5)
                 .ToListAsync();
 
-            // d. Gói dữ liệu lại
+            // --- 5. LOAD CATEGORIES ---
+            var categoryIds = allTransactionsInWallet.Select(t => t.CategoryID).Distinct().ToList();
+
+            var allUserCategories = await _context.Categories
+                .AsNoTracking()
+                .Where(c => categoryIds.Contains(c.CategoryID) && c.UserID == userId)
+                .Include(c => c.Icon)
+                .Include(c => c.Color)
+                .ToDictionaryAsync(c => c.CategoryID);
+
+            // --- 6. PIE CHART (Cũng theo thời gian động) ---
+            var transactionsForPie = allTransactionsInWallet
+                .Where(t => t.Type == "Expense" &&
+                            t.TransactionDate >= startDate &&
+                            t.TransactionDate <= endDate);
+
+            var pieData = transactionsForPie
+                .GroupBy(t => t.CategoryID)
+                .Select(g =>
+                {
+                    allUserCategories.TryGetValue(g.Key, out var category);
+                    return new PieChartSliceViewModel
+                    {
+                        CategoryName = category?.CategoryName ?? "Chưa phân loại",
+                        Amount = g.Sum(t => t.Amount),
+                        ColorHex = category?.Color?.HexCode ?? "#808080"
+                    };
+                })
+                .ToList();
+
+            // --- 7. TRANSACTION HISTORY ---
+            var history = allTransactionsInWallet
+                .Take(5)
+                .Select(t =>
+                {
+                    allUserCategories.TryGetValue(t.CategoryID, out var category);
+                    return new Transaction
+                    {
+                        TransactionID = t.TransactionID,
+                        Amount = t.Amount,
+                        Type = t.Type,
+                        TransactionDate = t.TransactionDate,
+                        Description = t.Description,
+                        CategoryID = t.CategoryID,
+                        Category = category
+                    };
+                })
+                .ToList();
+
             return new WalletDetailsViewModel
             {
                 WalletId = wallet.WalletID,
