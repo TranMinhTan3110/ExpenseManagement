@@ -113,7 +113,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                 new Claim(ClaimTypes.NameIdentifier, appUser.UserID),
                 new Claim(ClaimTypes.Name, appUser.FullName ?? appUser.Email),
                 new Claim(ClaimTypes.Email, appUser.Email),
-                new Claim(ClaimTypes.Role, appUser.Role)
+                new Claim(ClaimTypes.Role, appUser.Role),
+                new Claim("AvatarUrl", appUser.AvatarUrl ?? string.Empty)
             };
 
             context.Identity.AddClaims(claims);
