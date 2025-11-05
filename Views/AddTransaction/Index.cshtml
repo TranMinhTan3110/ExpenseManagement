@@ -5,7 +5,8 @@
 
 @* Link file CSS riêng cho trang này *@
 @section Styles {
-    @* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> *@
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="~/asset/css/AddTransaction.css" />
 }
 
@@ -18,7 +19,7 @@
         <div class="col-lg-8 col-md-10 mb-4">
 
             <div class="transaction-form-card">
-                <form asp-action="Create" method="post" id="transactionForm">
+                <form id="transactionForm">
 
                     <div class="row g-3 mb-4 transaction-type-toggle">
                         <div class="col-6">
@@ -31,7 +32,7 @@
                                 <img src="~/asset/img/money-bag.gif" alt="Thu nhập"> <span>Thu nhập</span>
                             </div>
                         </div>
-                        <input type="hidden" id="TransactionType" name="TransactionType" value="Expense" required>
+                        <input type="hidden" id="TransactionType" name="Type" value="Expense" required>
                     </div>
 
                     <div class="mb-4">
@@ -41,36 +42,26 @@
                             <span class="input-group-text">VNĐ</span>
                         </div>
                     </div>
-
+                        
                     <div class="mb-4">
                         <label class="form-label">Danh mục</label>
-                        <div class="row g-3 category-grid">
-                            <div class="col-3 col-md-2">
-                                <div class="category-card" data-category-id="1">
-                                    <div class="category-icon"><i class="fa-solid fa-burger"></i></div>
-                                    <span>Ăn uống</span>
-                                </div>
-                            </div>
-                            <div class="col-3 col-md-2">
-                                <div class="category-card" data-category-id="2">
-                                    <div class="category-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                    <span>Mua sắm</span>
-                                </div>
-                            </div>
-                            <div class="col-3 col-md-2">
-                                <div class="category-card" data-category-id="3">
-                                    <div class="category-icon"><i class="fa-solid fa-car"></i></div>
-                                    <span>Di chuyển</span>
-                                </div>
-                            </div>
+                        <div class="row g-3 category-grid" id="category-grid-container">
+                            <div class="col-12 text-muted">Đang tải danh mục...</div>
                         </div>
-                        <input type="hidden" id="CategoryId" name="CategoryId" required>
+                        <input type="hidden" id="CategoryId" name="CategoryID" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="WalletID" class="form-label">Từ ví</label>
+                        <select id="WalletID" name="WalletID" class="form-select form-select-lg" required>
+                            <option value="" selected disabled>Đang tải danh sách ví...</option>
+                        </select>
                     </div>
 
                     <div class="mb-4">
                         <label for="Date" class="form-label">Ngày giao dịch</label>
                         <div class="input-group input-group-lg date" id="datepicker">
-                            <input  type="text" id="Date" name="Date" class="form-control" placeholder="Chọn ngày..." data-input required>
+                            <input type="text" id="Date" name="TransactionDate" class="form-control" placeholder="Chọn ngày..." data-input required>
                             <span class="input-group-text" data-toggle>
                                 <i class="fa fa-calendar"></i>
                             </span>
@@ -79,7 +70,7 @@
 
                     <div class="mb-4">
                         <label for="Notes" class="form-label">Ghi chú (tùy chọn)</label>
-                        <textarea id="Notes" name="Notes" class="form-control form-control-lg" rows="3" placeholder="Thêm ghi chú..."></textarea>
+                        <textarea id="Notes" name="Description" class="form-control form-control-lg" rows="3" placeholder="Thêm ghi chú..."></textarea>
                     </div>
 
                     <div class="d-grid">
@@ -96,6 +87,11 @@
 
 @* Link file JS riêng cho trang này *@
 @section Scripts {
-    @* <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>  *@
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="~/asset/js/AddTransaction.js"></script>
 }

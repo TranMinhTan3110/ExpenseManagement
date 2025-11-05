@@ -149,6 +149,8 @@
 
     <script>
         let currentWalletId = null;
+        let isEditMode = false;
+
         document.addEventListener('DOMContentLoaded', function () {
             
 
@@ -160,6 +162,8 @@
         const btnEditWallet = document.getElementById('btn-edit-wallet');
         const btnDeleteWallet = document.getElementById('btn-delete-wallet');
             // (MỚI) Lấy các element của Modal (để Sửa)
+
+
         const addWalletModalEl = document.getElementById('addWalletModal');
         const addWalletModal = new bootstrap.Modal(addWalletModalEl);
         const modalTitle = document.getElementById('addWalletModalLabel');
@@ -239,6 +243,7 @@
                         renderPieChart([]);
                     }
                     renderTransactionHistory([]);
+
                     return;
                 }
 
@@ -265,98 +270,115 @@
             }
 
             // HÀM VẼ BẢNG LỊCH SỬ GIAO DỊCH
-            function renderTransactionHistory(history) {
-                if (!transactionHistoryBody) return;
-                transactionHistoryBody.innerHTML = '';
-                if (history.length === 0) {
-                    transactionHistoryBody.innerHTML = '<tr><td colspan="4" class="text-center">Chưa có giao dịch nào.</td></tr>';
-                    return;
-                }
-                history.forEach(tx => {
-                    // (Code vẽ <tr> ... )
-                });
+                  // HÀM VẼ BẢNG LỊCH SỬ GIAO DỊCH
+        function renderTransactionHistory(history) {
+            if (!transactionHistoryBody) return;
+            transactionHistoryBody.innerHTML = '';
+
+            if (history.length === 0) {
+                transactionHistoryBody.innerHTML = '<tr><td colspan="4" class="text-center">Chưa có giao dịch nào.</td></tr>';
+                return;
             }
+
+            history.forEach(tx => {
+                const tr = document.createElement('tr');
+
+                // Format ngày giờ
+                const date = new Date(tx.transactionDate);
+                const formattedDate = date.toLocaleDateString('vi-VN', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+
+                // Màu sắc cho Amount (Xanh = Thu nhập, Đỏ = Chi tiêu)
+                const amountClass = tx.type === 'Income' ? 'text-success' : 'text-danger';
+                const amountSign = tx.type === 'Income' ? '+' : '-';
+
+                tr.innerHTML = `
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <i class="${tx.category?.icon?.iconClass || 'fa-solid fa-circle-question'}"
+                               style="color: ${tx.category?.color?.hexCode || '#808080'};  margin-right: 10px;"></i>
+                            <span>${tx.category?.categoryName || 'Chưa phân loại'}</span>
+                        </div>
+                    </td>
+                    <td>${formattedDate}</td>
+                    <td>${tx.description || '-'}</td>
+                    <td class="text-end ${amountClass}">
+                        <strong>${amountSign}${tx.amount.toLocaleString()}đ</strong>
+                    </td>
+                `;
+
+                transactionHistoryBody.appendChild(tr);
+            });
+        }
 
             // CHẠY HÀM TẢI DỮ LIỆU KHI MỞ TRANG
             loadWalletList();
 
             // --- CODE FORM "THÊM VÍ MỚI" ---
             if (addWalletForm) {
-                addWalletForm.addEventListener('submit', async function (e) {
-                    e.preventDefault();
-                    const formData = new FormData(addWalletForm);
-                    const data = {
-                        WalletName: formData.get("WalletName"),
-                        InitialBalance: formData.get("InitialBalance"),
-                        WalletType: formData.get("WalletType")
-                    };
+                       addWalletForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(addWalletForm);
+            const data = {
+                WalletName: formData.get("WalletName"),
+                InitialBalance: formData.get("InitialBalance"),
+                WalletType: formData.get("WalletType")
+            };
 
-                    if (!data.WalletName || !data.WalletType || data.InitialBalance === null) {
-                        Swal.fire("Thiếu thông tin", "Vui lòng điền đầy đủ 3 ô.", "warning");
-                        return;
-                    }
+            if (!data.WalletName || !data.WalletType || data.InitialBalance === null) {
+                Swal.fire("Thiếu thông tin", "Vui lòng điền đầy đủ 3 ô.", "warning");
+                return;
+            }
 
-                    try {
-                        const res = await fetch('/api/wallet', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(data)
-                        });
-            if (res.ok) {
-                // Đóng modal sau khi SweetAlert đóng
-                       Swal.fire({
-                icon: "success",
-                title: "Tạo thành công!",
-                showConfirmButton: false,
-                timer: 1500,
-                willClose: () => {
-                    const modalEl = document.getElementById('addWalletModal');
-                    const modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-                    modalInstance.hide();
-
-                    // Đợi modal đóng xong rồi reset cuộn
-                    setTimeout(() => {
-                        // Xóa lớp phủ modal nếu còn
-                        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-
-                        // Xóa class và style khóa cuộn
-                        document.body.classList.remove('modal-open');
-                        document.body.style.overflow = 'auto';
-                        document.body.style.position = '';
-                        document.body.style.height = 'auto';
-                        document.body.style.paddingRight = '';
-
-                        // Reset thêm cho thẻ <html> nếu cần
-                        document.documentElement.style.overflow = 'auto';
-                        document.documentElement.style.position = '';
-                        document.documentElement.style.height = 'auto';
-                    }, 300);
+            try {
+                let res;
+                if (isEditMode && currentWalletId) {
+                    // Gọi API PUT để cập nhật ví
+                    res = await fetch(`/api/wallet/${currentWalletId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                } else {
+                    // Gọi API POST để tạo ví mới
+                    res = await fetch('/api/wallet', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
                 }
-            });
 
-
-                // Tải lại danh sách ví
-                loadWalletList();
-                        loadWalletList();
-        setTimeout(() => {
-            const firstWallet = document.querySelector('.wallet-list__item');
-            if (firstWallet) {
-                currentWalletId = firstWallet.dataset.walletId;
-            } else {
-                currentWalletId = null;
-            }
-        }, 500);
-
-            }
-         else {
-                            const errorData = await res.json();
-                            Swal.fire("Lỗi!", errorData.message || "Vui lòng kiểm tra lại.", "error");
+                if (res.ok) {
+                    Swal.fire({
+                        icon: "success",
+                        title: isEditMode ? "Cập nhật thành công!" : "Tạo thành công!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        willClose: () => {
+                            const modalEl = document.getElementById('addWalletModal');
+                            const modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                            modalInstance.hide();
+                            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+                            document.body.classList.remove('modal-open');
+                            document.body.style.overflow = 'auto';
+                            document.documentElement.style.overflow = 'auto';
                         }
-                    } catch (error) {
-                        console.error("Lỗi khi tạo ví:", error);
-                        Swal.fire("Lỗi kết nối!", "Không thể kết nối đến server.", "error");
-                    }
-                });
+                    });
+
+                    await loadWalletList();
+                } else {
+                    const errorData = await res.json();
+                    Swal.fire("Lỗi!", errorData.message || "Vui lòng kiểm tra lại.", "error");
+                }
+            } catch (error) {
+                console.error("Lỗi khi lưu ví:", error);
+                Swal.fire("Lỗi kết nối!", "Không thể kết nối đến server.", "error");
+            }
+        });
+
 
             }
                 // --- 8. (MỚI) SỰ KIỆN CHO NÚT "ADD NEW WALLET" ---
