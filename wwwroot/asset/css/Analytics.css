@@ -272,3 +272,40 @@ table {
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
 }
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.no-data-display {
+    padding: 28px 10px;
+    text-align: center;
+    list-style: none;
+}
+
+    .no-data-display i {
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .no-data-display p {
+        font-size: 14px;
+        opacity: .7;
+    }
+.chart-no-data {
+    width: 100%;
+    height: 260px; /* cùng chiều cao với chart để không lệch layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* canh giữa theo chiều dọc */
+    align-items: center; /* canh giữa theo chiều ngang */
+    text-align: center;
+    color: #999;
+    padding: 20px;
+}
