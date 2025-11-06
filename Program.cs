@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-
 using QuanLyChiTieu_WebApp.Models;
 using QuanLyChiTieu_WebApp.Models.EF;
 using QuanLyChiTieu_WebApp.Models.Entities;
 using QuanLyChiTieu_WebApp.Services;
 using System;
 using System.Security.Claims;
-
+using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,7 +57,6 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Đăng ký GoalsServices
 builder.Services.AddScoped<IGoalService, GoalService>();
-
 
 // Đăng ký SettingsService
 builder.Services.AddScoped<ISettingsService, SettingsService>();
@@ -128,6 +127,11 @@ builder.Services.AddScoped<IWalletService, WalletService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 // Đăng ký AnalyticsService
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+
+// Logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
 
 // --- GỌI BUILD() SAU KHI ĐĂNG KÝ XONG ---
 var app = builder.Build();
