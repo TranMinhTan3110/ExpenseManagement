@@ -126,6 +126,8 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IWalletService, WalletService>();
 //Đăng ký Transaction
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+// Đăng ký AnalyticsService
+builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 
 // --- GỌI BUILD() SAU KHI ĐĂNG KÝ XONG ---
 var app = builder.Build();
