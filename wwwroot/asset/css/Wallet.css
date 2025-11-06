@@ -434,8 +434,3 @@ input[type=number] {
     max-height: 350px;
     overflow-y: auto;
 }
-
-html, body {
-    height: auto !important;
-    overflow: auto !important;
-}
