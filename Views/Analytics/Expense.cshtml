@@ -33,6 +33,30 @@
                     <a asp-controller="Analytics" asp-action="Expense" class="active">Expenses</a>
                     <a asp-controller="Analytics" asp-action="Income">Income</a>
                 </div>
+                @* dropdown *@
+                 <div class="card mb-3">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <label class="form-label">Chọn ví</label>
+                    <select id="walletFilter" class="form-select">
+                        <option value="">Tất cả ví</option>
+                        <!-- JavaScript sẽ load danh sách ví vào đây -->
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Tháng</label>
+                    <input type="month" id="monthFilter" class="form-control" value="">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">&nbsp;</label>
+                    <button id="btnApplyFilter" class="btn btn-primary w-100">
+                        <i class="fi fi-rr-filter"></i> Lọc
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
                 <div class="row">
                     <div class=" col-xxl-4 col-xl-4 col-lg-4 col-md-12">
                         <div class="card">

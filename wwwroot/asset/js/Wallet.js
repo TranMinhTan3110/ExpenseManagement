@@ -1,266 +1,126 @@
-﻿// wallet
-var walletList = document.querySelectorAll(".wallet-list__item");
+﻿// XÓA TOÀN BỘ CODE CŨ VÀ THAY BẰNG CODE NÀY
 
+var myChart = null; // Biến global để lưu biểu đồ
+
+// Hàm lấy màu (giữ nguyên)
+function getLegendColor() {
+    return getComputedStyle(document.documentElement)
+        .getPropertyValue('--text-color').trim() || '#333';
+}
+
+// --- HÀM MỚI: Nhận dữ liệu từ API và vẽ Pie Chart ---
+// --- HÀM MỚI: Nhận dữ liệu từ API và vẽ Pie Chart ---
+function renderPieChart(expenseBreakdown) {
+    const pie = document.getElementById('categoryPieChart');
+    if (!pie) return;
+
+    // 1. Nếu không có dữ liệu → Hiển thị "Chưa có chi tiêu"
+    if (!expenseBreakdown || expenseBreakdown.length === 0) {
+        if (myChart) {
+            myChart.destroy();
+            myChart = null;
+        }
+
+        // VẼ TEXT ĐẸPHƠN (CĂN GIỮA + MÀU XÁM NHẸ)
+        const ctx = pie.getContext('2d');
+        const parentWidth = pie.parentElement.offsetWidth;
+        const parentHeight = pie.parentElement.offsetHeight;
+
+        pie.width = parentWidth;
+        pie.height = parentHeight;
+
+        ctx.clearRect(0, 0, pie.width, pie.height);
+
+        // Vẽ icon và text
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // Icon (emoji hoặc symbol)
+        ctx.font = '48px Arial';
+        ctx.fillStyle = '#d1d5db'; // Màu xám nhạt
+        ctx.fillText('📊', pie.width / 2, pie.height / 2 - 30);
+
+        // Text chính
+        ctx.font = '16px Arial';
+        ctx.fillStyle = '#9ca3af'; // Màu xám vừa
+        ctx.fillText('Chưa có chi tiêu trong tháng này', pie.width / 2, pie.height / 2 + 20);
+
+        return;
+    }
+
+    // 2. Chuẩn bị dữ liệu từ API
+    const labels = expenseBreakdown.map(item => item.categoryName);
+    const data = expenseBreakdown.map(item => item.amount);
+    const colors = expenseBreakdown.map(item => item.colorHex || '#808080');
+
+    // 3. Nếu biểu đồ cũ tồn tại → Xóa đi
+    if (myChart) {
+        myChart.destroy();
+    }
+
+    // 4. Vẽ biểu đồ mới
+    myChart = new Chart(pie, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Chi tiêu',
+                data: data,
+                backgroundColor: colors.map(c => c + 'B3'), // Thêm độ trong suốt (70%)
+                borderColor: colors,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'right',
+                    align: 'center',
+                    labels: {
+                        color: function () {
+                            return getLegendColor();
+                        },
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        },
+                        padding: 10,
+                        boxWidth: 20,
+                        usePointStyle: false
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            let label = context.label || '';
+                            let value = context.parsed || 0;
+                            let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            let percentage = ((value / total) * 100).toFixed(1);
+                            return `${label}: ${value.toLocaleString()}đ (${percentage}%)`;
+                        }
+                    }
+                }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true
+            }
+        }
+    });
+}
+
+// --- CODE WALLET CLICK (Giữ nguyên) ---
+var walletList = document.querySelectorAll(".wallet-list__item");
 walletList.forEach(wallet => {
     wallet.addEventListener('click', (e) => {
         e.preventDefault();
-        var currentWallet = document.querySelector(".wallet-list__item--active")
+        var currentWallet = document.querySelector(".wallet-list__item--active");
         if (currentWallet) {
-            currentWallet.classList.remove('wallet-list__item--active')
+            currentWallet.classList.remove('wallet-list__item--active');
         }
-        e.currentTarget.classList.add('wallet-list__item--active')
-    })
-})
-
-
-
-// Khai báo biến myChart ở ngoài (phạm vi global) để file site.js có thể "thấy"
-var myChart = null;
-
-// Hàm lấy màu (bạn đã có trong theme-utils.js, nhưng nếu chưa thì thêm vào)
-function getLegendColor() {
-    return getComputedStyle(document.documentElement)
-        .getPropertyValue('--text-color').trim();
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    const pie = document.getElementById('categoryPieChart');
-
-    // Chỉ chạy code nếu tìm thấy canvas
-    if (pie) {
-        const categoryLabels = ['Ăn sáng', 'Mua sắm', 'Thời Trang', 'Đi lại'];
-        const categoryData = [500000, 200000, 300000, 150000];
-
-        // Gán biểu đồ cho biến global
-        myChart = new Chart(pie, {
-            type: 'pie',
-            data: {
-                labels: categoryLabels,
-                datasets: [{
-                    label: 'Chi tiêu',
-                    data: categoryData,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.7)',
-                        'rgba(54, 162, 235, 0.7)',
-                        'rgba(255, 206, 86, 0.7)',
-                        'rgba(75, 192, 192, 0.7)',
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'right',
-                        align: 'center',
-                        labels: {
-                            // DÙNG HÀM (CÔNG THỨC) THAY VÌ MÀU CỐ ĐỊNH
-                            color: function (context) {
-                                // Lấy màu --text-color hiện tại MỖI KHI VẼ LẠI
-                                return getLegendColor();
-                            },
-                            font: {
-                                size: 14,
-                                weight: 'bold'
-                            },
-                            padding: 10,
-                            boxWidth: 20,
-                            usePointStyle: false
-                        }
-                    },
-                    animation: {
-                        animateRotate: true,
-                        animateScale: true
-                    }
-                }
-            }
-        });
-    } // kết thúc if(pie)
+        e.currentTarget.classList.add('wallet-list__item--active');
+    });
 });
-
-//Chỉ chạy code khi trang HTML đã tải xong
-//document.addEventListener('DOMContentLoaded', function () {
-
-//    // --- 1. LẤY CÁC ELEMENT CHÍNH ---
-//    const walletListContainer = document.querySelector(".wallet-list");
-//    const addWalletForm = document.getElementById('addWalletForm');
-//    const transactionHistoryBody = document.querySelector(".transaction-history tbody");
-
-//    // Nếu không tìm thấy list ví, thì không chạy code
-//    if (!walletListContainer) {
-//        return;
-//    }
-
-//    // --- 2. CODE WALLET CLICK (SỰ KIỆN) ---
-//    walletListContainer.addEventListener('click', function (e) {
-//        const clickedWallet = e.target.closest('.wallet-list__item');
-//        if (!clickedWallet) return;
-//        e.preventDefault();
-//        var currentWallet = document.querySelector(".wallet-list__item--active")
-//        if (currentWallet) {
-//            currentWallet.classList.remove('wallet-list__item--active')
-//        }
-//        clickedWallet.classList.add('wallet-list__item--active');
-//        const walletId = clickedWallet.dataset.walletId;
-//        loadWalletDetails(walletId);
-//    });
-
-//    // --- 3. CODE AJAX (TẢI DỮ LIỆU) ---
-
-//    // Hàm tải danh sách ví (bên trái)
-//    async function loadWalletList() {
-//        try {
-//            const response = await fetch('/api/wallet');
-//            if (!response.ok) throw new Error('Không tải được danh sách ví');
-//            const wallets = await response.json();
-
-//            walletListContainer.innerHTML = ''; // Xóa list cũ
-
-//            if (wallets.length === 0) {
-//                // Nếu rỗng, hiển thị mặc định
-//                loadWalletDetails(null); // Gọi hàm tải chi tiết với ID rỗng
-//                return;
-//            }
-
-//            // Lặp và "vẽ" ra list ví mới
-//            wallets.forEach(wallet => {
-//                const li = document.createElement('li');
-//                li.className = 'wallet-list__item mb-3';
-//                li.dataset.walletId = wallet.walletID;
-
-//                li.innerHTML = `
-//                    <a href="">
-//                        <div class="wallet-list__icon"><i class="${wallet.icon}"></i></div>
-//                        <div class="wallet-list__info">
-//                            <h5 class="wallet-list__name">${wallet.walletName}</h5>
-//                            <p class="wallet-list__balance">${wallet.balance.toLocaleString()}đ</p>
-//                        </div>
-//                    </a>
-//                `;
-//                walletListContainer.appendChild(li);
-//            });
-
-//            // Tự động click vào ví đầu tiên (nếu có)
-//            const firstWallet = walletListContainer.querySelector('.wallet-list__item');
-//            if (firstWallet) {
-//                firstWallet.classList.add('wallet-list__item--active');
-//                loadWalletDetails(firstWallet.dataset.walletId);
-//            }
-//        } catch (error) {
-//            console.error("Lỗi tải danh sách ví:", error);
-//        }
-//    }
-
-//    // Hàm tải chi tiết (bên phải)
-//    async function loadWalletDetails(walletId) {
-//        // Nếu không có ví nào (lần đầu vào)
-//        if (!walletId) {
-//            document.querySelector('.wallet-title h4').textContent = "Chưa có ví";
-//            document.querySelector('.total-balance .balance-amount').textContent = "0đ";
-//            document.querySelector('.monthly-expense .balance-amount').textContent = "0đ";
-//            renderPieChart([]); // Vẽ biểu đồ rỗng
-//            renderTransactionHistory([]); // Vẽ bảng rỗng
-//            return;
-//        }
-
-//        // Nếu có ví, gọi API
-//        try {
-//            const response = await fetch(`/api/wallet/${walletId}/details`);
-//            if (!response.ok) throw new Error('Không tải được chi tiết ví');
-//            const details = await response.json();
-
-//            // Đổ dữ liệu vào HTML (bên phải)
-//            document.querySelector('.wallet-title h4').textContent = details.walletName;
-//            document.querySelector('.total-balance .balance-amount').textContent = `${details.totalBalance.toLocaleString()}đ`;
-//            document.querySelector('.monthly-expense .balance-amount').textContent = `${details.monthlyExpenses.toLocaleString()}đ`;
-
-//            // GỌI HÀM VẼ BIỂU ĐỒ (từ file Wallet.js)
-//            renderPieChart(details.expenseBreakdown);
-
-//            // GỌI HÀM VẼ BẢNG
-//            renderTransactionHistory(details.transactionHistory);
-//        } catch (error) {
-//            console.error("Lỗi tải chi tiết ví:", error);
-//        }
-//    }
-
-//    // HÀM VẼ BẢNG LỊCH SỬ GIAO DỊCH
-//    function renderTransactionHistory(history) {
-//        if (!transactionHistoryBody) return;
-//        transactionHistoryBody.innerHTML = '';
-//        if (history.length === 0) {
-//            transactionHistoryBody.innerHTML = '<tr><td colspan="4" class="text-center">Chưa có giao dịch nào.</td></tr>';
-//            return;
-//        }
-//        history.forEach(tx => {
-//            const row = document.createElement('tr');
-//            const amountClass = tx.type === 'Income' ? 'text-success' : 'text-danger';
-//            const amountSign = tx.type === 'Income' ? '+' : '-';
-//            const txDate = new Date(tx.transactionDate).toLocaleDateString('vi-VN');
-
-//            row.innerHTML = `
-//                <td>
-//                    <span class="transaction-icon" style="background-color: ${tx.category.color.hexCode}1A; color: ${tx.category.color.hexCode};">
-//                        <i class="${tx.category.icon.iconClass}"></i>
-//                    </span>
-//                    <span class="category-name">${tx.category.categoryName}</span>
-//                </td>
-//                <td class="transaction-date">${txDate}</td>
-//                <td class="transaction-description">${tx.description}</td>
-//                <td class="transaction-amount ${amountClass} text-end">${amountSign}${tx.amount.toLocaleString()}đ</td>
-//            `;
-//            transactionHistoryBody.appendChild(row);
-//        });
-//    }
-
-//    // 4. CHẠY HÀM TẢI DỮ LIỆU KHI MỞ TRANG
-//    loadWalletList();
-
-//    // --- 5. CODE FORM "THÊM VÍ MỚI" ---
-//    if (addWalletForm) {
-//        addWalletForm.addEventListener('submit', async function (e) {
-//            e.preventDefault();
-//            const formData = new FormData(addWalletForm);
-//            const data = {
-//                WalletName: formData.get("WalletName"),
-//                InitialBalance: formData.get("InitialBalance"),
-//                WalletType: formData.get("WalletType")
-//            };
-
-//            if (!data.WalletName || !data.WalletType || data.InitialBalance === null) {
-//                Swal.fire("Thiếu thông tin", "Vui lòng điền đầy đủ 3 ô.", "warning");
-//                return;
-//            }
-
-//            try {
-//                const res = await fetch('/api/wallet', {
-//                    method: 'POST',
-//                    headers: { 'Content-Type': 'application/json' },
-//                    body: JSON.stringify(data)
-//                });
-
-//                if (res.ok) {
-//                    Swal.fire({ icon: "success", title: "Tạo thành công!", showConfirmButton: false, timer: 1500 });
-
-//                    var modalEl = document.getElementById('addWalletModal');
-//                    if (typeof bootstrap !== 'undefined') {
-//                        var modalInstance = bootstrap.Modal.getInstance(modalEl);
-//                        if (modalInstance) modalInstance.hide();
-//                    }
-//                    loadWalletList(); // Tải lại list ví
-
-//                } else {
-//                    const errorData = await res.json();
-//                    Swal.fire("Lỗi!", errorData.message || "Vui lòng kiểm tra lại.", "error");
-//                }
-//            } catch (error) {
-//                console.error("Lỗi khi tạo ví:", error);
-//                Swal.fire("Lỗi kết nối!", "Không thể kết nối đến server.", "error");
-//            }
-//        });
-//    }
-
-//}); // kết thúc DOMContentLoaded
-
