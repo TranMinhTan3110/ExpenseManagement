@@ -278,24 +278,16 @@
                     <input type="hidden" id="depositGoalId" />
 
                     <!-- Chọn ví -->
-                    <div class="mb-3">
+                   <div class="mb-3">
                         <label for="depositWallet" class="form-label">
                             <i class="fi fi-rr-wallet"></i> Chọn ví
                         </label>
                         <select id="depositWallet" class="form-select" required>
                             <option value="">-- Chọn ví --</option>
-                            @if (ViewBag.Wallets != null)
-                            {
-                                @foreach (var wallet in ViewBag.Wallets)
-                                {
-                                    <option value="@wallet.WalletID">
-                                        @wallet.WalletName - Số dư: @wallet.Balance.ToString("N0") VNĐ
-                                    </option>
-                                }
-                            }
                         </select>
                         <small class="text-muted">Chọn ví để chuyển tiền vào mục tiêu</small>
                     </div>
+
 
                     <!-- Số tiền -->
                     <div class="mb-3">
@@ -398,7 +390,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <!-- Your custom script - PHẢI ĐẶT CUỐI CÙNG -->
-    <script src="~/asset/js/Goals.js"></script>
+    <script src="~/asset/js/Goals.js" asp-append-version="true" ></script>
     
     <!-- Cấu hình toastr -->
     <script>
@@ -408,5 +400,6 @@
             "positionClass": "toast-top-right",
             "timeOut": "3000"
         };
+
     </script>
 }
