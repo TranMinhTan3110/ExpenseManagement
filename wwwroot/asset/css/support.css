@@ -15,7 +15,7 @@
     }
 
     .page-title .page-title-content p {
-        color: var( --text-muted-color);
+        color: var( --text);
     }
 
 .settings-menu {
@@ -25,20 +25,20 @@
     .settings-menu a {
         display: inline-block;
         margin-right: 20px;
-        color: var( --text-muted-color) !important;
+        color: var( --text) !important;
         font-size: 16px;
         text-decoration: none;
     }
 
 .breadcrumbs a {
-    color: var( --text-muted-color);
+    color: var( --text);
     display: inline-block;
     font-size: 14px;
     text-decoration: none;
 }
 
 .breadcrumbs.active a {
-    color: #fff;
+    color: var(--text);
 }
 
 .breadcrumbs i {
@@ -47,7 +47,7 @@
     line-height: 0;
     position: relative;
     top: 5px;
-    color: var( --text-muted-color);
+    color: var( --text);
 }
 
 .settings-menu a:hover,
@@ -55,6 +55,9 @@
 .settings-menu a:active,
 .settings-menu a.active {
     color: #1816b9 !important;
+}
+.ticket p{
+    color:var(--text);
 }
 .card {
     margin-bottom: 30px;
