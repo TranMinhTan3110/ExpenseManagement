@@ -10,16 +10,19 @@
     .page-title .page-title-content .h3 {
         font-size: 24px;
         margin-bottom: 0px;
-    }
 
-.settings-menu {
-    margin-bottom: 30px;
-}
+    }
+    .page-title .page-title-content p {
+        color: var( --text);
+    }
+    .settings-menu {
+        margin-bottom: 30px;
+    }
 
     .settings-menu a {
         display: inline-block;
         margin-right: 20px;
-        color: #7184ad;
+        color: var(--text);
         font-size: 16px;
         text-decoration: none;
     }
@@ -32,14 +35,14 @@
         }
 
 .breadcrumbs a {
-    color: var( --text-muted-color);
+    color: var( --text);
     display: inline-block;
     font-size: 14px;
     text-decoration: none;
 }
 
 .breadcrumbs.active a {
-    color: #fff;
+    color: var( --text);
 }
 
 .breadcrumbs i {
@@ -48,9 +51,11 @@
     line-height: 0;
     position: relative;
     top: 5px;
-    color: var( --text-muted-color);
+    color: var( --text);
 }
-
+.form-control{
+    color:var(--text);
+}
 .card {
     border: 1px solid var(--border-color);
     margin-bottom: 30px;
@@ -121,7 +126,7 @@
 
 .form-label {
     font-weight: 500;
-    color: var( --text-muted-color);
+    color: var( --text);
 }
 
 .form-select {
@@ -243,7 +248,7 @@
         -ms-flex-align: center;
         align-items: center;
         font-size: 15px;
-        color: var( --text-muted-color) !important;
+        color: var( --text) !important;
     }
 
         .category-type .left-category .category-icon i {
@@ -252,7 +257,7 @@
             margin-right: 10px;
             
             width: 35px;
-            color: var( --text-muted-color);
+            color: var( --text);
             padding: 9px 10px;
             border-radius: 100px;
             font-size: 16px;

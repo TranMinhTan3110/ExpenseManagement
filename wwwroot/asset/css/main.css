@@ -20,6 +20,7 @@
     --bs-body-bg: #fff;
     --bs-secondary-color: rgba(33, 37, 41, 0.75);
     --bs-heading-color: #1f2c73;
+    --text: #6c757d;
     --loading-color: #2F2CD8; /* Màu loading*/
     /* --wallet:rgb(31, 41, 55) */
     /* === THÊM 4 DÒNG NÀY VÀO :ROOT === */
@@ -29,8 +30,10 @@
         --chart-fill-color: rgba(75, 192, 192, 0.2);
 }
 .dark-mode {
+    --bs-emphasis-color: #ffffffd8;
     --bg-color: rgb(17, 24, 39);
-    --text-title: #ffffff;
+    --text-title: #ffffffd8;
+    --text: #ffffffd8;
     --card-bg-color: rgb(17, 24, 39);
     --shadow-color: rgba(255, 255, 255, 0.05);
     --bs-body-bg: rgb(17, 24, 39);
@@ -43,10 +46,10 @@
     /* --card-bg: #1e1e1e; */
     /* --border-color: #444; */
     /* === THÊM 4 DÒNG NÀY VÀO .DARK-MODE === */
-    --chart-grid-color: rgba(255, 255, 255, 0.15); /* Màu lưới (SÁNG) */
-    --chart-label-color: #b0b0c0;                  /* Màu chữ số (SÁNG) */
-    --chart-line-color: rgba(75, 192, 192, 1);
-    --chart-fill-color: rgba(75, 192, 192, 0.3);
+        --chart-grid-color: rgba(255, 255, 255, 0.15); /* Màu lưới (SÁNG) */
+        --chart-label-color: #b0b0c0; /* Màu chữ số (SÁNG) */
+        --chart-line-color: rgba(75, 192, 192, 1);
+        --chart-fill-color: rgba(75, 192, 192, 0.3);
 }
 
 body {

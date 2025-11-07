@@ -16,7 +16,7 @@
             <div class="col-12">
                 <div class="page-title">
                     <div class="row align-items-center justify-content-between">
-                        <div class="col-xl-4">
+                        <div class="col-xl-4 page-title">
                             <div class="page-title-content">
                                 <h3>Create Ticket</h3>
                                 <p class="mb-2">Welcome Ekash Finance Management</p>
@@ -38,7 +38,8 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Create Ticket</h4>
-                        <a asp-controller="Settings" asp-action="Support" class="text-danger">Cancel</a>
+                        <a asp-controller="Settings" asp-action="Support" class="btn btn-danger">Cancel</a>
+
                     </div>
                     <div class="card-body">
                         <form asp-controller="Settings" asp-action="CreateTicket" method="post">

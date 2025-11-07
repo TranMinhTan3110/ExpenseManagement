@@ -11,9 +11,10 @@
     .page-title .page-title-content .h3 {
         font-size: 24px;
         margin-bottom: 0px;
+        color:var(--text);
     }
     .page-title .page-title-content p {
-        color: var( --text-muted-color);
+        color: var( --text);
     }
 
     .settings-menu {
@@ -23,7 +24,7 @@
         .settings-menu a {
             display: inline-block;
             margin-right: 20px;
-            color: var( --text-muted-color) !important;
+            color: var( --text) !important;
             font-size: 16px;
             text-decoration: none;
         }
@@ -36,7 +37,7 @@
         }
 
 .breadcrumbs a {
-    color: var( --text-muted-color);
+    color: var( --text);
     display: inline-block;
     font-size: 14px;
     text-decoration: none;
@@ -52,7 +53,7 @@
     line-height: 0;
     position: relative;
     top: 5px;
-    color: var( --text-muted-color);
+    color: var( --text);
 }
 
 .card {
@@ -118,11 +119,11 @@
     background-color: var(--card-bg-color) !important;
 }
 .form-label {
-    color: var( --text-muted-color);
+    color: var( --text);
 }
 .media-body p,
 .media-body h4 {
-    color: var( --text-muted-color) !important;
+    color: var( --text) !important;
     padding:0;
 }
 .card .card-footer {
@@ -168,7 +169,7 @@
 
 /* 3. Style chữ "Choose file..." (Đổi màu ở đây) */
 .form-file-text {
-    color: var(--text-muted-color); /* <<-- ĐỔI MÀU BẰNG BIẾN */
+    color: var(--text); /* <<-- ĐỔI MÀU BẰNG BIẾN */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -191,12 +192,14 @@
     color: var( --text-muted-color) !important;
 }
 .form-control {
-    color: var( --text-muted-color) !important;
+    color: var(--text) !important;
 }
 .card, form {
     max-width: 100%;
 }
-
+.personal-infomation input {
+    color: var(--text) !important;
+}
 @media screen and (max-width: 375px) {
     .page-content {
         padding: 0px !important;

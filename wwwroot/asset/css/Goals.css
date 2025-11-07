@@ -18,24 +18,24 @@ body {
 }
 
 .page-title-content p {
-    color: var(--text-muted-color) !important;
+    color: var(--text-title) !important;
 }
 
 .breadcrumbs .fi-rr-angle-small-right {
     color: var(--text-muted-color);
 }
 .breadcrumb a {
-    color: var(--text-muted-color); /*dòng đã sửa111*/
+    color: var(--text-title); /*dòng đã sửa111*/
     text-decoration: none;
 }
 
 .breadcrumb-item + .breadcrumb-item::before { /*dòng đã sửa111*/
-    color: var(--text-muted-color); /*dòng đã sửa111*/
+    color: var(--text-title); /*dòng đã sửa111*/
 }
 /*dòng đã sửa*/
 
 .breadcrumb .breadcrumb-item {
-    color: var(--text-muted-color); /*dòng đã sửa111*/
+    color: var(--text-title); /*dòng đã sửa111*/
 }
 
 .breadcrumb a:hover {
@@ -105,6 +105,17 @@ body {
     line-height: 1.2;
     color: var(--bs-heading-color);
 }
+.container,
+.container-fluid,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl,
+.container-xxl {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
 /* =========================================================
    SIDEBAR NAV & MENU ITEMS
    ========================================================= */
@@ -121,14 +132,14 @@ body {
     border: solid 1px var(--border-color)
 }
 .goals-nav-circle .percent-goal {
-    color: var(--text-muted-color) ;
+    color: var(--text-title) ;
 }
 .goals-nav.active {
     background: #2F2CD8;
 }
 
     .goals-nav .goals-nav-text p {
-        color: var(--text-muted-color);
+        color: var(--text);
         opacity: 0.85;
         font-size: 14px;
         font-weight: 400;
@@ -387,3 +398,4 @@ input[type=number] {
         animation: none;
     }
 }
+
