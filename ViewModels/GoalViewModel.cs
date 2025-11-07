@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using QuanLyChiTieu_WebApp.Models.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace QuanLyChiTieu_WebApp.ViewModels
 {
@@ -49,7 +50,7 @@ namespace QuanLyChiTieu_WebApp.ViewModels
     {
         public List<GoalViewModel> Goals { get; set; }
         public int ActiveGoalId { get; set; }
-        //public List<WalletViewModel> Wallets { get; set; }
+        public List<WalletDetailsViewModel> Wallets { get; set; }
 
     }
 

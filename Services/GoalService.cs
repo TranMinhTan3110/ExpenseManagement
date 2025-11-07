@@ -178,7 +178,8 @@ namespace QuanLyChiTieu_WebApp.Services
                     WalletID = walletId,
                     Amount = amount,
                     DepositDate = DateTime.Now,
-                    Note = note ?? "Gửi tiền vào mục tiêu"
+                    Note = note ?? "Gửi tiền vào mục tiêu",
+                    UserID = userId
                 });
 
                 goal.CurrentAmount += amount;

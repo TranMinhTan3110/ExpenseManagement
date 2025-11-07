@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuanLyChiTieu_WebApp.Models.EF;
@@ -12,12 +13,14 @@ namespace QuanLyChiTieu_WebApp.Controllers
     public class GoalsController : Controller
     {
         private readonly IGoalService _goalService;
+        private readonly IWalletService _walletService;
         private readonly ApplicationDbContext _context; // 👈 THÊM DbContext
 
-        public GoalsController(IGoalService goalService, ApplicationDbContext context)
+        public GoalsController(IGoalService goalService, ApplicationDbContext context, IWalletService walletService)
         {
             _goalService = goalService;
-            _context = context; // 👈 INJECT
+            _context = context;
+            _walletService = walletService;
         }
 
         private string GetCurrentUserId()
@@ -78,7 +81,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
             {
                 return Json(new { success = false, message = "Phiên đăng nhập hết hạn" });
             }
-
+            
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values
@@ -132,5 +135,61 @@ namespace QuanLyChiTieu_WebApp.Controllers
 
             return View(goalDetail);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserWallets()
+        {
+            try
+            {
+                var userId = GetCurrentUserId();
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Json(new { success = false, message = "Phiên đăng nhập hết hạn" });
+                }
+
+                // ✅ Kiểm tra _walletService có null không
+                if (_walletService == null)
+                {
+                    return Json(new { success = false, message = "Wallet service không khả dụng" });
+                }
+
+                var wallets = await _walletService.GetWalletsByUserIdAsync(userId);
+
+                // ✅ Kiểm tra wallets có null không
+                if (wallets == null || !wallets.Any())
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        data = new List<object>(),
+                        message = "Bạn chưa có ví nào. Vui lòng tạo ví trước."
+                    });
+                }
+
+                return Json(new
+                {
+                    success = true,
+                    data = wallets.Select(w => new
+                    {
+                        walletID = w.WalletID,
+                        walletName = w.WalletName,
+                        balance = w.Balance.ToString("N0")
+                    })
+                });
+            }
+            catch (Exception ex)
+            {
+                // ✅ Log lỗi để debug
+                Console.WriteLine($"❌ Lỗi GetUserWallets: {ex.Message}");
+                return Json(new
+                {
+                    success = false,
+                    message = $"Lỗi: {ex.Message}"
+                });
+            }
+        }
+
+
     }
 }

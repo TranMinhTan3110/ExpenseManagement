@@ -66,6 +66,107 @@
         $('#depositGoalId').val(goalId);
     });
 
+    
+
+
+    $(document).ready(function () {
+        // ========== QUAN TRỌNG: Bind event cho modal ==========
+        const modalElement = document.getElementById('depositModal');
+
+        if (modalElement) {
+            console.log('✅ Tìm thấy modal element');
+
+            // Cách 1: Dùng vanilla JS (ưu tiên)
+            modalElement.addEventListener('show.bs.modal', function (event) {
+                console.log('🎯 EVENT TRIGGERED - Modal đang mở!');
+                loadWalletsToDropdown();
+            });
+
+            // Cách 2: Dùng jQuery (backup)
+            $('#depositModal').on('show.bs.modal', function (event) {
+                console.log('🎯 JQUERY EVENT - Modal đang mở!');
+            });
+
+        } else {
+            console.error('❌ KHÔNG tìm thấy modal element!');
+        }
+
+        // Submit form
+        $('#depositForm').on('submit', function (e) {
+            e.preventDefault();
+            console.log('📤 Form submitted');
+
+            const walletId = $('#depositWallet').val();
+            const amount = $('#depositAmount').val();
+
+            if (!walletId) {
+                toastr.error('Vui lòng chọn ví');
+                return;
+            }
+
+            if (!amount || amount < 1000) {
+                toastr.error('Số tiền tối thiểu 1,000 VNĐ');
+                return;
+            }
+
+            console.log('✅ Validation passed', { walletId, amount });
+            // TODO: Call API để nạp tiền
+        });
+    });
+
+    // ========== HÀM LOAD VÍ ==========
+    function loadWalletsToDropdown() {
+  
+
+        const $select = $('#depositWallet');
+
+        // Show loading
+        $select.html('<option>⏳ Đang tải...</option>');
+        $select.prop('disabled', true);
+
+        $.ajax({
+            url: '/Goals/GetUserWallets',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                console.log('✅ AJAX Success:', response);
+
+                $select.prop('disabled', false);
+                $select.empty();
+                $select.append('<option value="">-- Chọn ví --</option>');
+
+                if (response.success && response.data && response.data.length > 0) {
+                    response.data.forEach(function (wallet) {
+                        const id = wallet.walletID || wallet.WalletID;
+                        const name = wallet.walletName || wallet.WalletName;
+                        const balance = wallet.balance || wallet.Balance || '0';
+
+                        $select.append(
+                            `<option value="${id}">${name} - ${balance} VNĐ</option>`
+                        );
+
+                        console.log(`➕ Added: ${name} (${id})`);
+                    });
+
+                    toastr.success(`Đã tải ${response.data.length} ví`);
+                } else {
+                    $select.append('<option value="">Chưa có ví nào</option>');
+                    toastr.warning('Vui lòng tạo ví trước');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('❌ AJAX Error:', xhr.status, xhr.responseText);
+
+                $select.prop('disabled', false);
+                $select.html('<option value="">❌ Lỗi tải ví</option>');
+
+                toastr.error('Không thể tải danh sách ví');
+            }
+        });
+    }
+
+
+
     // 🟢 Submit form nạp tiền
     $('#depositForm').on('submit', function (e) {
         e.preventDefault();
