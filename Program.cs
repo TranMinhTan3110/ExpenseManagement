@@ -51,6 +51,10 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 //Đăng ký CategoryService
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+//Dang ky BudgetService
+builder.Services.AddScoped<BudgetService>();
+
+
 // --- GỌI BUILD() SAU KHI ĐĂNG KÝ XONG ---
 var app = builder.Build();
 

@@ -1,458 +1,148 @@
 ﻿@section Styles {
     <link rel="stylesheet" href="~/asset/css/Budget.css?v=@DateTime.Now.Ticks" />
 }
-@section Scripts {
-    <script src="~/js/index.js"></script>
-}
+@using System.Security.Claims
 
 <div id="main-wrapper">
     <div class="header">
-
         <div class="content-body">
             <div class="container">
+                <!-- Page Title -->
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title">
                             <div class="row align-items-center justify-content-between">
                                 <div class="col-xl-4">
                                     <div class="page-title-content">
-                                        <h3>Budgets</h3>
-                                        <p class="mb-2">Welcome Ekash Finance Management</p>
-                                    </div>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="breadcrumbs">
-                                        <a href="#">Home </a>
-                                        <span> / </span>
-                                        <a href="#">Budgets</a>
+                                        <div class="left">
+                                            <h3>Budgets</h3>
+                                            <p class="mb-2">Welcome Ekash Finance Management</p>
+                                        </div>
+                                        <div class="breadcrumbs">
+                                            <a href="#">Home</a>
+                                            <span> / </span>
+                                            <a href="#">Budgets</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Budgets Tab -->
                 <div class="budgets-tab">
                     <div class="row g-0">
+
+                        <!-- LEFT SIDEBAR - Budget Navigation -->
                         <div class="col-xl-3">
                             <div class="nav d-block">
                                 <div class="row">
+                                    <!-- Budgets will be loaded here dynamically by JavaScript -->
+                                    <!-- Add New Budget Button (Always visible) -->
                                     <div class="col-xl-12 col-md-6">
-                                        <div class="budgets-nav active" data-bs-toggle="pill" data-bs-target="#a1">
-                                            <div class="budgets-nav-icon">
-                                                <span><i class="fi fi-rr-carrot"></i></span>
-                                            </div>
+                                        <div class="add-budgets-link">
                                             <div class="budgets-nav-text">
-                                                <h3 class="budgets-nav-title">Grocery</h3>
-                                                <p>$1458.30</p>
+                                                <h3 class="budgets-nav-title">Add new budget</h3>
                                             </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-md-6">
-                                        <div class="budgets-nav" data-bs-toggle="pill" data-bs-target="#a2">
-                                            <div class="budgets-nav-icon">
-                                                <span>
-                                                    <i class="fi fi-rr-shopping-bag"></i>
-                                                </span>
+                                            <div class="add-link-image" data-bs-toggle="modal" data-bs-target="#addBudgetModal">
+                                                <span><img src="/asset/img/more.png" alt=""></span>
                                             </div>
-                                            <div class="budgets-nav-text">
-                                                <h3 class="budgets-nav-title">Cloths</h3>
-                                                <p>$1458.30</p>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-md-6">
-                                        <div class="budgets-nav" data-bs-toggle="pill" data-bs-target="#a3">
-                                            <div class="budgets-nav-icon">
-                                                <span><i class="fi fi-rr-car-bus"></i></span>
-                                            </div>
-                                            <div class="budgets-nav-text">
-                                                <h3 class="budgets-nav-title">Transportation</h3>
-                                                <p>$1458.30</p>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-md-6">
-                                        <div class="budgets-nav" data-bs-toggle="pill" data-bs-target="#a4">
-                                            <div class="budgets-nav-icon">
-                                                <span><i class="fi fi-rr-graduation-cap"></i></span>
-                                            </div>
-                                            <div class="budgets-nav-text">
-                                                <h3 class="budgets-nav-title">Education</h3>
-                                                <p>$1458.30</p>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="add-budgets-link">
-                                <h6 class="mb-0">Add new budget</h6>
-                                <a href="">
-                                    <img class="add-link-image" src="/asset/img/more.png" alt="">
-                                </a>
+
+                            <!-- Hidden UserID for JavaScript -->
+                            <input type="hidden" id="userIdHidden" value="@User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)" />
+
+                            <!-- Add New Budget Modal -->
+                            <div class="modal fade" id="addBudgetModal" tabindex="-1" aria-labelledby="addBudgetModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addBudgetModalLabel">Thêm Ngân Sách Mới</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <form id="addBudgetForm">
+                                                <!-- Category Picker -->
+                                                <div class="mb-3">
+                                                    <label class="form-label">Categories</label>
+                                                    <div id="categoryPickerToggle" class="form-control d-flex justify-content-between align-items-center" style="cursor:pointer;">
+                                                        <span id="selectedCategoryPreview" class="text-muted">Chọn categories...</span>
+                                                        <i class="fi fi-rr-angle-small-down"></i>
+                                                    </div>
+
+                                                    <div id="categoryPickerList" class="border rounded mt-2 p-2" style="display:none; background:#fff; max-height:160px; overflow-y:auto;">
+                                                        <div id="categoryPickerContainer" class="d-flex flex-wrap gap-2"></div>
+                                                    </div>
+
+                                                    <input type="hidden" id="selectedCategoryID" name="CategoryID">
+                                                </div>
+
+                                                <!-- Budget Amount -->
+                                                <div class="mb-3">
+                                                    <label for="budgetAmountInput" class="form-label">Số tiền</label>
+                                                    <input type="number" class="form-control" id="budgetAmountInput" placeholder="0" required>
+                                                </div>
+
+                                                <!-- Date Range -->
+                                                <div class="mb-3">
+                                                    <label class="form-label">Khoảng thời gian</label>
+
+                                                    <!-- Quick Range Buttons -->
+                                                    <div class="btn-group w-100 mb-2" role="group" aria-label="Quick ranges">
+                                                        <button type="button" class="btn btn-outline-primary range-btn" data-range="7">1 Tuần</button>
+                                                        <button type="button" class="btn btn-outline-primary range-btn" data-range="30">1 Tháng</button>
+                                                        <button type="button" class="btn btn-outline-primary range-btn" data-range="90">3 Tháng</button>
+                                                        <button type="button" class="btn btn-outline-primary range-btn" data-range="365">1 Năm</button>
+                                                    </div>
+
+                                                    <!-- Date Inputs -->
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <label for="budgetStartDateInput" class="form-label small">Từ ngày</label>
+                                                            <input type="date" class="form-control" id="budgetStartDateInput" name="StartDate" required>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label for="budgetEndDateInput" class="form-label small">Đến ngày</label>
+                                                            <input type="date" class="form-control" id="budgetEndDateInput" name="EndDate" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                            <button type="submit" class="btn btn-primary" form="addBudgetForm">Lưu Ngân Sách</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- RIGHT CONTENT - Budget Details Tabs -->
                         <div class="col-xl-9">
                             <div class="tab-content budgets-tab-content">
-                                <div class="tab-pane show active" id="a1">
-                                    <div class="budgets-tab-title">
-                                        <h3>Grocery</h3>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-12">
-
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <span style="color: #7184AD; font-size: 14px;">Spend</span>
-                                                        <h3 style="font-weight: bold;">$1458.30</h3>
-                                                    </div>
-                                                    <div class="text-end">
-                                                        <span style="color: #7184AD; font-size: 14px;">Budget</span>
-                                                        <h3 style="font-weight: bold;">$1458.30</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 25%;" role="progressbar">
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex justify-content-between mt-2">
-                                                    <span>25%</span>
-                                                    <span>75%</span>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-xxl-12">
-
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p style="color: #7184AD;">Last Month</p>
-                                                            <h3>$42,678</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p style="color: #7184AD;">Expenses</p>
-                                                            <h3>$1,798</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p style="color: #7184AD;">Taxes</p>
-                                                            <h3>$255.25</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p style="color: #7184AD;">Debt</p>
-                                                            <h3>$365,478</h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-xl-12">
-
-                                            <div class="card-header">
-                                                <h4 class="card-title">Budget Period </h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <canvas id="chartjsBudgetPeriod"></canvas>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="a2">
-                                    <div class="budgets-tab-title">
-                                        <h3>Cloths</h3>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-12">
-
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <span>Spend</span>
-                                                        <h3>$1458.30</h3>
-                                                    </div>
-                                                    <div class="text-end">
-                                                        <span>Budget</span>
-                                                        <h3>$1458.30</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 25%;" role="progressbar">
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex justify-content-between mt-2">
-                                                    <span>25%</span>
-                                                    <span>75%</span>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-xxl-12">
-
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p>Last Month</p>
-                                                            <h3>$42,678</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p>Expenses</p>
-                                                            <h3>$1,798</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p>Taxes</p>
-                                                            <h3>$255.25</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p>Debt</p>
-                                                            <h3>$365,478</h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-xl-12">
-
-                                            <div class="card-header">
-                                                <h4 class="card-title">Budget Period </h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <canvas id="chartjsBudgetPeriod2"></canvas>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="a3">
-                                    <div class="budgets-tab-title">
-                                        <h3>Transportation</h3>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-12">
-
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <span>Spend</span>
-                                                        <h3>$1458.30</h3>
-                                                    </div>
-                                                    <div class="text-end">
-                                                        <span>Budget</span>
-                                                        <h3>$1458.30</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 25%;" role="progressbar">
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex justify-content-between mt-2">
-                                                    <span>25%</span>
-                                                    <span>75%</span>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-xxl-12">
-
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p>Last Month</p>
-                                                            <h3>$42,678</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p>Expenses</p>
-                                                            <h3>$1,798</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p>Taxes</p>
-                                                            <h3>$255.25</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p>Debt</p>
-                                                            <h3>$365,478</h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-xl-12">
-
-                                            <div class="card-header">
-                                                <h4 class="card-title">Budget Period </h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <canvas id="chartjsBudgetPeriod3"></canvas>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="a4">
-                                    <div class="budgets-tab-title">
-                                        <h3>Education</h3>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-12">
-
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <span>Spend</span>
-                                                        <h3>$1458.30</h3>
-                                                    </div>
-                                                    <div class="text-end">
-                                                        <span>Budget</span>
-                                                        <h3>$1458.30</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 25%;" role="progressbar">
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex justify-content-between mt-2">
-                                                    <span>25%</span>
-                                                    <span>75%</span>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-xxl-12">
-
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p>Last Month</p>
-                                                            <h3>$42,678</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p>Expenses</p>
-                                                            <h3>$1,798</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p>Taxes</p>
-                                                            <h3>$255.25</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                                        <div class="budget-widget">
-                                                            <p>Debt</p>
-                                                            <h3>$365,478</h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-xl-12">
-
-                                            <div class="card-header">
-                                                <h4 class="card-title">Budget Period </h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <canvas id="chartjsBudgetPeriod4"></canvas>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
+                                <!-- Tab panes will be loaded here dynamically by JavaScript -->
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
-        </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script src="./js/plugins/chartjs-bar-budget-period.js"></script>
-    <!--  -->
-    <!--  -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery-circle-progress@1.2.2/dist/circle-progress.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const chartIds = [
-                "chartjsBudgetPeriod",
-                "chartjsBudgetPeriod2",
-                "chartjsBudgetPeriod3",
-                "chartjsBudgetPeriod4",
-            ];
+</div>
 
-            const data = {
-                labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-                datasets: [{
-                    label: "Expenses",
-                    data: [120, 190, 75, 150, 220, 180, 90],
-                    backgroundColor: "#2F2CD8",
-                    borderRadius: 6
-                }]
-            };
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-            const options = {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        backgroundColor: "#2F2CD8",
-                        titleColor: "#fff",
-                        bodyColor: "#fff",
-                        cornerRadius: 6
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: { display: false },
-                        ticks: { color: "#0c0b5d", font: { size: 12 } }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: "rgba(145, 158, 171, 0.2)" },
-                        ticks: { color: "#6c757d", font: { size: 12 } }
-                    }
-                }
-            };
-
-            chartIds.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    new Chart(el, { type: 'bar', data, options });
-                }
-            });
-        });
-    </script>
+<script src="~/asset/js/Icons.js"></script>
+<script src="~/asset/js/Budget.js"></script>

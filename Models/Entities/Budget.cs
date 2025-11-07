@@ -1,4 +1,5 @@
-﻿namespace QuanLyChiTieu_WebApp.Models.Entities
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+namespace QuanLyChiTieu_WebApp.Models.Entities
 {
     public class Budget
     {
@@ -13,7 +14,9 @@
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         // Navigation properties
+        [ValidateNever]
         public User User { get; set; }
+        [ValidateNever]
         public Category Category { get; set; }
     }
 
