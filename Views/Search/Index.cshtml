@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Search Transactions";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/asset/css/Search.css" />
+}
+
+<div class="content-body">
+    <div class="container-dashboard">
+        <div class="page-header d-flex justify-content-between align-items-center mb-4">
+            <div class="page-title">
+                <h2 class="mb-0">Tìm kiếm giao dịch</h2>
+                <p class="mb-0 text-muted">Tìm kiếm và lọc giao dịch của bạn</p>
+            </div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Home</a></li>
+                    <li class="breadcrumb-item" aria-current="page">Search</li>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- Search Filters -->
+        <div class="search-filters">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Từ khóa</label>
+                    <input type="text" id="searchKeyword" class="form-control"
+                           placeholder="VD: cafe, ăn sáng..."
+                           value="@ViewBag.SearchQuery">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Loại</label>
+                    <select id="filterType" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="Expense">Chi tiêu</option>
+                        <option value="Income">Thu nhập</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Danh mục</label>
+                    <select id="filterCategory" class="form-select">
+                        <option value="">Tất cả</option>
+                        <!-- JavaScript sẽ load -->
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Từ ngày</label>
+                    <input type="date" id="filterFromDate" class="form-control">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Đến ngày</label>
+                    <input type="date" id="filterToDate" class="form-control">
+                </div>
+                <div class="col-md-1">
+                    <label class="form-label">&nbsp;</label>
+                    <button id="btnSearch" class="btn btn-primary w-100">
+                        <i class="fi fi-rr-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <button id="btnReset" class="btn btn-outline-secondary btn-sm">
+                        <i class="fi fi-rr-refresh"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Results -->
+        <div class="search-results">
+            <div class="search-results-header">
+                <h5 id="resultCount">Đang tìm kiếm...</h5>
+            </div>
+            <div id="searchResultsContainer">
+                <div class="empty-state">
+                    <i class="fi fi-rr-spinner"></i>
+                    <p>Đang tải...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/asset/js/Search.js"></script>
+}

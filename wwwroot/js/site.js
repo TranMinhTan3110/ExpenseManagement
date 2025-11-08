@@ -37,14 +37,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- PHẦN NGĂN FORM SEARCH SUBMIT ---
-    const searchForm = document.querySelector(".header-search .input-group");
-    if (searchForm) {
-        searchForm.addEventListener("submit", function (e) {
-            e.preventDefault(); // chặn reload
-            const query = searchForm.querySelector("input[type='search']").value;
-            console.log("Tìm kiếm:", query);
-        });
-    }
+    //const searchForm = document.querySelector(".header-search .input-group");
+    //if (searchForm) {
+    //    searchForm.addEventListener("submit", function (e) {
+    //        e.preventDefault(); // chặn reload
+    //        const query = searchForm.querySelector("input[type='search']").value;
+    //        console.log("Tìm kiếm:", query);
+    //    });
+    //}
 
     // --- PHẦN XỬ LÝ LOADER (PAGE-LOADER) ---
     const loader = document.getElementById('page-loader');

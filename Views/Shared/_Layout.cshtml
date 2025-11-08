@@ -165,8 +165,12 @@
                     </div>
 
                     <div class="header-search">
-                        <form class="input-group">
-                            <input class="form-control" type="search" placeholder="Search Here">
+                        <form class="input-group" method="get" asp-controller="Search" asp-action="Index">
+                            <input class="form-control"
+                                   type="search"
+                                   name="q"
+                                   placeholder="Tìm giao dịch... (VD: cafe, ăn sáng)"
+                                   autocomplete="off">
                             <button class="btn btn-primary" type="submit">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
