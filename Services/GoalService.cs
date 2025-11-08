@@ -1,0 +1,313 @@
+﻿using Microsoft.EntityFrameworkCore;
+using QuanLyChiTieu_WebApp.Models.EF;
+using QuanLyChiTieu_WebApp.Models.Entities;
+using QuanLyChiTieu_WebApp.ViewModels;
+using System;
+
+namespace QuanLyChiTieu_WebApp.Services
+{
+    public class GoalService : IGoalService
+    {
+        private readonly ApplicationDbContext _context;
+
+        public GoalService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        // 🟢 Lấy danh sách tất cả mục tiêu của user
+        public async Task<GoalsIndexViewModel> GetUserGoalsAsync(string userId)
+        {
+            var goals = await _context.Goals
+                .Where(g => g.UserID == userId)
+                .Include(g => g.GoalDeposits)
+                    .ThenInclude(gd => gd.Wallet)
+                .OrderByDescending(g => g.CreatedAt)
+                .ToListAsync();
+
+            var goalViewModels = goals.Select(MapToViewModel).ToList();
+
+            return new GoalsIndexViewModel
+            {
+                Goals = goalViewModels,
+                ActiveGoalId = goalViewModels.FirstOrDefault()?.GoalID ?? 0
+            };
+        }
+
+        // 🟢 Lấy chi tiết 1 mục tiêu
+        public async Task<GoalViewModel> GetGoalByIdAsync(int goalId, string userId)
+        {
+            var goal = await _context.Goals
+                .Where(g => g.GoalID == goalId && g.UserID == userId)
+                .Include(g => g.GoalDeposits)
+                    .ThenInclude(gd => gd.Wallet)
+                .FirstOrDefaultAsync();
+
+            return goal == null ? null : MapToViewModel(goal);
+        }
+
+        // 🟢 Tạo mới mục tiêu
+        public async Task<bool> CreateGoalAsync(CreateGoalViewModel model, string userId)
+        {
+            try
+            {
+                var goal = new Goal
+                {
+                    UserID = userId,
+                    GoalName = model.GoalName,
+                    TargetAmount = model.TargetAmount,
+                    CurrentAmount = 0,
+                    Status = "Đang thực hiện",
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                };
+
+                _context.Goals.Add(goal);
+                await _context.SaveChangesAsync();
+
+                if (model.InitialAmount > 0)
+                {
+                    var defaultWallet = await _context.Wallets
+                        .Where(w => w.UserID == userId)
+                        .OrderBy(w => w.WalletID)
+                        .FirstOrDefaultAsync();
+
+                    if (defaultWallet != null && defaultWallet.Balance >= model.InitialAmount)
+                    {
+                        var deposit = new GoalDeposit
+                        {
+                            GoalID = goal.GoalID,
+                            WalletID = defaultWallet.WalletID,
+                            Amount = model.InitialAmount,
+                            DepositDate = DateTime.Now,
+                            Note = "Số tiền ban đầu"
+                        };
+
+                        _context.GoalDeposits.Add(deposit);
+                        goal.CurrentAmount = model.InitialAmount;
+                        defaultWallet.Balance -= model.InitialAmount;
+
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // 🟢 Cập nhật mục tiêu
+        public async Task<bool> UpdateGoalAsync(int goalId, CreateGoalViewModel model, string userId)
+        {
+            try
+            {
+                var goal = await _context.Goals
+                    .FirstOrDefaultAsync(g => g.GoalID == goalId && g.UserID == userId);
+
+                if (goal == null) return false;
+
+                goal.GoalName = model.GoalName;
+                goal.TargetAmount = model.TargetAmount;
+                goal.UpdatedAt = DateTime.Now;
+
+                if (goal.CurrentAmount >= goal.TargetAmount)
+                    goal.Status = "Đã hoàn thành";
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // 🟢 Xóa mục tiêu (và hoàn tiền về ví nếu có)
+        public async Task<bool> DeleteGoalAsync(int goalId, string userId)
+        {
+            try
+            {
+                var goal = await _context.Goals
+                    .Include(g => g.GoalDeposits)
+                    .FirstOrDefaultAsync(g => g.GoalID == goalId && g.UserID == userId);
+
+                if (goal == null) return false;
+
+                if (goal.CurrentAmount > 0)
+                {
+                    var walletContributions = goal.GoalDeposits
+                        .GroupBy(gd => gd.WalletID)
+                        .Select(g => new { WalletID = g.Key, Amount = g.Sum(gd => gd.Amount) })
+                        .ToList();
+
+                    foreach (var c in walletContributions)
+                    {
+                        var wallet = await _context.Wallets.FindAsync(c.WalletID);
+                        if (wallet != null)
+                            wallet.Balance += c.Amount;
+                    }
+                }
+
+                _context.Goals.Remove(goal);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // 🟢 Nạp tiền vào mục tiêu
+        public async Task<bool> DepositToGoalAsync(int goalId, int walletId, decimal amount, string note, string userId)
+        {
+            try
+            {
+                var goal = await _context.Goals.FirstOrDefaultAsync(g => g.GoalID == goalId && g.UserID == userId);
+                var wallet = await _context.Wallets.FirstOrDefaultAsync(w => w.WalletID == walletId && w.UserID == userId);
+
+                if (goal == null || wallet == null || wallet.Balance < amount)
+                    return false;
+
+                _context.GoalDeposits.Add(new GoalDeposit
+                {
+                    GoalID = goalId,
+                    WalletID = walletId,
+                    Amount = amount,
+                    DepositDate = DateTime.Now,
+                    Note = note ?? "Gửi tiền vào mục tiêu",
+                    UserID = userId
+                });
+
+                goal.CurrentAmount += amount;
+                goal.UpdatedAt = DateTime.Now;
+                wallet.Balance -= amount;
+
+                if (goal.CurrentAmount >= goal.TargetAmount)
+                    goal.Status = "Đã hoàn thành";
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // 🟢 Rút tiền từ mục tiêu
+        public async Task<bool> WithdrawFromGoalAsync(int goalId, int walletId, decimal amount, string note, string userId)
+        {
+            try
+            {
+                var goal = await _context.Goals.FirstOrDefaultAsync(g => g.GoalID == goalId && g.UserID == userId);
+                var wallet = await _context.Wallets.FirstOrDefaultAsync(w => w.WalletID == walletId && w.UserID == userId);
+
+                if (goal == null || wallet == null || goal.CurrentAmount < amount)
+                    return false;
+
+                _context.GoalDeposits.Add(new GoalDeposit
+                {
+                    GoalID = goalId,
+                    WalletID = walletId,
+                    Amount = -amount,
+                    DepositDate = DateTime.Now,
+                    Note = note ?? "Rút tiền từ mục tiêu"
+                });
+
+                goal.CurrentAmount -= amount;
+                goal.UpdatedAt = DateTime.Now;
+                wallet.Balance += amount;
+
+                if (goal.CurrentAmount < goal.TargetAmount)
+                    goal.Status = "Đang thực hiện";
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // 🧩 Helper: Map từ entity sang ViewModel
+        private GoalViewModel MapToViewModel(Goal goal)
+        {
+            var progressPercentage = goal.TargetAmount > 0
+                ? (int)Math.Round((goal.CurrentAmount / goal.TargetAmount) * 100)
+                : 0;
+
+            var walletContributions = goal.GoalDeposits
+                .Where(gd => gd.Amount > 0)
+                .GroupBy(gd => gd.Wallet)
+                .Select(g => new WalletContributionViewModel
+                {
+                    WalletName = g.Key.WalletName,
+                    WalletType = g.Key.WalletType,
+                    Amount = g.Sum(gd => gd.Amount),
+                    ProgressPercentage = goal.CurrentAmount > 0
+                        ? (int)Math.Round((g.Sum(gd => gd.Amount) / goal.CurrentAmount) * 100)
+                        : 0,
+                    IconClass = GetWalletIcon(g.Key.WalletType),
+                    ColorClass = GetWalletColor(g.Key.WalletType)
+                })
+                .ToList();
+
+            var depositHistory = goal.GoalDeposits
+                .OrderByDescending(gd => gd.DepositDate)
+                .Take(10)
+                .Select(gd => new GoalDepositHistoryViewModel
+                {
+                    Date = gd.DepositDate,
+                    WalletName = gd.Wallet.WalletName,
+                    Description = gd.Note ?? (gd.Amount > 0 ? "Gửi tiền vào mục tiêu" : "Rút tiền từ mục tiêu"),
+                    Amount = gd.Amount,
+                    Balance = goal.GoalDeposits
+                        .Where(d => d.DepositDate <= gd.DepositDate)
+                        .Sum(d => d.Amount)
+                })
+                .ToList();
+
+            var lastMonthDeposits = goal.GoalDeposits
+                .Where(gd => gd.DepositDate >= DateTime.Now.AddMonths(-1) && gd.Amount > 0)
+                .Sum(gd => gd.Amount);
+
+            return new GoalViewModel
+            {
+                GoalID = goal.GoalID,
+                GoalName = goal.GoalName,
+                TargetAmount = goal.TargetAmount,
+                CurrentAmount = goal.CurrentAmount,
+                Status = goal.Status,
+                ProgressPercentage = progressPercentage,
+                RemainingAmount = goal.TargetAmount - goal.CurrentAmount,
+                LastMonthSavings = lastMonthDeposits,
+                TotalExpenses = 0,
+                TotalTaxes = 0,
+                TotalDebt = 0,
+                WalletContributions = walletContributions,
+                DepositHistory = depositHistory
+            };
+        }
+
+        private string GetWalletIcon(string walletType) => walletType?.ToLower() switch
+        {
+            "bank" => "fi fi-rr-bank",
+            "cash" => "fi fi-rr-money-bills-simple",
+            "card" => "fi fi-rr-credit-card",
+            _ => "fi fi-rr-wallet"
+        };
+
+        private string GetWalletColor(string walletType) => walletType?.ToLower() switch
+        {
+            "bank" => "bg-yellow-500",
+            "cash" => "bg-indigo-500",
+            "card" => "bg-purple-500",
+            _ => "bg-blue-500"
+        };
+    }
+}

@@ -15,7 +15,7 @@ namespace QuanLyChiTieu_WebApp.Models.EF
         public DbSet<GoalDeposit> GoalDeposits { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<Wallet> Wallets { get; set; }  
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Icon> Icons { get; set; }
         public DbSet<Color> Colors { get; set; }

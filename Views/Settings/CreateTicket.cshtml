@@ -1,4 +1,5 @@
-﻿@{
+﻿@model QuanLyChiTieu_WebApp.ViewModels.CreateTicketViewModel
+@{
     ViewBag.Title = "Create Ticket";
 }
 @section Styles {
@@ -15,7 +16,7 @@
             <div class="col-12">
                 <div class="page-title">
                     <div class="row align-items-center justify-content-between">
-                        <div class="col-xl-4">
+                        <div class="col-xl-4 page-title">
                             <div class="page-title-content">
                                 <h3>Create Ticket</h3>
                                 <p class="mb-2">Welcome Ekash Finance Management</p>
@@ -37,31 +38,37 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Create Ticket</h4>
-                        <span>Cancel</span>
+                        <a asp-controller="Settings" asp-action="Support" class="btn btn-danger">Cancel</a>
+
                     </div>
                     <div class="card-body">
-                        <form action="support-tickets.html">
+                        <form asp-controller="Settings" asp-action="CreateTicket" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
                             <div class="mb-3">
                                 <label class="form-label">What the type question do you want?</label>
-                                <select class="form-select">
+                                <select asp-for="QuestionType" class="form-select">
+                                    <option value="">-- Choose Type --</option>
                                     <option> Earning</option>
                                     <option> Withdrawals</option>
                                     <option> Profile</option>
                                     <option> General</option>
                                     <option> Others</option>
                                 </select>
+                                <span asp-validation-for="QuestionType" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Employe Respond</label>
-                                <select class="form-select">
+                                <select asp-for ="RespondType" class="form-select">
+                                    <option value="">-- Choose Type --</option>
                                     <option> Earning</option>
                                     <option> Withdrawals</option>
                                     <option> Profile</option>
                                     <option> General</option>
                                     <option> Others</option>
                                 </select>
+                                <span asp-validation-for="RespondType" class="text-danger"></span>
                             </div>
-                            <div class="mb-3">
+                            @* <div class="mb-3">
                                 <label class="form-label">What language do you prefer to be answered?</label>
                                 <select class="form-select">
                                     <option> Earning</option>
@@ -70,13 +77,14 @@
                                     <option> General</option>
                                     <option> Others</option>
                                 </select>
-                            </div>
+                            </div> *@
                             <div class="mb-3">
                                 <label class="form-label">
                                     Please provide a description of the problem you are
                                     encountering
                                 </label>
-                                <textarea rows="5" class="form-control"></textarea>
+                                <textarea asp-for="Description" rows="5" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                             <button type="submit" class="btn btn-primary">Create</button>
                         </form>

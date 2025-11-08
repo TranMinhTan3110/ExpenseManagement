@@ -5,21 +5,23 @@
 .page-title h2 {
     color: var(--text-title); 
 }
-
+.page-header{
+    padding:10px 0;
+}
 .page-title p {
-    color: var(--text-muted-color) !important; 
+    color: var(--text) !important;
 }
 .breadcrumb a {
-    color: var(--text-muted-color);
+    color: var(--text);
     text-decoration: none;
 }
 .breadcrumb-item + .breadcrumb-item::before { 
-    color: var(--text-muted-color); 
+    color: var(--text); 
 }
 
 
 .breadcrumb .breadcrumb-item {
-    color: var(--text-muted-color); 
+    color: var(--text); 
 }
     .breadcrumb a:hover {
         color: #0d6efd;
@@ -35,9 +37,10 @@
         flex-direction: column;
         /* Đổi justify-content thành align-items */
         align-items: flex-start !important; /* <<-- SỬA Ở ĐÂY */
-
+        padding:10px 20px;
         gap: 0.5rem; /* Thêm khoảng cách giữa 2 dòng cho đẹp */
         font-size: 0.9em !important;
+        margin-bottom:10px;
     }
 }
 /* wallet-container */
@@ -52,6 +55,7 @@
 .wallet-sidebar {
     /* border: solid 1px red; */
     height: auto;
+
 }
 
 .wallet-main {
@@ -64,6 +68,7 @@
     height: auto;
     /* border: solid 1px yellow; */
 }
+
 
 .wallet-list__item {
     border-radius: 10px;
@@ -141,12 +146,16 @@
 
     .wallet-list__item--active .wallet-list__balance {
         color: rgba(255, 255, 255, 0.8);
+
     }
 
     .wallet-list__item--active .wallet-list__icon {
         color: white;
     }
 
+.wallet-list__icon {
+    color: var(--text);
+}
 .wallet-list__item a {
     display: flex;
     align-items: center;
@@ -161,13 +170,15 @@
 .wallet-list__info {
     flex-grow: 1; /* Cho phép vùng info giãn ra */
 }
-
-.wallet-list__name {
-    margin: 0 0 4px 0; /* Khoảng cách nhỏ dưới tên */
-    font-size: 1.3rem; /* Cỡ chữ tên ví */
-    font-weight: 600; /* Đậm hơn */
-    color: var(--text-title);
-}
+    .wallet-list__info .wallet-list__balance {
+        color:var(--text);
+    }
+    .wallet-list__name {
+        margin: 0 0 4px 0; /* Khoảng cách nhỏ dưới tên */
+        font-size: 1.3rem; /* Cỡ chữ tên ví */
+        font-weight: 600; /* Đậm hơn */
+        color: var(--text-title);
+    }
 
 .wallet-list__balance {
     margin: 0;
@@ -200,6 +211,7 @@
     align-items: center;
     font-weight: 600;
     color: var(--text-title);
+    justify-content:space-between;
 }
 
 .wallet-main .wallet-title h4 {

@@ -23,6 +23,9 @@
 
 
 <body class="dashboard">
+    <div id="loader-overlay">
+        <div class="loader-spinner"></div>
+    </div>
     <div class="authincation">
         <div class="container">
             <div class="row justify-content-center align-items-center g-0">
@@ -34,16 +37,11 @@
                                     <h3>Welcome to My Financial Management</h3>
                                 </div>
                                 <div class="privacy-social">
-                                    <div class="privacy-link">
-                                        <a href="#">Have an issue with 2 factor authencation?</a>
-                                        <br>
-                                        <a href="#">Privacy</a>
-                                    </div>
                                     <div class="intro-social">
                                         <ul>
-                                            <li><a href="#"><i class="fi fi-brands-facebook"></i></a></li>
+                                            <li><a href="https://www.facebook.com/au.duong.tan.2024"><i class="fi fi-brands-facebook"></i></a></li>
                                             <li><a href="#"><i class="fi fi-brands-linkedin"></i></a></li>
-                                            <li><a href="#"><i class="fi fi-brands-pinterest"></i></a></li>
+                                            <li><a href="https://www.pinterest.com/auduongtan321/"><i class="fi fi-brands-pinterest"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -78,7 +76,10 @@
                                             in
                                         </button>
                                     </div>
-                                    <a href="#" class="btn btn-outline-light d-flex align-items-center justify-content-center gap-2 rounded-pill py-2 w-33 mx-auto mt-3 google">
+                                    <a asp-controller="Login"
+                                       asp-action="ExternalLogin"
+                                       asp-route-provider="Google"
+                                       class="btn btn-outline-light d-flex align-items-center justify-content-center gap-2 rounded-pill py-2 w-33 mx-auto mt-3 google">
                                         <img src="~/asset/img/google-color.svg" width="20" height="20">
                                         Tiếp tục với Google
                                     </a>

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model QuanLyChiTieu_WebApp.ViewModels.SupportViewModel
+@{
     ViewBag.Title = "Support";
 }
 @section Styles {
@@ -15,7 +16,7 @@
             <div class="col-12">
                 <div class="page-title">
                     <div class="row align-items-center justify-content-between">
-                        <div class="col-xl-4">
+                        <div class="col-xl-4 page-title">
                             <div class="page-title-content">
                                 <h3>Support</h3>
                                 <p class="mb-2">Welcome Ekash Finance Management</p>
@@ -49,58 +50,50 @@
                         <h4 class="card-title">Your Ticket</h4>
                         <a asp-controller="Settings" asp-action="CreateTicket" class="btn btn-primary">Create Ticket</a>
                     </div>
-                    <div class="card-body height-200 d-flex align-items-center justify-content-center">
-                        <p class="mt-5">
-                            You have no ticket yet! Create one by hitting the <a asp-controller="Settings" asp-action="CreateTicket" class="text-primary">
-                                Create
-                                Ticket
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Your Ticket Notification</h4>
-                        <a href="#" class="text-warning">Clear All Notification</a>
-                    </div>
+
                     <div class="card-body">
-                        <p>Opps sorry, There are no notification to show </p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Recent Tickets</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="ticket-list">
-                            <a href="support-ticket-details.html">
-                                <div>
-                                    <h5>
-                                        I’m having issues claming with my daily hours <span class="badge badge-success">OPEN</span>
-                                    </h5>
-                                    <p>Posted on 24 June 2024</p>
-                                </div>
-                                <span><i class="fi fi-ss-angle-right"></i></span>
-                            </a>
-                            <a href="support-ticket-details.html">
-                                <div>
-                                    <h5>
-                                        I’m having issues claming with my daily hours <span class="badge badge-success">OPEN</span>
-                                    </h5>
-                                    <p>Posted on 24 June 2024</p>
-                                </div>
-                                <span><i class="fi fi-ss-angle-right"></i></span>
-                            </a>
-                            <a href="support-ticket-details.html">
-                                <div>
-                                    <h5>
-                                        I’m having issues claming with my daily hours <span class="badge badge-success">OPEN</span>
-                                    </h5>
-                                    <p>Posted on 24 June 2024</p>
-                                </div>
-                                <span><i class="fi fi-ss-angle-right"></i></span>
-                            </a>
-                        </div>
+                        @if (Model.MyTickets.Any())
+                        {
+                            <div class="ticket-list">
+                                @foreach (var ticket in Model.MyTickets)
+                                {
+                                    <a href="#">
+                                        <div>
+                                            <h5>
+                                                @ticket.QuestionType: @ticket.Description.Substring(0, Math.Min(ticket.Description.Length, 50))...
+
+                                                @if (ticket.Status == "Open")
+                                                {
+                                                    <span class="badge badge-success">OPEN</span>
+                                                }
+                                                else if (ticket.Status == "Pending")
+                                                {
+                                                    <span class="badge badge-warning">PENDING</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-danger">RESOLVED</span>
+                                                }
+                                            </h5>
+                                            <p>Posted on @ticket.CreatedAt.ToString("dd MMMM yyyy")</p>
+                                        </div>
+                                        <span><i class="fi fi-ss-angle-right"></i></span>
+                                    </a>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="height-200 d-flex align-items-center justify-content-center ticket">
+                                <p class="mt-5">
+                                    You have no ticket yet!
+                                    Create one by hitting the <a asp-controller="Settings" asp-action="CreateTicket" class="text-primary">
+                                        Create
+                                        Ticket
+                                    </a>
+                                </p>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

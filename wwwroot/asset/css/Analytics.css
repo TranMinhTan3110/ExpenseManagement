@@ -9,7 +9,9 @@
         font-size: 24px;
         margin-bottom: 0px;
     }
-
+.page-title-content p{
+    color:var(--text);
+}
 .settings-menu {
     margin-bottom: 30px;
 }
@@ -17,7 +19,7 @@
     .settings-menu a {
         display: inline-block;
         margin-right: 20px;
-        color: var( --text-muted-color) !important;
+        color: var( --text) !important;
         font-size: 16px;
         text-decoration: none;
     }
@@ -30,7 +32,7 @@
         }
 
 .breadcrumbs a {
-    color: var( --text-muted-color);
+    color: var( --text);
     display: inline-block;
     font-size: 14px;
     text-decoration: none;
@@ -46,7 +48,7 @@
     line-height: 0;
     position: relative;
     top: 5px;
-    color: var( --text-muted-color);
+    color: var( --text);
 }
 
 .card {
@@ -72,7 +74,21 @@
     background-color: var(--card-bg-color) !important;
     padding: 20px 20px 0px;
 }
-
+.card-filter{
+    color:var(--text);
+}
+.form-label {
+    color: var(--text) !important;
+}
+.btn-outline-secondary {
+    color: var(--text) !important;
+}
+.form-select {
+    color: var(--text) !important;
+}
+.form-control {
+    color: var(--text) !important;
+}
 @media only screen and (max-width: 767px) {
     .card-header {
         -webkit-box-orient: vertical;
@@ -130,7 +146,7 @@
         display: block;
     }
 .card-body .list-1 p {
-    color: var( --text-muted-color);
+    color: var( --text);
     font-weight: 500;
 }
 table {
@@ -225,7 +241,7 @@ table {
     }
 
 .table th {
-    color: #1f2c73;
+    color: var(--text-title);
     border-bottom: 1px solid rgb(229, 234, 239) !important;
     background-color: transparent;
 }
@@ -251,7 +267,7 @@ table {
         border-bottom: 1px solid rgb(229, 234, 239);
         vertical-align: middle;
         padding: 15px 5px;
-        color: #7184ad;
+        
     }
 
         .table tr td:last-child {
@@ -271,4 +287,41 @@ table {
 .table-striped > tbody > tr:nth-of-type(odd) td:last-child {
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.no-data-display {
+    padding: 28px 10px;
+    text-align: center;
+    list-style: none;
+}
+
+    .no-data-display i {
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .no-data-display p {
+        font-size: 14px;
+        opacity: .7;
+    }
+.chart-no-data {
+    width: 100%;
+    height: 260px; /* cùng chiều cao với chart để không lệch layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* canh giữa theo chiều dọc */
+    align-items: center; /* canh giữa theo chiều ngang */
+    text-align: center;
+    color: #999;
+    padding: 20px;
 }

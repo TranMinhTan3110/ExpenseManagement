@@ -9,7 +9,7 @@ namespace QuanLyChiTieu_WebApp.Services
         Task<User> AuthenticateAsync(string email, string password);
 
         // Hàm cập nhật lần đăng nhập cuối
-        Task UpdateLastLoginAsync(User user);
+        Task UpdateLastLoginAsync(string userId);
 
         // Hàm đăng ký tài khoản mới
         Task<User> RegisterUserAsync(SignUpViewModel model);
@@ -21,5 +21,9 @@ namespace QuanLyChiTieu_WebApp.Services
 
         // Xác thực token và đổi mật khẩu
         Task<bool> ResetPasswordAsync(string email, string token, string newPassword);
+
+        Task<User> FindOrCreateExternalUserAsync(string email, string fullName);
+
+        Task SignInUserAsync(User user);
     }
 }
