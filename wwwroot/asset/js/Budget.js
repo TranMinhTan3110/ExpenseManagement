@@ -1,7 +1,6 @@
-﻿// Budget.js - UPDATED WITH BAR CHART
-
+﻿
 // ============= GLOBAL VARIABLES =============
-let activeCharts = {}; // Store chart instances
+let activeCharts = {};
 
 // ============= GLOBAL FUNCTIONS =============
 window.deleteBudget = async function (budgetId, categoryName) {
@@ -54,7 +53,6 @@ window.editBudget = function (budgetId) {
     });
 };
 
-// ============= UPDATE CHART FILTERS =============
 window.updateChartFilters = async function (budgetId) {
     const groupBy = document.getElementById(`groupBy${budgetId}`)?.value || 'day';
     const startDate = document.getElementById(`chartStartDate${budgetId}`)?.value;
@@ -80,6 +78,12 @@ async function loadBudgets() {
         const budgets = await response.json();
         console.log("Loaded budgets:", budgets);
 
+        // ✅ CHECK IF NO BUDGETS
+        if (!budgets || budgets.length === 0) {
+            renderEmptyState();
+            return;
+        }
+
         renderBudgetNav(budgets);
         renderBudgetTabs(budgets);
 
@@ -98,6 +102,152 @@ async function loadBudgets() {
             text: 'Không thể tải danh sách ngân sách!',
             confirmButtonColor: '#d33'
         });
+    }
+}
+
+// ============= RENDER EMPTY STATE =============
+function renderEmptyState() {
+    // Clear nav
+    const navContainer = document.querySelector('.budgets-tab .nav .row');
+    if (navContainer) {
+        navContainer.innerHTML = `
+            <div class="col-xl-12">
+                <div class="text-center py-4">
+                    <i class="bi bi-wallet2" style="font-size: 64px; color: #ccc;"></i>
+                    <h5 class="mt-3 text-muted">Chưa có ngân sách nào</h5>
+                    <p class="text-muted small">Tạo ngân sách đầu tiên của bạn</p>
+                </div>
+            </div>
+            
+            <!-- Add New Budget Button -->
+            <div class="col-xl-12 col-md-6">
+                <div class="add-budgets-link">
+                    <div class="budgets-nav-text"> 
+                        <h3 class="budgets-nav-title">Add new budget</h3> 
+                    </div> 
+                    <div class="add-link-image" data-bs-toggle="modal" data-bs-target="#addBudgetModal">
+                        <span><img src="/asset/img/more.png" alt=""></span> 
+                    </div> 
+                </div>
+            </div>
+        `;
+    }
+
+    // Render empty tab content
+    const tabContent = document.querySelector('.budgets-tab-content');
+    if (tabContent) {
+        tabContent.innerHTML = `
+            <div class="tab-pane show active">
+                <!-- Title -->
+                <div class="budgets-tab-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="margin: 0;">N/A</h3>
+                </div>
+
+                <div class="row">
+                    <!-- Budget Progress -->
+                    <div class="col-xl-12">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <span style="color: #7184AD; font-size: 14px;">Đã chi</span>
+                                    <h3 style="font-weight: bold;">N/A</h3>
+                                </div>
+                                <div class="text-end">
+                                    <span style="color: #7184AD; font-size: 14px;">Ngân sách</span>
+                                    <h3 style="font-weight: bold;">N/A</h3>
+                                </div>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar" style="width: 0%; background-color: #e9ecef;" role="progressbar"></div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-2">
+                                <span>0%</span>
+                                <span>Còn lại: N/A</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Budget Stats -->
+                    <div class="col-xxl-12">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                                    <div class="budget-widget">
+                                        <p style="color: #7184AD;">Ngày bắt đầu</p>
+                                        <h3>N/A</h3>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                                    <div class="budget-widget">
+                                        <p style="color: #7184AD;">Ngày kết thúc</p>
+                                        <h3>N/A</h3>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                                    <div class="budget-widget">
+                                        <p style="color: #7184AD;">Đã chi</p>
+                                        <h3>N/A</h3>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                                    <div class="budget-widget">
+                                        <p style="color: #7184AD;">Còn lại</p>
+                                        <h3>N/A</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                    <!-- Timeline -->
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Giao Dịch Gần Đây</h4>
+                            </div>
+                            <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+                                <div class="text-center py-4">
+                                    <i class="bi bi-inbox" style="font-size: 48px; color: #ccc;"></i>
+                                    <p class="text-muted mt-2 mb-0">Chưa có giao dịch nào</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spending Analysis Chart -->
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
+                                <h4 class="card-title mb-0">Phân Tích Chi Tiêu</h4>
+                                
+                                <!-- Filters (Disabled) -->
+                                <div class="d-flex gap-2 flex-wrap mt-2 mt-md-0">
+                                    <select class="form-select form-select-sm" style="width: auto;" disabled>
+                                        <option>Theo Ngày</option>
+                                    </select>
+                                    <input type="date" class="form-control form-control-sm" style="width: 150px;" disabled>
+                                    <span class="align-self-center">đến</span>
+                                    <input type="date" class="form-control form-control-sm" style="width: 150px;" disabled>
+                                    <button type="button" class="btn btn-primary btn-sm" disabled>
+                                        <i class="bi bi-arrow-clockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body" style="height: 400px;">
+                                <div class="d-flex justify-content-center align-items-center h-100">
+                                    <div class="text-center">
+                                        <i class="bi bi-bar-chart" style="font-size: 64px; color: #ccc;"></i>
+                                        <p class="text-muted mt-3 mb-0">Chưa có dữ liệu phân tích</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
     }
 }
 
@@ -153,7 +303,6 @@ function renderBudgetTabs(budgets) {
         const percentage = budget.percentage > 100 ? 100 : budget.percentage;
         const progressColor = percentage >= 90 ? '#dc3545' : percentage >= 70 ? '#ffc107' : '#28a745';
 
-        // Format dates for input fields
         const formatDateForInput = (dateStr) => {
             const date = new Date(dateStr);
             return date.toISOString().split('T')[0];
@@ -234,23 +383,13 @@ function renderBudgetTabs(budgets) {
                         </div>
                     </div>
 
-                    <!-- Doughnut Chart -->
-                    <div class="col-xl-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Tỷ Lệ Sử Dụng</h4>
-                            </div>
-                            <div class="card-body" style="height: 300px;">
-                                <canvas id="chartDoughnut${budget.budgetID}"></canvas>
-                            </div>
-                        </div>
-                    </div>
+                   
 
                     <!-- Timeline -->
                     <div class="col-xl-6">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Giao Dịch Gần Đây</h4>
+                                <h4 class="card-title">Giao Dịch Gần Đây</h4>
                             </div>
                             <div class="card-body" style="max-height: 300px; overflow-y: auto;">
                                 <div id="timeline${budget.budgetID}">
@@ -268,18 +407,15 @@ function renderBudgetTabs(budgets) {
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
-                                <h4>Phân Tích Chi Tiêu</h4>
+                                <h4 class="card-title mb-0">Phân Tích Chi Tiêu</h4>
                                 
                                 <!-- Filters -->
                                 <div class="d-flex gap-2 flex-wrap mt-2 mt-md-0">
-                                    <!-- Group By Select -->
                                     <select id="groupBy${budget.budgetID}" class="form-select form-select-sm" style="width: auto;" onchange="updateChartFilters(${budget.budgetID})">
                                         <option value="day">Theo Ngày</option>
                                         <option value="week">Theo Tuần</option>
                                         <option value="month">Theo Tháng</option>
                                     </select>
-
-                                    <!-- Date Range -->
                                     <input type="date" id="chartStartDate${budget.budgetID}" class="form-control form-control-sm" 
                                            value="${formatDateForInput(budget.startDate)}" 
                                            style="width: 150px;"
@@ -289,10 +425,9 @@ function renderBudgetTabs(budgets) {
                                            value="${formatDateForInput(budget.endDate)}"
                                            style="width: 150px;"
                                            onchange="updateChartFilters(${budget.budgetID})">
-                                    
-                                    <!-- Refresh Button -->
-                                    <button type="button" class="btn btn-primary btn-sm" onclick="updateChartFilters(${budget.budgetID})" title="Cập nhật">
+                                    <button type="button" class="btn btn-update" onclick="updateChartFilters(${budget.budgetID})" title="Cập nhật">
                                         <i class="bi bi-arrow-clockwise"></i>
+                                        <span>Update</span>
                                     </button>
                                 </div>
                             </div>
@@ -375,7 +510,7 @@ function renderBudgetDoughnutChart(budget) {
     }, 200);
 }
 
-// ============= RENDER SPENDING CHART (NEW) =============
+// ============= RENDER SPENDING CHART =============
 async function renderSpendingChart(budgetId, groupBy = 'day', startDate = null, endDate = null) {
     try {
         let url = `/api/BudgetApi/spending-analysis/${budgetId}?groupBy=${groupBy}`;
@@ -393,6 +528,19 @@ async function renderSpendingChart(budgetId, groupBy = 'day', startDate = null, 
         // Destroy existing chart if exists
         if (activeCharts[budgetId]) {
             activeCharts[budgetId].destroy();
+        }
+
+        // ✅ CHECK IF NO DATA
+        if (!result.data || result.data.length === 0) {
+            ctx.parentElement.innerHTML = `
+                <div class="d-flex justify-content-center align-items-center h-100">
+                    <div class="text-center">
+                        <i class="bi bi-bar-chart" style="font-size: 64px; color: #ccc;"></i>
+                        <p class="text-muted mt-3 mb-0">Chưa có dữ liệu trong khoảng thời gian này</p>
+                    </div>
+                </div>
+            `;
+            return;
         }
 
         const labels = result.data.map(d => d.label);
@@ -618,7 +766,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    // 4) SUBMIT ADD BUDGET FORM (continued)
+    // 4) SUBMIT ADD BUDGET FORM
     const form = document.getElementById("addBudgetForm");
     if (form) {
         form.addEventListener("submit", async (e) => {

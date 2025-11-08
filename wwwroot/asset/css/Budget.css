@@ -301,6 +301,24 @@ a {
     vertical-align: middle;
 }
 
+.btn-update {
+    border: 1.5px solid #007bff; /* viền xanh */
+    color: #007bff;
+    background-color: transparent;
+    border-radius: 6px;
+    padding: 6px 10px;
+    transition: all 0.2s ease-in-out;
+    width: 90px;
+    height: 32px;
+}
+
+    .btn-edit:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+
+
 
 
 tab-content > .active {
@@ -604,50 +622,6 @@ div {
     margin-left:12px;
 }
 
-
-/* === Nút Swap hình tròn sát góc phải === */
-.swap-btn {
-    position: absolute;
-    top: -12px; /* đẩy nhẹ lên trên, bạn có thể chỉnh 0 hoặc -8px */
-    right: -12px; /* đẩy nhẹ sang phải để “ôm góc” */
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: #fff;
-    color: #4c6ef5;
-    border: 2px solid #4c6ef5;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-    z-index: 5;
-}
-
-
-    .swap-btn:hover {
-        background-color: #4c6ef5;
-        color: #fff;
-        transform: rotate(90deg);
-        box-shadow: 0 0 10px rgba(76, 110, 245, 0.4);
-    }
-
-    .swap-btn.rotate {
-        animation: spinOnce 0.6s ease-in-out;
-    }
-
-@keyframes spinOnce {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
 /* Timeline Styles */
 .timeline-item {
     transition: background-color 0.2s;
@@ -728,3 +702,4 @@ canvas {
         font-size: 20px;
         font-weight: bold;
     }
+
