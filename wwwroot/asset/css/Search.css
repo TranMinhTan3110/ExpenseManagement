@@ -1,0 +1,304 @@
+﻿/* ====================================== */
+/* SEARCH PAGE - RESPONSIVE & DARK MODE   */
+/* ====================================== */
+
+/* Search Filters Card */
+.search-filters {
+    background: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    margin-bottom: 24px;
+}
+
+    .search-filters .form-label {
+        font-weight: 500;
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+        color: var(--text-title);
+    }
+
+    .search-filters .form-control,
+    .search-filters .form-select {
+        background-color: var(--bs-body-bg);
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+        .search-filters .form-control:focus,
+        .search-filters .form-select:focus {
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.15);
+            background-color: var(--bs-body-bg);
+            color: var(--text-color);
+        }
+
+        .search-filters .form-control::placeholder {
+            color: var(--text-muted-color);
+        }
+
+/* Search Results Header */
+.search-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+    .search-results-header h5 {
+        color: var(--text-title);
+        font-weight: 600;
+        margin: 0;
+    }
+
+/* Search Result Card */
+.search-result-card {
+    background: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+    .search-result-card:hover {
+        box-shadow: 0 4px 12px var(--shadow-color);
+        transform: translateY(-2px);
+        border-color: var(--bs-primary);
+    }
+
+/* Result Category */
+.result-category {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+    .result-category i {
+        font-size: 24px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--border-color);
+    }
+
+    .result-category strong {
+        color: var(--text-color);
+        font-weight: 600;
+    }
+
+    .result-category .text-muted {
+        color: var(--text-muted-color) !important;
+    }
+
+/* Result Amount */
+.result-amount {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+    .result-amount.expense {
+        color: #dc3545;
+    }
+
+    .result-amount.income {
+        color: #28a745;
+    }
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted-color);
+}
+
+    .empty-state i {
+        font-size: 64px;
+        opacity: 0.3;
+        margin-bottom: 16px;
+        color: var(--text-muted-color);
+    }
+
+    .empty-state p {
+        color: var(--text-muted-color);
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state small {
+        color: var(--text-muted-color);
+        opacity: 0.7;
+    }
+
+/* Breadcrumb */
+.breadcrumb-item a {
+    text-decoration: none;
+    color: var(--text-muted-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-muted-color);
+}
+
+/* Page Title */
+.page-title h3 {
+    color: var(--text-title);
+    font-weight: 600;
+}
+
+.page-title p {
+    color: var(--text-muted-color);
+}
+
+/* Buttons */
+.btn {
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+    .btn-primary:hover {
+        background-color: #3651d4;
+        border-color: #3651d4;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+    }
+
+.btn-outline-secondary {
+    border-color: var(--border-color);
+    color: var(--text-color);
+    background-color: transparent;
+}
+
+    .btn-outline-secondary:hover {
+        background-color: var(--border-color);
+        border-color: var(--border-color);
+        color: var(--text-color);
+    }
+
+/* Loading spinner animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.fi-rr-spinner {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search-filters {
+        padding: 16px;
+    }
+
+    .search-result-card {
+        padding: 12px;
+    }
+
+    .result-category i {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+    }
+
+    .result-amount {
+        font-size: 16px;
+    }
+
+    .empty-state {
+        padding: 40px 16px;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+        }
+}
+
+/* Search input trong header */
+.header-search .form-control {
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+    .header-search .form-control:focus {
+        border-color: var(--bs-primary);
+        background-color: var(--bs-body-bg);
+        color: var(--text-color);
+    }
+
+    .header-search .form-control::placeholder {
+        color: var(--text-muted-color);
+    }
+
+/* Filter tag style (optional - nếu có filter tags) */
+.filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background-color: var(--border-color);
+    color: var(--text-color);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+    .filter-tag i {
+        cursor: pointer;
+        opacity: 0.7;
+    }
+
+        .filter-tag i:hover {
+            opacity: 1;
+        }
+
+/* Card animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-result-card {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+    /* Result info text colors */
+    .search-result-card .text-muted {
+        color: var(--text-muted-color) !important;
+    }
+
+    .search-result-card .small {
+        font-size: 0.85rem;
+    }
