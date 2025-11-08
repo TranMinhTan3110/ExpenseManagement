@@ -69,4 +69,8 @@ namespace QuanLyChiTieu_WebApp.ViewModels
         [Range(0, double.MaxValue, ErrorMessage = "Số tiền ban đầu không được âm")]
         public decimal InitialAmount { get; set; } = 0;
     }
+    public class DeleteGoalRequest
+    {
+        public int Id { get; set; }
+    }
 }
