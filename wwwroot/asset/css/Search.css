@@ -140,15 +140,12 @@
     }
 
 /* Breadcrumb */
+.breadcrumb-item {
+    var(--bs-breadcrumb-item-active-color);
+}
 .breadcrumb-item a {
     text-decoration: none;
-    color: var(--text-muted-color);
 }
-
-.breadcrumb-item.active {
-    color: var(--text-muted-color);
-}
-
 /* Page Title */
 .page-title h3 {
     color: var(--text-title);
