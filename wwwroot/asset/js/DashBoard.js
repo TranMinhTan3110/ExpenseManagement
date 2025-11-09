@@ -215,3 +215,61 @@ document.addEventListener('theme:updated', function () {
     createOrUpdateIncomeVsExpensesChart();
     createOrUpdateGoalCharts();
 });
+
+
+document.addEventListener("DOMContentLoaded", async function () {
+    const budgetList = document.getElementById("budgetList");
+
+    try {
+        const userId = document.getElementById("userIdHidden")?.value;
+        if (!userId) {
+            console.error("User ID not found");
+            return;
+        }
+
+        const response = await fetch(`/api/BudgetApi?userId=${userId}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const budgets = await response.json();
+        console.log("Loaded budgets:", budgets);
+
+        if (!budgets || budgets.length === 0) {
+            return;
+        }
+
+        budgetList.innerHTML = ""; // Xóa placeholder
+
+        budgets.forEach(budget => {
+            // Tính phần trăm tiến độ
+            const percent = Math.min((budget.amountSpent / budget.amountLimit) * 100, 100);
+
+            // HTML mỗi item
+            const item = `
+                <div class="budget-item">
+                    <div class="budget-icon" style="color: ${budget.colorHex};">
+                        <i class="${budget.iconClass}"></i>
+                    </div>
+                    <div class="budget-details">
+                        <div class="budget-info">
+                            <span class="budget-name">${budget.categoryName}</span>
+                            <span class="budget-amount">$${budget.amountSpent} / $${budget.amountLimit}</span>
+                        </div>
+                        <div class="progress budget-progress" style="height: 6px;">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: ${percent}%; background-color: ${budget.colorHex};">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            budgetList.insertAdjacentHTML("beforeend", item);
+        });
+
+    } catch (error) {
+        console.error("Lỗi tải ngân sách:", error);
+        budgetList.innerHTML = `<p class="text-danger">Không thể tải dữ liệu ngân sách.</p>`;
+    }
+});

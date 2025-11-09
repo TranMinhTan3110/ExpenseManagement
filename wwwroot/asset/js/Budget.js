@@ -3,6 +3,16 @@
 let activeCharts = {};
 
 // ============= GLOBAL FUNCTIONS =============
+
+function formatCurrencyVND(amount) {
+    if (isNaN(amount)) return "0 ₫";
+    return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+        minimumFractionDigits: 0
+    }).format(amount);
+}
+
 window.deleteBudget = async function (budgetId, categoryName) {
     const result = await Swal.fire({
         title: 'Xác nhận xóa',
@@ -46,6 +56,7 @@ window.deleteBudget = async function (budgetId, categoryName) {
 };
 
 window.editBudget = function (budgetId) {
+    // TODO: Implement edit functionality
     Swal.fire({
         icon: 'info',
         title: 'Chức năng đang phát triển',
@@ -59,6 +70,19 @@ window.updateChartFilters = async function (budgetId) {
     const endDate = document.getElementById(`chartEndDate${budgetId}`)?.value;
 
     await renderSpendingChart(budgetId, groupBy, startDate, endDate);
+};
+
+window.openAddBudgetModal = function () {
+    const modalElement = document.getElementById("addBudgetModal");
+    if (modalElement) {
+        const appContainer = document.querySelector('.app-container');
+        if (appContainer) {
+            appContainer.removeAttribute('aria-hidden');
+        }
+
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    }
 };
 
 // ============= LOAD BUDGETS =============
@@ -78,7 +102,6 @@ async function loadBudgets() {
         const budgets = await response.json();
         console.log("Loaded budgets:", budgets);
 
-        // ✅ CHECK IF NO BUDGETS
         if (!budgets || budgets.length === 0) {
             renderEmptyState();
             return;
@@ -87,11 +110,8 @@ async function loadBudgets() {
         renderBudgetNav(budgets);
         renderBudgetTabs(budgets);
 
-        // Render charts and timeline for all budgets
         budgets.forEach(budget => {
-            renderBudgetDoughnutChart(budget);
             renderSpendingChart(budget.budgetID, 'day', budget.startDate, budget.endDate);
-            renderBudgetTimeline(budget);
         });
 
     } catch (error) {
@@ -107,10 +127,20 @@ async function loadBudgets() {
 
 // ============= RENDER EMPTY STATE =============
 function renderEmptyState() {
-    // Clear nav
     const navContainer = document.querySelector('.budgets-tab .nav .row');
     if (navContainer) {
         navContainer.innerHTML = `
+            <div class="col-xl-12 col-md-6">
+                <div class="add-budgets-link" onclick="openAddBudgetModal()">
+                    <div class="budgets-nav-text"> 
+                        <h3 class="budgets-nav-title">Add new budget</h3> 
+                    </div> 
+                    <div class="add-link-image">
+                        <span><img src="/asset/img/more.png" alt=""></span> 
+                    </div> 
+                </div>
+            </div>
+
             <div class="col-xl-12">
                 <div class="text-center py-4">
                     <i class="bi bi-wallet2" style="font-size: 64px; color: #ccc;"></i>
@@ -118,33 +148,18 @@ function renderEmptyState() {
                     <p class="text-muted small">Tạo ngân sách đầu tiên của bạn</p>
                 </div>
             </div>
-            
-            <!-- Add New Budget Button -->
-            <div class="col-xl-12 col-md-6">
-                <div class="add-budgets-link">
-                    <div class="budgets-nav-text"> 
-                        <h3 class="budgets-nav-title">Add new budget</h3> 
-                    </div> 
-                    <div class="add-link-image" data-bs-toggle="modal" data-bs-target="#addBudgetModal">
-                        <span><img src="/asset/img/more.png" alt=""></span> 
-                    </div> 
-                </div>
-            </div>
         `;
     }
 
-    // Render empty tab content
     const tabContent = document.querySelector('.budgets-tab-content');
     if (tabContent) {
         tabContent.innerHTML = `
             <div class="tab-pane show active">
-                <!-- Title -->
                 <div class="budgets-tab-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h3 style="margin: 0;">N/A</h3>
                 </div>
 
                 <div class="row">
-                    <!-- Budget Progress -->
                     <div class="col-xl-12">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
@@ -167,7 +182,6 @@ function renderEmptyState() {
                         </div>
                     </div>
 
-                    <!-- Budget Stats -->
                     <div class="col-xxl-12">
                         <div class="card-body">
                             <div class="row">
@@ -199,30 +213,10 @@ function renderEmptyState() {
                         </div>
                     </div>
 
-                    
-
-                    <!-- Timeline -->
-                    <div class="col-xl-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Giao Dịch Gần Đây</h4>
-                            </div>
-                            <div class="card-body" style="max-height: 300px; overflow-y: auto;">
-                                <div class="text-center py-4">
-                                    <i class="bi bi-inbox" style="font-size: 48px; color: #ccc;"></i>
-                                    <p class="text-muted mt-2 mb-0">Chưa có giao dịch nào</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Spending Analysis Chart -->
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
                                 <h4 class="card-title mb-0">Phân Tích Chi Tiêu</h4>
-                                
-                                <!-- Filters (Disabled) -->
                                 <div class="d-flex gap-2 flex-wrap mt-2 mt-md-0">
                                     <select class="form-select form-select-sm" style="width: auto;" disabled>
                                         <option>Theo Ngày</option>
@@ -230,7 +224,7 @@ function renderEmptyState() {
                                     <input type="date" class="form-control form-control-sm" style="width: 150px;" disabled>
                                     <span class="align-self-center">đến</span>
                                     <input type="date" class="form-control form-control-sm" style="width: 150px;" disabled>
-                                    <button type="button" class="btn btn-primary btn-sm" disabled>
+                                    <button type="button" class="btn btn-sm btn-danger rounded" disabled>
                                         <i class="bi bi-arrow-clockwise"></i>
                                     </button>
                                 </div>
@@ -252,6 +246,10 @@ function renderEmptyState() {
 }
 
 // ============= RENDER BUDGET NAV =============
+
+
+
+
 function renderBudgetNav(budgets) {
     const navContainer = document.querySelector('.budgets-tab .nav .row');
     if (!navContainer) return;
@@ -269,7 +267,8 @@ function renderBudgetNav(budgets) {
                     </div>
                     <div class="budgets-nav-text">
                         <h3 class="budgets-nav-title">${budget.categoryName}</h3>
-                        <p>$${budget.budgetAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                        <p>${formatCurrencyVND(budget.budgetAmount)}</p>
+
                     </div>
                 </div>
             </div>
@@ -279,11 +278,11 @@ function renderBudgetNav(budgets) {
 
     const addBudgetBtn = `
         <div class="col-xl-12 col-md-6">
-            <div class="add-budgets-link">
+            <div class="add-budgets-link" onclick="openAddBudgetModal()">
                 <div class="budgets-nav-text"> 
                     <h3 class="budgets-nav-title">Add new budget</h3> 
                 </div> 
-                <div class="add-link-image" data-bs-toggle="modal" data-bs-target="#addBudgetModal">
+                <div class="add-link-image">
                     <span><img src="/asset/img/more.png" alt=""></span> 
                 </div> 
             </div>
@@ -310,33 +309,29 @@ function renderBudgetTabs(budgets) {
 
         const tabPane = `
             <div class="tab-pane ${index === 0 ? 'show active' : ''}" id="budget-${budget.budgetID}">
-                <!-- Title with Edit/Delete buttons -->
                 <div class="budgets-tab-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h3 style="margin: 0;">${budget.categoryName}</h3>
-                    <div style="display: flex; gap: 5px;">
-                        <button type="button" class="btn btn-edit" onclick="editBudget(${budget.budgetID})" title="Edit">
-                            <i class="bi bi-pencil"></i>
-                            <span>Edit</span>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-primary me-2 rounded" onclick="editBudget(${budget.budgetID})">
+                            <i class="fi fi-rr-edit"></i> Sửa
                         </button>
-                        <button type="button" class="btn btn-del" onclick="deleteBudget(${budget.budgetID}, '${budget.categoryName}')" title="Delete">
-                            <i class="bi bi-trash"></i>
-                            <span>Delete</span>
+                        <button class="btn btn-sm btn-danger rounded" onclick="deleteBudget(${budget.budgetID}, '${budget.categoryName}')">
+                            <i class="fi fi-rr-trash"></i> Xóa
                         </button>
                     </div>
                 </div>
 
                 <div class="row">
-                    <!-- Budget Progress -->
                     <div class="col-xl-12">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <span style="color: #7184AD; font-size: 14px;">Đã chi</span>
-                                    <h3 style="font-weight: bold;">$${budget.spentAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h3>
+                                    <h3 style="font-weight: bold;">${formatCurrencyVND(budget.spentAmount)}</h3>
                                 </div>
                                 <div class="text-end">
                                     <span style="color: #7184AD; font-size: 14px;">Ngân sách</span>
-                                    <h3 style="font-weight: bold;">$${budget.budgetAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h3>
+                                    <h3 style="font-weight: bold;">${formatCurrencyVND(budget.budgetAmount)}</h3>
                                 </div>
                             </div>
                             <div class="progress" style="height: 10px;">
@@ -344,12 +339,11 @@ function renderBudgetTabs(budgets) {
                             </div>
                             <div class="d-flex justify-content-between mt-2">
                                 <span>${percentage}%</span>
-                                <span>Còn lại: $${budget.remainingAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                                <span>Còn lại: ${formatCurrencyVND(budget.remainingAmount)}</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Budget Stats -->
                     <div class="col-xxl-12">
                         <div class="card-body">
                             <div class="row">
@@ -368,14 +362,14 @@ function renderBudgetTabs(budgets) {
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                                     <div class="budget-widget">
                                         <p style="color: #7184AD;">Đã chi</p>
-                                        <h3>$${budget.spentAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h3>
+                                        <h3>${formatCurrencyVND(budget.spentAmount)}</h3>
                                     </div>
                                 </div>
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                                     <div class="budget-widget">
                                         <p style="color: #7184AD;">Còn lại</p>
                                         <h3 style="color: ${budget.remainingAmount < 0 ? '#dc3545' : '#28a745'}">
-                                            $${budget.remainingAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                            ${formatCurrencyVND(budget.remainingAmount)}
                                         </h3>
                                     </div>
                                 </div>
@@ -383,33 +377,11 @@ function renderBudgetTabs(budgets) {
                         </div>
                     </div>
 
-                   
-
-                    <!-- Timeline -->
-                    <div class="col-xl-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Giao Dịch Gần Đây</h4>
-                            </div>
-                            <div class="card-body" style="max-height: 300px; overflow-y: auto;">
-                                <div id="timeline${budget.budgetID}">
-                                    <div class="text-center py-3">
-                                        <div class="spinner-border spinner-border-sm text-primary" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Spending Analysis Chart -->
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
                                 <h4 class="card-title mb-0">Phân Tích Chi Tiêu</h4>
                                 
-                                <!-- Filters -->
                                 <div class="d-flex gap-2 flex-wrap mt-2 mt-md-0">
                                     <select id="groupBy${budget.budgetID}" class="form-select form-select-sm" style="width: auto;" onchange="updateChartFilters(${budget.budgetID})">
                                         <option value="day">Theo Ngày</option>
@@ -425,9 +397,8 @@ function renderBudgetTabs(budgets) {
                                            value="${formatDateForInput(budget.endDate)}"
                                            style="width: 150px;"
                                            onchange="updateChartFilters(${budget.budgetID})">
-                                    <button type="button" class="btn btn-update" onclick="updateChartFilters(${budget.budgetID})" title="Cập nhật">
-                                        <i class="bi bi-arrow-clockwise"></i>
-                                        <span>Update</span>
+                                    <button class="btn btn-sm btn-primary me-2 rounded" onclick="updateChartFilters(${budget.budgetID})" title="Cập nhật">
+                                        <i class="fi fi-rr-edit"></i> Cập nhật
                                     </button>
                                 </div>
                             </div>
@@ -443,74 +414,7 @@ function renderBudgetTabs(budgets) {
     });
 }
 
-// ============= RENDER DOUGHNUT CHART =============
-function renderBudgetDoughnutChart(budget) {
-    setTimeout(() => {
-        const ctx = document.getElementById(`chartDoughnut${budget.budgetID}`);
-        if (!ctx) return;
-
-        const percentage = (budget.spentAmount / budget.budgetAmount * 100).toFixed(1);
-        const chartColor = percentage >= 90 ? '#dc3545' : percentage >= 70 ? '#ffc107' : '#28a745';
-
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Đã chi', 'Còn lại'],
-                datasets: [{
-                    data: [budget.spentAmount, Math.max(0, budget.remainingAmount)],
-                    backgroundColor: [chartColor, '#e9ecef'],
-                    borderWidth: 0,
-                    hoverOffset: 10
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            padding: 15,
-                            font: { size: 12 }
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(0,0,0,0.8)',
-                        padding: 12,
-                        cornerRadius: 8,
-                        callbacks: {
-                            label: function (context) {
-                                const value = context.parsed;
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percent = ((value / total) * 100).toFixed(1);
-                                return context.label + ': $' + value.toFixed(2) + ' (' + percent + '%)';
-                            }
-                        }
-                    }
-                },
-                cutout: '65%'
-            },
-            plugins: [{
-                id: 'centerText',
-                afterDraw: (chart) => {
-                    const { ctx, chartArea: { left, top, width, height } } = chart;
-                    ctx.save();
-                    ctx.font = 'bold 28px Arial';
-                    ctx.fillStyle = '#333';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText(percentage + '%', left + width / 2, top + height / 2 - 12);
-                    ctx.font = '14px Arial';
-                    ctx.fillStyle = '#666';
-                    ctx.fillText('Đã sử dụng', left + width / 2, top + height / 2 + 18);
-                    ctx.restore();
-                }
-            }]
-        });
-    }, 200);
-}
-
-// ============= RENDER SPENDING CHART =============
+// ============= RENDER SPENDING CHART (UPDATED WITH DYNAMIC BAR WIDTH) =============
 async function renderSpendingChart(budgetId, groupBy = 'day', startDate = null, endDate = null) {
     try {
         let url = `/api/BudgetApi/spending-analysis/${budgetId}?groupBy=${groupBy}`;
@@ -525,12 +429,10 @@ async function renderSpendingChart(budgetId, groupBy = 'day', startDate = null, 
 
         if (!ctx) return;
 
-        // Destroy existing chart if exists
         if (activeCharts[budgetId]) {
             activeCharts[budgetId].destroy();
         }
 
-        // ✅ CHECK IF NO DATA
         if (!result.data || result.data.length === 0) {
             ctx.parentElement.innerHTML = `
                 <div class="d-flex justify-content-center align-items-center h-100">
@@ -546,6 +448,25 @@ async function renderSpendingChart(budgetId, groupBy = 'day', startDate = null, 
         const labels = result.data.map(d => d.label);
         const amounts = result.data.map(d => d.amount);
 
+        // ✅ CALCULATE DYNAMIC BAR WIDTH
+        const dataCount = labels.length;
+        let barPercentage = 0.8;
+        let categoryPercentage = 0.9;
+
+        if (dataCount <= 5) {
+            // Ít cột (<=5): Mỗi cột chiếm ~20% chiều rộng
+            barPercentage = 0.2;
+            categoryPercentage = 0.3;
+        } else if (dataCount <= 10) {
+            // Trung bình (6-10): Mỗi cột chiếm ~15%
+            barPercentage = 0.5;
+            categoryPercentage = 0.6;
+        } else {
+            // Nhiều cột (>10): Thu nhỏ để fit
+            barPercentage = 0.8;
+            categoryPercentage = 0.9;
+        }
+
         activeCharts[budgetId] = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -557,7 +478,9 @@ async function renderSpendingChart(budgetId, groupBy = 'day', startDate = null, 
                     borderColor: '#2F2CD8',
                     borderWidth: 1,
                     borderRadius: 6,
-                    hoverBackgroundColor: '#1e1b9f'
+                    hoverBackgroundColor: '#1e1b9f',
+                    barPercentage: barPercentage,
+                    categoryPercentage: categoryPercentage
                 }]
             },
             options: {
@@ -573,7 +496,7 @@ async function renderSpendingChart(budgetId, groupBy = 'day', startDate = null, 
                         cornerRadius: 8,
                         callbacks: {
                             label: function (context) {
-                                return 'Chi tiêu: $' + context.parsed.y.toFixed(2);
+                                return 'Chi tiêu: ' + formatCurrencyVND(context.parsed.y);
                             }
                         }
                     }
@@ -599,8 +522,9 @@ async function renderSpendingChart(budgetId, groupBy = 'day', startDate = null, 
                             color: '#666',
                             font: { size: 11 },
                             callback: function (value) {
-                                return '$' + value.toFixed(0);
+                                return formatCurrencyVND(value);
                             }
+
                         }
                     }
                 }
@@ -621,66 +545,39 @@ async function renderSpendingChart(budgetId, groupBy = 'day', startDate = null, 
     }
 }
 
-// ============= RENDER TIMELINE =============
-async function renderBudgetTimeline(budget) {
-    setTimeout(async () => {
-        try {
-            const response = await fetch(`/api/BudgetApi/transactions/${budget.budgetID}`);
-            if (!response.ok) throw new Error('Failed to load transactions');
-
-            const transactions = await response.json();
-            const container = document.getElementById(`timeline${budget.budgetID}`);
-
-            if (!container) return;
-
-            if (transactions.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-4">
-                        <i class="bi bi-inbox" style="font-size: 48px; color: #ccc;"></i>
-                        <p class="text-muted mt-2 mb-0">Chưa có giao dịch nào</p>
-                    </div>
-                `;
-                return;
-            }
-
-            const timelineHtml = transactions.map(t => `
-                <div class="timeline-item d-flex justify-content-between align-items-center py-2 border-bottom">
-                    <div>
-                        <span class="text-muted small">${new Date(t.date).toLocaleDateString('vi-VN')}</span>
-                        <p class="mb-0 fw-medium">${t.description || 'Giao dịch'}</p>
-                    </div>
-                    <div class="text-end">
-                        <span class="badge ${t.type === 'Expense' ? 'bg-danger' : 'bg-success'}">
-                            ${t.type === 'Expense' ? '-' : '+'}$${t.amount.toFixed(2)}
-                        </span>
-                    </div>
-                </div>
-            `).join('');
-
-            container.innerHTML = timelineHtml;
-
-        } catch (error) {
-            console.error('Error loading timeline:', error);
-            const container = document.getElementById(`timeline${budget.budgetID}`);
-            if (container) {
-                container.innerHTML = `
-                    <div class="text-center py-3 text-danger">
-                        <i class="bi bi-exclamation-circle"></i>
-                        <p class="mb-0 small">Không thể tải giao dịch</p>
-                    </div>
-                `;
-            }
-        }
-    }, 300);
-}
-
-// ============= DOM CONTENT LOADED =============
 document.addEventListener("DOMContentLoaded", async function () {
 
     // 1) LOAD BUDGETS FIRST
     await loadBudgets();
 
-    // 2) CATEGORY PICKER
+    // 2) FIX MODAL EVENT LISTENERS
+    const modalElement = document.getElementById("addBudgetModal");
+    if (modalElement) {
+        modalElement.addEventListener('show.bs.modal', function () {
+            const appContainer = document.querySelector('.app-container');
+            if (appContainer) {
+                appContainer.removeAttribute('aria-hidden');
+            }
+        });
+
+        modalElement.addEventListener('hidden.bs.modal', function () {
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+                backdrop.remove();
+            }
+
+            const appContainer = document.querySelector('.app-container');
+            if (appContainer) {
+                appContainer.removeAttribute('aria-hidden');
+            }
+
+            document.body.classList.remove('modal-open');
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+        });
+    }
+
+    // 3) CATEGORY PICKER
     const categoryToggle = document.getElementById("categoryPickerToggle");
     const categoryList = document.getElementById("categoryPickerList");
     const categoryContainer = document.getElementById("categoryPickerContainer");
@@ -742,7 +639,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    // 3) QUICK RANGE BUTTONS
+    // 4) QUICK RANGE BUTTONS
     const rangeBtns = document.querySelectorAll(".range-btn");
     const startDateInput = document.getElementById("budgetStartDateInput");
     const endDateInput = document.getElementById("budgetEndDateInput");
@@ -765,8 +662,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
         });
     }
-
-    // 4) SUBMIT ADD BUDGET FORM
+    // 5) SUBMIT ADD BUDGET FORM
     const form = document.getElementById("addBudgetForm");
     if (form) {
         form.addEventListener("submit", async (e) => {
@@ -837,17 +733,16 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                 const modalElement = document.getElementById("addBudgetModal");
                 if (modalElement) {
-                    document.activeElement?.blur();
+                    if (document.activeElement) {
+                        document.activeElement.blur();
+                    }
 
                     const modalInstance = bootstrap.Modal.getInstance(modalElement);
                     if (modalInstance) {
                         modalInstance.hide();
-                    } else {
-                        const newModal = new bootstrap.Modal(modalElement);
-                        newModal.hide();
                     }
 
-                    modalElement.addEventListener("hidden.bs.modal", () => {
+                    setTimeout(async () => {
                         const backdrop = document.querySelector('.modal-backdrop');
                         if (backdrop) backdrop.remove();
 
@@ -864,8 +759,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                             categoryPreview.classList.add("text-muted");
                         }
 
-                        loadBudgets();
-                    }, { once: true });
+                        await loadBudgets();
+                    }, 300);
                 }
 
             } catch (err) {

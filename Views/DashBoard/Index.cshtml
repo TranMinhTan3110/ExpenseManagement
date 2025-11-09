@@ -15,6 +15,8 @@
 
 }
 
+@using System.Security.Claims
+
 <!-- Transaction page -->
 <div  class="container-dashboard" >
 <div class="page-header d-flex justify-content-between align-items-center ">
@@ -186,7 +188,9 @@
 
 </div>
 
+
     <!-- BẮT ĐẦU HÀNG MỚI (Budgets & Income)      -->
+    <input type="hidden" id="userIdHidden" value="@User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)" />
 
     <div class="row g-4 mb-4">
 
@@ -196,71 +200,8 @@
                 <div class="card-body">
                     <h5 class="card-title mb-4">Ngân Sách Hàng Tháng (Monthly Budgets)</h5>
 
-                    <div class="budget-list">
-                        <!-- Mẫu 1 Ngân Sách (Backend sẽ lặp ra) -->
-                        <div class="budget-item">
-                            <div class="budget-icon" style=" color: #0ea5e9;">
-                                <i class="fa-solid fa-store"></i> <!-- Thay icon ở đây -->
-                            </div>
-                            <div class="budget-details">
-                                <div class="budget-info">
-                                    <span class="budget-name">Ăn Uống (Grocery)</span>
-                                    <span class="budget-amount">$750 / $1000</span>
-                                </div>
-                                <div class="progress budget-progress" style="height: 6px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 75%; background-color: #0ea5e9;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Hết Mẫu 1 -->
-                        <!-- Mẫu 2 Ngân Sách -->
-                        <div class="budget-item">
-                            <div class="budget-icon" style="background-color: #fef2f2; color: #ef4444;">
-                                <i class="fa-solid fa-bus"></i> <!-- Thay icon ở đây -->
-                            </div>
-                            <div class="budget-details">
-                                <div class="budget-info">
-                                    <span class="budget-name">Đi Lại (Transport)</span>
-                                    <span class="budget-amount">$250 / $400</span>
-                                </div>
-                                <div class="progress budget-progress" style="height: 6px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 62.5%; background-color: #ef4444;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Hết Mẫu 2 -->
-                        <!-- Mẫu 3 Ngân Sách -->
-                        <div class="budget-item">
-                            <div class="budget-icon" style="background-color: #f0fdf4; color: #22c55e;">
-                                <i class="fa-solid fa-heart-pulse"></i> <!-- Thay icon ở đây -->
-                            </div>
-                            <div class="budget-details">
-                                <div class="budget-info">
-                                    <span class="budget-name">Sức Khỏe (Healthcare)</span>
-                                    <span class="budget-amount">$100 / $500</span>
-                                </div>
-                                <div class="progress budget-progress" style="height: 6px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 20%; background-color: #22c55e;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Hết Mẫu 3 -->
-                        <!-- Mẫu 4 Ngân Sách -->
-                        <div class="budget-item">
-                            <div class="budget-icon" style="background-color: #fffbeb; color: #f59e0b;">
-                                <i class="fa-solid fa-graduation-cap"></i> <!-- Thay icon ở đây -->
-                            </div>
-                            <div class="budget-details">
-                                <div class="budget-info">
-                                    <span class="budget-name">Giáo Dục (Education)</span>
-                                    <span class="budget-amount">$450 / $1000</span>
-                                </div>
-                                <div class="progress budget-progress" style="height: 6px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 45%; background-color: #f59e0b;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Hết Mẫu 4 -->
+                    <div class="budget-list" id="budgetList">
+                        <!-- JS sẽ thêm các budget-item ở đây -->
 
                     </div>
                 </div>
