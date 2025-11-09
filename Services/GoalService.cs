@@ -330,9 +330,6 @@ namespace QuanLyChiTieu_WebApp.Services
                 ProgressPercentage = progressPercentage,
                 RemainingAmount = goal.TargetAmount - goal.CurrentAmount,
                 LastMonthSavings = lastMonthDeposits,
-                TotalExpenses = 0,
-                TotalTaxes = 0,
-                TotalDebt = 0,
                 WalletContributions = walletContributions,
                 DepositHistory = depositHistory
             };
