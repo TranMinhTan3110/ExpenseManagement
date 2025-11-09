@@ -171,7 +171,7 @@
     flex-grow: 1; /* Cho phép vùng info giãn ra */
 }
     .wallet-list__info .wallet-list__balance {
-        color:var(--text);
+/*        color:var(--text);*/
     }
     .wallet-list__name {
         margin: 0 0 4px 0; /* Khoảng cách nhỏ dưới tên */
@@ -308,7 +308,54 @@
     color: var(--text-color) !important; 
 }
 
+/* Scoolbar cho lịch sử giao dịch */
+/* Style đẹp hơn cho scrollbar */
+.transaction-history .table-responsive {
+    max-height: 300px;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+}
 
+    /* Custom scrollbar cho trình duyệt webkit (Chrome, Safari, Edge) */
+    .transaction-history .table-responsive::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .transaction-history .table-responsive::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    .transaction-history .table-responsive::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+
+        .transaction-history .table-responsive::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+/* Giữ header cố định */
+.transaction-history .table thead th {
+    position: sticky;
+    top: 0;
+    background-color: var(--card-bg-color);
+    z-index: 10;
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Đảm bảo scrollbar hiển thị trong dark mode */
+.dark-mode .transaction-history .table-responsive::-webkit-scrollbar-track {
+    background: #2d2d2d;
+}
+
+.dark-mode .transaction-history .table-responsive::-webkit-scrollbar-thumb {
+    background: #555;
+}
+
+    .dark-mode .transaction-history .table-responsive::-webkit-scrollbar-thumb:hover {
+        background: #777;
+    }
 /* Thêm màu nền nhạt (ví dụ) */
 .bg-primary-light {
     background-color: rgba(13, 110, 253, 0.1);
@@ -372,7 +419,7 @@
 
     .chart-container {
         width: 100%;
-        overflow-x: auto;
+/*        overflow-x: auto;*/
     }
 
     .balance-amount {
@@ -439,7 +486,3 @@ input[type=number] {
 }
 
 
-.transaction-history .table-responsive {
-    max-height: 350px;
-    overflow-y: auto;
-}

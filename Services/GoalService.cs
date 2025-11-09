@@ -293,9 +293,8 @@ namespace QuanLyChiTieu_WebApp.Services
                     WalletName = g.Key.WalletName,
                     WalletType = g.Key.WalletType,
                     Amount = g.Sum(gd => gd.Amount),
-                    ProgressPercentage = goal.CurrentAmount > 0
-                        ? (int)Math.Round((g.Sum(gd => gd.Amount) / goal.CurrentAmount) * 100)
-                        : 0,
+                    CurrentAmount = g.Sum(gd => gd.Amount),
+                    TargetAmount = goal.CurrentAmount,
                     IconClass = GetWalletIcon(g.Key.WalletType),
                     ColorClass = GetWalletColor(g.Key.WalletType)
                 })

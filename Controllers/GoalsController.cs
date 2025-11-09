@@ -14,7 +14,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
     {
         private readonly IGoalService _goalService;
         private readonly IWalletService _walletService;
-        private readonly ApplicationDbContext _context; // 👈 THÊM DbContext
+        private readonly ApplicationDbContext _context; 
 
         public GoalsController(IGoalService goalService, ApplicationDbContext context, IWalletService walletService)
         {
@@ -37,7 +37,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
 
             var viewModel = await _goalService.GetUserGoalsAsync(userId);
 
-            // 👇 LẤY DANH SÁCH VÍ TRỰC TIẾP (KHÔNG CẦN SERVICE)
+            //  LẤY DANH SÁCH VÍ TRỰC TIẾP (KHÔNG CẦN SERVICE)
             var wallets = await _context.Wallets
                 .Where(w => w.UserID == userId)
                 .OrderBy(w => w.WalletName)
@@ -48,7 +48,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
             return View(viewModel);
         }
 
-        // 🟢 2️⃣ Tạo mục tiêu mới
+        //  Tạo mục tiêu mới
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateGoalViewModel model)
         {
@@ -71,7 +71,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 : new { success = false, message = "Không thể tạo mục tiêu." });
         }
 
-        // 🟢 3️⃣ Nạp tiền vào mục tiêu
+        //  Nạp tiền vào mục tiêu
         [HttpPost]
         public async Task<IActionResult> Deposit([FromBody] DepositGoalViewModel model)
         {
@@ -91,7 +91,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 return Json(new { success = false, message = errors ?? "Dữ liệu không hợp lệ" });
             }
 
-            // ✅ Lấy thông tin Goal TRƯỚC KHI nạp tiền
+            //  Lấy thông tin Goal TRƯỚC KHI nạp tiền
             var goal = await _context.Goals
                 .FirstOrDefaultAsync(g => g.GoalID == model.GoalID && g.UserID == userId);
 
@@ -114,13 +114,13 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 return Json(new { success = false, message = "Không thể nạp tiền. Vui lòng kiểm tra số dư ví!" });
             }
 
-            // ✅ Lấy lại thông tin Goal SAU KHI nạp tiền
+            //  Lấy lại thông tin Goal SAU KHI nạp tiền
             await _context.Entry(goal).ReloadAsync();
 
-            // ✅ Kiểm tra xem đã đạt mục tiêu chưa
+            //  Kiểm tra xem đã đạt mục tiêu chưa
             bool goalAchieved = goal.CurrentAmount >= goal.TargetAmount;
 
-            // ✅ Tính phần trăm hoàn thành
+            //  Tính phần trăm hoàn thành
             decimal progressPercent = goal.TargetAmount > 0
                 ? Math.Round((goal.CurrentAmount / goal.TargetAmount) * 100, 2)
                 : 0;
@@ -143,7 +143,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
             });
         }
 
-        // 🟥 4️⃣ Xóa mục tiêu (Đã sửa - xử lý lỗi tốt hơn)
+        // Xóa mục tiêu (Đã sửa - xử lý lỗi tốt hơn)
         [HttpPost]
         [HttpPost]
         public async Task<IActionResult> Delete([FromBody] DeleteGoalRequest request)
@@ -199,7 +199,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
             }
         }
 
-        // 🟢 5️⃣ Xem chi tiết một mục tiêu cụ thể
+        //  Xem chi tiết một mục tiêu cụ thể
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {

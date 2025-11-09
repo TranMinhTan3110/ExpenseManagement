@@ -155,7 +155,7 @@ namespace QuanLyChiTieu_WebApp.Services
 
             // --- 7. TRANSACTION HISTORY ---
             var history = allTransactionsInWallet
-                .Take(5)
+               
                 .Select(t =>
                 {
                     allUserCategories.TryGetValue(t.CategoryID, out var category);

@@ -30,7 +30,12 @@ namespace QuanLyChiTieu_WebApp.ViewModels
         public string WalletName { get; set; }
         public string WalletType { get; set; }
         public decimal Amount { get; set; }
-        public int ProgressPercentage { get; set; }
+        public decimal TargetAmount { get; set; }
+        public decimal CurrentAmount { get; set; }
+        public int ProgressPercentage => TargetAmount > 0
+     ? (int)Math.Round((CurrentAmount / TargetAmount) * 100)
+     : 0;
+
         public string IconClass { get; set; }
         public string ColorClass { get; set; }
     }
