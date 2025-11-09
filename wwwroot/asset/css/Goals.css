@@ -410,3 +410,156 @@ input[type=number] {
     }
 }
 
+
+/* ============================================
+   🎉 STYLING CHO MỤC TIÊU ĐÃ HOÀN THÀNH
+   ============================================ */
+
+/* Goals Nav - Mục tiêu đã hoàn thành */
+.goals-nav.goal-completed {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;
+    border: 2px solid #38ef7d;
+    box-shadow: 0 8px 20px rgba(56, 239, 125, 0.3);
+    position: relative;
+}
+
+    .goals-nav.goal-completed:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(56, 239, 125, 0.4);
+    }
+
+    /* Circle progress cho mục tiêu hoàn thành */
+    .goals-nav.goal-completed .goals-nav-circle {
+        background: rgba(255, 255, 255, 0.25);
+    }
+
+    .goals-nav.goal-completed .percent-goal {
+        color: #fff;
+        font-weight: bold;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Badge "Đã hoàn thành" trong nav */
+    .goals-nav.goal-completed .badge {
+        animation: pulse 2s infinite;
+    }
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* ============================================
+   CARD CHI TIẾT MỤC TIÊU ĐÃ HOÀN THÀNH
+   ============================================ */
+
+/* Card progress */
+.goal-completed-card {
+    border: 3px solid #38ef7d;
+    box-shadow: 0 10px 30px rgba(56, 239, 125, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+    .goal-completed-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #11998e, #38ef7d, #11998e);
+        animation: shimmer 3s infinite;
+    }
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Badge "Hoàn thành" floating */
+.completed-badge-float {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+    animation: bounce 2s infinite;
+    z-index: 10;
+}
+
+    .completed-badge-float i {
+        font-size: 18px;
+        animation: rotate 2s linear infinite;
+    }
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Progress bar màu xanh cho mục tiêu hoàn thành */
+.goal-completed-card .progress-bar.bg-success {
+    background: linear-gradient(90deg, #28a745, #20c997, #38ef7d) !important;
+    background-size: 200% auto;
+    animation: gradient 3s linear infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .completed-badge-float {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .goals-nav.goal-completed .badge {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+}

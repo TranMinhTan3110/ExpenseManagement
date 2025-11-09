@@ -16,9 +16,7 @@ namespace QuanLyChiTieu_WebApp.ViewModels
 
         // Thống kê cho từng goal
         public decimal LastMonthSavings { get; set; }
-        public decimal TotalExpenses { get; set; }
-        public decimal TotalTaxes { get; set; }
-        public decimal TotalDebt { get; set; }
+
 
         // Danh sách ví
         public List<WalletContributionViewModel> WalletContributions { get; set; }
