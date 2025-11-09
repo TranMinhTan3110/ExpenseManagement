@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuanLyChiTieu_WebApp.Models.ViewModels;
-using QuanLyChiTieu_WebApp.ViewModels; // Hoặc .Models.ViewModels
+using QuanLyChiTieu_WebApp.ViewModels;
 using QuanLyChiTieu_WebApp.Services;
 using System.Security.Claims;
-using System.Threading.Tasks; // <-- 1. Thêm using này
+using System.Threading.Tasks; 
 
 namespace QuanLyChiTieu_WebApp.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("api/wallet")]
-    public class WalletAPIController : ControllerBase // <-- 2. Sửa thành ControllerBase
+    public class WalletAPIController : ControllerBase 
     {
         private readonly IWalletService _walletService;
 

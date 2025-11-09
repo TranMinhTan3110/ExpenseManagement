@@ -72,6 +72,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         // ... (Cấu hình cookie của bạn như cũ)
         options.LoginPath = "/Login/Index";
+        options.LogoutPath = "/Login/Logout";
+        options.AccessDeniedPath = "/Home/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+        options.SlidingExpiration = true;
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Lax;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     })
     .AddGoogle(options => // THÊM GOOGLE TẠI ĐÂY
     {
@@ -127,6 +134,11 @@ builder.Services.AddScoped<IWalletService, WalletService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 // Đăng ký AnalyticsService
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+// Đăng ký DashboardService
+builder.Services.AddScoped<IDashboardService, DashBoardService>();
+// Đăng ký SearchService
+builder.Services.AddScoped<ISearchService, SearchService>();
+
 
 // Logging
 builder.Logging.ClearProviders();

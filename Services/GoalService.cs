@@ -126,38 +126,82 @@ namespace QuanLyChiTieu_WebApp.Services
         }
 
         // 🟢 Xóa mục tiêu (và hoàn tiền về ví nếu có)
+        // 🟢 Xóa mục tiêu (và hoàn tiền về ví nếu có)
         public async Task<bool> DeleteGoalAsync(int goalId, string userId)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                // ✅ Load Goal kèm GoalDeposits
                 var goal = await _context.Goals
                     .Include(g => g.GoalDeposits)
                     .FirstOrDefaultAsync(g => g.GoalID == goalId && g.UserID == userId);
 
-                if (goal == null) return false;
+                if (goal == null)
+                {
+                    Console.WriteLine($"❌ Không tìm thấy Goal ID: {goalId} của User: {userId}");
+                    return false;
+                }
 
-                if (goal.CurrentAmount > 0)
+                Console.WriteLine($"🔍 Tìm thấy Goal: {goal.GoalName}, CurrentAmount: {goal.CurrentAmount:N0}");
+                Console.WriteLine($"🔍 Số giao dịch: {goal.GoalDeposits.Count}");
+
+                // ✅ Hoàn tiền về ví nếu có
+                if (goal.CurrentAmount > 0 && goal.GoalDeposits.Any())
                 {
                     var walletContributions = goal.GoalDeposits
                         .GroupBy(gd => gd.WalletID)
                         .Select(g => new { WalletID = g.Key, Amount = g.Sum(gd => gd.Amount) })
                         .ToList();
 
-                    foreach (var c in walletContributions)
+                    Console.WriteLine($"💰 Cần hoàn tiền cho {walletContributions.Count} ví");
+
+                    foreach (var contribution in walletContributions)
                     {
-                        var wallet = await _context.Wallets.FindAsync(c.WalletID);
+                        var wallet = await _context.Wallets
+                            .FirstOrDefaultAsync(w => w.WalletID == contribution.WalletID && w.UserID == userId);
+
                         if (wallet != null)
-                            wallet.Balance += c.Amount;
+                        {
+                            wallet.Balance += contribution.Amount;
+                            Console.WriteLine($"✅ Hoàn {contribution.Amount:N0} VNĐ vào ví '{wallet.WalletName}' (ID: {wallet.WalletID})");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"⚠️ KHÔNG tìm thấy ví ID: {contribution.WalletID}");
+                        }
                     }
                 }
 
+                // ✅ XÓA TẤT CẢ GoalDeposits TRƯỚC
+                if (goal.GoalDeposits.Any())
+                {
+                    Console.WriteLine($"🗑️ Đang xóa {goal.GoalDeposits.Count} giao dịch...");
+                    _context.GoalDeposits.RemoveRange(goal.GoalDeposits);
+                    await _context.SaveChangesAsync(); // ← QUAN TRỌNG: Save trước khi xóa Goal
+                    Console.WriteLine($"✅ Đã xóa tất cả GoalDeposits");
+                }
+
+                // ✅ SAU ĐÓ MỚI XÓA Goal
+                Console.WriteLine($"🗑️ Đang xóa Goal...");
                 _context.Goals.Remove(goal);
                 await _context.SaveChangesAsync();
+
+                // ✅ Commit transaction
+                await transaction.CommitAsync();
+                Console.WriteLine($"✅ XÓA THÀNH CÔNG Goal ID: {goalId}");
+
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                await transaction.RollbackAsync();
+                Console.WriteLine($"❌❌❌ LỖI DeleteGoal: {ex.Message}");
+                Console.WriteLine($"❌ InnerException: {ex.InnerException?.Message}");
+                Console.WriteLine($"❌ StackTrace: {ex.StackTrace}");
+
+                // ← QUAN TRỌNG: Throw exception để Controller bắt được
+                throw new Exception($"Lỗi khi xóa mục tiêu: {ex.Message}", ex);
             }
         }
 
@@ -182,7 +226,7 @@ namespace QuanLyChiTieu_WebApp.Services
                     UserID = userId
                 });
 
-                goal.CurrentAmount += amount;
+                goal.CurrentAmount += amount; 
                 goal.UpdatedAt = DateTime.Now;
                 wallet.Balance -= amount;
 
@@ -249,9 +293,8 @@ namespace QuanLyChiTieu_WebApp.Services
                     WalletName = g.Key.WalletName,
                     WalletType = g.Key.WalletType,
                     Amount = g.Sum(gd => gd.Amount),
-                    ProgressPercentage = goal.CurrentAmount > 0
-                        ? (int)Math.Round((g.Sum(gd => gd.Amount) / goal.CurrentAmount) * 100)
-                        : 0,
+                    CurrentAmount = g.Sum(gd => gd.Amount),
+                    TargetAmount = goal.CurrentAmount,
                     IconClass = GetWalletIcon(g.Key.WalletType),
                     ColorClass = GetWalletColor(g.Key.WalletType)
                 })
@@ -286,9 +329,6 @@ namespace QuanLyChiTieu_WebApp.Services
                 ProgressPercentage = progressPercentage,
                 RemainingAmount = goal.TargetAmount - goal.CurrentAmount,
                 LastMonthSavings = lastMonthDeposits,
-                TotalExpenses = 0,
-                TotalTaxes = 0,
-                TotalDebt = 0,
                 WalletContributions = walletContributions,
                 DepositHistory = depositHistory
             };

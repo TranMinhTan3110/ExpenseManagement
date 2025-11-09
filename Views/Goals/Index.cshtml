@@ -63,7 +63,7 @@
     {
         <div class="goals-tab">
             <div class="row g-0">
-                <div class="col-xl-3">
+                <div class="col-12 col-xl-2">
                     <div class="nav d-block" role="tablist">
                         <div class="row">
                             @for (int i = 0; i < Model.Goals.Count; i++)
@@ -73,7 +73,10 @@
                                 var tabId = $"goal-{goal.GoalID}";
                                 
                                 <div class="col-xl-12 col-md-6">
-                                    <div class="goals-nav @isActive" data-bs-toggle="pill" data-bs-target="#@tabId" role="tab">
+                                    <div class="goals-nav @isActive @(goal.CurrentAmount >= goal.TargetAmount ? "goal-completed" : "")" 
+                                         data-bs-toggle="pill" 
+                                         data-bs-target="#@tabId" 
+                                         role="tab">
                                         <div class="goals-nav-circle">
                                             <div id="circle@(i+5)">
                                                 <canvas width="75" height="75" style="height: 50px; width: 50px;"></canvas>
@@ -83,6 +86,15 @@
                                         <div class="goals-nav-text">
                                             <h3>@goal.GoalName</h3>
                                             <p><strong>@goal.CurrentAmount.ToString("C0")</strong> / @goal.TargetAmount.ToString("C0")</p>
+
+                                            @* Badge "Hoàn thành" *@
+                                            @if (goal.CurrentAmount >= goal.TargetAmount)
+                                                {
+                                                    <span class="badge bg-success mt-1">
+                                                        <i class="fi fi-rr-check-circle"></i> Đã hoàn thành
+                                                    </span>
+                                                }
+
                                         </div>
                                     </div>
                                 </div>
@@ -97,7 +109,7 @@
                     </div>
                 </div>
 
-                <div class="col-xl-9">
+                <div class="col-12 col-xl-10">
                     <div class="tab-content goals-tab-content">
                         @for (int i = 0; i < Model.Goals.Count; i++)
                         {
@@ -125,8 +137,14 @@
                                 <div class="row">
                                     <!-- Progress Card -->
                                     <div class="col-xl-12">
-                                        <div class="card">
+                                        <div class="card @(goal.CurrentAmount >= goal.TargetAmount ? "goal-completed-card" : "")">
                                             <div class="card-body">
+                                                @if (goal.CurrentAmount >= goal.TargetAmount)
+                                                    {
+                                                        <div class="completed-badge-float">
+                                                            <i class="fi fi-rr-trophy"></i> Hoàn thành!
+                                                        </div>
+                                                    }
                                                 <div class="d-flex justify-content-between card-save">
                                                     <div>
                                                         <span>Saved</span>
@@ -161,20 +179,17 @@
                                                     </div>
                                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                                                         <div class="goals-widget">
-                                                            <p>Expenses</p>
-                                                            <h3>@goal.TotalExpenses.ToString("C0")</h3>
+                                                            
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                                                         <div class="goals-widget">
-                                                            <p>Taxes</p>
-                                                            <h3>@goal.TotalTaxes.ToString("C2")</h3>
+                                                         
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                                                         <div class="goals-widget">
-                                                            <p>Debt</p>
-                                                            <h3>@goal.TotalDebt.ToString("C0")</h3>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -298,10 +313,10 @@
                                class="form-control" 
                                id="depositAmount" 
                                placeholder="Nhập số tiền..." 
-                               min="1000" 
-                               step="1000"
+                               min="0.01"
+                               step="0.01"
                                required>
-                        <small class="text-muted">Số tiền tối thiểu: 1,000 VNĐ</small>
+                        <small class="text-muted">Nhập số tiền bạn muốn nạp</small>
                     </div>
 
                     <!-- Ghi chú (tùy chọn) -->
@@ -358,10 +373,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="goalInitialAmountInput" class="form-label">Số tiền đã có (Tùy chọn)</label>
-                            <input type="number" class="form-control" id="goalInitialAmountInput" placeholder="0" min="0">
-                        </div>
+                       
                     </form>
                 </div>
                 <div class="modal-footer">
