@@ -36,60 +36,44 @@
 <div class="row g-4 mb-4 summary-cards">
 
     <!-- Tổng Số Dư -->
-    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-        <a asp-controller="Wallets" asp-action="Index" class="summary-card-link">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="summary-card h-100">
                 <div class="card-body">
                     <p class="card-title text-muted">Tổng Số Dư</p>
-                    <h3 class="card-value">$ 432,568</h3>
+                    <h3 class="card-value" id="totalBalance">Đang tải...</h3>
                     <hr class="my-3">
-                    <p class="card-change text-success mb-0">
+                    <p class="card-change mb-0" id="balanceChange">
                         <i class="fa-solid fa-arrow-trend-up me-1"></i>
-                        <span>2.47%</span>
-                        <span class="text-muted ms-2">Tháng trước: $424,780</span>
+                        <span>--</span>
                     </p>
-
                 </div>
             </div>
-        </a>
-    </div>
+        </div>
 
     <!-- Thu Nhập -->
-    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-        <a href="#" class="summary-card-link">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="summary-card h-100">
                 <div class="card-body">
                     <p class="card-title text-muted">Thu Nhập (Tháng Này)</p>
-                    <h3 class="card-value text-success">$ 1,500.00</h3>
+                    <h3 class="card-value text-success" id="monthlyIncome">Đang tải...</h3>
                     <hr class="my-3">
-                    <p class="card-change text-success mb-0">
-                        <i class="fa-solid fa-arrow-trend-up me-1"></i>
-                        <span>2.47%</span>
-                        <span class="text-muted ms-2">Tháng trước: $424,780</span>
-                    </p>
+                    <p class="card-change mb-0" id="incomeChange">--</p>
                 </div>
             </div>
-        </a>
-    </div>
+        </div>
 
 
     <!-- Chi Tiêu -->
-    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-        <a href="#" class="summary-card-link">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="summary-card h-100">
                 <div class="card-body">
                     <p class="card-title text-muted">Chi Tiêu (Tháng Này)</p>
-                    <h3 class="card-value text-danger">$ 850.50</h3>
+                    <h3 class="card-value text-danger" id="monthlyExpenses">Đang tải...</h3>
                     <hr class="my-3">
-                    <p class="card-change text-success mb-0">
-                        <i class="fa-solid fa-arrow-trend-up me-1"></i>
-                        <span>2.47%</span>
-                        <span class="text-muted ms-2">Tháng trước: $424,780</span>
-                    </p>
+                    <p class="card-change mb-0" id="expenseChange">--</p>
                 </div>
             </div>
-        </a>
-    </div>
+        </div>
 
     <!-- Ngân Sách Ăn Uống -->
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -116,24 +100,19 @@
 <!-- biểu đồ -->
 <div class="row g-4 mb-4">
 
-    <div class="col-lg-7">
-        <div class="card h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="card-title mb-0">Xu Hướng Số Dư (Balace Trends)</h5>
-                </div>
-                <h3 class="card-value mb-2">$221,478</h3>
-                <p class="card-change text-success small mb-3">
-                    <i class="fa-solid fa-arrow-trend-up me-1"></i>
-                    <span>12.25%</span> Last Month
-                </p>
+       <div class="col-lg-7">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Xu Hướng Số Dư (Balance Trends)</h5>
+                    </div>
 
-                <div class="chart-container" style="position: relative; height:250px; width:100%">
-                    <canvas id="balanceTrendChart"></canvas>
+                    <div class="chart-container" style="position: relative; height:300px; width:100%">
+                        <canvas id="balanceTrendChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <div class="col-lg-5">
         <div class="card h-100">
@@ -273,7 +252,13 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="card-title mb-0">Thu Nhập vs Chi Tiêu (Income vs Expenses)</h5>
-                        <!-- (Tùy chọn) Bạn có thể thêm 1 dropdown filter theo năm ở đây -->
+                         <select id="incomePeriodFilter" class="form-select form-select-sm" style="width: auto;">
+                            <option value="7" selected>7 ngày</option>
+                    <option value="30">30 ngày</option>
+                    <option value="90">3 tháng</option>
+                    <option value="180">6 tháng</option>
+                    <option value="365" >1 năm</option>
+                </select>
                     </div>
 
                     <!-- Canvas cho biểu đồ cột -->

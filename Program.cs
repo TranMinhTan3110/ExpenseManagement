@@ -127,6 +127,8 @@ builder.Services.AddScoped<IWalletService, WalletService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 // Đăng ký AnalyticsService
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+// Đăng ký DashboardService
+builder.Services.AddScoped<IDashboardService, DashBoardService>();
 
 // Logging
 builder.Logging.ClearProviders();
