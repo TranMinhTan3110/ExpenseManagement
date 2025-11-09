@@ -1,9 +1,7 @@
-﻿
-/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap'); */
-
-:root {
+﻿:root {
     --progress-bg-color: #e5e7eb;
 }
+
 .dark-mode {
     --progress-bg-color: #1E293B;
 }
@@ -18,16 +16,17 @@ body {
     margin: 0;
     font-family: "Poppins", sans-serif;
     color: var(--text-color);
-
 }
 
 h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p {
     margin-top: 0;
     margin-bottom: 0.5rem;
-    font-weight: bold;
     line-height: 1.6;
     color: var(--text-title);
-    
+}
+
+.h2, h2 {
+    font-size: calc(1.325rem + .9vw);
 }
 
 .card {
@@ -54,6 +53,7 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p {
     margin-bottom: 20px;
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
+
 .container,
 .container-fluid,
 .container-lg,
@@ -71,12 +71,37 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p {
     margin-bottom: 0px;
 }
 
+.page-title-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+    .page-title-content .left {
+        display: flex;
+        flex-direction: column;
+    }
+
+.breadcrumbs {
+    font-size: 14px;
+}
+
+    .breadcrumbs a {
+        text-decoration: none;
+    }
+
+    .breadcrumbs span {
+        margin: 0 5px;
+        color: #555;
+    }
+
+
 .mb-2 {
     margin-bottom: 0.5rem !important;
 }
 
 .breadcrumbs a {
-    
     display: inline-block;
     font-size: 14px;
 }
@@ -101,14 +126,9 @@ a {
     padding: 16px;
     cursor: pointer;
     position: relative;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
     border-radius: 16px;
-    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     margin-bottom: 16px;
     gap: 16px;
@@ -154,32 +174,61 @@ a {
 }
 
 
-
-
 .add-budgets-link {
     background: var(--card-bg-color);
     padding: 16px;
-    padding-right:16px;
     cursor: pointer;
     position: relative;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
     border-radius: 16px;
-    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     margin-bottom: 16px;
     gap: 16px;
     transition: all 0.2s ease;
     width: 100%;
     min-height: 84px;
+    border: 1px solid rgba(255,255,255,0.5);
+    box-sizing: border-box;
     justify-content: space-between;
-    align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.5);
 }
+
+    /* icon giữ kích thước giống các card */
+    .add-budgets-link .budgets-nav-icon {
+        width: 48px;
+        height: 48px;
+        background: rgba(0,0,0,0.03);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* hình dấu + nhỏ gọn ở giữa */
+    .add-budgets-link img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+    }
+
+    /* text */
+    .add-budgets-link .budgets-nav-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+        color: var(--text-color);
+    }
+
+    .add-budgets-link:hover {
+        background-color: var(--sidebar-bg);
+        box-shadow: 0 4px 8px var(--shadow-color);
+        color: var(--sidebar-text);
+    }
+
+        .add-budgets-link:hover .budgets-nav-text h3 {
+            color: var(--sidebar-text);
+        }
+
 .add-link-image {
     width: 24px;
     height: 24px;
@@ -187,8 +236,9 @@ a {
     filter: invert(0); /* mặc định màu gốc (đen) */
     transition: filter 0.3s ease;
 }
+
 .dark-mode .add-link-image {
-    filter:invert(1);
+    filter: invert(1);
 }
 
 
@@ -199,18 +249,72 @@ a {
     box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     margin-bottom: 20px;
     position: relative;
+    display: flex;
     cursor: pointer;
-    ;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
     border-radius: 12px;
     -webkit-box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     box-shadow: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     margin-bottom: 20px;
     border: 1px solid rgba(255, 255, 255, 0.5);
+    justify-content: space-between;
 }
 
+/* Nút Edit (màu xanh) */
+.btn-edit {
+    border: 1.5px solid #007bff; /* viền xanh */
+    color: #007bff;
+    background-color: transparent;
+    border-radius: 6px;
+    padding: 6px 10px;
+    transition: all 0.2s ease-in-out;
+    width: 80px;
+    height: 32px;
+}
+
+    .btn-edit:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+/* Nút Delete (màu đỏ) */
+.btn-del {
+    border: 1.5px solid #dc3545; /* viền đỏ */
+    color: #dc3545;
+    background-color: transparent;
+    border-radius: 6px;
+    padding: 6px 10px;
+    transition: all 0.2s ease-in-out;
+    width: 80px;
+    height: 32px;
+}
+
+    .btn-del:hover {
+        background-color: #dc3545;
+        color: white;
+    }
+
+/* Căn chỉnh icon cho đẹp */
+.btn i {
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.btn-update {
+    border: 1.5px solid #007bff; /* viền xanh */
+    color: #007bff;
+    background-color: transparent;
+    border-radius: 6px;
+    padding: 6px 10px;
+    transition: all 0.2s ease-in-out;
+    width: 90px;
+    height: 32px;
+}
+
+.btn-edit:hover {
+    background-color: #007bff;
+    color: white;
+}
 
 tab-content > .active {
     display: block;
@@ -218,10 +322,6 @@ tab-content > .active {
 
 
 
-
-/* * {
-    box-sizing: border-box;
-} */
 
 div {
     display: block;
@@ -236,7 +336,7 @@ div {
     overflow: hidden;
     font-size: 13px;
     background-color: var(--progress-bg-color);
-    color:var(--progress-bg-color);
+    color: var(--progress-bg-color);
     border-radius: 6px;
 }
 
@@ -398,9 +498,6 @@ div {
     }
 }
 
-
-
-
 @media (max-width: 992px) {
     .col-xl-3, .col-xl-9 {
         -ms-flex: 0 0 100%;
@@ -408,8 +505,9 @@ div {
         max-width: 100%;
     }
 
-    .add-budgets-link {
-        max-width: 100%;
+    .page-title-content {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 
@@ -435,7 +533,7 @@ div {
 
 .budgets-tab {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: flex-start;
     gap: 24px;
     width: 100%;
@@ -490,10 +588,6 @@ div {
     height: 260px !important;
 }
 
-
-
-
-
 .budgets-nav .budgets-nav-text h3, .budgets-nav .budgets-nav-text .h3 {
     font-size: 17px;
     margin-bottom: 4px;
@@ -508,6 +602,111 @@ div {
 }
 
 
-.budget-nav{
-    margin-left:12px;
+.budget-nav {
+    margin-left: 12px;
+}
+
+.budgets-nav {
+    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* Timeline Styles */
+.timeline-item {
+    transition: background-color 0.2s;
+}
+
+    .timeline-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .timeline-item:last-child {
+        border-bottom: none !important;
+    }
+
+/* Card Styles */
+.card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    padding: 15px 20px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Filter Controls */
+.form-select-sm,
+.form-control-sm {
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+}
+
+/* Responsive Filters */
+@media (max-width: 768px) {
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+
+        .card-header .d-flex {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+    .form-select-sm,
+    .form-control-sm {
+        width: 100% !important;
+        margin-bottom: 5px;
+    }
+}
+
+/* Chart Container */
+canvas {
+    max-height: 400px;
+}
+
+/* Budget Widget */
+.budget-widget {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+}
+
+    .budget-widget p {
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+
+    .budget-widget h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+
+
+@media (max-width: 991.98px) {
+
+    .budgets-tab .nav .row > [class*="col-"] {
+        -ms-flex: 0 0 100% !important;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+
+    .budgets-tab .nav .row > .col-md-6 {
+        -ms-flex: 0 0 100% !important;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
 }

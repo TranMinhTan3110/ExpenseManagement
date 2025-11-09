@@ -145,6 +145,10 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
+//Dang ky BudgetService
+builder.Services.AddScoped<BudgetService>();
+
+
 // --- GỌI BUILD() SAU KHI ĐĂNG KÝ XONG ---
 var app = builder.Build();
 
