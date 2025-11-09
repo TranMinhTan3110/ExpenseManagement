@@ -13,8 +13,10 @@
         public decimal LastMonthExpenses { get; set; }
         public bool IsNewUser { get; set; }
 
-        // ✅ THÊM THUỘC TÍNH ĐỂ FRONTEND KIỂM TRA
+       
         public List<IncomeVsExpenseItem> IncomeVsExpenses { get; set; } = new();
+        public List<SavingGoalItem> SavingGoals { get; set; } = new ();
+
 
         // ✅ Tính % thay đổi (CHỈ NẾU KHÔNG PHẢI USER MỚI)
         public double BalanceChangePercent => IsNewUser ? 0 : CalculateChangePercent(TotalBalance, LastMonthBalance);
@@ -70,5 +72,13 @@
         public string Label { get; set; } = string.Empty;
         public decimal Income { get; set; }
         public decimal Expense { get; set; }
+    }
+    public class SavingGoalItem
+    {
+        public int GoalID { get; set; }
+        public string GoalName { get; set; } = string.Empty;
+        public decimal TargetAmount { get; set; }
+        public decimal CurrentAmount { get; set; }
+        public int ProgressPercentage { get; set; }
     }
 }

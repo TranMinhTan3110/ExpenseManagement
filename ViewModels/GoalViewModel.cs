@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using QuanLyChiTieu_WebApp.Models.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace QuanLyChiTieu_WebApp.ViewModels
 {
@@ -31,7 +32,12 @@ namespace QuanLyChiTieu_WebApp.ViewModels
         public string WalletName { get; set; }
         public string WalletType { get; set; }
         public decimal Amount { get; set; }
-        public int ProgressPercentage { get; set; }
+        public decimal TargetAmount { get; set; }
+        public decimal CurrentAmount { get; set; }
+        public int ProgressPercentage => TargetAmount > 0
+     ? (int)Math.Round((CurrentAmount / TargetAmount) * 100)
+     : 0;
+
         public string IconClass { get; set; }
         public string ColorClass { get; set; }
     }
@@ -49,7 +55,7 @@ namespace QuanLyChiTieu_WebApp.ViewModels
     {
         public List<GoalViewModel> Goals { get; set; }
         public int ActiveGoalId { get; set; }
-        //public List<WalletViewModel> Wallets { get; set; }
+        public List<WalletDetailsViewModel> Wallets { get; set; }
 
     }
 
@@ -67,5 +73,9 @@ namespace QuanLyChiTieu_WebApp.ViewModels
 
         [Range(0, double.MaxValue, ErrorMessage = "Số tiền ban đầu không được âm")]
         public decimal InitialAmount { get; set; } = 0;
+    }
+    public class DeleteGoalRequest
+    {
+        public int Id { get; set; }
     }
 }

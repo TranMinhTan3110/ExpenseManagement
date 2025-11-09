@@ -12,7 +12,18 @@ body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
 }
+.container {
+    max-width: 95% !important;
+}
+.goals-tab .col-xl-3 {
+    flex: 0 0 20% !important;
+    max-width: 20% !important;
+}
 
+.goals-tab .col-xl-9 {
+    flex: 0 0 80% !important;
+    max-width: 80% !important;
+}
 .app-container {
     display: flex;
 }

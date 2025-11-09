@@ -132,43 +132,26 @@ namespace QuanLyChiTieu_WebApp.Services
                 })
                 .ToListAsync();
 
-            // --- 7. BALANCE TRENDS (✅ ĐÃ SỬA HOÀN TOÀN) ---
+            // --- 7. BALANCE TRENDS ---
             var balanceTrends = new List<BalanceTrendItem>();
             var startDay = now.AddDays(-(days - 1)).Date;
 
-            var allTransactionsInPeriod = await _context.Transactions
+            var allTransactionsBeforeNow = await _context.Transactions
                 .AsNoTracking()
-                .Where(t => walletIds.Contains(t.WalletID) &&
-                            t.TransactionDate >= startDay)
+                .Where(t => walletIds.Contains(t.WalletID))
                 .OrderBy(t => t.TransactionDate)
                 .ToListAsync();
 
             string dateFormat = days <= 30 ? "d MMM" : "MMM yyyy";
             int step = days <= 30 ? 1 : Math.Max(1, days / 12);
 
-            // ✅ Tính số dư BAN ĐẦU (tại startDay)
-            var balanceAtStart = totalBalance;
-            foreach (var tx in allTransactionsInPeriod)
-            {
-                if (tx.Type == "Income")
-                    balanceAtStart -= tx.Amount;  // Quay về quá khứ
-                else if (tx.Type == "Expense")
-                    balanceAtStart += tx.Amount;
-            }
-
-            // ✅ Tạo các điểm dữ liệu
             for (int i = 0; i < days; i += step)
             {
                 var targetDate = startDay.AddDays(i);
-                var balanceAtDate = balanceAtStart;
 
-                foreach (var tx in allTransactionsInPeriod.Where(t => t.TransactionDate.Date <= targetDate))
-                {
-                    if (tx.Type == "Income")
-                        balanceAtDate += tx.Amount;
-                    else if (tx.Type == "Expense")
-                        balanceAtDate -= tx.Amount;
-                }
+                var balanceAtDate = allTransactionsBeforeNow
+                    .Where(t => t.TransactionDate.Date <= targetDate)
+                    .Sum(t => t.Type == "Income" ? t.Amount : -t.Amount);
 
                 balanceTrends.Add(new BalanceTrendItem
                 {
@@ -177,7 +160,6 @@ namespace QuanLyChiTieu_WebApp.Services
                 });
             }
 
-            // ✅ Luôn thêm điểm cuối cùng (hôm nay)
             if (balanceTrends.Count == 0 || balanceTrends.Last().Date != now.ToString(dateFormat, new System.Globalization.CultureInfo("vi-VN")))
             {
                 balanceTrends.Add(new BalanceTrendItem
@@ -244,6 +226,24 @@ namespace QuanLyChiTieu_WebApp.Services
                 });
             }
 
+            // ✅ 9. SAVING GOALS (Lấy 4 Goals gần nhất)
+            var savingGoals = await _context.Goals
+                .AsNoTracking()
+                .Where(g => g.UserID == userId)
+                .OrderByDescending(g => g.CreatedAt)
+                .Take(4)
+                .Select(g => new SavingGoalItem
+                {
+                    GoalID = g.GoalID,
+                    GoalName = g.GoalName,
+                    TargetAmount = g.TargetAmount,
+                    CurrentAmount = g.CurrentAmount,
+                    ProgressPercentage = g.TargetAmount > 0
+                        ? (int)Math.Round((g.CurrentAmount / g.TargetAmount) * 100)
+                        : 0
+                })
+                .ToListAsync();
+
             return new DashboardViewModel
             {
                 TotalBalance = totalBalance,
@@ -256,7 +256,8 @@ namespace QuanLyChiTieu_WebApp.Services
                 ExpenseBreakdown = expenseBreakdown,
                 RecentTransactions = recentTransactions,
                 BalanceTrends = balanceTrends,
-                IncomeVsExpenses = incomeVsExpenses
+                IncomeVsExpenses = incomeVsExpenses,
+                SavingGoals = savingGoals  // ✅ THÊM MỚI
             };
         }
     }

@@ -1,10 +1,10 @@
 ﻿// --- LOAD DỮ LIỆU DASHBOARD ---
 async function loadDashboardData(incomeDays = 7) {
     try {
-        // ✅ CHỈ GỌI 2 API: 1 cho tổng quan (7 ngày), 1 cho Income chart (tùy chỉnh)
+        //  CHỈ GỌI 2 API: 1 cho tổng quan (7 ngày), 1 cho Income chart (tùy chỉnh)
         const [overviewResponse, incomeResponse] = await Promise.all([
-            fetch(`/api/dashboard?days=7`),  // ✅ Luôn 7 ngày cho overview + balance trends
-            fetch(`/api/dashboard?days=${incomeDays}`)  // ✅ Theo dropdown cho Income vs Expenses
+            fetch(`/api/dashboard?days=7`),  //  Luôn 7 ngày cho overview + balance trends
+            fetch(`/api/dashboard?days=${incomeDays}`)  //  Theo dropdown cho Income vs Expenses
         ]);
 
         if (!overviewResponse.ok || !incomeResponse.ok) {
@@ -13,6 +13,7 @@ async function loadDashboardData(incomeDays = 7) {
 
         const overviewData = await overviewResponse.json();
         const incomeData = await incomeResponse.json();
+       
 
         // Render 3 ô trên + breakdown + transactions + balance trends (từ overviewData)
         render3TopCards(overviewData);
@@ -22,15 +23,15 @@ async function loadDashboardData(incomeDays = 7) {
 
         // Render biểu đồ Income vs Expenses (từ incomeData)
         renderIncomeVsExpensesChart(incomeData.incomeVsExpenses);
-
-        createOrUpdateGoalCharts();
+        renderSavingGoal(overviewData.savingGoals);
+        //createOrUpdateGoalCharts();
 
     } catch (error) {
         console.error('Lỗi load dashboard:', error);
     }
 }
 
-// --- RENDER 3 Ô TRÊN (GIỮ NGUYÊN) ---
+// --- RENDER 3 Ô TRÊN  ---
 function render3TopCards(data) {
     document.getElementById('totalBalance').textContent = `${data.totalBalance.toLocaleString()}đ`;
     document.getElementById('monthlyIncome').textContent = `${data.monthlyIncome.toLocaleString()}đ`;
@@ -263,7 +264,7 @@ function renderBalanceTrends(balanceTrends, dashboardData) {
     });
 }
 
-// --- BIỂU ĐỒ 2: INCOME VS EXPENSES (GIỮ NGUYÊN) ---
+// --- BIỂU ĐỒ 2: INCOME VS EXPENSES  ---
 function renderIncomeVsExpensesChart(incomeVsExpenses) {
     const barCtx = document.getElementById('incomeVsExpensesChart');
     if (!barCtx) return;
@@ -344,7 +345,7 @@ function renderIncomeVsExpensesChart(incomeVsExpenses) {
     });
 }
 
-// --- BIỂU ĐỒ 3: SAVING GOALS (GIỮ NGUYÊN) ---
+// --- BIỂU ĐỒ 3: SAVING GOALS ---
 function createSingleGoalChart(canvasId, percentage) {
     const ctx = document.getElementById(canvasId);
     if (!ctx) return;
@@ -382,13 +383,36 @@ function createSingleGoalChart(canvasId, percentage) {
         options: options
     });
 }
+// tạo biểu đồ saving goal
+function renderSavingGoal(goals) {
+    const container = document.getElementById('savingGoalsContainer');
+    if (!container || !goals || goals.length === 0) return;
 
-function createOrUpdateGoalCharts() {
-    createSingleGoalChart('goalChartVacation', 80);
-    createSingleGoalChart('goalChartGift', 20);
-    createSingleGoalChart('goalChartCar', 80);
-    createSingleGoalChart('goalChartLaptop', 80);
+    // Bước 1: Tạo HTML trước
+    let htmlContent = '';
+    goals.forEach((goal, index) => {
+        const canvasId = `goalChart${index}`;
+        htmlContent += `
+            <div class="goal-item">
+                <div class="goal-chart-container">
+                    <canvas id="${canvasId}" width="75" height="75"></canvas>
+                    <div class="goal-percentage">${goal.progressPercentage}%</div>
+                </div>
+                <span class="goal-label">${goal.goalName}</span>
+            </div>
+        `;
+    });
+    container.innerHTML = htmlContent;
+
+    // Bước 2: Sau đó mới vẽ biểu đồ
+    goals.forEach((goal, index) => {
+        const canvasId = `goalChart${index}`;
+        createSingleGoalChart(canvasId, goal.progressPercentage);
+    });
 }
+
+
+//
 
 // =====================================
 // ✅ KHỞI ĐỘNG

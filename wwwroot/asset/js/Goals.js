@@ -31,7 +31,7 @@
         console.log("🧩 Dữ liệu gửi:", data);
 
         $.ajax({
-            url: '/Goals/Create',  // Sử dụng URL tĩnh
+            url: '/Goals/Create',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
@@ -56,19 +56,33 @@
         $('#addGoalForm')[0].reset();
     });
 
+    // ========== DEPOSIT MODAL ==========
+
     // 🟢 Khi click nút "Nạp tiền", lưu GoalID vào modal
     $(document).on('click', '[data-bs-target="#depositModal"]', function () {
         const goalId = $(this).data('goal-id');
         $('#depositGoalId').val(goalId);
-
-        // Reset form
         $('#depositForm')[0].reset();
-        $('#depositGoalId').val(goalId);
+        $('#depositGoalId').val(goalId); // Set lại sau khi reset
     });
+
+    // 🟢 Khi modal mở, load danh sách ví
+    const modalElement = document.getElementById('depositModal');
+    if (modalElement) {
+        console.log('✅ Tìm thấy modal element');
+
+        modalElement.addEventListener('show.bs.modal', function (event) {
+            console.log('🎯 Modal đang mở - Load ví');
+            loadWalletsToDropdown();
+        });
+    } else {
+        console.error('❌ KHÔNG tìm thấy modal element!');
+    }
 
     // 🟢 Submit form nạp tiền
     $('#depositForm').on('submit', function (e) {
         e.preventDefault();
+        console.log('📤 Form submitted');
 
         const goalId = parseInt($('#depositGoalId').val());
         const walletId = parseInt($('#depositWallet').val());
@@ -77,14 +91,17 @@
 
         // Validate
         if (!walletId) {
-            toastr.error('Vui lòng chọn ví.');
+            toastr.error('Vui lòng chọn ví');
             return;
         }
 
+        // ✅ CHO PHÉP NẠP BẤT KỲ SỐ TIỀN NÀO > 0
         if (!amount || amount <= 0) {
-            toastr.error('Vui lòng nhập số tiền hợp lệ.');
+            toastr.error('Vui lòng nhập số tiền hợp lệ');
             return;
         }
+
+        console.log('✅ Validation passed', { goalId, walletId, amount });
 
         const data = {
             GoalID: goalId,
@@ -93,22 +110,45 @@
             Note: note
         };
 
+        // Gọi API nạp tiền
         $.ajax({
-            url: '/Goals/Deposit',  // Sử dụng URL tĩnh
+            url: '/Goals/Deposit',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (response) {
                 if (response.success) {
-                    toastr.success(response.message);
                     $('#depositModal').modal('hide');
-                    setTimeout(() => location.reload(), 1500);
+
+                    // ✅ Kiểm tra xem đã đạt mục tiêu chưa
+                    if (response.goalAchieved || (response.data && response.data.goalAchieved)) {
+                        // 🎉 Đã đạt mục tiêu - hiển thị thông báo đặc biệt
+                        if (typeof Swal !== 'undefined') {
+                            Swal.fire({
+                                title: '🎉 Chúc mừng!',
+                                html: `<p>${response.message}</p><p><strong>Bạn đã hoàn thành mục tiêu này!</strong></p>`,
+                                icon: 'success',
+                                confirmButtonColor: '#28a745',
+                                confirmButtonText: 'Tuyệt vời!',
+                                timer: 3000
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            toastr.success(response.message + ' - Đã hoàn thành mục tiêu!');
+                            setTimeout(() => location.reload(), 2000);
+                        }
+                    } else {
+                        // Chưa đạt mục tiêu - thông báo bình thường
+                        toastr.success(response.message);
+                        setTimeout(() => location.reload(), 1500);
+                    }
                 } else {
                     toastr.error(response.message);
                 }
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
+                console.error('❌ Error:', xhr.status, xhr.responseText);
                 toastr.error('Có lỗi xảy ra, vui lòng thử lại.');
             }
         });
@@ -123,9 +163,59 @@
     initializeProgressCircles();
 });
 
-// 🟥 Xóa mục tiêu (function global)
+// ========== HÀM LOAD VÍ ==========
+function loadWalletsToDropdown() {
+    console.log('🔄 Loading wallets...');
+
+    const $select = $('#depositWallet');
+
+    // Show loading
+    $select.html('<option>⏳ Đang tải...</option>');
+    $select.prop('disabled', true);
+
+    $.ajax({
+        url: '/Goals/GetUserWallets',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            console.log('✅ AJAX Success:', response);
+
+            $select.prop('disabled', false);
+            $select.empty();
+            $select.append('<option value="">-- Chọn ví --</option>');
+
+            if (response.success && response.data && response.data.length > 0) {
+                response.data.forEach(function (wallet) {
+                    const id = wallet.walletID || wallet.WalletID;
+                    const name = wallet.walletName || wallet.WalletName;
+                    const balance = wallet.balance || wallet.Balance || '0';
+
+                    $select.append(
+                        `<option value="${id}">${name} - ${balance} VNĐ</option>`
+                    );
+
+                    console.log(`➕ Added: ${name} (${id})`);
+                });
+
+                toastr.success(`Đã tải ${response.data.length} ví`);
+            } else {
+                $select.append('<option value="">Chưa có ví nào</option>');
+                toastr.warning('Vui lòng tạo ví trước');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('❌ AJAX Error:', xhr.status, xhr.responseText);
+
+            $select.prop('disabled', false);
+            $select.html('<option value="">❌ Lỗi tải ví</option>');
+
+            toastr.error('Không thể tải danh sách ví');
+        }
+    });
+}
+
+// 🟥 Xóa mục tiêu
 function deleteGoal(goalId) {
-    // Kiểm tra xem Swal có tồn tại không
     if (typeof Swal === 'undefined') {
         if (confirm('Bạn có chắc muốn xóa mục tiêu này?')) {
             performDelete(goalId);
@@ -135,7 +225,10 @@ function deleteGoal(goalId) {
 
     Swal.fire({
         title: 'Bạn có chắc không?',
-        text: "Hành động này sẽ xóa vĩnh viễn mục tiêu và không thể hoàn tác!",
+        html: `
+            <p>Hành động này sẽ xóa vĩnh viễn mục tiêu và không thể hoàn tác!</p>
+            <p style="color: #28a745; font-weight: bold;">✅ Nếu mục tiêu đã có tiền, số tiền sẽ được hoàn lại vào ví.</p>
+        `,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -153,10 +246,8 @@ function performDelete(goalId) {
     $.ajax({
         url: '/Goals/Delete',
         type: 'POST',
-        data: {
-            id: goalId,
-            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
-        },
+        contentType: 'application/json',
+        data: JSON.stringify({ Id: goalId }),
         beforeSend: function () {
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
@@ -174,20 +265,20 @@ function performDelete(goalId) {
                 if (typeof Swal !== 'undefined') {
                     Swal.fire({
                         title: 'Đã xóa!',
-                        text: response.message,
+                        text: response.message || 'Mục tiêu đã được xóa thành công.',
                         icon: 'success',
-                        timer: 1500,
+                        timer: 2000,
                         showConfirmButton: false
                     });
                 } else {
                     toastr.success(response.message);
                 }
-                setTimeout(() => location.reload(), 1500);
+                setTimeout(() => location.reload(), 2000);
             } else {
                 if (typeof Swal !== 'undefined') {
                     Swal.fire({
                         title: 'Lỗi!',
-                        text: response.message,
+                        text: response.message || 'Không thể xóa mục tiêu.',
                         icon: 'error'
                     });
                 } else {
@@ -195,8 +286,23 @@ function performDelete(goalId) {
                 }
             }
         },
-        error: function () {
-            const errorMsg = 'Không thể kết nối tới máy chủ. Vui lòng thử lại.';
+        error: function (xhr) {
+            console.error('❌ Delete error:', xhr.status, xhr.responseText);
+
+            let errorMsg = 'Không thể kết nối tới máy chủ. Vui lòng thử lại.';
+
+            // Xử lý lỗi chi tiết từ server
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMsg = xhr.responseJSON.message;
+            } else if (xhr.responseText) {
+                try {
+                    const errorData = JSON.parse(xhr.responseText);
+                    errorMsg = errorData.message || errorMsg;
+                } catch (e) {
+                    // Không parse được JSON, giữ message mặc định
+                }
+            }
+
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
                     title: 'Lỗi hệ thống!',
@@ -212,6 +318,5 @@ function performDelete(goalId) {
 
 // Khởi tạo progress circles
 function initializeProgressCircles() {
-    // Code để vẽ progress circles nếu cần
     console.log('Progress circles initialized');
 }
