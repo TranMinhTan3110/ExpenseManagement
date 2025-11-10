@@ -10,13 +10,13 @@
     }
 
     // Item cho biểu đồ Pie Chart
-    public class ExpenseBreakdownItem
-    {
-        public string CategoryName { get; set; }
-        public decimal Amount { get; set; }
-        public double Percentage { get; set; }
-        public string ColorHex { get; set; }
-    }
+    //public class ExpenseBreakdownItem
+    //{
+    //    public string CategoryName { get; set; }
+    //    public decimal Amount { get; set; }
+    //    public double Percentage { get; set; }
+    //    public string ColorHex { get; set; }
+    //}
 
     // DTO cho Transaction (tránh circular reference)
     public class TransactionDto

@@ -135,13 +135,23 @@ builder.Services.AddScoped<IWalletService, WalletService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 // Đăng ký AnalyticsService
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+// Đăng ký DashboardService
+builder.Services.AddScoped<IDashboardService, DashBoardService>();
 // Đăng ký SearchService
 builder.Services.AddScoped<ISearchService, SearchService>();
+// Đăng ký 
+builder.Services.AddScoped<IDashBoardADService, DashBoardADService>();
+
+
 
 // Logging
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
+
+//Dang ky BudgetService
+builder.Services.AddScoped<BudgetService>();
+
 
 // --- GỌI BUILD() SAU KHI ĐĂNG KÝ XONG ---
 var app = builder.Build();
@@ -169,9 +179,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Login}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=Index}/{id?}");
+    pattern: "{controller=DashboardAD}/{action=Index}/{id?}");
 
 app.MapControllers();
 app.Run();
