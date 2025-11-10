@@ -4,6 +4,6 @@ namespace QuanLyChiTieu_WebApp.Services
 {
     public interface IDashboardService
     {
-        Task<DashboardViewModel> GetDashboardDataAsync(string userId, int days = 7); // ✅ Thêm days
+        Task<DashboardViewModel> GetDashboardDataAsync(string userId, int days = 7); 
     }
 }

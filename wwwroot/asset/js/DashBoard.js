@@ -1,7 +1,7 @@
 ﻿// --- LOAD DỮ LIỆU DASHBOARD ---
 async function loadDashboardData(incomeDays = 7) {
     try {
-        //  CHỈ GỌI 2 API: 1 cho tổng quan (7 ngày), 1 cho Income chart (tùy chỉnh)
+        //  CHỈ GỌI 2 API: 1 cho tổng quan (7 ngày), 1 cho Income chart 
         const [overviewResponse, incomeResponse] = await Promise.all([
             fetch(`/api/dashboard?days=7`),  //  Luôn 7 ngày cho overview + balance trends
             fetch(`/api/dashboard?days=${incomeDays}`)  //  Theo dropdown cho Income vs Expenses
@@ -83,7 +83,7 @@ function render3TopCards(data) {
     }
 }
 
-// --- RENDER EXPENSE BREAKDOWN (GIỮ NGUYÊN) ---
+// RENDER EXPENSE BREAKDOWN
 function renderExpenseBreakdown(breakdown) {
     const progressBar = document.querySelector('.multi-color-progress');
     const listContainer = document.querySelector('.expense-breakdown-list');
@@ -122,7 +122,7 @@ function renderExpenseBreakdown(breakdown) {
     });
 }
 
-// --- RENDER RECENT TRANSACTIONS (GIỮ NGUYÊN) ---
+// RENDER RECENT TRANSACTIONS 
 function renderRecentTransactions(transactions) {
     const tbody = document.querySelector('.transaction-history tbody');
     if (!tbody) return;
@@ -145,10 +145,10 @@ function renderRecentTransactions(transactions) {
         tbody.innerHTML += `
             <tr>
                 <td>
-                    <span class="transaction-icon ${iconBg}">
-                        <i class="${tx.iconClass}"></i>
+                    <span class="transaction-icon ">
+                        <i class="${tx.iconClass}" style = "color:${tx.colorHex}"></i>
                     </span>
-                    <span class="category-name">${tx.categoryName}</span>
+                    <span class="category-name" >${tx.categoryName}</span>
                 </td>
                 <td class="transaction-date">${formattedDate}</td>
                 <td class="transaction-description">${tx.description || '-'}</td>
@@ -160,9 +160,9 @@ function renderRecentTransactions(transactions) {
     });
 }
 
-// =====================================
+
 // BIỂU ĐỒ (CHARTS)
-// =====================================
+
 
 let balanceTrendChart = null;
 let incomeVsExpensesChart = null;
@@ -180,7 +180,7 @@ function renderBalanceTrends(balanceTrends, dashboardData) {
     const lineCtx = document.getElementById('balanceTrendChart');
     if (!lineCtx) return;
 
-    // ✅ CÂP NHẬT CARD HEADER (Số tiền + % thay đổi)
+    //  CÂP NHẬT CARD HEADER (Số tiền + % thay đổi)
     const balanceValueEl = document.querySelector('.card-body h3.card-value');
     const balanceChangeTextEl = document.querySelector('.card-body .card-change.small');
 
@@ -412,17 +412,13 @@ function renderSavingGoal(goals) {
 }
 
 
-//
 
-// =====================================
-// ✅ KHỞI ĐỘNG
-// =====================================
 
 document.addEventListener('DOMContentLoaded', function () {
     // Load lần đầu: Income 1 năm (Balance luôn 7 ngày)
     loadDashboardData(7);
 
-    // ✅ CHỈ CÓ 1 DROPDOWN cho Income vs Expenses
+    //  CHỈ CÓ 1 DROPDOWN cho Income vs Expenses
     const incomeFilter = document.getElementById('incomePeriodFilter');
     if (incomeFilter) {
         incomeFilter.addEventListener('change', function () {
