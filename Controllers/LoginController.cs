@@ -68,7 +68,12 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 // 3. Cập nhật LastLogin
                 await _loginServices.UpdateLastLoginAsync(user.UserID);
 
-                return Json(new { status = WebConstants.SUCCESS });
+                if (user.Role == "Admin")
+                {
+                    return Json(new { status = WebConstants.SUCCESS, redirect = "/DashBoardAD/Index" });
+                }
+                return Json(new { status = WebConstants.SUCCESS, redirect = "/DashBoard/Index" });
+
             }
             catch (Exception ex)
             {
