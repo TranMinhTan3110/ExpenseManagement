@@ -243,6 +243,12 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 RedirectUri = Url.Action("Index", "DashBoard")
             };
 
+            // --- THÊM DÒNG NÀY ---
+            // Thêm tham số "prompt" với giá trị "select_account"
+            // để buộc Google luôn hiển thị màn hình chọn tài khoản.
+            properties.Items.Add("prompt", "select_account");
+            // ---------------------
+
             return Challenge(properties, provider);
         }
     }
