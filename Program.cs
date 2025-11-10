@@ -79,6 +79,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Lax;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        //options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
     })
     .AddGoogle(options => // THÊM GOOGLE TẠI ĐÂY
     {

@@ -68,7 +68,12 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 // 3. Cập nhật LastLogin
                 await _loginServices.UpdateLastLoginAsync(user.UserID);
 
-                return Json(new { status = WebConstants.SUCCESS });
+                if (user.Role == "Admin")
+                {
+                    return Json(new { status = WebConstants.SUCCESS, redirect = "/DashBoardAD/Index" });
+                }
+                return Json(new { status = WebConstants.SUCCESS, redirect = "/DashBoard/Index" });
+
             }
             catch (Exception ex)
             {
@@ -242,6 +247,12 @@ namespace QuanLyChiTieu_WebApp.Controllers
             {
                 RedirectUri = Url.Action("Index", "DashBoard")
             };
+
+            // --- THÊM DÒNG NÀY ---
+            // Thêm tham số "prompt" với giá trị "select_account"
+            // để buộc Google luôn hiển thị màn hình chọn tài khoản.
+            properties.Items.Add("prompt", "select_account");
+            // ---------------------
 
             return Challenge(properties, provider);
         }

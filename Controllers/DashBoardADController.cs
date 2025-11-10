@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace QuanLyChiTieu_WebApp.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class DashBoardADController : Controller
     {
         private readonly IDashBoardADService _dashBoardADService;
