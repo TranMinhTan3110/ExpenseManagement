@@ -28,7 +28,17 @@ namespace QuanLyChiTieu_WebApp.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "DashBoard");
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Index", "DashBoardAD");
+                }
+                else if (User.IsInRole("User"))
+                {
+                    return RedirectToAction("Index", "Dashboard"); 
+                }
+
+                // Nếu không có role khớp thì về trang mặc định
+                //return RedirectToAction("AccessDenied", "Account");
             }
             return View("SignIn");
         }
@@ -72,7 +82,10 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 {
                     return Json(new { status = WebConstants.SUCCESS, redirect = "/DashBoardAD/Index" });
                 }
-                return Json(new { status = WebConstants.SUCCESS, redirect = "/DashBoard/Index" });
+                else
+                {
+                    return Json(new { status = WebConstants.SUCCESS, redirect = "/Dashboard/Index" });
+                }
 
             }
             catch (Exception ex)

@@ -9,8 +9,8 @@ namespace QuanLyChiTieu_WebApp.ViewModels
         public string QuestionType { get; set; }
 
 
-        [Required(ErrorMessage = "Vui lòng chọn loại phản hồi.")]
-        public string RespondType { get; set; }
+        //[Required(ErrorMessage = "Vui lòng chọn loại phản hồi.")]
+        //public string RespondType { get; set; }
 
 
         [Required(ErrorMessage = "Vui lòng nhập mô tả.")]
