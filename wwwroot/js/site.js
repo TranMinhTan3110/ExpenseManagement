@@ -91,10 +91,15 @@ document.addEventListener('DOMContentLoaded', function () {
             event.stopPropagation();
         });
     }
-    // Bấm ra ngoài để đóng
+    // Bấm ra ngoài để đóng (CẢ HAI DROPDOWN)
     window.addEventListener("click", function () {
+        // 1. Đóng User dropdown
         if (dropdownMenu && dropdownMenu.classList.contains("show")) {
             dropdownMenu.classList.remove("show");
+        }
+        // 2. Đóng Notification dropdown
+        if (notifyMenu && notifyMenu.classList.contains("show")) {
+            notifyMenu.classList.remove("show");
         }
     });
 
@@ -104,5 +109,21 @@ document.addEventListener('DOMContentLoaded', function () {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
     // --------------------------------------------------------
+    // --- THÊM MỚI: PHẦN XỬ LÝ DROPDOWN NOTIFICATION ---
+    var notifyToggle = document.querySelector("#notification-toggle");
+    var notifyMenu = document.querySelector("#notification-menu");
 
+    if (notifyToggle && notifyMenu) {
+        // 1. Khi bấm vào cái chuông
+        notifyToggle.addEventListener("click", function (event) {
+            event.preventDefault(); // Ngăn link '#' nhảy trang
+            event.stopPropagation(); // Ngăn sự kiện click lan ra ngoài
+            notifyMenu.classList.toggle("show");
+        });
+
+        // 2. Khi bấm vào bên trong menu thông báo
+        notifyMenu.addEventListener("click", function (event) {
+            event.stopPropagation(); // Ngăn click bên trong menu đóng menu
+        });
+    }
 }); // KẾT THÚC KHỐI DOMContentLoaded DUY NHẤT

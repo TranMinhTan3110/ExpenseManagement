@@ -28,7 +28,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
-        // 🟢 1️⃣ Trang danh sách mục tiêu
+        //  Trang danh sách mục tiêu
         public async Task<IActionResult> Index()
         {
             var userId = GetCurrentUserId();

@@ -269,7 +269,7 @@ namespace QuanLyChiTieu_WebApp.Services
             {
                 UserID = userId,
                 QuestionType = model.QuestionType,
-                RespondType = model.RespondType,
+                RespondType = " ",
                 Description = model.Description,
                 Status = "Open", // Giá trị mặc định
                 CreatedAt = DateTime.Now

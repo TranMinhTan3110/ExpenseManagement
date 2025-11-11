@@ -79,6 +79,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Lax;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        //options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
     })
     .AddGoogle(options => // THÊM GOOGLE TẠI ĐÂY
     {
@@ -138,7 +139,12 @@ builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 builder.Services.AddScoped<IDashboardService, DashBoardService>();
 // Đăng ký SearchService
 builder.Services.AddScoped<ISearchService, SearchService>();
-
+// Đăng ký 
+builder.Services.AddScoped<IDashBoardADService, DashBoardADService>();
+// Đăng ký TicketService
+builder.Services.AddScoped<ITicketService, TicketService>();
+// Đăng ký NotificationService
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // Logging
 builder.Logging.ClearProviders();
@@ -174,6 +180,10 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
