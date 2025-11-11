@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@{
+    // Lấy AvatarUrl từ cookie (claims)
+    var avatarUrl = User.FindFirstValue("AvatarUrl");
+
+    // Kiểm tra xem avatarUrl có rỗng/null không
+    var adminAvatar = string.IsNullOrEmpty(avatarUrl)
+                     ? "~/asset/img/AvatarDefault.jpg"  // Dùng ảnh mặc định nếu rỗng
+                     : avatarUrl;                      // Dùng ảnh của user nếu có
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -57,9 +67,9 @@
 
             <div class="dropdown dropdown-padding">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
-                    <img src="https://ui-avatars.com/api/?name=Admin&background=4CAF50&color=fff&size=40&bold=true" alt="Admin" width="40" height="40" class="rounded-circle me-3">
+                    <img src="@Url.Content(adminAvatar)" alt="Admin" width="40" height="40" class="rounded-circle me-3">
                     <div class="admin-info">
-                        <span class="admin-name">Administrator</span>
+                        <span class="admin-name">@User.FindFirstValue(ClaimTypes.Name)</span>
                         <span class="admin-role">System Admin</span>
                     </div>
                 </a>
