@@ -13,6 +13,8 @@ namespace QuanLyChiTieu_WebApp.Models.Entities
         public DateTime EndDate { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        public bool IsRecurring { get; set; }
+
         // Navigation properties
         [ValidateNever]
         public User User { get; set; }

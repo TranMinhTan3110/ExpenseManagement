@@ -11,6 +11,7 @@
     box-sizing: border-box;
 }
 
+
 body {
     background-color: var(--bg-color);
     margin: 0;
@@ -18,7 +19,7 @@ body {
     color: var(--text-color);
 }
 
-h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p {
+h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p,option,select,input {
     margin-top: 0;
     margin-bottom: 0.5rem;
     line-height: 1.6;
@@ -33,6 +34,8 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p {
     background: var(--card-bg-color);
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
+
+
 
 
 .card-body {
@@ -122,7 +125,7 @@ a {
 }
 
 .budgets-nav {
-    background: var(--card-bg-color);
+    background: linear-gradient(to rigth,var(--bg-color),var(--card-bg-color));
     padding: 16px;
     cursor: pointer;
     position: relative;
@@ -138,15 +141,47 @@ a {
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-    .budgets-nav .budgets-nav-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #FFFFFF;
+
+    .budgets-nav:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
+
+    .budgets-nav.active {
+        background: linear-gradient(to right, var(--nav-color, #2f2cd8), #ffffff);
+        color: #000 !important;
+        font-weight: 600;
+        border: 2px solid var(--nav-color, #2f2cd8);
+        box-shadow: 0 0 12px rgba(47, 44, 216, 0.3);
+        transform: scale(1.03);
+        z-index: 2; 
+    }
+
+
+
+        .budgets-nav.active .budgets-nav-title,
+        .budgets-nav.active .budgets-nav-text p {
+            color: #000 !important;
+        }
+
+
+@keyframes activeGlow {
+    0% {
+        box-shadow: 0 0 8px rgba(47, 44, 216, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(47, 44, 216, 0.6);
+    }
+
+    100% {
+        box-shadow: 0 0 8px rgba(47, 44, 216, 0.3);
+    }
+}
+
+.budgets-nav.active {
+    animation: activeGlow 2s infinite ease-in-out;
+}
 
     .budgets-nav.active .budgets-nav-icon,
     .budgets-nav:hover .budgets-nav-icon {
@@ -709,4 +744,12 @@ canvas {
         flex: 0 0 100% !important;
         max-width: 100% !important;
     }
+}
+
+.dark-mode .btn-close {
+    filter: invert(1);
+}
+
+.form-control, .form-select form-selet-sm, .form-control form-conreol-sm  {
+    color: var(--text-muted-color) !important;
 }
