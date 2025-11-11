@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QuanLyChiTieu_WebApp.Models;
 using QuanLyChiTieu_WebApp.Models.EF;
 using QuanLyChiTieu_WebApp.Models.Entities;
 using QuanLyChiTieu_WebApp.Services;
+using QuanLyChiTieu_WebApp.Services.Admin;
 using System;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -141,7 +142,8 @@ builder.Services.AddScoped<IDashboardService, DashBoardService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
 // Đăng ký 
 builder.Services.AddScoped<IDashBoardADService, DashBoardADService>();
-
+// Đăng ký User Admin Service
+builder.Services.AddScoped<IUserADService, UserService>();
 
 
 // Logging
