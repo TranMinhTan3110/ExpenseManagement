@@ -558,6 +558,46 @@ namespace QuanLyChiTieu_WebApp.Migrations
                         });
                 });
 
+            modelBuilder.Entity("QuanLyChiTieu_WebApp.Models.Entities.Notification", b =>
+                {
+                    b.Property<int>("NotificationID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationID"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<bool>("IsRead")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("NotificationID");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("QuanLyChiTieu_WebApp.Models.Entities.Ticket", b =>
                 {
                     b.Property<int>("TicketID")
@@ -893,6 +933,17 @@ namespace QuanLyChiTieu_WebApp.Migrations
                     b.Navigation("Wallet");
                 });
 
+            modelBuilder.Entity("QuanLyChiTieu_WebApp.Models.Entities.Notification", b =>
+                {
+                    b.HasOne("QuanLyChiTieu_WebApp.Models.Entities.User", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("QuanLyChiTieu_WebApp.Models.Entities.Ticket", b =>
                 {
                     b.HasOne("QuanLyChiTieu_WebApp.Models.Entities.User", "User")
@@ -963,6 +1014,8 @@ namespace QuanLyChiTieu_WebApp.Migrations
                     b.Navigation("GoalDeposits");
 
                     b.Navigation("Goals");
+
+                    b.Navigation("Notifications");
 
                     b.Navigation("Tickets");
 

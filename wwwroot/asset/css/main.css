@@ -57,7 +57,11 @@ body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
 }
-
+a {
+    color: var(--text-color);
+    text-decoration: none;
+    outline: none;
+}
 /* --- BỐ CỤC CHÍNH --- */
 .app-container {
     display: flex;
@@ -641,4 +645,140 @@ body {
 
 .tooltip.bs-tooltip-end .tooltip-arrow::before {
     border-right-color: #ffffff; /* Màu của mũi tên */
+}
+.notification {
+    cursor: pointer;
+    position: relative;
+}
+
+    .notification .notify-bell {
+        margin-right: 10px;
+    }
+
+@media only screen and (max-width: 767px) {
+    .notification .notify-bell {
+        margin-right: 15px;
+    }
+}
+
+/* SỬA LẠI KHỐI NÀY */
+.notification .dropdown-menu {
+    /* 1. Thêm các thuộc tính định vị (Positioning) */
+    display: none; /* Ẩn đi theo mặc định */
+    position: absolute;
+    top: calc(100% + 15px); /* Đặt nó bên dưới cái chuông (giống menu user) */
+    right: 0; /* Căn sang lề phải */
+    /* 2. Giữ lại các style cũ của bạn */
+    min-width: 330px; /* Sửa 'width' thành 'min-width' cho linh hoạt */
+    border: 1px solid var(--border-color);
+    padding: 15px 20px 10px;
+    margin: 0px;
+    -webkit-box-shadow: 0 36px 48px rgba(27, 25, 148, 0.08);
+    box-shadow: 0 36px 48px rgba(27, 25, 148, 0.08);
+    border-radius: 5px;
+    background-color: var(--bg-color);
+    z-index: 1000; /* Đảm bảo nó nổi lên trên */
+}
+
+    /* THÊM KHỐI NÀY VÀO (để làm cho .show của JavaScript hoạt động) */
+    .notification .dropdown-menu.show {
+        display: block;
+    }
+
+.notification .lists h4, .notification .lists .h4 {
+    border-bottom: 1px solid rgb(229, 234, 239);
+    padding-bottom: 15px;
+    font-size: 16px;
+}
+
+.notification .lists a {
+    display: block;
+    border-bottom: 1px solid rgb(229, 234, 239);
+    padding: 10px 0px;
+}
+
+    .notification .lists a:last-child {
+        border: 0px;
+    }
+
+    .notification .lists a p {
+        margin-bottom: 0px;
+        color: #1f2c73;
+        font-weight: 500;
+        font-size: 14px;
+        color: var(--text-title);
+    }
+
+    .notification .lists a span {
+        font-size: 13px;
+        color: #7184ad;
+    }
+
+        .notification .lists a span.icon {
+            height: 40px;
+            width: 40px;
+            color: #fff;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            border-radius: 50px;
+        }
+
+            .notification .lists a span.icon i {
+                font-size: 20px;
+            }
+
+        .notification .lists a span.success {
+            background: #12A347;
+        }
+
+        .notification .lists a span.fail {
+            background: #DC2626;
+        }
+
+        .notification .lists a span.pending {
+            background: #FBA801;
+        }
+
+    .notification .lists a .more {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        color: #0F172A;
+    }
+
+        .notification .lists a .more i {
+            margin-left: 5px;
+            font-size: 18px;
+        }
+
+.notification .more {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+
+    .notification .more i {
+        position: relative;
+        top: 4px;
+        margin-left: 5px;
+        font-size: 12px;
+    }
+.no-caret::after {
+    display: none !important;
 }

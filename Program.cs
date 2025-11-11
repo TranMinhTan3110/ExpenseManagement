@@ -143,7 +143,8 @@ builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IDashBoardADService, DashBoardADService>();
 // Đăng ký TicketService
 builder.Services.AddScoped<ITicketService, TicketService>();
-
+// Đăng ký NotificationService
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // Logging
 builder.Logging.ClearProviders();

@@ -1,0 +1,39 @@
+﻿/* Nội dung cho file /asset/css/MyTickets.css */
+
+.detail-row {
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--text-title);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.detail-value {
+    color: var(--text-muted-color);
+}
+
+.detail-description {
+    color: var(--text-color);
+    padding: 12px 15px;
+    background-color: var(--bg-color);
+    border-radius: 8px;
+    line-height: 1.6;
+    white-space: pre-wrap; /* Giúp giữ lại các ký tự xuống dòng */
+}
+.card-title {
+    color: var(--bs-heading-color) !important;
+}
+.card-header {
+    background-color: var(--card-bg-color) !important;
+    border: 1px solid var(--border-color);
+}
+.card-body {
+    background-color: var(--card-bg-color) !important;
+    border: 1px solid var(--border-color);
+}

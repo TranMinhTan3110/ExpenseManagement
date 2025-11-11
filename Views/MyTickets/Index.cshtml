@@ -1,0 +1,89 @@
+﻿@model List<QuanLyChiTieu_WebApp.ViewModels.TicketListViewModel>
+@{
+    ViewData["Title"] = "My Support Tickets";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/asset/css/MyTickets.css" />
+}
+
+<div class="container-fluid mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">My Support Tickets</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Created Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        @foreach (var ticket in Model)
+                        {
+                            <tr>
+                                <td>#@ticket.TicketID</td>
+                                <td>@ticket.QuestionType</td>
+                                <td>
+                                    @* (Bạn có thể thêm CSS cho các status này) *@
+                                    <span class="badge
+                                                @(ticket.Status == "Resolved" ? "bg-success" :
+                                                                                    ticket.Status == "Pending" ? "bg-warning" : "bg-primary")">
+                                @ticket.Status
+                            </span>
+                        </td>
+                        <td>@ticket.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewUserTicket(@ticket.TicketID)">
+                                View
+                            </button>
+                        </td>
+                    </tr>
+                                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">
+                                You have not created any tickets yet.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ticketDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-ticket-detailed me-2"></i>Ticket Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="ticketDetailContent">
+                <div class="text-center py-5">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script src="~/asset/js/MyTickets.js"></script>
+}

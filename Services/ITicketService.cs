@@ -9,5 +9,6 @@ namespace QuanLyChiTieu_WebApp.Services
         Task<bool> UpdateTicketStatusAsync(UpdateTicketStatusViewModel model);
         Task<bool> DeleteTicketAsync(int ticketId);
         Task<TicketStatisticsViewModel> GetStatisticsAsync();
+        Task<List<TicketListViewModel>> GetTicketsByUserIdAsync(string userId);
     }
 }
