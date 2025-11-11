@@ -122,7 +122,80 @@ function renderExpenseBreakdown(breakdown) {
     });
 }
 
+// --- NGÂN SÁCH HÀNG THÁNG ---
+
+document.addEventListener("DOMContentLoaded", async function () {
+    const budgetList = document.getElementById("budgetList");
+
+    try {
+        const userId = document.getElementById("userIdHidden")?.value;
+        if (!userId) {
+            console.error("User ID not found");
+            return;
+        }
+
+        const response = await fetch(`/api/BudgetApi/user/${userId}`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const budgets = await response.json();
+        console.log("Loaded budgets:", budgets);
+
+
+
+        window.cachedBudgets = budgets;
+
+        if (!budgets || budgets.length === 0) {
+            return;
+        }
+
+        budgetList.innerHTML = ""; // Xóa placeholder
+
+        budgets.forEach(budget => {
+            const percent = budget.percentage;
+
+            const item = `
+        <div class="budget-item">
+            <div class="budget-icon" style="color: ${budget.categoryColor};">
+                <i class="${budget.categoryIcon}"></i>
+            </div>
+            <div class="budget-details">
+                <div class="budget-info">
+                    <span class="budget-name">${budget.categoryName}</span>
+                    <span class="budget-amount">${budget.spentAmount.toFixed(2)}đ / ${budget.budgetAmount.toFixed(2)}đ</span>
+                </div>
+                <div class="progress budget-progress" style="height: 6px;">
+                    <div class="progress-bar" role="progressbar" 
+                         style="width: ${percent}%; background-color: ${budget.categoryColor};">
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+            budgetList.insertAdjacentHTML("beforeend", item);
+        });
+
+
+    } catch (error) {
+        console.error("Error loading budgets:", error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: 'Không thể tải danh sách ngân sách!',
+            confirmButtonColor: '#d33'
+        });
+    }
+
+});
+
+
+// --- RENDER RECENT TRANSACTIONS  ---
+
 // RENDER RECENT TRANSACTIONS 
+
 function renderRecentTransactions(transactions) {
     const tbody = document.querySelector('.transaction-history tbody');
     if (!tbody) return;
@@ -264,85 +337,6 @@ function renderBalanceTrends(balanceTrends, dashboardData) {
     });
 }
 
-// --- NGÂN SÁCH HÀNG THÁNG ---
-
-
-
-
-
-
-
-document.addEventListener("DOMContentLoaded", async function () {
-    const budgetList = document.getElementById("budgetList");
-
-    try {
-        const userId = document.getElementById("userIdHidden")?.value;
-        if (!userId) {
-            console.error("User ID not found");
-            return;
-        }
-
-        const response = await fetch(`/api/BudgetApi/user/${userId}`);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const budgets = await response.json();
-        console.log("Loaded budgets:", budgets);
-
-
-
-        window.cachedBudgets = budgets;
-
-        if (!budgets || budgets.length === 0) {
-            return;
-        }
-
-        budgetList.innerHTML = ""; // Xóa placeholder
-
-        budgets.forEach(budget => {
-            const percent = budget.percentage;
-
-            const item = `
-        <div class="budget-item">
-            <div class="budget-icon" style="color: ${budget.categoryColor};">
-                <i class="${budget.categoryIcon}"></i>
-            </div>
-            <div class="budget-details">
-                <div class="budget-info">
-                    <span class="budget-name">${budget.categoryName}</span>
-                    <span class="budget-amount">$${budget.spentAmount.toFixed(2)} / $${budget.budgetAmount.toFixed(2)}</span>
-                </div>
-                <div class="progress budget-progress" style="height: 6px;">
-                    <div class="progress-bar" role="progressbar" 
-                         style="width: ${percent}%; background-color: ${budget.categoryColor};">
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-
-            budgetList.insertAdjacentHTML("beforeend", item);
-        });
-
-
-
-
-
-    } catch (error) {
-        console.error("Error loading budgets:", error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Lỗi',
-            text: 'Không thể tải danh sách ngân sách!',
-            confirmButtonColor: '#d33'
-        });
-    }
-
-
-    
-});
 
 
 // --- BIỂU ĐỒ 2: INCOME VS EXPENSES  ---

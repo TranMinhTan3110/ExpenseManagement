@@ -599,7 +599,7 @@ div {
         .budgets-nav:hover .budgets-nav-text p,
         .budgets-nav.active .show-time,
         .budgets-nav:hover .show-time {
-            color: var(--sidebar-text);
+            color: var(--sidebar-bg);
         }
 
 
