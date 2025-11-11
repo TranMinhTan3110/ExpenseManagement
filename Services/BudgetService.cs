@@ -1,6 +1,7 @@
 ﻿// Services/BudgetService.cs
 using Microsoft.EntityFrameworkCore;
 using QuanLyChiTieu_WebApp.Models.EF;
+using QuanLyChiTieu_WebApp.Models.Entities;
 using QuanLyChiTieu_WebApp.ViewModels;
 
 namespace QuanLyChiTieu_WebApp.Services
@@ -32,6 +33,7 @@ namespace QuanLyChiTieu_WebApp.Services
                     BudgetAmount = b.BudgetAmount,
                     StartDate = b.StartDate,
                     EndDate = b.EndDate,
+                    IsRecurring = b.IsRecurring,
                     // Tính tổng chi tiêu trong khoảng thời gian
                     SpentAmount = _context.Transactions
                         .Where(t => t.CategoryID == b.CategoryID
@@ -55,6 +57,41 @@ namespace QuanLyChiTieu_WebApp.Services
             }
 
             return budgets;
+        }
+
+        // ==============================================================
+        //  Xử lý ngân sách lặp lại theo chu kỳ
+        // ==============================================================
+        private async Task HandleRecurringBudgetsAsync(string userId)
+        {
+            var now = DateTime.Now;
+
+            var expiredBudgets = await _context.Budgets
+                .Where(b => b.UserID == userId && b.IsRecurring && b.EndDate <= now)
+                .ToListAsync();
+
+            foreach (var oldBudget in expiredBudgets)
+            {
+                var duration = oldBudget.EndDate - oldBudget.StartDate;
+
+                var newBudget = new Budget
+                {
+                    UserID = oldBudget.UserID,
+                    CategoryID = oldBudget.CategoryID,
+                    BudgetAmount = oldBudget.BudgetAmount,
+                    StartDate = oldBudget.EndDate,
+                    EndDate = oldBudget.EndDate.Add(duration),
+                    IsRecurring = true,
+                    CreatedAt = DateTime.Now,
+
+
+                };
+
+                _context.Budgets.Add(newBudget);
+                _context.Budgets.Remove(oldBudget); // ✅ xóa ngân sách cũ sau khi hết hạn
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

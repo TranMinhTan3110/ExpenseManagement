@@ -170,6 +170,9 @@ namespace QuanLyChiTieu_WebApp.Models.EF
                 entity.Property(e => e.CreatedAt)
                       .HasDefaultValueSql("GETDATE()");
 
+                entity.Property(b => b.IsRecurring)
+                      .HasDefaultValue(false);
+
                 entity.HasOne(e => e.User)
                       .WithMany(u => u.Budgets)
                       .HasForeignKey(e => e.UserID)
