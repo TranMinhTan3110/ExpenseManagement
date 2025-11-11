@@ -1,0 +1,344 @@
+﻿/* ===================================== */
+/* TICKET MANAGEMENT PAGE - ADMIN       */
+/* ===================================== */
+
+/* Statistics Cards */
+.stat-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border-left: 4px solid #ddd;
+}
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.stat-info h3 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.stat-info p {
+    margin: 0;
+    font-size: 13px;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+/* Card color variants */
+.stat-total {
+    border-left-color: #6c757d;
+}
+
+    .stat-total .stat-icon {
+        background: rgba(108, 117, 125, 0.1);
+        color: #6c757d;
+    }
+
+.stat-open {
+    border-left-color: #0dcaf0;
+}
+
+    .stat-open .stat-icon {
+        background: rgba(13, 202, 240, 0.1);
+        color: #0dcaf0;
+    }
+
+.stat-progress {
+    border-left-color: #ffc107;
+}
+
+    .stat-progress .stat-icon {
+        background: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+    }
+
+.stat-resolved {
+    border-left-color: #198754;
+}
+
+    .stat-resolved .stat-icon {
+        background: rgba(25, 135, 84, 0.1);
+        color: #198754;
+    }
+
+.stat-urgent {
+    border-left-color: #dc3545;
+}
+
+    .stat-urgent .stat-icon {
+        background: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+    }
+
+.stat-time {
+    border-left-color: #6610f2;
+}
+
+    .stat-time .stat-icon {
+        background: rgba(102, 16, 242, 0.1);
+        color: #6610f2;
+    }
+
+/* Card styling */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card-header {
+    background: #fff;
+    border-bottom: 1px solid #e9ecef;
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* DataTable custom styles */
+.table {
+    font-size: 14px;
+}
+
+    .table thead th {
+        background: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        border-bottom: 2px solid #dee2e6;
+        white-space: nowrap;
+    }
+
+    .table tbody tr {
+        transition: all 0.2s ease;
+    }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+/* Status badges */
+.badge {
+    padding: 6px 12px;
+    font-weight: 500;
+    font-size: 12px;
+    border-radius: 6px;
+}
+
+.badge-open {
+    background-color: #cff4fc;
+    color: #055160;
+}
+
+.badge-inprogress {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.badge-resolved {
+    background-color: #d1e7dd;
+    color: #0a3622;
+}
+
+.badge-closed {
+    background-color: #e2e3e5;
+    color: #41464b;
+}
+
+/* Priority badges */
+.badge-low {
+    background-color: #d1e7dd;
+    color: #0a3622;
+}
+
+.badge-medium {
+    background-color: #cfe2ff;
+    color: #052c65;
+}
+
+.badge-high {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.badge-urgent {
+    background-color: #f8d7da;
+    color: #58151c;
+}
+
+/* Action buttons */
+.btn-action {
+    padding: 5px 10px;
+    font-size: 13px;
+    border-radius: 6px;
+    margin: 0 2px;
+}
+
+.btn-view {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+}
+
+    .btn-view:hover {
+        background-color: #0b5ed7;
+        color: white;
+    }
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+    .btn-delete:hover {
+        background-color: #bb2d3b;
+        color: white;
+    }
+
+/* Modal custom styles */
+.modal-content {
+    border: none;
+    border-radius: 12px;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px 12px 0 0;
+}
+
+    .modal-header .btn-close {
+        filter: brightness(0) invert(1);
+    }
+
+/* Ticket detail display */
+.detail-row {
+    padding: 15px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+.detail-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+.detail-value {
+    color: #6c757d;
+}
+
+.detail-description {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #0d6efd;
+}
+
+/* Form controls in modal */
+.modal-body .form-select,
+.modal-body .form-control {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+}
+
+    .modal-body .form-select:focus,
+    .modal-body .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .stat-info h3 {
+        font-size: 24px;
+    }
+
+    .table {
+        font-size: 12px;
+    }
+
+    .btn-action {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+}
+
+/* Loading overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+/* DataTables responsive */
+.dtr-details {
+    background-color: #f8f9fa !important;
+}
+
+/* Custom scrollbar for modal */
+.modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+    .modal-body::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .modal-body::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }

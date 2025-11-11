@@ -5,9 +5,6 @@
         var password = $("#password").val();
         var actionUrl = $(this).attr("action");
 
-        // (Validation của bạn ở đây...)
-
-        // --- 1. HIỆN LOADER ---
         $("#loader-overlay").show();
 
         $.ajax({
@@ -19,10 +16,8 @@
             },
             dataType: "json",
             success: function (response) {
-                // --- 2. ẨN LOADER ---
                 $("#loader-overlay").hide();
 
-                // 3. Hiện SweetAlert
                 if (response.status === 'success') {
                     Swal.fire({
                         icon: 'success',
@@ -31,7 +26,10 @@
                         timer: 1500,
                         showConfirmButton: false
                     }).then(function () {
-                        window.location.href = '/Dashboard/Index';
+
+                        // ✅ DÙNG REDIRECT TỪ SERVER
+                        window.location.href = response.redirect;
+
                     });
                 } else {
                     Swal.fire({
@@ -41,11 +39,9 @@
                     });
                 }
             },
-            error: function (xhr, status, error) {
-                // --- 2. ẨN LOADER (Khi bị lỗi) ---
+            error: function () {
                 $("#loader-overlay").hide();
 
-                // 3. Hiện SweetAlert
                 Swal.fire({
                     icon: 'error',
                     title: 'Lỗi!',

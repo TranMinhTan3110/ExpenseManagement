@@ -12,6 +12,10 @@
         public string Status { get; set; } = "Open";
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        public string AdminNote { get; set; } = "Thanks for your feedback, we will consider it soon";
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? ResolvedAt { get; set; }
+
         // Navigation property
         public User User { get; set; }
     }
