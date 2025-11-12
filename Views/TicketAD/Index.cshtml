@@ -1,0 +1,155 @@
+﻿@{
+    ViewData["Title"] = "Support Tickets";
+    ViewData["Subtitle"] = "Manage user support requests";
+    ViewData["Icon"] = "bi bi-life-preserver";
+    Layout = "~/Views/Shared/LayoutAdmin.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/asset/css/TicketAD.css" />
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+}
+
+<!-- Statistics Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="stat-card stat-total">
+            <div class="stat-icon">
+                <i class="bi bi-inbox"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="totalTickets">0</h3>
+                <p>Total Tickets</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="stat-card stat-open">
+            <div class="stat-icon">
+                <i class="bi bi-envelope-open"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="openTickets">0</h3>
+                <p>Open</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="stat-card stat-progress">
+            <div class="stat-icon">
+                <i class="bi bi-hourglass-split"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="pendingTickets">0</h3>
+                <p>Pending</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="stat-card stat-resolved">
+            <div class="stat-icon">
+                <i class="bi bi-check-circle"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="resolvedTickets">0</h3>
+                <p>Resolved</p>
+            </div>
+        </div>
+    </div>
+
+    @* <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="stat-card stat-urgent">
+            <div class="stat-icon">
+                <i class="bi bi-exclamation-triangle"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="urgentTickets">0</h3>
+                <p>Urgent</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="stat-card stat-time">
+            <div class="stat-icon">
+                <i class="bi bi-clock-history"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="avgResponseTime">0h</h3>
+                <p>Avg Response</p>
+            </div>
+        </div>
+    </div> *@
+</div>
+
+<!-- Tickets Table -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="bi bi-list-ul me-2"></i>All Support Tickets
+        </h5>
+    </div>
+    <div class="card-body">
+        <table id="ticketsTable" class="table table-hover table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Email</th>
+                    @* <th>Subject</th> *@
+                    <th>Type</th>
+                    @* <th>Priority</th> *@
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- DataTables sẽ tự động load -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal: Ticket Detail -->
+<div class="modal fade" id="ticketDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-ticket-detailed me-2"></i>Ticket Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="ticketDetailContent">
+                <!-- Content sẽ được load bằng JS -->
+                <div class="text-center py-5">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSaveChanges">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Custom JS -->
+    <script src="~/asset/js/TicketAD.js"></script>
+}

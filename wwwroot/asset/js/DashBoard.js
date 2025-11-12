@@ -1,10 +1,9 @@
 ﻿// --- LOAD DỮ LIỆU DASHBOARD ---
 async function loadDashboardData(incomeDays = 7) {
     try {
-        //  CHỈ GỌI 2 API: 1 cho tổng quan (7 ngày), 1 cho Income chart 
         const [overviewResponse, incomeResponse] = await Promise.all([
-            fetch(`/api/dashboard?days=7`),  //  Luôn 7 ngày cho overview + balance trends
-            fetch(`/api/dashboard?days=${incomeDays}`)  //  Theo dropdown cho Income vs Expenses
+            fetch(`/api/dashboard?days=7`),
+            fetch(`/api/dashboard?days=${incomeDays}`)
         ]);
 
         if (!overviewResponse.ok || !incomeResponse.ok) {
@@ -13,25 +12,21 @@ async function loadDashboardData(incomeDays = 7) {
 
         const overviewData = await overviewResponse.json();
         const incomeData = await incomeResponse.json();
-       
 
-        // Render 3 ô trên + breakdown + transactions + balance trends (từ overviewData)
         render3TopCards(overviewData);
         renderExpenseBreakdown(overviewData.expenseBreakdown);
         renderRecentTransactions(overviewData.recentTransactions);
         renderBalanceTrends(overviewData.balanceTrends, overviewData);
-
-        // Render biểu đồ Income vs Expenses (từ incomeData)
         renderIncomeVsExpensesChart(incomeData.incomeVsExpenses);
         renderSavingGoal(overviewData.savingGoals);
-        //createOrUpdateGoalCharts();
+        renderBudgets(overviewData.isNewUser); // ✅ THÊM THAM SỐ
 
     } catch (error) {
         console.error('Lỗi load dashboard:', error);
     }
 }
 
-// --- RENDER 3 Ô TRÊN  ---
+// --- RENDER 3 Ô TRÊN ---
 function render3TopCards(data) {
     document.getElementById('totalBalance').textContent = `${data.totalBalance.toLocaleString()}đ`;
     document.getElementById('monthlyIncome').textContent = `${data.monthlyIncome.toLocaleString()}đ`;
@@ -83,7 +78,7 @@ function render3TopCards(data) {
     }
 }
 
-// RENDER EXPENSE BREAKDOWN
+// ✅ FIX: RENDER EXPENSE BREAKDOWN với empty state
 function renderExpenseBreakdown(breakdown) {
     const progressBar = document.querySelector('.multi-color-progress');
     const listContainer = document.querySelector('.expense-breakdown-list');
@@ -93,8 +88,16 @@ function renderExpenseBreakdown(breakdown) {
     progressBar.innerHTML = '';
     listContainer.innerHTML = '';
 
-    if (breakdown.length === 0) {
-        listContainer.innerHTML = '<p class="text-muted">Chưa có chi tiêu trong tháng này</p>';
+    if (!breakdown || breakdown.length === 0) {
+        // ✅ EMPTY STATE
+        progressBar.innerHTML = '<div class="progress-bar bg-secondary" style="width: 100%;"></div>';
+        listContainer.innerHTML = `
+            <div class="text-center py-4">
+                <i class="fa-solid fa-inbox fa-2x text-muted mb-2"></i>
+                <p class="text-muted mb-0">Chưa có chi tiêu trong tháng này</p>
+                <small class="text-muted">Hãy thêm giao dịch đầu tiên!</small>
+            </div>
+        `;
         return;
     }
 
@@ -122,33 +125,96 @@ function renderExpenseBreakdown(breakdown) {
     });
 }
 
-// RENDER RECENT TRANSACTIONS 
+// ✅ FIX: RENDER BUDGETS với logic check empty
+async function renderBudgets(isNewUser) {
+    const budgetList = document.getElementById("budgetList");
+    if (!budgetList) return;
+
+    try {
+        const userId = document.getElementById("userIdHidden")?.value;
+        if (!userId) return;
+
+        const response = await fetch(`/api/BudgetApi/user/${userId}`);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const budgets = await response.json();
+        window.cachedBudgets = budgets;
+
+        if (!budgets || budgets.length === 0) {
+            // ✅ EMPTY STATE
+            budgetList.innerHTML = `
+                <div class="text-center py-4">
+                    <i class="fa-solid fa-wallet fa-2x text-muted mb-2"></i>
+                    <p class="text-muted mb-0">Chưa có ngân sách nào</p>
+                    <small class="text-muted">Tạo ngân sách để quản lý chi tiêu tốt hơn!</small>
+                </div>
+            `;
+            return;
+        }
+
+        budgetList.innerHTML = "";
+
+        budgets.forEach(budget => {
+            const percent = budget.percentage;
+            const item = `
+                <div class="budget-item">
+                    <div class="budget-icon" style="color: ${budget.categoryColor};">
+                        <i class="${budget.categoryIcon}"></i>
+                    </div>
+                    <div class="budget-details">
+                        <div class="budget-info">
+                            <span class="budget-name">${budget.categoryName}</span>
+                            <span class="budget-amount">${budget.spentAmount.toFixed(2)}đ / ${budget.budgetAmount.toFixed(2)}đ</span>
+                        </div>
+                        <div class="progress budget-progress" style="height: 6px;">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: ${percent}%; background-color: ${budget.categoryColor};">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            budgetList.insertAdjacentHTML("beforeend", item);
+        });
+
+    } catch (error) {
+        console.error("Error loading budgets:", error);
+    }
+}
+
+// ✅ FIX: RENDER RECENT TRANSACTIONS
 function renderRecentTransactions(transactions) {
     const tbody = document.querySelector('.transaction-history tbody');
     if (!tbody) return;
 
     tbody.innerHTML = '';
 
-    if (transactions.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">Chưa có giao dịch nào</td></tr>';
+    if (!transactions || transactions.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-center py-4">
+                    <i class="fa-solid fa-receipt fa-2x text-muted mb-2 d-block"></i>
+                    <p class="text-muted mb-0">Chưa có giao dịch nào</p>
+                    <small class="text-muted">Giao dịch của bạn sẽ hiển thị tại đây</small>
+                </td>
+            </tr>
+        `;
         return;
     }
 
     transactions.forEach(tx => {
         const date = new Date(tx.transactionDate);
         const formattedDate = date.toLocaleDateString('vi-VN');
-
-        const iconBg = tx.type === 'Income' ? 'bg-success-light text-success' : 'bg-danger-light text-danger';
         const amountClass = tx.type === 'Income' ? 'text-success' : 'text-danger';
         const amountSign = tx.type === 'Income' ? '+' : '-';
 
         tbody.innerHTML += `
             <tr>
                 <td>
-                    <span class="transaction-icon ">
-                        <i class="${tx.iconClass}" style = "color:${tx.colorHex}"></i>
+                    <span class="transaction-icon">
+                        <i class="${tx.iconClass}" style="color:${tx.colorHex}"></i>
                     </span>
-                    <span class="category-name" >${tx.categoryName}</span>
+                    <span class="category-name">${tx.categoryName}</span>
                 </td>
                 <td class="transaction-date">${formattedDate}</td>
                 <td class="transaction-description">${tx.description || '-'}</td>
@@ -160,10 +226,7 @@ function renderRecentTransactions(transactions) {
     });
 }
 
-
-// BIỂU ĐỒ (CHARTS)
-
-
+// BIỂU ĐỒ
 let balanceTrendChart = null;
 let incomeVsExpensesChart = null;
 let goalCharts = {};
@@ -175,6 +238,7 @@ function getChartColors() {
         : { gridColor: 'rgba(0,0,0,0.1)', labelColor: '#555', lineColor: 'rgba(75,192,192,1)', fillColor: 'rgba(75,192,192,0.2)' };
 }
 
+// ✅ FIX: BALANCE TRENDS - Không cho phép giá trị âm
 // --- BIỂU ĐỒ 1: BALANCE TRENDS ---
 function renderBalanceTrends(balanceTrends, dashboardData) {
     const lineCtx = document.getElementById('balanceTrendChart');
@@ -264,94 +328,13 @@ function renderBalanceTrends(balanceTrends, dashboardData) {
     });
 }
 
-// --- NGÂN SÁCH HÀNG THÁNG ---
 
-
-
-
-
-
-
-document.addEventListener("DOMContentLoaded", async function () {
-    const budgetList = document.getElementById("budgetList");
-
-    try {
-        const userId = document.getElementById("userIdHidden")?.value;
-        if (!userId) {
-            console.error("User ID not found");
-            return;
-        }
-
-        const response = await fetch(`/api/BudgetApi/user/${userId}`);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const budgets = await response.json();
-        console.log("Loaded budgets:", budgets);
-
-
-
-        window.cachedBudgets = budgets;
-
-        if (!budgets || budgets.length === 0) {
-            return;
-        }
-
-        budgetList.innerHTML = ""; // Xóa placeholder
-
-        budgets.forEach(budget => {
-            const percent = budget.percentage;
-
-            const item = `
-        <div class="budget-item">
-            <div class="budget-icon" style="color: ${budget.categoryColor};">
-                <i class="${budget.categoryIcon}"></i>
-            </div>
-            <div class="budget-details">
-                <div class="budget-info">
-                    <span class="budget-name">${budget.categoryName}</span>
-                    <span class="budget-amount">$${budget.spentAmount.toFixed(2)} / $${budget.budgetAmount.toFixed(2)}</span>
-                </div>
-                <div class="progress budget-progress" style="height: 6px;">
-                    <div class="progress-bar" role="progressbar" 
-                         style="width: ${percent}%; background-color: ${budget.categoryColor};">
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-
-            budgetList.insertAdjacentHTML("beforeend", item);
-        });
-
-
-
-
-
-    } catch (error) {
-        console.error("Error loading budgets:", error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Lỗi',
-            text: 'Không thể tải danh sách ngân sách!',
-            confirmButtonColor: '#d33'
-        });
-    }
-
-
-    
-});
-
-
-// --- BIỂU ĐỒ 2: INCOME VS EXPENSES  ---
+// BIỂU ĐỒ 2: INCOME VS EXPENSES
 function renderIncomeVsExpensesChart(incomeVsExpenses) {
     const barCtx = document.getElementById('incomeVsExpensesChart');
     if (!barCtx) return;
 
     const colors = getChartColors();
-
     const labels = incomeVsExpenses.map(item => item.label);
     const incomeData = incomeVsExpenses.map(item => item.income / 1000000);
     const expenseData = incomeVsExpenses.map(item => item.expense / 1000000);
@@ -426,7 +409,51 @@ function renderIncomeVsExpensesChart(incomeVsExpenses) {
     });
 }
 
-// --- BIỂU ĐỒ 3: SAVING GOALS ---
+// ✅ FIX: SAVING GOALS với empty state
+function renderSavingGoal(goals) {
+    const container = document.getElementById('savingGoalsContainer');
+    if (!container) return;
+
+    if (!goals || goals.length === 0) {
+        container.style.display = 'flex';
+        container.style.justifyContent = 'center';
+        container.style.alignItems = 'center';
+        container.innerHTML = `
+            <div class="text-center py-4">
+                <i class="fa-solid fa-bullseye fa-2x text-muted mb-2 d-block"></i>
+                <p class="text-muted mb-0">Chưa có mục tiêu tiết kiệm</p>
+                <small class="text-muted d-block">Đặt mục tiêu để theo dõi tiến độ!</small>
+            </div>
+        `;
+        return;
+    }
+
+    // Reset về grid layout khi có data
+    container.style.display = '';
+    container.style.justifyContent = '';
+    container.style.alignItems = '';
+
+    let htmlContent = '';
+    goals.forEach((goal, index) => {
+        const canvasId = `goalChart${index}`;
+        htmlContent += `
+            <div class="goal-item">
+                <div class="goal-chart-container">
+                    <canvas id="${canvasId}" width="75" height="75"></canvas>
+                    <div class="goal-percentage">${goal.progressPercentage}%</div>
+                </div>
+                <span class="goal-label">${goal.goalName}</span>
+            </div>
+        `;
+    });
+    container.innerHTML = htmlContent;
+
+    goals.forEach((goal, index) => {
+        const canvasId = `goalChart${index}`;
+        createSingleGoalChart(canvasId, goal.progressPercentage);
+    });
+}
+
 function createSingleGoalChart(canvasId, percentage) {
     const ctx = document.getElementById(canvasId);
     if (!ctx) return;
@@ -464,53 +491,20 @@ function createSingleGoalChart(canvasId, percentage) {
         options: options
     });
 }
-// tạo biểu đồ saving goal
-function renderSavingGoal(goals) {
-    const container = document.getElementById('savingGoalsContainer');
-    if (!container || !goals || goals.length === 0) return;
-
-    // Bước 1: Tạo HTML trước
-    let htmlContent = '';
-    goals.forEach((goal, index) => {
-        const canvasId = `goalChart${index}`;
-        htmlContent += `
-            <div class="goal-item">
-                <div class="goal-chart-container">
-                    <canvas id="${canvasId}" width="75" height="75"></canvas>
-                    <div class="goal-percentage">${goal.progressPercentage}%</div>
-                </div>
-                <span class="goal-label">${goal.goalName}</span>
-            </div>
-        `;
-    });
-    container.innerHTML = htmlContent;
-
-    // Bước 2: Sau đó mới vẽ biểu đồ
-    goals.forEach((goal, index) => {
-        const canvasId = `goalChart${index}`;
-        createSingleGoalChart(canvasId, goal.progressPercentage);
-    });
-}
-
-
-
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Load lần đầu: Income 1 năm (Balance luôn 7 ngày)
     loadDashboardData(7);
 
-    //  CHỈ CÓ 1 DROPDOWN cho Income vs Expenses
     const incomeFilter = document.getElementById('incomePeriodFilter');
     if (incomeFilter) {
         incomeFilter.addEventListener('change', function () {
             const incomeDays = parseInt(this.value);
-            loadDashboardData(incomeDays);  
+            loadDashboardData(incomeDays);
         });
     }
 });
 
 document.addEventListener('theme:updated', function () {
-    const incomeDays = parseInt(document.getElementById('incomePeriodFilter')?.value || 365);
+    const incomeDays = parseInt(document.getElementById('incomePeriodFilter')?.value || 7);
     loadDashboardData(incomeDays);
 });
-

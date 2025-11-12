@@ -14,6 +14,7 @@ namespace QuanLyChiTieu_WebApp.Models.EF
         public DbSet<Goal> Goals { get; set; }
         public DbSet<GoalDeposit> GoalDeposits { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Wallet> Wallets { get; set; }  
         public DbSet<Transaction> Transactions { get; set; }
@@ -59,7 +60,34 @@ namespace QuanLyChiTieu_WebApp.Models.EF
                       .HasForeignKey(e => e.UserID)
                       .OnDelete(DeleteBehavior.Cascade);
             });
+            //--------------------------NOTIFICATION (THÊM MỚI)-------------------
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.HasKey(e => e.NotificationID);
 
+                entity.Property(e => e.UserId)
+                      .IsRequired()
+                      .HasMaxLength(450); // Giống với UserID trong Ticket
+
+                entity.Property(e => e.Message)
+                      .IsRequired()
+                      .HasMaxLength(500);
+
+                entity.Property(e => e.Url)
+                      .HasMaxLength(255); // Cho phép null
+
+                entity.Property(e => e.IsRead)
+                      .HasDefaultValue(false);
+
+                entity.Property(e => e.CreatedAt)
+                      .HasDefaultValueSql("GETDATE()");
+
+                // Thiết lập mối quan hệ: Một User có nhiều Notification
+                entity.HasOne(e => e.User)
+                      .WithMany(u => u.Notifications) // <-- XEM BƯỚC 3
+                      .HasForeignKey(e => e.UserId)
+                      .OnDelete(DeleteBehavior.Cascade); // Xóa noti khi user bị xóa
+            });
             //-----------------User--------------------
             modelBuilder.Entity<User>(entity =>
             {

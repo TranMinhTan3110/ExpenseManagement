@@ -142,9 +142,12 @@ builder.Services.AddScoped<IDashboardService, DashBoardService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
 // Đăng ký 
 builder.Services.AddScoped<IDashBoardADService, DashBoardADService>();
-// Đăng ký User Admin Service
-builder.Services.AddScoped<IUserADService, UserService>();
 
+builder.Services.AddScoped<IUserADService, UserADService>();
+// Đăng ký TicketService
+builder.Services.AddScoped<ITicketService, TicketService>();
+// Đăng ký NotificationService
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // Logging
 builder.Logging.ClearProviders();
@@ -187,7 +190,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=DashboardAD}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.MapControllers();
 app.Run();

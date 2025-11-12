@@ -6,11 +6,11 @@ using QuanLyChiTieu_WebApp.Services.Admin;
 
 namespace QuanLyChiTieu_WebApp.Services
 {
-    public class UserService : IUserADService
+    public class UserADService : IUserADService
     {
         private readonly ApplicationDbContext _context; // Thay tên DbContext cho đúng
 
-        public UserService(ApplicationDbContext context)
+        public UserADService(ApplicationDbContext context)
         {
             _context = context;
         }

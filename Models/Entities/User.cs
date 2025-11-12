@@ -56,6 +56,7 @@ namespace QuanLyChiTieu_WebApp.Models.Entities
         public ICollection<GoalDeposit> GoalDeposits { get; set; }
         public ICollection<Category> Categories { get; set; }
         public ICollection<Budget> Budgets { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 
 }
