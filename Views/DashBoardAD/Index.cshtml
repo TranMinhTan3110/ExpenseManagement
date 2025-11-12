@@ -5,10 +5,82 @@
     ViewData["Icon"] = "bi bi-layout-text-sidebar-reverse";
     Layout = "~/Views/Shared/LayoutAdmin.cshtml";
 }
-@section Styles {
 
+@section Styles {
     <link rel="stylesheet" href="~/asset/css/DasdBoardAD.css" />
+    <style>
+        .chart-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .chart-controls select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+        
+        .chart-controls select:hover {
+            border-color: #2174c6;
+        }
+        
+        .chart-controls select:focus {
+            outline: none;
+            border-color: #2174c6;
+            box-shadow: 0 0 0 3px rgba(33, 116, 198, 0.1);
+        }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .chart-header {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 15px;
+            }
+            
+            .chart-controls {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .chart-controls select {
+                flex: 1;
+                min-width: 0;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .stat-card {
+                padding: 15px !important;
+            }
+            
+            .stat-icon {
+                width: 50px !important;
+                height: 50px !important;
+            }
+            
+            .stat-icon i {
+                font-size: 1.5rem !important;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem !important;
+            }
+            
+            .chart-card {
+                padding: 15px !important;
+            }
+        }
+    </style>
 }
+
 <!-- Statistics Cards -->
 <div class="row g-3 mb-4">
     <div class="col-md-4">
@@ -19,8 +91,20 @@
             <div class="stat-details">
                 <h3 class="stat-number">@ViewBag.UserCount</h3>
                 <p class="stat-label">Users</p>
-                <small class="stat-change positive">
-                    <i class="bi bi-arrow-up"></i> 12% from last month
+                <small class="stat-change @(ViewBag.UserGrowth >= 0 ? "positive" : "negative")">
+                    @if (ViewBag.LastMonthUserCount == 0)
+                    {
+                        <i class="bi bi-star-fill"></i> <span>+@((int)ViewBag.UserGrowth) new users this month</span>
+                    }
+                    else if (ViewBag.UserGrowth == 0)
+                    {
+                        <i class="bi bi-dash-circle"></i> <span>No change</span>
+                    }
+                    else
+                    {
+                        <i class="bi bi-arrow-@(ViewBag.UserGrowth >= 0 ? "up" : "down")"></i> 
+                        <span>@Math.Abs(ViewBag.UserGrowth)% from last month</span>
+                    }
                 </small>
             </div>
         </div>
@@ -33,8 +117,20 @@
             <div class="stat-details">
                 <h3 class="stat-number">@ViewBag.TransactionCount</h3>
                 <p class="stat-label">Trans</p>
-                <small class="stat-change positive">
-                    <i class="bi bi-arrow-up"></i> 8% from last month
+                <small class="stat-change @(ViewBag.TransGrowth >= 0 ? "positive" : "negative")">
+                    @if (ViewBag.LastMonthTransactionCount == 0)
+                    {
+                        <i class="bi bi-star-fill"></i> <span>+@((int)ViewBag.TransGrowth) new transactions this month</span>
+                    }
+                    else if (ViewBag.TransGrowth == 0)
+                    {
+                        <i class="bi bi-dash-circle"></i> <span>No change</span>
+                    }
+                    else
+                    {
+                        <i class="bi bi-arrow-@(ViewBag.TransGrowth >= 0 ? "up" : "down")"></i>
+                        <span>@Math.Abs(ViewBag.TransGrowth)% from last month</span>
+                    }
                 </small>
             </div>
         </div>
@@ -47,8 +143,9 @@
             <div class="stat-details">
                 <h3 class="stat-number">@ViewBag.TotalTicketCount</h3>
                 <p class="stat-label">Tickets</p>
-                <small class="stat-change negative">
-                    <i class="bi bi-arrow-down"></i> 3 pending
+                <small class="stat-change @(ViewBag.PendingTicketCount > 0 ? "negative" : "positive")">
+                    <i class="bi bi-@(ViewBag.PendingTicketCount > 0 ? "exclamation-circle" : "check-circle")"></i>
+                    @ViewBag.PendingTicketCount pending
                 </small>
             </div>
         </div>
@@ -60,19 +157,113 @@
     <div class="chart-header">
         <div>
             <h4 class="chart-title">
-                <i class="bi bi-graph-up"></i> Biểu đồ tăng trưởng user
+                <i class="bi bi-graph-up"></i> @ViewBag.ChartTitle
             </h4>
-            <p class="chart-subtitle">Thống kê số lượng người dùng theo tháng</p>
+            <p class="chart-subtitle">@ViewBag.ChartSubtitle</p>
         </div>
-        <select class="form-select select-custom">
-            <option>Last 6 months</option>
-            <option>Last 12 months</option>
-            <option>This year</option>
-        </select>
+        <div class="chart-controls">
+            <select id="viewTypeSelect" onchange="changeViewType()">
+                <option value="day" selected="@(ViewBag.ViewType == "day" ? "selected" : null)">Theo ngày</option>
+                <option value="month" selected="@(ViewBag.ViewType == "month" ? "selected" : null)">Theo tháng</option>
+                <option value="year" selected="@(ViewBag.ViewType == "year" ? "selected" : null)">Theo năm</option>
+            </select>
+            
+            <select id="yearSelect" onchange="changeYear()" style="display: @(ViewBag.ViewType == "day" ? "none" : "block");">
+                @for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 10; i--)
+                {
+                    <option value="@i" selected="@(ViewBag.SelectedYear == i ? "selected" : null)">@i</option>
+                }
+            </select>
+        </div>
     </div>
     <canvas id="userGrowthChart"></canvas>
 </div>
 
 @section Scripts {
-    <script src="~/asset/js/DashBoardAD.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script>
+        const chartLabels = @Html.Raw(ViewBag.ChartLabels);
+        const chartData = @Html.Raw(ViewBag.ChartData);
+
+        // Tính giá trị lớn nhất trong dữ liệu
+        const maxValue = Math.max(...chartData);
+        const suggestedMax = Math.ceil(maxValue / 10) * 10 || 10;
+
+        const ctx = document.getElementById('userGrowthChart').getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(33, 116, 198, 0.3)');
+        gradient.addColorStop(1, 'rgba(33, 116, 198, 0.01)');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Số lượng Users',
+                    data: chartData,
+                    borderColor: '#2174c6',
+                    backgroundColor: gradient,
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointBackgroundColor: '#2174c6',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 3,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 2.5,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        align: 'end'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ' ' + context.parsed.y + ' users';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: suggestedMax,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function(value) {
+                                return value;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function changeViewType() {
+            const viewType = document.getElementById('viewTypeSelect').value;
+            const yearSelect = document.getElementById('yearSelect');
+            
+            if (viewType === 'day') {
+                yearSelect.style.display = 'none';
+                window.location.href = '/DashBoardAD/Index?viewType=' + viewType;
+            } else {
+                yearSelect.style.display = 'block';
+                const year = yearSelect.value;
+                window.location.href = '/DashBoardAD/Index?viewType=' + viewType + '&year=' + year;
+            }
+        }
+
+        function changeYear() {
+            const viewType = document.getElementById('viewTypeSelect').value;
+            const year = document.getElementById('yearSelect').value;
+            window.location.href = '/DashBoardAD/Index?viewType=' + viewType + '&year=' + year;
+        }
+    </script>
 }
