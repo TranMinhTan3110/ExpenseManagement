@@ -177,5 +177,11 @@ hr {
 .page-date {
     color: #95a5a6;
 }
-
+dropdown-item {
+    padding: 10px 15px;
+    transition: background 0.3s ease;
+}
+.dropdown-item:hover {
+    background-color: white;
+}
 
