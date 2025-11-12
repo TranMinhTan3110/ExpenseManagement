@@ -62,7 +62,7 @@ namespace QuanLyChiTieu_WebApp.Services
         // ==============================================================
         //  Xử lý ngân sách lặp lại theo chu kỳ
         // ==============================================================
-        private async Task HandleRecurringBudgetsAsync(string userId)
+        public async Task HandleRecurringBudgetsAsync(string userId)
         {
             var now = DateTime.Now;
 

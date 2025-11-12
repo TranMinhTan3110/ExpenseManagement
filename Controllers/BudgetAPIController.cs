@@ -32,10 +32,35 @@ namespace QuanLyChiTieu_WebApp.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBudgetById(int id)
         {
-            var budget = await _context.Budgets.FindAsync(id);
-            if (budget == null) return NotFound();
+            var budget = await _context.Budgets
+                .Include(b => b.Category)
+                    .ThenInclude(c => c.Icon)
+                .Include(b => b.Category)
+                    .ThenInclude(c => c.Color) // ✅ Include Color navigation property
+                .FirstOrDefaultAsync(b => b.BudgetID == id);
 
-            return Ok(budget);
+            if (budget == null)
+                return NotFound();
+
+            // ✅ Map sang BudgetViewModel
+            var viewModel = new BudgetViewModel
+            {
+                BudgetID = budget.BudgetID,
+                CategoryID = budget.CategoryID,
+                CategoryName = budget.Category?.CategoryName ?? "N/A",
+                CategoryIcon = budget.Category?.Icon?.IconClass ?? "fi fi-rr-wallet",
+                CategoryColor = budget.Category?.Color?.HexCode ?? "#6c757d", // ✅ Lấy HexCode từ Color
+                BudgetAmount = budget.BudgetAmount,
+                SpentAmount = 0, // Tạm thời để 0, có thể tính sau
+                RemainingAmount = budget.BudgetAmount,
+                Percentage = 0,
+                StartDate = budget.StartDate,
+                EndDate = budget.EndDate,
+                CreatedAt = budget.CreatedAt,
+                IsRecurring = budget.IsRecurring // ✅ Field quan trọng!
+            };
+
+            return Ok(viewModel);
         }
 
         // POST: api/budgetapi
@@ -66,6 +91,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
             existing.BudgetAmount = model.BudgetAmount;
             existing.StartDate = model.StartDate;
             existing.EndDate = model.EndDate;
+            existing.IsRecurring = model.IsRecurring; // ✅ THÊM DÒNG NÀY
 
             _context.Budgets.Update(existing);
             await _context.SaveChangesAsync();
@@ -248,6 +274,63 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 year--;
 
             return (week, year);
+        }
+
+        // POST: api/budgetapi/handle-recurring
+        [HttpPost("handle-recurring")]
+        public async Task<IActionResult> HandleRecurringBudgets([FromQuery] string userId)
+        {
+            try
+            {
+                var now = DateTime.Now;
+
+                // ✅ Lấy TẤT CẢ budgets đã hết hạn (cả recurring và non-recurring)
+                var expiredBudgets = await _context.Budgets
+                    .Where(b => b.UserID == userId && b.EndDate <= now)
+                    .ToListAsync();
+
+                Console.WriteLine($"Found {expiredBudgets.Count} expired budgets");
+
+                foreach (var oldBudget in expiredBudgets)
+                {
+                    if (oldBudget.IsRecurring)
+                    {
+                        // Tạo budget mới cho recurring
+                        var duration = oldBudget.EndDate - oldBudget.StartDate;
+                        var newBudget = new Budget
+                        {
+                            UserID = oldBudget.UserID,
+                            CategoryID = oldBudget.CategoryID,
+                            BudgetAmount = oldBudget.BudgetAmount,
+                            StartDate = oldBudget.EndDate,
+                            EndDate = oldBudget.EndDate.Add(duration),
+                            IsRecurring = true,
+                            CreatedAt = DateTime.Now,
+                        };
+                        _context.Budgets.Add(newBudget);
+                        Console.WriteLine($"Created new recurring budget for category {oldBudget.CategoryID}");
+                    }
+
+                    // ✅ Xóa budget cũ (cả recurring và non-recurring)
+                    _context.Budgets.Remove(oldBudget);
+                    Console.WriteLine($"Removed expired budget ID: {oldBudget.BudgetID}");
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new
+                {
+                    message = "Recurring budgets handled successfully",
+                    processedCount = expiredBudgets.Count,
+                    deleted = expiredBudgets.Count(b => !b.IsRecurring),
+                    recreated = expiredBudgets.Count(b => b.IsRecurring)
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, new { error = ex.Message });
+            }
         }
     }
 
