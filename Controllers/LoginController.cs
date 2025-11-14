@@ -40,6 +40,16 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 // Nếu không có role khớp thì về trang mặc định
                 //return RedirectToAction("AccessDenied", "Account");
             }
+            // Kiểm tra xem có lỗi từ Google Login (đã lưu ở Bước 2)
+            var externalError = HttpContext.Session.GetString("LoginError");
+            if (!string.IsNullOrEmpty(externalError))
+            {
+                // Gửi lỗi này sang View để hiển thị
+                ViewData["ErrorMessage"] = externalError;
+
+                // Xóa lỗi khỏi Session để không hiển thị lại ở lần F5 sau
+                HttpContext.Session.Remove("LoginError");
+            }
             return View("SignIn");
         }
 
@@ -58,7 +68,11 @@ namespace QuanLyChiTieu_WebApp.Controllers
                     // Trả về lỗi chung chung
                     return Json(new { status = WebConstants.ERROR, message = "Email hoặc mật khẩu không chính xác." });
                 }
-
+                //khóa tài khoản
+                if (user.IsActive == false)
+                {
+                    return Json(new { status = WebConstants.ERROR, message = "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên." });
+                }
                 // 2. TẠO COOKIE (Controller tự làm)
                 var claims = new List<Claim>
                 {
