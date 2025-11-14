@@ -1,4 +1,7 @@
 ﻿// --- LOAD DỮ LIỆU DASHBOARD ---
+let currentBudgetIndex = 0;
+let budgetsData = [];
+let budgetRotationInterval = null;
 async function loadDashboardData(incomeDays = 7) {
     try {
         const [overviewResponse, incomeResponse] = await Promise.all([
@@ -19,18 +22,94 @@ async function loadDashboardData(incomeDays = 7) {
         renderBalanceTrends(overviewData.balanceTrends, overviewData);
         renderIncomeVsExpensesChart(incomeData.incomeVsExpenses);
         renderSavingGoal(overviewData.savingGoals);
-        renderBudgets(overviewData.isNewUser); // ✅ THÊM THAM SỐ
+        renderBudgets(overviewData.isNewUser); 
+        budgetsData = overviewData.budgets || [];
+        startBudgetRotation();
 
     } catch (error) {
         console.error('Lỗi load dashboard:', error);
     }
 }
+function startBudgetRotation() {
+    // Dừng interval cũ nếu có
+    if (budgetRotationInterval) {
+        clearInterval(budgetRotationInterval);
+    }
 
+    // Hiển thị budget đầu tiên ngay lập tức
+    renderBudgetCard();
+
+    // Nếu không có budget hoặc chỉ có 1 budget thì không cần xoay vòng
+    if (budgetsData.length <= 1) {
+        return;
+    }
+
+    // Xoay vòng mỗi 5 giây
+    budgetRotationInterval = setInterval(() => {
+        currentBudgetIndex = (currentBudgetIndex + 1) % budgetsData.length;
+        renderBudgetCard();
+    }, 5000);
+}
+// function render ô ngân sách 
+function renderBudgetCard() {
+    const titleEl = document.getElementById('budgetCardTitle');
+    const valueEl = document.getElementById('budgetCardValue');
+    const progressEl = document.getElementById('budgetCardProgress');
+    const percentageEl = document.getElementById('budgetCardPercentage');
+
+    if (!titleEl || !valueEl || !progressEl || !percentageEl) {
+        return;
+    }
+
+    // Nếu không có budget
+    if (!budgetsData || budgetsData.length === 0) {
+        titleEl.textContent = 'Ngân Sách';
+        valueEl.textContent = 'Chưa có ngân sách';
+        progressEl.style.width = '0%';
+        progressEl.style.backgroundColor = '#ccc';
+        percentageEl.textContent = 'Tạo ngân sách để theo dõi!';
+        return;
+    }
+
+    // Lấy budget hiện tại
+    const budget = budgetsData[currentBudgetIndex];
+
+    // Cập nhật nội dung
+    titleEl.textContent = `Ngân Sách "${budget.categoryName}"`;
+    valueEl.textContent = `${budget.spentAmount.toLocaleString()}đ / ${budget.budgetAmount.toLocaleString()}đ`;
+
+    // Cập nhật progress bar
+    progressEl.style.width = `${budget.percentage}%`;
+    progressEl.style.backgroundColor = budget.categoryColor;
+
+    // Cập nhật text phần trăm
+    if (budget.percentage > 100) {
+        percentageEl.textContent = `Đã vượt mức ngân sách`;
+    } else {
+        percentageEl.textContent = `Đã dùng ${budget.percentage}%`;
+    }
+    
+
+    // Đổi màu text dựa trên phần trăm
+    if (budget.percentage >= 90) {
+        percentageEl.className = 'card-change text-danger text-center mt-2 mb-0';
+    } else if (budget.percentage >= 70) {
+        percentageEl.className = 'card-change text-warning text-center mt-2 mb-0';
+    } else {
+        percentageEl.className = 'card-change text-muted text-center mt-2 mb-0';
+    }
+}
+window.addEventListener('beforeunload', () => {
+    if (budgetRotationInterval) {
+        clearInterval(budgetRotationInterval);
+    }
+});
 // --- RENDER 3 Ô TRÊN ---
 function render3TopCards(data) {
     document.getElementById('totalBalance').textContent = `${data.totalBalance.toLocaleString()}đ`;
     document.getElementById('monthlyIncome').textContent = `${data.monthlyIncome.toLocaleString()}đ`;
     document.getElementById('monthlyExpenses').textContent = `${data.monthlyExpenses.toLocaleString()}đ`;
+
 
     const balanceChangeEl = document.getElementById('balanceChange');
 

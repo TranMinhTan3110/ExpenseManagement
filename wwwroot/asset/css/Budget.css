@@ -80,7 +80,9 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p,option,select,input {
     align-items: center;
     width: 100%;
 }
-
+    .page-title-content p{
+        color:var(--text);
+    }
     .page-title-content .left {
         display: flex;
         flex-direction: column;
@@ -92,11 +94,12 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p,option,select,input {
 
     .breadcrumbs a {
         text-decoration: none;
+        color:var(--text);
     }
 
     .breadcrumbs span {
         margin: 0 5px;
-        color: #555;
+        color: var(--text);
     }
 
 
@@ -677,6 +680,9 @@ div {
 .card-body {
     padding: 20px;
 }
+select.form-select-sm {
+    color: var(--text) !important;
+}
 
 /* Filter Controls */
 .form-select-sm,
@@ -703,7 +709,9 @@ div {
         margin-bottom: 5px;
     }
 }
-
+.form-select{
+    color:var(--text) !important;
+}
 /* Chart Container */
 canvas {
     max-height: 400px;
@@ -750,6 +758,43 @@ canvas {
     filter: invert(1);
 }
 
-.form-control, .form-select form-selet-sm, .form-control form-conreol-sm  {
-    color: var(--text-muted-color) !important;
+.form-control, .form-select, .form-select-sm, .form-control-sm {
+    color: var(--text) !important;
+    background-color: var(--card-bg-color) !important;
+/*    border-color: rgba(255, 255, 255, 0.3) !important;*/
+}
+/* Override Bootstrap form controls for dark mode */
+.form-control,
+.form-select,
+.form-select-sm,
+.form-control-sm,
+input[type="date"],
+input[type="text"],
+select {
+    color: var(--text) !important;
+    background-color: var(--card-bg-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+    .form-control:focus,
+    .form-select:focus,
+    input[type="date"]:focus {
+        color: var(--text) !important;
+        background-color: var(--card-bg-color) !important;
+        border-color: var(--primary-color) !important;
+        box-shadow: 0 0 0 0.2rem rgba(47, 44, 216, 0.25) !important;
+    }
+
+/* Fix date picker icon color in dark mode */
+.dark-mode input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.8;
+}
+
+/* Override Bootstrap's default background */
+.dark-mode .form-control,
+.dark-mode .form-select {
+    background-color: var(--card-bg-color) !important;
+    color: var(--text) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
 }
