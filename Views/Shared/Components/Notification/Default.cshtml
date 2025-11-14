@@ -1,6 +1,102 @@
 ﻿@model List<QuanLyChiTieu_WebApp.Models.Entities.Notification>
 @using System.Linq 
+@section Styles {
+    <style>
+        /* --- Notification Widget Styles --- */
 
+        /* Giả sử toàn bộ widget này nằm trong
+          một container (ví dụ: .card) có nền tối.
+        */
+
+        /* Tiêu đề "Recent Notification" */
+        .notification-widget h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #ffffff; /* Màu chữ trắng */
+        }
+
+        /* Khu vực danh sách */
+        .notification-widget .lists {
+            /* Có thể thêm max-height và overflow-y nếu danh sách quá dài */
+            /* max-height: 300px; */
+            /* overflow-y: auto; */
+        }
+
+            /* Từng mục thông báo (Thẻ <a>) */
+            .notification-widget .lists a {
+                display: block;
+                text-decoration: none;
+                padding: 0.8rem 0.5rem; /* Khoảng cách bên trong */
+                border-bottom: 1px solid #4a5064; /* Đường kẻ phân cách */
+                transition: background-color 0.2s ease;
+            }
+
+                .notification-widget .lists a:hover {
+                    background-color: #3a4052; /* Màu khi hover */
+                }
+
+                /* Bỏ đường kẻ của mục cuối cùng */
+                .notification-widget .lists a:last-child {
+                    border-bottom: none;
+                }
+
+        /* Icon (Giải quyết vấn đề hình elip) */
+        .notification-widget .icon {
+            width: 38px; /* Đảm bảo width và height BẰNG NHAU */
+            height: 38px;
+            border-radius: 50%; /* Luôn là hình tròn */
+            /* Dùng flex để căn giữa icon bên trong */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px; /* Kích thước của icon (dấu tích) */
+            flex-shrink: 0; /* Ngăn icon bị co lại */
+        }
+
+            .notification-widget .icon.success {
+                background-color: #28a745; /* Nền xanh lá */
+                color: #ffffff; /* Icon màu trắng */
+            }
+
+        /* Phần chữ (Message và Timestamp) */
+        .notification-widget .lists a p {
+            color: #ffffff; /* Màu message */
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+        }
+
+        .notification-widget .lists a span {
+            color: #adb5bd; /* Màu timestamp (xám mờ) */
+            font-size: 0.8rem;
+        }
+
+        /* Phần "More" ở cuối */
+        .notification-widget .more {
+            text-align: center;
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+            border-top: 1px solid #4a5064; /* Đường kẻ phân cách */
+        }
+
+            .notification-widget .more a {
+                color: #adb5bd; /* Màu chữ "More" */
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 0.9rem;
+                transition: color 0.2s ease;
+            }
+
+                .notification-widget .more a:hover {
+                    color: #ffffff; /* Màu khi hover */
+                }
+
+                .notification-widget .more a i {
+                    margin-left: 5px; /* Khoảng cách cho icon mũi tên */
+                }
+    </style>
+}
 <h4>Recent Notification</h4>
 <div class="lists">
     @if (Model.Any())
@@ -9,7 +105,7 @@
         {
             <a class="" href="@(string.IsNullOrEmpty(notification.Url) ? "#" : Url.Content(notification.Url))">
                 <div class="d-flex align-items-center">
-                    <span class="me-3 icon success"><i class="fi fi-bs-check"></i></span>
+                    <span class="me-3 icon success"><i class="fi fi-rr-check"></i></span>
                     <div>
                         <p>@notification.Message</p>
                         <span>@notification.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>

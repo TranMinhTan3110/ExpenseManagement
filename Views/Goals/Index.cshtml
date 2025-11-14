@@ -63,7 +63,7 @@
     {
         <div class="goals-tab">
             <div class="row g-0">
-                <div class="col-12 col-xl-2">
+                <div class="col-12 col-xl-3">
                     <div class="nav d-block" role="tablist">
                         <div class="row">
                             @for (int i = 0; i < Model.Goals.Count; i++)
@@ -85,7 +85,7 @@
                                         </div>
                                         <div class="goals-nav-text">
                                             <h3>@goal.GoalName</h3>
-                                            <p><strong>@goal.CurrentAmount.ToString("C0")</strong> / @goal.TargetAmount.ToString("C0")</p>
+                                            <p><strong>@goal.CurrentAmount.ToString("N0")đ</strong> / @goal.TargetAmount.ToString("N0")đ</p>
 
                                             @* Badge "Hoàn thành" *@
                                             @if (goal.CurrentAmount >= goal.TargetAmount)
@@ -109,7 +109,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-xl-10">
+                <div class="col-12 col-xl-9">
                     <div class="tab-content goals-tab-content">
                         @for (int i = 0; i < Model.Goals.Count; i++)
                         {
@@ -148,11 +148,11 @@
                                                 <div class="d-flex justify-content-between card-save">
                                                     <div>
                                                         <span>Saved</span>
-                                                        <h3>@goal.CurrentAmount.ToString("C2")</h3>
+                                                        <h3>@goal.CurrentAmount.ToString("N0")đ</h3>
                                                     </div>
                                                     <div class="text-end">
                                                         <span>Goals</span>
-                                                        <h3>@goal.TargetAmount.ToString("C2")</h3>
+                                                        <h3>@goal.TargetAmount.ToString("N0")đ</h3>
                                                     </div>
                                                 </div>
                                                 <div class="progress">
@@ -166,7 +166,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- Statistics Card -->
+                                    @* <!-- Statistics Card -->
                                     <div class="col-xxl-12">
                                         <div class="card">
                                             <div class="card-body">
@@ -195,7 +195,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> *@
 
                                     <!-- Available by Wallet -->
                                     @if (goal.WalletContributions.Any())

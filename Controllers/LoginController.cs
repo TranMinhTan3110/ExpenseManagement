@@ -250,6 +250,17 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 return Json(new { status = WebConstants.ERROR, message = "Đã xảy ra lỗi hệ thống." });
             }
         }
+        [Authorize] // Yêu cầu người dùng phải được xác thực và có Claims
+        public IActionResult RedirectAfterLogin()
+        {
+            // BƯỚC NÀY Claims Principal ĐÃ CÓ ROLE CHÍNH XÁC từ database
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "DashBoardAD"); // Chuyển sang Admin
+            }
+            // Không cần dùng else if (User.IsInRole("User")) nếu Role mặc định là User
+            return RedirectToAction("Index", "Dashboard"); // Chuyển sang User
+        }
         [AllowAnonymous]
         [HttpGet] // Quan trọng: Đây là [HttpGet]
         public IActionResult ExternalLogin(string provider)
@@ -258,7 +269,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
             // Sau khi Google OK, nó sẽ chuyển hướng về /Dashboard/Index
             var properties = new AuthenticationProperties
             {
-                RedirectUri = Url.Action("Index", "DashBoard")
+                RedirectUri = Url.Action(nameof(RedirectAfterLogin))
             };
 
             // --- THÊM DÒNG NÀY ---
