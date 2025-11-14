@@ -182,6 +182,6 @@ dropdown-item {
     transition: background 0.3s ease;
 }
 .dropdown-item:hover {
-    background-color: white;
+    background-color: gray;
 }
 
