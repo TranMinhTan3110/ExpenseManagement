@@ -29,7 +29,7 @@ namespace QuanLyChiTieu_WebApp.Services
         {
             // Báo cho DbContext: "Lấy dữ liệu nhưng đừng theo dõi nó."
             var user = await _context.Users.AsNoTracking()
-                .FirstOrDefaultAsync(u => u.Email == email && u.IsActive);
+                .FirstOrDefaultAsync(u => u.Email == email);
 
             if (user == null)
             {

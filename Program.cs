@@ -10,6 +10,7 @@ using QuanLyChiTieu_WebApp.Services.Admin;
 using System;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
+using QuanLyChiTieu_WebApp.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,7 +83,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         //options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
     })
-    .AddGoogle(options => // THÊM GOOGLE TẠI ĐÂY
+    .AddGoogle(options => 
     {
         options.ClientId = clientId;
         options.ClientSecret = clientSecret;
@@ -109,6 +110,20 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
             // (Chúng ta sẽ tạo hàm này ở bước 4)
             var appUser = await loginService.FindOrCreateExternalUserAsync(email, name);
 
+            if (appUser == null)
+            {
+                // Ngăn đăng nhập nếu không thể tạo/tìm user
+                context.Fail("Không thể tìm hoặc tạo tài khoản của bạn.");
+                return;
+            }
+
+            if (appUser.IsActive == false)
+            {
+                // Ngăn đăng nhập nếu tài khoản bị khóa
+                // Dòng "context.Fail" sẽ hủy phiên đăng nhập Google
+                context.Fail("Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.");
+                return;
+            }
             // 5. THAY THẾ CLAIMS (QUAN TRỌNG)
             // Xóa các Claim mặc định của Google...
             context.Identity.RemoveClaim(context.Identity.FindFirst(ClaimTypes.NameIdentifier));
@@ -126,6 +141,22 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
             };
 
             context.Identity.AddClaims(claims);
+        };
+        // 2. Bắt lỗi (từ context.Fail) và chuyển hướng
+        options.Events.OnRemoteFailure = context =>
+        {
+            // Lấy thông điệp lỗi (từ context.Fail)
+            var errorMessage = context.Failure?.Message;
+
+            // Lưu lỗi vào Session
+            context.HttpContext.Session.SetString("LoginError", errorMessage);
+
+            // Chuyển hướng người dùng về trang Login
+            context.Response.Redirect("/Login/Index");
+
+            // Đánh dấu là đã xử lý
+            context.HandleResponse();
+            return Task.CompletedTask;
         };
     });
 //Đăng ký CategoryService
@@ -181,6 +212,7 @@ app.UseSession();
 // 5. Kích hoạt Authentication và Authorization
 // QUAN TRỌNG: UseAuthentication() phải đứng trước UseAuthorization()
 app.UseAuthentication();
+app.UseCheckUserActive();
 app.UseAuthorization();
 
 
