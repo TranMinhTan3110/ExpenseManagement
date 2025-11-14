@@ -32,11 +32,23 @@
 
                     });
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Đăng nhập thất bại',
-                        text: response.message
-                    });
+                    // 1. Kiểm tra xem có phải lỗi do "bị khóa" không
+                    // (Chúng ta tìm chữ "khóa" trong message trả về)
+                    if (response.message && response.message.includes("khóa")) {
+                        Swal.fire({
+                            icon: 'warning', // Đổi icon thành cảnh báo
+                            title: 'Tài khoản bị khóa!', // Tiêu đề rõ ràng
+                            text: response.message // Hiển thị message từ server
+                        });
+                    }
+                    // 2. Nếu không phải lỗi "bị khóa", thì đó là lỗi sai pass/email
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Đăng nhập thất bại',
+                            text: response.message // Hiển thị "Email hoặc mật khẩu không chính xác."
+                        });
+                    }
                 }
             },
             error: function () {
