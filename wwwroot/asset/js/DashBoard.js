@@ -1,7 +1,11 @@
-﻿// --- LOAD DỮ LIỆU DASHBOARD ---
+﻿// --- Biến và hàm global ---
 let currentBudgetIndex = 0;
 let budgetsData = [];
 let budgetRotationInterval = null;
+function formatCurrency(amount) {
+    return amount.toLocaleString('vi-VN') + 'đ';
+}
+// --- LOAD DỮ LIỆU DASHBOARD ---
 async function loadDashboardData(incomeDays = 7) {
     try {
         const [overviewResponse, incomeResponse] = await Promise.all([
@@ -243,7 +247,8 @@ async function renderBudgets(isNewUser) {
                     <div class="budget-details">
                         <div class="budget-info">
                             <span class="budget-name">${budget.categoryName}</span>
-                            <span class="budget-amount">${budget.spentAmount.toFixed(2)}đ / ${budget.budgetAmount.toFixed(2)}đ</span>
+                          <span class="budget-amount">${budget.spentAmount.toLocaleString('vi-VN', { minimumFractionDigits: 2 })}đ / ${budget.budgetAmount.toLocaleString('vi-VN', { minimumFractionDigits: 2 })}đ</span>
+
                         </div>
                         <div class="progress budget-progress" style="height: 6px;">
                             <div class="progress-bar" role="progressbar" 

@@ -4,6 +4,7 @@ let notifiedBudgets = new Set(JSON.parse(sessionStorage.getItem('notifiedBudgets
 
 // ============= GLOBAL FUNCTIONS =============
 
+
 // GET PROGRESS COLOR BASED ON PERCENTAGE
 function getProgressColor(percentage) {
     if (percentage >= 90) return '#dc3545'; // Red
@@ -564,7 +565,7 @@ function renderBudgetTabs(budgets) {
                     <div class="col-xl-12">
                         <div class="card-body">
                             <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
-                                <h4 class="card-title mb-0">Phân Tích Chi Tiêu</h4>
+                                <h4 class="card-title mb-0">Phân Tích iêuTiêu</h4>
                                 
                                 <div class="d-flex gap-2 flex-wrap mt-2 mt-md-0 form-contain">
                                     <select id="groupBy${budget.budgetID}" class="form-select form-select-sm" style="width: auto;" onchange="updateChartFilters(${budget.budgetID})">

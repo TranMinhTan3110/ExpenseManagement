@@ -243,8 +243,9 @@
 }
 
 .budget-amount {
-    font-size: 0.9rem;
-    color: var(--text-muted-color);
+    font-size: 1rem;
+
+    color: var(--text);
 }
 
 .budget-progress {
@@ -297,10 +298,10 @@
     font-size: 0.95rem;
 }
 
-.budget-amount {
+/*.budget-amount {
     font-size: 0.9rem;
     color: var(--text-muted-color);
-}
+}*/
 
 .budget-progress {
     background-color: var(--border-color); /* Màu nền mờ của progress bar */
@@ -378,7 +379,7 @@
 .table-responsive .transaction-date,
 .table-responsive .transaction-description,
 .table-responsive .transaction-amount {
-    color: #6c757d;
+    color: var(--text);
 }
 
 .card {
@@ -406,7 +407,9 @@
 .card-table .card-body {
     background-color: var(--card-bg-color) !important;
 }
-
+.card-body hr{
+    color:var(--text);
+}
 .category-name {
     color: var(--text-color) !important;
 }
