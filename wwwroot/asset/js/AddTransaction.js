@@ -162,6 +162,10 @@
                 body: JSON.stringify(data)
             });
 
+            if (window.reloadBudgetsAndCheckWarnings) {
+                await window.reloadBudgetsAndCheckWarnings();
+            }
+
             if (response.ok) {
                 Swal.fire({
                     icon: "success",

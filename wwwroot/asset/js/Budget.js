@@ -3,6 +3,10 @@ let activeCharts = {};
 let notifiedBudgets = new Set(JSON.parse(sessionStorage.getItem('notifiedBudgets') || '[]')); 
 // Lưu trạng thái đã chúc mừng budget hết hạn
 let congratulatedBudgets = new Set(JSON.parse(sessionStorage.getItem('congratulatedBudgets') || '[]'));
+let budgetNotificationState = JSON.parse(sessionStorage.getItem('budgetNotificationState') || '{}');
+sessionStorage.removeItem("notifiedBudgets");
+
+
 
 function isCongratulated(budgetId) {
     return congratulatedBudgets.has(budgetId);
@@ -31,34 +35,40 @@ function getProgressColor(percentage) {
 
 // SHOW BUDGET WARNING BASED ON PERCENTAGE
 function showBudgetWarning(budgetId, percentage, categoryName, spentAmount, budgetAmount) {
-    if (notifiedBudgets.has(budgetId)) return;
+    const lastNotifiedPercentage = budgetNotificationState[budgetId] || 0;
 
-    notifiedBudgets.add(budgetId);
-    sessionStorage.setItem('notifiedBudgets', JSON.stringify([...notifiedBudgets]));
+    // Xác định threshold hiện tại
+    let currentThreshold = 0;
+    if (percentage >= 100) currentThreshold = 100;
+    else if (percentage >= 90) currentThreshold = 90;
+    else if (percentage >= 70) currentThreshold = 70;
+
+    // ✅ Chỉ hiển thị nếu vượt qua threshold MỚI
+    if (currentThreshold <= lastNotifiedPercentage) {
+        return; // Đã thông báo mức này rồi
+    }
+
+    // Cập nhật state
+    budgetNotificationState[budgetId] = currentThreshold;
+    sessionStorage.setItem('budgetNotificationState', JSON.stringify(budgetNotificationState));
 
     let title, text, icon, color;
 
     if (percentage >= 100) {
-        // Vượt ngân sách
         title = '⚠️ Vượt Ngân Sách!';
-        text = `Ngân sách "${categoryName}" đã vượt mức!\nĐã chi: ${ (spentAmount)}đ\nNgân sách: ${ (budgetAmount)}đ\nVượt: ${ (spentAmount - budgetAmount)}đ`;
+        text = `Ngân sách "${categoryName}" đã vượt mức!\nĐã chi: ${spentAmount.toLocaleString('vi-VN')}đ\nNgân sách: ${budgetAmount.toLocaleString('vi-VN')}đ\nVượt: ${(spentAmount - budgetAmount).toLocaleString('vi-VN')}đ`;
         icon = 'error';
         color = '#dc3545';
     } else if (percentage >= 90) {
-        // Cảnh báo nghiêm trọng
         title = '🚨 Gần Hết Ngân Sách!';
-        text = `Ngân sách "${categoryName}" đã sử dụng ${percentage}%!\nCòn lại: ${ (budgetAmount - spentAmount)}đ`;
+        text = `Ngân sách "${categoryName}" đã sử dụng ${percentage}%!\nCòn lại: ${(budgetAmount - spentAmount).toLocaleString('vi-VN')}đ`;
         icon = 'warning';
         color = '#dc3545';
     } else if (percentage >= 70) {
-        // Cảnh báo nhẹ
         title = '⚡ Cảnh Báo Ngân Sách';
         text = `Ngân sách "${categoryName}" đã sử dụng ${percentage}%\nHãy cân nhắc chi tiêu!`;
         icon = 'warning';
         color = '#ffc107';
-    } else {
-        // Không cần cảnh báo
-        return;
     }
 
     Swal.fire({
@@ -67,9 +77,49 @@ function showBudgetWarning(budgetId, percentage, categoryName, spentAmount, budg
         html: text.replace(/\n/g, '<br>'),
         confirmButtonText: 'Đã hiểu',
         confirmButtonColor: color,
-        timer: percentage >= 100 ? 0 : 5000, // Không tự đóng nếu vượt ngân sách
+        timer: percentage >= 100 ? 0 : 5000,
         timerProgressBar: true
     });
+}
+
+// ✅ HÀM RELOAD VÀ KIỂM TRA LẠI CẢNH BÁO
+async function reloadBudgetsAndCheckWarnings() {
+    try {
+        const userId = document.getElementById("userIdHidden")?.value;
+        if (!userId) return;
+
+        const response = await fetch(`/api/BudgetApi?userId=${userId}`);
+        if (!response.ok) throw new Error('Failed to reload budgets');
+
+        const budgets = await response.json();
+        window.cachedBudgets = budgets;
+
+        // ✅ Kiểm tra cảnh báo cho TẤT CẢ budgets
+        budgets.forEach(budget => {
+            showBudgetWarning(
+                budget.budgetID,
+                budget.percentage,
+                budget.categoryName,
+                budget.spentAmount,
+                budget.budgetAmount
+            );
+
+            checkBudgetExpiredSuccess(
+                budget.budgetID,
+                budget.categoryName,
+                budget.endDate,
+                budget.remainingAmount,
+                budget.budgetAmount,
+                budget.percentage
+            );
+        });
+
+        // Re-render nếu cần
+        await loadBudgets();
+
+    } catch (error) {
+        console.error('Error reloading budgets:', error);
+    }
 }
 
 function checkBudgetExpiredSuccess(budgetId, categoryName, endDate, remainingAmount, budgetAmount, percentage) {
@@ -214,8 +264,8 @@ window.deleteBudget = async function (budgetId, categoryName) {
         });
 
         // Xóa khỏi danh sách đã thông báo
-        notifiedBudgets.delete(budgetId);
-        sessionStorage.setItem('notifiedBudgets', JSON.stringify([...notifiedBudgets]));
+        delete budgetNotificationState[budgetId];
+        sessionStorage.setItem('budgetNotificationState', JSON.stringify(budgetNotificationState));
 
         // ✅ Xóa khỏi danh sách đã chúc mừng
         unmarkCongratulated(budgetId);
@@ -1134,6 +1184,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         });
     }
+
+    window.reloadBudgetsAndCheckWarnings = reloadBudgetsAndCheckWarnings;
 
 
 
