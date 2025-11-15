@@ -77,20 +77,24 @@
             <a asp-controller="Budgets" asp-action="Index" class="summary-card-link">
                 <div class="summary-card h-100">
                     <div class="card-body">
-                        <p class="card-title text-muted">Ngân Sách "Ăn Uống"</p>
-                        <h3 class="card-value">$ 500.000 / 2.000.000</h3>
+
+                        <p class="card-title text-muted" id="budgetCardTitle">Ngân Sách</p>
+
+                        <h3 class="card-value" id="budgetCardValue">Đang tải...</h3>
+
+                        <hr class="my-3">
 
                         <div class="progress" style="height: 6px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 25%"></div>
+                            <div class="progress-bar" id="budgetCardProgress" role="progressbar" style="width: 0%"></div>
                         </div>
+
                         <p class="card-change text-muted text-center mt-2 mb-0">
-                            <span>Đã dùng 25%</span>
+                            <span id="budgetCardPercentage">--</span>
                         </p>
                     </div>
                 </div>
             </a>
         </div>
-
 </div>
 
 <!-- end summary cards -->
@@ -355,4 +359,14 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script src="~/asset/js/DashBoard.js"></script>
+    @* <script>
+              const swiper = new Swiper(".mySwiper", {
+          loop: true,
+          autoplay: { delay: 3000 },
+          pagination: { el: ".swiper-pagination", clickable: true },
+          navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+          slidesPerView: 1, // hoặc 2-3 tùy ý
+          spaceBetween: 20
+        });
+    </script> *@
 }

@@ -40,6 +40,16 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 // Nếu không có role khớp thì về trang mặc định
                 //return RedirectToAction("AccessDenied", "Account");
             }
+            // Kiểm tra xem có lỗi từ Google Login (đã lưu ở Bước 2)
+            var externalError = HttpContext.Session.GetString("LoginError");
+            if (!string.IsNullOrEmpty(externalError))
+            {
+                // Gửi lỗi này sang View để hiển thị
+                ViewData["ErrorMessage"] = externalError;
+
+                // Xóa lỗi khỏi Session để không hiển thị lại ở lần F5 sau
+                HttpContext.Session.Remove("LoginError");
+            }
             return View("SignIn");
         }
 
@@ -58,7 +68,11 @@ namespace QuanLyChiTieu_WebApp.Controllers
                     // Trả về lỗi chung chung
                     return Json(new { status = WebConstants.ERROR, message = "Email hoặc mật khẩu không chính xác." });
                 }
-
+                //khóa tài khoản
+                if (user.IsActive == false)
+                {
+                    return Json(new { status = WebConstants.ERROR, message = "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên." });
+                }
                 // 2. TẠO COOKIE (Controller tự làm)
                 var claims = new List<Claim>
                 {
@@ -250,6 +264,17 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 return Json(new { status = WebConstants.ERROR, message = "Đã xảy ra lỗi hệ thống." });
             }
         }
+        [Authorize] // Yêu cầu người dùng phải được xác thực và có Claims
+        public IActionResult RedirectAfterLogin()
+        {
+            // BƯỚC NÀY Claims Principal ĐÃ CÓ ROLE CHÍNH XÁC từ database
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "DashBoardAD"); // Chuyển sang Admin
+            }
+            // Không cần dùng else if (User.IsInRole("User")) nếu Role mặc định là User
+            return RedirectToAction("Index", "Dashboard"); // Chuyển sang User
+        }
         [AllowAnonymous]
         [HttpGet] // Quan trọng: Đây là [HttpGet]
         public IActionResult ExternalLogin(string provider)
@@ -258,7 +283,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
             // Sau khi Google OK, nó sẽ chuyển hướng về /Dashboard/Index
             var properties = new AuthenticationProperties
             {
-                RedirectUri = Url.Action("Index", "DashBoard")
+                RedirectUri = Url.Action(nameof(RedirectAfterLogin))
             };
 
             // --- THÊM DÒNG NÀY ---
