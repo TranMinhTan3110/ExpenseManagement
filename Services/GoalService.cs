@@ -245,7 +245,7 @@ namespace QuanLyChiTieu_WebApp.Services
         // 🟢 Rút tiền từ mục tiêu
         public async Task<bool> WithdrawFromGoalAsync(int goalId, int walletId, decimal amount, string note, string userId)
         {
-            try
+                        try
             {
                 var goal = await _context.Goals.FirstOrDefaultAsync(g => g.GoalID == goalId && g.UserID == userId);
                 var wallet = await _context.Wallets.FirstOrDefaultAsync(w => w.WalletID == walletId && w.UserID == userId);
@@ -285,18 +285,24 @@ namespace QuanLyChiTieu_WebApp.Services
                 ? (int)Math.Round((goal.CurrentAmount / goal.TargetAmount) * 100)
                 : 0;
 
+            // TÍNH TOÁN LẠI ĐÓNG GÓP CỦA TỪNG VÍ (LOGIC MỚI)
             var walletContributions = goal.GoalDeposits
-                .Where(gd => gd.Amount > 0)
-                .GroupBy(gd => gd.Wallet)
-                .Select(g => new WalletContributionViewModel
+                .GroupBy(gd => gd.Wallet) // Nhóm theo đối tượng Wallet
+                .Select(g => new {
+                    Wallet = g.Key,
+                    TotalContribution = g.Sum(d => d.Amount) // Tính tổng (cả nạp và rút)
+                })
+                .Where(wc => wc.TotalContribution > 0) // <--- Chỉ lấy ví CÓ TIỀN trong mục tiêu
+                .Select(wc => new WalletContributionViewModel
                 {
-                    WalletName = g.Key.WalletName,
-                    WalletType = g.Key.WalletType,
-                    Amount = g.Sum(gd => gd.Amount),
-                    CurrentAmount = g.Sum(gd => gd.Amount),
+                    WalletID = wc.Wallet.WalletID,          // <--- Gán WalletID
+                    WalletName = wc.Wallet.WalletName,
+                    WalletType = wc.Wallet.WalletType,
+                    Amount = wc.TotalContribution,          // <--- Gán số tiền thực tế
+                    CurrentAmount = wc.TotalContribution,
                     TargetAmount = goal.CurrentAmount,
-                    IconClass = GetWalletIcon(g.Key.WalletType),
-                    ColorClass = GetWalletColor(g.Key.WalletType)
+                    IconClass = GetWalletIcon(wc.Wallet.WalletType),
+                    ColorClass = GetWalletColor(wc.Wallet.WalletType)
                 })
                 .ToList();
 
