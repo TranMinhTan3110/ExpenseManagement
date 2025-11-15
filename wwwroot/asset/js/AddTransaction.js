@@ -162,7 +162,13 @@
                 body: JSON.stringify(data)
             });
 
+
+
             if (response.ok) {
+                if (window.reloadBudgetsAndCheckWarnings) {
+                    await window.reloadBudgetsAndCheckWarnings();
+                }
+
                 Swal.fire({
                     icon: "success",
                     title: "Thêm thành công!",
