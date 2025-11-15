@@ -107,7 +107,7 @@
                         <h5 class="mb-0">Add new goals</h5>
                         <a href="javascript:void(0)">
                             <i class="fi fi-rr-square-plus"></i>
-                        </a>
+                        </a>  
                     </div>
                 </div>
 
@@ -128,6 +128,12 @@
                                                 data-bs-target="#depositModal"
                                                 data-goal-id="@goal.GoalID">
                                             <i class="fi fi-rr-plus"></i> Nạp tiền
+                                        </button>
+                                        <button class="btn btn-warning btn-sm px-3"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#withdrawModal"
+                                                data-goal-id="@goal.GoalID"
+                                                data-wallets='@Json.Serialize(goal.WalletContributions)'> <i class="fi fi-rr-minus"></i> Rút Tiền
                                         </button>
                                         <button class="btn btn-danger btn-sm px-3" onclick="deleteGoal(@goal.GoalID)">
                                             <i class="fi fi-rr-trash"></i> Xóa
@@ -339,7 +345,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fi fi-rr-cross"></i> Hủy
                 </button>
-                <button type="submit" class="btn btn-primary" form="depositForm">
+                <button type="submit" class="btn btn-primary" form ="depositForm">
                     <i class="fi fi-rr-check"></i> Xác nhận nạp tiền
                 </button>
             </div>
@@ -382,6 +388,74 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     <button type="submit" class="btn btn-primary" form="addGoalForm">Lưu Mục Tiêu</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+   <!-- Modal Rút tiền -->
+<div class="modal fade" id="withdrawModal" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="withdrawModalLabel">💸 Rút tiền khỏi mục tiêu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                <form id="withdrawForm">
+                    <!-- Hidden field để lưu GoalID -->
+                    <input type="hidden" id="withdrawGoalId" />
+
+                    <!-- Chọn ví -->
+                   <div class="mb-3">
+                        <label for="withdrawWallet" class="form-label">
+                            <i class="fi fi-rr-wallet"></i> Chọn ví
+                        </label>
+                        <select id="withdrawWallet" class="form-select" required>
+                            <option value="">-- Chọn ví --</option>
+                        </select>
+                        <small class="text-muted">Chọn ví để chuyển tiền vào mục tiêu</small>
+                    </div>
+
+
+                    <!-- Số tiền -->
+                    <div class="mb-3">
+                        <label for="withdrawAmount" class="form-label">
+                            <i class="fi fi-rr-money"></i> Số tiền nạp (VNĐ)
+                        </label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="withdrawAmount" 
+                               placeholder="Nhập số tiền..." 
+                               min="0.01"
+                               step="0.01"
+                               required>
+                        <small class="text-muted">Nhập số tiền bạn muốn rút</small>
+                    </div>
+
+                    <!-- Ghi chú (tùy chọn) -->
+                    <div class="mb-3">
+                        <label for="withdrawNote" class="form-label">
+                            <i class="fi fi-rr-edit"></i> Ghi chú (Tùy chọn)
+                        </label>
+                        <textarea 
+                            class="form-control" 
+                            id="withdrawNote" 
+                            rows="2" 
+                            placeholder="Ví dụ: Tiết kiệm tháng 1, Thưởng cuối năm..."
+                            maxlength="500"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fi fi-rr-cross"></i> Hủy
+                </button>
+                <button type="submit" class="btn btn-primary" form ="withdrawForm">
+                    <i class="fi fi-rr-check"></i> Xác nhận rút tiền
+                </button>
             </div>
         </div>
     </div>

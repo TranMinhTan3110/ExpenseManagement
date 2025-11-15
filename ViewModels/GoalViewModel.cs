@@ -38,6 +38,7 @@ namespace QuanLyChiTieu_WebApp.ViewModels
 
         public string IconClass { get; set; }
         public string ColorClass { get; set; }
+        public int WalletID { get; internal set; }
     }
 
     public class GoalDepositHistoryViewModel
@@ -76,4 +77,18 @@ namespace QuanLyChiTieu_WebApp.ViewModels
     {
         public int Id { get; set; }
     }
+
+    public class WithdrowGoalViewModel
+    {
+        [Required]
+        public int GoalID { get; set; }
+        [Required]
+        public int WalletID { get; set; }
+        [Required]
+        [Range(0.01 , double.MaxValue, ErrorMessage ="Số tiển phải lớn hơn 0")]
+        public decimal Amount { get; set; }
+        [Required]
+        public string Note { get; set; }
+    }
+
 }

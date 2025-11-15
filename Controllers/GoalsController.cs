@@ -269,5 +269,32 @@ namespace QuanLyChiTieu_WebApp.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> Withdrow([FromBody] WithdrowGoalViewModel model)
+        {
+            var userId = GetCurrentUserId();
+            if (string.IsNullOrEmpty(userId))
+                return Json(new { succes = false, message = "Phiên đăng nhập hết hạn" });
+            if (!ModelState.IsValid)
+                return Json(new { success = false, message = "Dữ liệu không hợp lệ" });
+
+            var result = await _goalService.WithdrawFromGoalAsync(
+                model.GoalID,
+                model.WalletID,
+                model.Amount,
+                model.Note,
+                userId
+                );
+            if (result)
+            {
+                return Json(new { success = true, message = "Rút tiền thành công" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Không thể rút tiền . Vui lòng kiểm tra lại số tiền trong ví" });
+            }
+
+        }
+
     }
 }
