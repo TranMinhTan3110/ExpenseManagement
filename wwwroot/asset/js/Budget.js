@@ -43,7 +43,7 @@ function showBudgetWarning(budgetId, percentage, categoryName, spentAmount, budg
     else if (percentage >= 90) currentThreshold = 90;
     else if (percentage >= 70) currentThreshold = 70;
 
-    // ✅ Chỉ hiển thị nếu vượt qua threshold MỚI
+    //  Chỉ hiển thị nếu vượt qua threshold MỚI
     if (currentThreshold <= lastNotifiedPercentage) {
         return; // Đã thông báo mức này rồi
     }
@@ -82,9 +82,12 @@ function showBudgetWarning(budgetId, percentage, categoryName, spentAmount, budg
     });
 }
 
-// ✅ HÀM RELOAD VÀ KIỂM TRA LẠI CẢNH BÁO
+//  HÀM RELOAD VÀ KIỂM TRA LẠI CẢNH BÁO
 async function reloadBudgetsAndCheckWarnings() {
     try {
+        //  CHỜ 300ms để đảm bảo backend đã xử lý xong transaction
+        await new Promise(resolve => setTimeout(resolve, 300));
+
         const userId = document.getElementById("userIdHidden")?.value;
         if (!userId) return;
 
@@ -94,7 +97,7 @@ async function reloadBudgetsAndCheckWarnings() {
         const budgets = await response.json();
         window.cachedBudgets = budgets;
 
-        // ✅ Kiểm tra cảnh báo cho TẤT CẢ budgets
+        //  Kiểm tra cảnh báo cho TẤT CẢ budgets
         budgets.forEach(budget => {
             showBudgetWarning(
                 budget.budgetID,
@@ -114,13 +117,16 @@ async function reloadBudgetsAndCheckWarnings() {
             );
         });
 
-        // Re-render nếu cần
-        await loadBudgets();
+        // Re-render nếu đang ở trang Budget
+        if (window.location.pathname.includes('/Budget')) {
+            await loadBudgets();
+        }
 
     } catch (error) {
         console.error('Error reloading budgets:', error);
     }
 }
+
 
 function checkBudgetExpiredSuccess(budgetId, categoryName, endDate, remainingAmount, budgetAmount, percentage) {
     if (isCongratulated(budgetId)) return;
@@ -165,7 +171,7 @@ function checkBudgetExpiredSuccess(budgetId, categoryName, endDate, remainingAmo
     }
 }
 
-// ✅ TỰ ĐỘNG XÓA VÀ TẠO LẠI RECURRING BUDGETS
+// TỰ ĐỘNG XÓA VÀ TẠO LẠI RECURRING BUDGETS
 async function handleRecurringBudgets() {
     try {
         console.log('🔄 Starting handle recurring budgets...');
@@ -263,7 +269,7 @@ window.deleteBudget = async function (budgetId, categoryName) {
         delete budgetNotificationState[budgetId];
         sessionStorage.setItem('budgetNotificationState', JSON.stringify(budgetNotificationState));
 
-        // ✅ Xóa khỏi danh sách đã chúc mừng
+        //  Xóa khỏi danh sách đã chúc mừng
         unmarkCongratulated(budgetId);
 
         await loadBudgets();
@@ -429,7 +435,7 @@ async function loadBudgets() {
                     firstBudget.budgetAmount
                 );
 
-                // ✅ Kiểm tra chúc mừng cho budget đầu tiên
+                //  Kiểm tra chúc mừng cho budget đầu tiên
                 checkBudgetExpiredSuccess(
                     firstBudget.budgetID,
                     firstBudget.categoryName,
@@ -899,7 +905,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // 1) LOAD BUDGETS FIRST
     await loadBudgets();
 
-    // ✅ 1.5) XỬ LÝ RECURRING BUDGETS TỰ ĐỘNG
+    //  1.5) XỬ LÝ RECURRING BUDGETS TỰ ĐỘNG
     await handleRecurringBudgets();
 
     // 2) FIX MODAL EVENT LISTENERS
@@ -928,8 +934,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.body.style.paddingRight = '';
         });
 
-        // ✅ Apply styles when modal opens
-        modalElement.addEventListener('shown.bs.modal', applyFormStyles);
+        //  Apply styles when modal opens
+        //modalElement.addEventListener('shown.bs.modal', applyFormStyles);
     }
 
     // 4) CATEGORY PICKER WITH COLOR SUPPORT
