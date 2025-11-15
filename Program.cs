@@ -222,7 +222,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=Index}/{id?}");
+    pattern: "{controller=TrangChu}/{action=Index}/{id?}");
 
 app.MapControllers();
 app.Run();

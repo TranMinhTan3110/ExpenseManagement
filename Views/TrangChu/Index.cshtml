@@ -1,0 +1,177 @@
+﻿@{
+    Layout = null; // Giữ nguyên, không kế thừa Layout
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Trang Chủ - My Financial Management</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        /* CSS Tùy Chỉnh cho Tông Màu Xanh Dương */
+        :root {
+            --primary-blue: #004AAD; /* Xanh Dương Đậm cho chữ và footer */
+            --accent-blue: #007BFF; /* Xanh Dương Sáng cho CTA */
+        }
+
+        .text-primary-blue {
+            color: var(--primary-blue) !important;
+        }
+
+        .bg-primary-blue {
+            background-color: var(--primary-blue) !important;
+        }
+
+        .btn-accent {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: #fff;
+        }
+
+            .btn-accent:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+                color: #fff;
+            }
+
+        .navbar {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .carousel-item img {
+            max-height: 450px; 
+            object-fit: contain; 
+            padding: 20px;
+        }
+        #appDemoCarousel {
+            min-height: 350px;
+            background-color: #fff; 
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3 text-primary-blue" href="#">My Financial Management</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <div class="d-flex ms-auto">
+                    <a asp-controller="Login" asp-action="Index" class="btn btn-outline-primary-blue me-2 text-primary-blue border-primary-blue">ĐĂNG NHẬP</a>
+                    <a asp-controller="Login" asp-action="SignUp" class="btn btn-accent text-white fw-bold">ĐĂNG KÝ MIỄN PHÍ</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h1 class="display-4 fw-bold text-primary-blue mb-4">
+                        Kiểm Soát Tương Lai Tài Chính Của Bạn Ngay Hôm Nay.
+                    </h1>
+                    <p class="lead text-secondary mb-4">
+                        Theo dõi chi tiêu, đặt ngân sách, và đạt được mục tiêu tiết kiệm một cách dễ dàng và trực quan.
+                    </p>
+                    <a asp-controller="Login" asp-action="Index" class="btn btn-accent btn-lg text-white fw-bold shadow-sm">
+                        BẮT ĐẦU MIỄN PHÍ
+                    </a>
+                    <p class="mt-3 text-muted small">
+                        *Không cần thẻ tín dụng. Chỉ mất 1 phút để đăng ký.
+                    </p>
+                </div>
+
+                <div class="col-lg-6">
+                    <div id="appDemoCarousel" class="carousel slide shadow-lg rounded" data-bs-ride="carousel">
+
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#appDemoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#appDemoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#appDemoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+
+                        <div class="carousel-inner rounded">
+                            <div class="carousel-item active" data-bs-interval="3000">
+                                <img class="d-block w-100" src="~/asset/img/dashboard.jpg" alt="Dashboard UI">
+                            </div>
+
+                            <div class="carousel-item" data-bs-interval="3000">
+                                <img class="d-block w-100" src="~/asset/img/analytic.jpg" alt="Analytic UI">
+                            </div>
+
+                            <div class="carousel-item" data-bs-interval="3000">
+                                <img class="d-block w-100" src="~/asset/img/category.jpg" alt="Category UI">
+                            </div>
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#appDemoCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#appDemoCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center fw-bold text-primary-blue mb-5">Tính Năng Giúp Bạn Đạt Mục Tiêu</h2>
+
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <div class="p-4 border rounded h-100">
+                        <i class="bi bi-graph-up fs-1 text-accent-blue"></i>
+                        <h3 class="h5 fw-bold mt-3 text-primary-blue">Theo Dõi Toàn Diện</h3>
+                        <p class="text-muted">Ghi lại mọi giao dịch, phân loại chi tiêu tự động, không bỏ sót khoản nào.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="p-4 border rounded h-100">
+                        <i class="bi bi-piggy-bank fs-1 text-accent-blue"></i>
+                        <h3 class="h5 fw-bold mt-3 text-primary-blue">Thiết Lập Ngân Sách Thông Minh</h3>
+                        <p class="text-muted">Tạo và quản lý ngân sách theo tháng/tuần để tránh bội chi hiệu quả.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="p-4 border rounded h-100">
+                        <i class="bi bi-bar-chart-line fs-1 text-accent-blue"></i>
+                        <h3 class="h5 fw-bold mt-3 text-primary-blue">Báo Cáo Trực Quan</h3>
+                        <p class="text-muted">Xem các biểu đồ dễ hiểu về thói quen chi tiêu của bạn, đưa ra quyết định tốt hơn.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-primary-blue text-white">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-3">Bạn Chưa Có Tài Khoản?</h2>
+            <p class="lead mb-4">Hàng ngàn người đã bắt đầu kiểm soát tài chính cá nhân. Tham gia cùng họ ngay!</p>
+            <a asp-controller="Login" asp-action="Index" class="btn btn-light btn-lg text-primary-blue fw-bold shadow-sm">
+                ĐĂNG KÝ NGAY, WEB XỊN LIỀN TAY
+            </a>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>
