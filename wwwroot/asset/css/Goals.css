@@ -29,24 +29,24 @@ body {
 }
 
 .page-title-content p {
-    color: var(--text-title) !important;
+    color: var(--text) !important;
 }
 
 .breadcrumbs .fi-rr-angle-small-right {
     color: var(--text-muted-color);
 }
 .breadcrumb a {
-    color: var(--text-title); /*dòng đã sửa111*/
+    color: var(--text);
     text-decoration: none;
 }
 
 .breadcrumb-item + .breadcrumb-item::before { /*dòng đã sửa111*/
-    color: var(--text-title); /*dòng đã sửa111*/
+    color: var(--text);
 }
 /*dòng đã sửa*/
 
 .breadcrumb .breadcrumb-item {
-    color: var(--text-title); /*dòng đã sửa111*/
+    color: var(--text);
 }
 
 .breadcrumb a:hover {
@@ -114,7 +114,7 @@ body {
     margin-bottom: .5rem;
     font-weight: 600;
     line-height: 1.2;
-    color: var(--bs-heading-color);
+    color: var(--text-title);
 }
 .container,
 .container-fluid,
@@ -230,6 +230,7 @@ body {
         .goals-tab-content .goals-tab-title h3, .goals-tab-content .goals-tab-title .h3 {
             font-size: 20px;
             margin-bottom: 0px;
+            color: var(--bs-heading-color);
         }
 
 .goals-history-table span i {
@@ -354,7 +355,7 @@ input[type=number] {
     border-radius:10px;
 }
     .card-body .card-save span {
-        color: var(--text-title);
+        color: var(--bs-secondary-color) !important;
     }
 .card-title {
     color: var(--text-title);
