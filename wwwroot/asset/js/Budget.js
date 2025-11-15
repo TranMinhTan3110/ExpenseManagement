@@ -1,6 +1,6 @@
 ﻿// ============= GLOBAL VARIABLES =============
 let activeCharts = {};
-let notifiedBudgets = new Set(JSON.parse(sessionStorage.getItem('notifiedBudgets') || '[]')); 
+let notifiedBudgets = new Set(JSON.parse(sessionStorage.getItem('notifiedBudgets') || '[]'));
 // Lưu trạng thái đã chúc mừng budget hết hạn
 let congratulatedBudgets = new Set(JSON.parse(sessionStorage.getItem('congratulatedBudgets') || '[]'));
 let budgetNotificationState = JSON.parse(sessionStorage.getItem('budgetNotificationState') || '{}');
@@ -22,6 +22,81 @@ function unmarkCongratulated(budgetId) {
     sessionStorage.setItem('congratulatedBudgets', JSON.stringify([...congratulatedBudgets]));
 }
 
+// ============= THÊM MỚI: HÀM KIỂM TRA CATEGORY TRÙNG =============
+async function checkCategoryInUse(categoryId, excludeBudgetId = null) {
+    try {
+        const userId = document.getElementById("userIdHidden")?.value;
+        if (!userId) return false;
+
+        const response = await fetch(`/api/BudgetApi?userId=${userId}`);
+        if (!response.ok) return false;
+
+        const budgets = await response.json();
+
+        // Kiểm tra xem category đã được sử dụng chưa
+        const categoryInUse = budgets.some(budget =>
+            budget.categoryID === parseInt(categoryId) &&
+            (!excludeBudgetId || budget.budgetID !== parseInt(excludeBudgetId))
+        );
+
+        return categoryInUse;
+    } catch (error) {
+        console.error('Error checking category:', error);
+        return false;
+    }
+}
+
+// ============= THÊM MỚI: HÀM RELOAD CATEGORY PICKER =============
+async function reloadCategoryPicker() {
+    const categoryContainer = document.getElementById("categoryPickerContainer");
+    if (!categoryContainer) return;
+
+    try {
+        const res = await fetch("/api/category/page-data");
+        if (!res.ok) return;
+        const resData = await res.json();
+
+        const expenseCategories = (resData.userCategories || []).filter(c =>
+            (c.type || "").toLowerCase().startsWith("exp")
+        );
+
+        const userId = document.getElementById("userIdHidden")?.value;
+        let usedCategories = [];
+        if (userId) {
+            const budgetRes = await fetch(`/api/BudgetApi?userId=${userId}`);
+            if (budgetRes.ok) {
+                const budgets = await budgetRes.json();
+                usedCategories = budgets.map(b => b.categoryID);
+            }
+        }
+
+        categoryContainer.innerHTML = expenseCategories.map(cat => {
+            const iconClass = (cat.icon && cat.icon.iconClass) ? cat.icon.iconClass : "fi fi-rr-ellipsis";
+            const name = cat.categoryName || "Category";
+            const color = cat.color || "#6c757d";
+            const isUsed = usedCategories.includes(cat.categoryID);
+
+            return `
+                <div class="category-option border rounded p-2 text-center ${isUsed ? 'disabled' : ''}"
+                     data-id="${cat.categoryID}"
+                     data-icon="${iconClass}"
+                     data-color="${color}"
+                     data-used="${isUsed}"
+                     title="${name}${isUsed ? ' (Đã được sử dụng)' : ''}"
+                     style="width:80px; cursor:${isUsed ? 'not-allowed' : 'pointer'}; 
+                            border-color: ${color} !important; 
+                            opacity: ${isUsed ? '0.4' : '1'};
+                            position: relative;">
+                    <i class="${iconClass}" style="font-size:22px; color: ${color};"></i>
+                    <div class="small mt-1">${name}</div>
+                    ${isUsed ? '<span style="position:absolute; top:5px; right:5px; color:red;">✓</span>' : ''}
+                </div>
+            `;
+        }).join("");
+    } catch (err) {
+        console.error("Error reloading categories:", err);
+    }
+}
 
 
 
@@ -353,7 +428,8 @@ window.updateChartFilters = async function (budgetId) {
     await renderSpendingChart(budgetId, groupBy, startDate, endDate);
 };
 
-window.openAddBudgetModal = function () {
+// ============= CẬP NHẬT: OPEN ADD BUDGET MODAL =============
+window.openAddBudgetModal = async function () {
     const modalElement = document.getElementById("addBudgetModal");
     if (modalElement) {
         const form = document.getElementById("addBudgetForm");
@@ -380,6 +456,9 @@ window.openAddBudgetModal = function () {
             categoryToggle.style.opacity = '';
             categoryToggle.style.cursor = '';
         }
+
+        // THÊM: Reload category picker để cập nhật trạng thái
+        await reloadCategoryPicker();
 
         const appContainer = document.querySelector('.app-container');
         if (appContainer) {
@@ -712,7 +791,7 @@ function renderBudgetTabs(budgets) {
                     <div class="col-xl-12">
                         <div class="card-body">
                             <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
-                                <h4 class="card-title mb-0">Phân Tích iêuTiêu</h4>
+                                <h4 class="card-title mb-0">Phân Tích Chi Tiêu</h4>
                                 
                                 <div class="d-flex gap-2 flex-wrap mt-2 mt-md-0 form-contain">
                                     <select id="groupBy${budget.budgetID}" class="form-select form-select-sm" style="width: auto;" onchange="updateChartFilters(${budget.budgetID})">
@@ -933,12 +1012,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.body.style.overflow = '';
             document.body.style.paddingRight = '';
         });
-
-        //  Apply styles when modal opens
-        //modalElement.addEventListener('shown.bs.modal', applyFormStyles);
     }
 
-    // 4) CATEGORY PICKER WITH COLOR SUPPORT
+    // ============= CẬP NHẬT: CATEGORY PICKER WITH VALIDATION =============
     const categoryToggle = document.getElementById("categoryPickerToggle");
     const categoryList = document.getElementById("categoryPickerList");
     const categoryContainer = document.getElementById("categoryPickerContainer");
@@ -955,19 +1031,41 @@ document.addEventListener("DOMContentLoaded", async function () {
                 (c.type || "").toLowerCase().startsWith("exp")
             );
 
+            // THÊM: Lấy danh sách category đã dùng
+            const userId = document.getElementById("userIdHidden")?.value;
+            let usedCategories = [];
+            if (userId) {
+                try {
+                    const budgetRes = await fetch(`/api/BudgetApi?userId=${userId}`);
+                    if (budgetRes.ok) {
+                        const budgets = await budgetRes.json();
+                        usedCategories = budgets.map(b => b.categoryID);
+                    }
+                } catch (err) {
+                    console.error("Không thể load budgets:", err);
+                }
+            }
+
             categoryContainer.innerHTML = expenseCategories.map(cat => {
                 const iconClass = (cat.icon && cat.icon.iconClass) ? cat.icon.iconClass : "fi fi-rr-ellipsis";
                 const name = cat.categoryName || "Category";
                 const color = cat.color || "#6c757d";
+                const isUsed = usedCategories.includes(cat.categoryID);
+
                 return `
-                    <div class="category-option border rounded p-2 text-center"
+                    <div class="category-option border rounded p-2 text-center ${isUsed ? 'disabled' : ''}"
                          data-id="${cat.categoryID}"
                          data-icon="${iconClass}"
                          data-color="${color}"
-                         title="${name}"
-                         style="width:80px; cursor:pointer; border-color: ${color} !important;">
+                         data-used="${isUsed}"
+                         title="${name}${isUsed ? ' (Đã được sử dụng)' : ''}"
+                         style="width:80px; cursor:${isUsed ? 'not-allowed' : 'pointer'}; 
+                                border-color: ${color} !important; 
+                                opacity: ${isUsed ? '0.4' : '1'};
+                                position: relative;">
                         <i class="${iconClass}" style="font-size:22px; color: ${color};"></i>
                         <div class="small mt-1">${name}</div>
+                        ${isUsed ? '<span style="position:absolute; top:5px; right:5px; color:red;">✓</span>' : ''}
                     </div>
                 `;
             }).join("");
@@ -983,9 +1081,22 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
         }
 
+        // CẬP NHẬT: Click handler với validation
         categoryContainer.addEventListener("click", (e) => {
             const item = e.target.closest(".category-option");
             if (!item) return;
+
+            // THÊM: Kiểm tra nếu category đã được sử dụng
+            if (item.dataset.used === "true") {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Category đã được sử dụng',
+                    text: 'Category này đã có budget. Vui lòng chọn category khác!',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#ffc107'
+                });
+                return;
+            }
 
             categoryContainer.querySelectorAll(".category-option")
                 .forEach(el => el.classList.remove("active"));
@@ -1027,7 +1138,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    // 6) SUBMIT ADD/EDIT BUDGET FORM
+    // ============= CẬP NHẬT: SUBMIT ADD/EDIT BUDGET FORM =============
     const form = document.getElementById("addBudgetForm");
     if (form) {
         form.addEventListener("submit", async (e) => {
@@ -1052,13 +1163,27 @@ document.addEventListener("DOMContentLoaded", async function () {
                 return;
             }
 
+            // THÊM: Kiểm tra category có đang được sử dụng không
+            const editId = form.dataset.editId;
+            const categoryInUse = await checkCategoryInUse(categoryId, editId);
+
+            if (categoryInUse) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Category đã được sử dụng',
+                    text: 'Category này đã có budget khác. Vui lòng chọn category khác!',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#d33'
+                });
+                return;
+            }
+
             const submitBtn = form.querySelector("button[type='submit']");
             if (submitBtn) {
                 submitBtn.disabled = true;
                 submitBtn.innerText = "Đang xử lý...";
             }
 
-            const editId = form.dataset.editId;
             const isEditMode = !!editId;
 
             const budgetData = {
@@ -1166,8 +1291,4 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     window.reloadBudgetsAndCheckWarnings = reloadBudgetsAndCheckWarnings;
-
-
-
-
 });
