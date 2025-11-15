@@ -89,7 +89,7 @@ async function reloadCategoryPicker() {
                             position: relative;">
                     <i class="${iconClass}" style="font-size:22px; color: ${color};"></i>
                     <div class="small mt-1">${name}</div>
-                    ${isUsed ? '<span style="position:absolute; top:5px; right:5px; color:red;">✓</span>' : ''}
+                   
                 </div>
             `;
         }).join("");
@@ -428,7 +428,7 @@ window.updateChartFilters = async function (budgetId) {
     await renderSpendingChart(budgetId, groupBy, startDate, endDate);
 };
 
-// ============= CẬP NHẬT: OPEN ADD BUDGET MODAL =============
+// ============= OPEN ADD BUDGET MODAL =============
 window.openAddBudgetModal = async function () {
     const modalElement = document.getElementById("addBudgetModal");
     if (modalElement) {
@@ -457,7 +457,6 @@ window.openAddBudgetModal = async function () {
             categoryToggle.style.cursor = '';
         }
 
-        // THÊM: Reload category picker để cập nhật trạng thái
         await reloadCategoryPicker();
 
         const appContainer = document.querySelector('.app-container');
@@ -1014,7 +1013,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    // ============= CẬP NHẬT: CATEGORY PICKER WITH VALIDATION =============
+    // ============= CATEGORY PICKER WITH VALIDATION =============
     const categoryToggle = document.getElementById("categoryPickerToggle");
     const categoryList = document.getElementById("categoryPickerList");
     const categoryContainer = document.getElementById("categoryPickerContainer");
@@ -1031,7 +1030,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 (c.type || "").toLowerCase().startsWith("exp")
             );
 
-            // THÊM: Lấy danh sách category đã dùng
             const userId = document.getElementById("userIdHidden")?.value;
             let usedCategories = [];
             if (userId) {
@@ -1065,7 +1063,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                                 position: relative;">
                         <i class="${iconClass}" style="font-size:22px; color: ${color};"></i>
                         <div class="small mt-1">${name}</div>
-                        ${isUsed ? '<span style="position:absolute; top:5px; right:5px; color:red;">✓</span>' : ''}
+                       
                     </div>
                 `;
             }).join("");
