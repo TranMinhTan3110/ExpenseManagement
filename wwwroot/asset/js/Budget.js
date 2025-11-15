@@ -1,8 +1,29 @@
 ﻿// ============= GLOBAL VARIABLES =============
 let activeCharts = {};
-let notifiedBudgets = new Set(JSON.parse(sessionStorage.getItem('notifiedBudgets') || '[]'));
+let notifiedBudgets = new Set(JSON.parse(sessionStorage.getItem('notifiedBudgets') || '[]')); 
+// Lưu trạng thái đã chúc mừng budget hết hạn
+let congratulatedBudgets = new Set(JSON.parse(sessionStorage.getItem('congratulatedBudgets') || '[]'));
+let budgetNotificationState = JSON.parse(sessionStorage.getItem('budgetNotificationState') || '{}');
+sessionStorage.removeItem("notifiedBudgets");
 
-// ============= GLOBAL FUNCTIONS =============
+
+
+function isCongratulated(budgetId) {
+    return congratulatedBudgets.has(budgetId);
+}
+
+function markCongratulated(budgetId) {
+    congratulatedBudgets.add(budgetId);
+    sessionStorage.setItem('congratulatedBudgets', JSON.stringify([...congratulatedBudgets]));
+}
+
+function unmarkCongratulated(budgetId) {
+    congratulatedBudgets.delete(budgetId);
+    sessionStorage.setItem('congratulatedBudgets', JSON.stringify([...congratulatedBudgets]));
+}
+
+
+
 
 
 // GET PROGRESS COLOR BASED ON PERCENTAGE
@@ -14,21 +35,33 @@ function getProgressColor(percentage) {
 
 // SHOW BUDGET WARNING BASED ON PERCENTAGE
 function showBudgetWarning(budgetId, percentage, categoryName, spentAmount, budgetAmount) {
-    if (notifiedBudgets.has(budgetId)) return;
+    const lastNotifiedPercentage = budgetNotificationState[budgetId] || 0;
 
-    notifiedBudgets.add(budgetId);
-    sessionStorage.setItem('notifiedBudgets', JSON.stringify([...notifiedBudgets]));
+    // Xác định threshold hiện tại
+    let currentThreshold = 0;
+    if (percentage >= 100) currentThreshold = 100;
+    else if (percentage >= 90) currentThreshold = 90;
+    else if (percentage >= 70) currentThreshold = 70;
+
+    //  Chỉ hiển thị nếu vượt qua threshold MỚI
+    if (currentThreshold <= lastNotifiedPercentage) {
+        return; // Đã thông báo mức này rồi
+    }
+
+    // Cập nhật state
+    budgetNotificationState[budgetId] = currentThreshold;
+    sessionStorage.setItem('budgetNotificationState', JSON.stringify(budgetNotificationState));
 
     let title, text, icon, color;
 
     if (percentage >= 100) {
         title = '⚠️ Vượt Ngân Sách!';
-        text = `Ngân sách "${categoryName}" đã vượt mức!\nĐã chi: ${spentAmount}đ\nNgân sách: ${budgetAmount}đ\nVượt: ${spentAmount - budgetAmount}đ`;
+        text = `Ngân sách "${categoryName}" đã vượt mức!\nĐã chi: ${spentAmount.toLocaleString('vi-VN')}đ\nNgân sách: ${budgetAmount.toLocaleString('vi-VN')}đ\nVượt: ${(spentAmount - budgetAmount).toLocaleString('vi-VN')}đ`;
         icon = 'error';
         color = '#dc3545';
     } else if (percentage >= 90) {
         title = '🚨 Gần Hết Ngân Sách!';
-        text = `Ngân sách "${categoryName}" đã sử dụng ${percentage}%!\nCòn lại: ${budgetAmount - spentAmount}đ`;
+        text = `Ngân sách "${categoryName}" đã sử dụng ${percentage}%!\nCòn lại: ${(budgetAmount - spentAmount).toLocaleString('vi-VN')}đ`;
         icon = 'warning';
         color = '#dc3545';
     } else if (percentage >= 70) {
@@ -36,8 +69,6 @@ function showBudgetWarning(budgetId, percentage, categoryName, spentAmount, budg
         text = `Ngân sách "${categoryName}" đã sử dụng ${percentage}%\nHãy cân nhắc chi tiêu!`;
         icon = 'warning';
         color = '#ffc107';
-    } else {
-        return;
     }
 
     Swal.fire({
@@ -50,6 +81,52 @@ function showBudgetWarning(budgetId, percentage, categoryName, spentAmount, budg
         timerProgressBar: true
     });
 }
+
+//  HÀM RELOAD VÀ KIỂM TRA LẠI CẢNH BÁO
+async function reloadBudgetsAndCheckWarnings() {
+    try {
+        //  CHỜ 300ms để đảm bảo backend đã xử lý xong transaction
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        const userId = document.getElementById("userIdHidden")?.value;
+        if (!userId) return;
+
+        const response = await fetch(`/api/BudgetApi?userId=${userId}`);
+        if (!response.ok) throw new Error('Failed to reload budgets');
+
+        const budgets = await response.json();
+        window.cachedBudgets = budgets;
+
+        //  Kiểm tra cảnh báo cho TẤT CẢ budgets
+        budgets.forEach(budget => {
+            showBudgetWarning(
+                budget.budgetID,
+                budget.percentage,
+                budget.categoryName,
+                budget.spentAmount,
+                budget.budgetAmount
+            );
+
+            checkBudgetExpiredSuccess(
+                budget.budgetID,
+                budget.categoryName,
+                budget.endDate,
+                budget.remainingAmount,
+                budget.budgetAmount,
+                budget.percentage
+            );
+        });
+
+        // Re-render nếu đang ở trang Budget
+        if (window.location.pathname.includes('/Budget')) {
+            await loadBudgets();
+        }
+
+    } catch (error) {
+        console.error('Error reloading budgets:', error);
+    }
+}
+
 
 function checkBudgetExpiredSuccess(budgetId, categoryName, endDate, remainingAmount, budgetAmount, percentage) {
     if (isCongratulated(budgetId)) return;
@@ -94,7 +171,44 @@ function checkBudgetExpiredSuccess(budgetId, categoryName, endDate, remainingAmo
     }
 }
 
-// ✅ ADD EVENT LISTENERS FOR BUDGET NAV ITEMS
+// TỰ ĐỘNG XÓA VÀ TẠO LẠI RECURRING BUDGETS
+async function handleRecurringBudgets() {
+    try {
+        console.log('🔄 Starting handle recurring budgets...');
+
+        const userId = document.getElementById("userIdHidden")?.value;
+        if (!userId) {
+            console.error('❌ User ID not found');
+            return;
+        }
+
+        console.log('📤 Calling API with userId:', userId);
+
+        const response = await fetch(`/api/BudgetApi/handle-recurring?userId=${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        console.log('📥 Response status:', response.status);
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('✅ Recurring budgets handled:', result);
+
+            // Reload lại danh sách sau khi xử lý
+            await loadBudgets();
+        } else {
+            const error = await response.text();
+            console.error('❌ API error:', error);
+        }
+    } catch (error) {
+        console.error('❌ Exception in handleRecurringBudgets:', error);
+    }
+}
+
+//  ADD EVENT LISTENERS FOR BUDGET NAV ITEMS
 function addBudgetNavEventListeners(budgets) {
     budgets.forEach(budget => {
         const navElement = document.querySelector(`[data-bs-target="#budget-${budget.budgetID}"]`);
@@ -106,6 +220,16 @@ function addBudgetNavEventListeners(budgets) {
                     budget.categoryName,
                     budget.spentAmount,
                     budget.budgetAmount
+                );
+
+                //  Kiểm tra và hiển thị chúc mừng nếu budget hết hạn nhưng chưa cạn
+                checkBudgetExpiredSuccess(
+                    budget.budgetID,
+                    budget.categoryName,
+                    budget.endDate,
+                    budget.remainingAmount,
+                    budget.budgetAmount,
+                    budget.percentage
                 );
             });
         }
@@ -141,7 +265,13 @@ window.deleteBudget = async function (budgetId, categoryName) {
             timer: 2000
         });
 
-        notifiedBudgets.delete(budgetId);
+        // Xóa khỏi danh sách đã thông báo
+        delete budgetNotificationState[budgetId];
+        sessionStorage.setItem('budgetNotificationState', JSON.stringify(budgetNotificationState));
+
+        //  Xóa khỏi danh sách đã chúc mừng
+        unmarkCongratulated(budgetId);
+
         await loadBudgets();
 
     } catch (error) {
@@ -155,7 +285,7 @@ window.deleteBudget = async function (budgetId, categoryName) {
     }
 };
 
-// ✅ EDIT BUDGET FUNCTION
+//  EDIT BUDGET FUNCTION
 window.editBudget = async function (budgetId) {
     try {
         const response = await fetch(`/api/BudgetApi/${budgetId}`);
@@ -169,6 +299,13 @@ window.editBudget = async function (budgetId) {
         document.getElementById("budgetEndDateInput").value = budget.endDate.split('T')[0];
         document.getElementById("recurringCheckbox").checked = budget.isRecurring || false;
 
+        const recurringCheckbox = document.getElementById("recurringCheckbox");
+        if (recurringCheckbox) {
+            recurringCheckbox.checked = budget.isRecurring === true;
+            console.log('✅ Set isRecurring:', budget.isRecurring); // Debug log
+        }
+
+        // Hiển thị category đã chọn
         const categoryPreview = document.getElementById("selectedCategoryPreview");
         if (categoryPreview) {
             categoryPreview.innerHTML = `<i class="${budget.categoryIcon}" style="color: ${budget.categoryColor};"></i> ${budget.categoryName}`;
@@ -297,6 +434,16 @@ async function loadBudgets() {
                     firstBudget.spentAmount,
                     firstBudget.budgetAmount
                 );
+
+                //  Kiểm tra chúc mừng cho budget đầu tiên
+                checkBudgetExpiredSuccess(
+                    firstBudget.budgetID,
+                    firstBudget.categoryName,
+                    firstBudget.endDate,
+                    firstBudget.remainingAmount,
+                    firstBudget.budgetAmount,
+                    firstBudget.percentage
+                )
             }, 500);
         }
 
@@ -758,20 +905,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     // 1) LOAD BUDGETS FIRST
     await loadBudgets();
 
-    // ✅ 2) FORCE APPLY STYLES TO FORM ELEMENTS
-    const applyFormStyles = () => {
-        const formElements = document.querySelectorAll('.form-control, .form-select, input[type="date"]');
-        formElements.forEach(el => {
-            el.style.setProperty('color', 'var(--text)', 'important');
-            el.style.setProperty('background-color', 'var(--card-bg-color)', 'important');
-            el.style.setProperty('border-color', 'rgba(255, 255, 255, 0.3)', 'important');
-        });
-    };
+    //  1.5) XỬ LÝ RECURRING BUDGETS TỰ ĐỘNG
+    await handleRecurringBudgets();
 
-    // Apply on load
-    applyFormStyles();
-
-    // 3) FIX MODAL EVENT LISTENERS
+    // 2) FIX MODAL EVENT LISTENERS
     const modalElement = document.getElementById("addBudgetModal");
     if (modalElement) {
         modalElement.addEventListener('show.bs.modal', function () {
@@ -797,8 +934,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.body.style.paddingRight = '';
         });
 
-        // ✅ Apply styles when modal opens
-        modalElement.addEventListener('shown.bs.modal', applyFormStyles);
+        //  Apply styles when modal opens
+        //modalElement.addEventListener('shown.bs.modal', applyFormStyles);
     }
 
     // 4) CATEGORY PICKER WITH COLOR SUPPORT
@@ -1027,4 +1164,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         });
     }
+
+    window.reloadBudgetsAndCheckWarnings = reloadBudgetsAndCheckWarnings;
+
+
+
+
 });
