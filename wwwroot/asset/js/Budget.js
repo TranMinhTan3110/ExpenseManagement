@@ -1,10 +1,8 @@
 ﻿// ============= GLOBAL VARIABLES =============
 let activeCharts = {};
-let notifiedBudgets = new Set(JSON.parse(sessionStorage.getItem('notifiedBudgets') || '[]')); 
+let notifiedBudgets = new Set(JSON.parse(sessionStorage.getItem('notifiedBudgets') || '[]'));
 
 // ============= GLOBAL FUNCTIONS =============
-
-
 
 // GET PROGRESS COLOR BASED ON PERCENTAGE
 function getProgressColor(percentage) {
@@ -23,25 +21,21 @@ function showBudgetWarning(budgetId, percentage, categoryName, spentAmount, budg
     let title, text, icon, color;
 
     if (percentage >= 100) {
-        // Vượt ngân sách
         title = '⚠️ Vượt Ngân Sách!';
-        text = `Ngân sách "${categoryName}" đã vượt mức!\nĐã chi: ${ (spentAmount)}đ\nNgân sách: ${ (budgetAmount)}đ\nVượt: ${ (spentAmount - budgetAmount)}đ`;
+        text = `Ngân sách "${categoryName}" đã vượt mức!\nĐã chi: ${spentAmount}đ\nNgân sách: ${budgetAmount}đ\nVượt: ${spentAmount - budgetAmount}đ`;
         icon = 'error';
         color = '#dc3545';
     } else if (percentage >= 90) {
-        // Cảnh báo nghiêm trọng
         title = '🚨 Gần Hết Ngân Sách!';
-        text = `Ngân sách "${categoryName}" đã sử dụng ${percentage}%!\nCòn lại: ${ (budgetAmount - spentAmount)}đ`;
+        text = `Ngân sách "${categoryName}" đã sử dụng ${percentage}%!\nCòn lại: ${budgetAmount - spentAmount}đ`;
         icon = 'warning';
         color = '#dc3545';
     } else if (percentage >= 70) {
-        // Cảnh báo nhẹ
         title = '⚡ Cảnh Báo Ngân Sách';
         text = `Ngân sách "${categoryName}" đã sử dụng ${percentage}%\nHãy cân nhắc chi tiêu!`;
         icon = 'warning';
         color = '#ffc107';
     } else {
-        // Không cần cảnh báo
         return;
     }
 
@@ -51,21 +45,18 @@ function showBudgetWarning(budgetId, percentage, categoryName, spentAmount, budg
         html: text.replace(/\n/g, '<br>'),
         confirmButtonText: 'Đã hiểu',
         confirmButtonColor: color,
-        timer: percentage >= 100 ? 0 : 5000, // Không tự đóng nếu vượt ngân sách
+        timer: percentage >= 100 ? 0 : 5000,
         timerProgressBar: true
     });
 }
 
 function checkBudgetExpiredSuccess(budgetId, categoryName, endDate, remainingAmount, budgetAmount, percentage) {
-    // Đã chúc mừng rồi thì không hiện nữa
     if (isCongratulated(budgetId)) return;
 
     const now = new Date();
     const budgetEndDate = new Date(endDate);
 
-    // Kiểm tra nếu budget đã hết hạn
     if (now > budgetEndDate) {
-        // Kiểm tra nếu còn dư ngân sách (chưa cạn)
         if (remainingAmount > 0 && percentage < 100) {
             markCongratulated(budgetId);
 
@@ -80,9 +71,9 @@ function checkBudgetExpiredSuccess(budgetId, categoryName, endDate, remainingAmo
                             Bạn đã quản lý ngân sách <strong>"${categoryName}"</strong> rất tốt!
                         </p>
                         <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                            <p style="margin: 5px 0;">✅ Đã tiết kiệm được: <strong style="color: #28a745;">${ (remainingAmount)}đ</strong></p>
-                            <p style="margin: 5px 0;">📊 Tỷ lệ tiết kiệm: <strong style="color: #28a745;">${savedPercentage}đ%</strong></p>
-                            <p style="margin: 5px 0;">💰 Tổng ngân sách: <strong>${ (budgetAmount)}đ</strong></p>
+                            <p style="margin: 5px 0;">✅ Đã tiết kiệm được: <strong style="color: #28a745;">${remainingAmount}đ</strong></p>
+                            <p style="margin: 5px 0;">📊 Tỷ lệ tiết kiệm: <strong style="color: #28a745;">${savedPercentage}%</strong></p>
+                            <p style="margin: 5px 0;">💰 Tổng ngân sách: <strong>${budgetAmount}đ</strong></p>
                         </div>
                         <p style="font-size: 14px; color: #666;">
                             Hãy tiếp tục duy trì thói quen chi tiêu hợp lý! 💪
@@ -108,7 +99,6 @@ function addBudgetNavEventListeners(budgets) {
         const navElement = document.querySelector(`[data-bs-target="#budget-${budget.budgetID}"]`);
         if (navElement) {
             navElement.addEventListener('shown.bs.tab', function (e) {
-                // Hiển thị cảnh báo khi tab được hiển thị lần đầu
                 showBudgetWarning(
                     budget.budgetID,
                     budget.percentage,
@@ -150,9 +140,7 @@ window.deleteBudget = async function (budgetId, categoryName) {
             timer: 2000
         });
 
-        // Xóa khỏi danh sách đã thông báo
         notifiedBudgets.delete(budgetId);
-
         await loadBudgets();
 
     } catch (error) {
@@ -169,20 +157,17 @@ window.deleteBudget = async function (budgetId, categoryName) {
 // ✅ EDIT BUDGET FUNCTION
 window.editBudget = async function (budgetId) {
     try {
-        // Lấy thông tin budget hiện tại
         const response = await fetch(`/api/BudgetApi/${budgetId}`);
         if (!response.ok) throw new Error('Không thể lấy thông tin ngân sách');
 
         const budget = await response.json();
 
-        // Điền thông tin vào form
         document.getElementById("selectedCategoryID").value = budget.categoryID;
         document.getElementById("budgetAmountInput").value = budget.budgetAmount;
         document.getElementById("budgetStartDateInput").value = budget.startDate.split('T')[0];
         document.getElementById("budgetEndDateInput").value = budget.endDate.split('T')[0];
         document.getElementById("recurringCheckbox").checked = budget.isRecurring || false;
 
-        // Hiển thị category đã chọn
         const categoryPreview = document.getElementById("selectedCategoryPreview");
         if (categoryPreview) {
             categoryPreview.innerHTML = `<i class="${budget.categoryIcon}" style="color: ${budget.categoryColor};"></i> ${budget.categoryName}`;
@@ -192,24 +177,21 @@ window.editBudget = async function (budgetId) {
         const categoryToggle = document.getElementById("categoryPickerToggle");
         const categoryList = document.getElementById("categoryPickerList");
         if (categoryToggle) {
-            categoryToggle.style.pointerEvents = 'none'; // Disable click
-            categoryToggle.style.opacity = '0.6'; // Làm mờ
+            categoryToggle.style.pointerEvents = 'none';
+            categoryToggle.style.opacity = '0.6';
             categoryToggle.style.cursor = 'not-allowed';
         }
         if (categoryList) {
-            categoryList.style.display = 'none'; // Ẩn dropdown
+            categoryList.style.display = 'none';
         }
 
-        // Đổi title modal và button
         const modalTitle = document.querySelector("#addBudgetModal .modal-title");
         const submitBtn = document.querySelector("#addBudgetForm button[type='submit']");
         if (modalTitle) modalTitle.textContent = "Chỉnh Sửa Ngân Sách";
         if (submitBtn) submitBtn.textContent = "Cập Nhật Ngân Sách";
 
-        // Lưu budgetId để biết đang edit
         document.getElementById("addBudgetForm").dataset.editId = budgetId;
 
-        // Mở modal
         const modalElement = document.getElementById("addBudgetModal");
         const modal = new bootstrap.Modal(modalElement);
         modal.show();
@@ -236,22 +218,18 @@ window.updateChartFilters = async function (budgetId) {
 window.openAddBudgetModal = function () {
     const modalElement = document.getElementById("addBudgetModal");
     if (modalElement) {
-        // Reset form về chế độ thêm mới
         const form = document.getElementById("addBudgetForm");
         if (form) {
             form.reset();
             delete form.dataset.editId;
         }
 
-        // Reset modal title
         const modalTitle = document.querySelector("#addBudgetModal .modal-title");
         if (modalTitle) modalTitle.textContent = "Thêm Ngân Sách Mới";
 
-        // Reset button text
         const submitBtn = document.querySelector("#addBudgetForm button[type='submit']");
         if (submitBtn) submitBtn.textContent = "Lưu Ngân Sách";
 
-        // Reset category preview
         const categoryPreview = document.getElementById("selectedCategoryPreview");
         if (categoryPreview) {
             categoryPreview.innerHTML = "Chọn categories...";
@@ -260,7 +238,7 @@ window.openAddBudgetModal = function () {
 
         const categoryToggle = document.getElementById("categoryPickerToggle");
         if (categoryToggle) {
-            categoryToggle.style.pointerEvents = ''; // Enable lại
+            categoryToggle.style.pointerEvents = '';
             categoryToggle.style.opacity = '';
             categoryToggle.style.cursor = '';
         }
@@ -292,7 +270,6 @@ async function loadBudgets() {
         const budgets = await response.json();
         console.log("Loaded budgets:", budgets);
 
-        // ✅ Cache budgets for edit function
         window.cachedBudgets = budgets;
 
         if (!budgets || budgets.length === 0) {
@@ -307,10 +284,8 @@ async function loadBudgets() {
             renderSpendingChart(budget.budgetID, 'day', budget.startDate, budget.endDate);
         });
 
-        // ✅ Add event listeners for showing warnings
         addBudgetNavEventListeners(budgets);
 
-        // ✅ Show warning for first active tab
         if (budgets.length > 0) {
             const firstBudget = budgets[0];
             setTimeout(() => {
@@ -477,7 +452,7 @@ function renderBudgetNav(budgets) {
                     </div>
                     <div class="budgets-nav-text">
                         <h3 class="budgets-nav-title">${budget.categoryName}</h3>
-                        <p>${ (budget.budgetAmount)}đ</p>
+                        <p>${budget.budgetAmount}đ</p>
                     </div>
                 </div>
             </div>
@@ -499,8 +474,6 @@ function renderBudgetNav(budgets) {
     `;
     navContainer.insertAdjacentHTML('beforeend', addBudgetBtn);
 }
-
-
 
 // ============= RENDER BUDGET TABS =============
 function renderBudgetTabs(budgets) {
@@ -538,11 +511,11 @@ function renderBudgetTabs(budgets) {
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <span style="color: #7184AD; font-size: 14px;">Đã chi</span>
-                                    <h3 style="font-weight: bold;">${ (budget.spentAmount)}đ</h3>
+                                    <h3 style="font-weight: bold;">${budget.spentAmount}đ</h3>
                                 </div>
                                 <div class="text-end">
                                     <span style="color: #7184AD; font-size: 14px;">Ngân sách</span>
-                                    <h3 style="font-weight: bold;">${ (budget.budgetAmount)}đ</h3>
+                                    <h3 style="font-weight: bold;">${budget.budgetAmount}đ</h3>
                                 </div>
                             </div>
                             <div class="progress" style="height: 10px;">
@@ -550,7 +523,7 @@ function renderBudgetTabs(budgets) {
                             </div>
                             <div class="d-flex justify-content-between mt-2">
                                 <span>${percentage}%</span>
-                                <span>Còn lại: ${ (budget.remainingAmount)}đ</span>
+                                <span>Còn lại: ${budget.remainingAmount}đ</span>
                             </div>
                         </div>
                     </div>
@@ -573,14 +546,14 @@ function renderBudgetTabs(budgets) {
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                                     <div class="budget-widget">
                                         <p style="color: #7184AD;">Đã chi</p>
-                                        <h3>${ (budget.spentAmount)}đ</h3>
+                                        <h3>${budget.spentAmount}đ</h3>
                                     </div>
                                 </div>
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                                     <div class="budget-widget">
                                         <p style="color: #7184AD;">Còn lại</p>
                                         <h3 style="color: ${budget.remainingAmount < 0 ? '#dc3545' : '#28a745'}">
-                                            ${ (budget.remainingAmount)}đ
+                                            ${budget.remainingAmount}đ
                                         </h3>
                                     </div>
                                 </div>
@@ -593,7 +566,7 @@ function renderBudgetTabs(budgets) {
                             <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
                                 <h4 class="card-title mb-0">Phân Tích Chi Tiêu</h4>
                                 
-                                <div class="d-flex gap-2 flex-wrap mt-2 mt-md-0">
+                                <div class="d-flex gap-2 flex-wrap mt-2 mt-md-0 form-contain">
                                     <select id="groupBy${budget.budgetID}" class="form-select form-select-sm" style="width: auto;" onchange="updateChartFilters(${budget.budgetID})">
                                         <option value="day">Theo Ngày</option>
                                         <option value="week">Theo Tuần</option>
@@ -620,11 +593,9 @@ function renderBudgetTabs(budgets) {
         `;
         tabContent.insertAdjacentHTML('beforeend', tabPane);
     });
-
-
 }
 
-// ============= RENDER SPENDING CHART (UPDATED WITH BETTER RENDERING) =============
+// ============= RENDER SPENDING CHART =============
 async function renderSpendingChart(budgetId, groupBy = 'day', startDate = null, endDate = null) {
     try {
         let url = `/api/BudgetApi/spending-analysis/${budgetId}?groupBy=${groupBy}`;
@@ -658,7 +629,6 @@ async function renderSpendingChart(budgetId, groupBy = 'day', startDate = null, 
         const labels = result.data.map(d => d.label);
         const amounts = result.data.map(d => d.amount);
 
-        // ✅ CALCULATE DYNAMIC BAR WIDTH
         const dataCount = labels.length;
         let barPercentage = 0.8;
         let categoryPercentage = 0.9;
@@ -711,7 +681,7 @@ async function renderSpendingChart(budgetId, groupBy = 'day', startDate = null, 
                         },
                         callbacks: {
                             label: function (context) {
-                                return 'Chi tiêu: ' +  (context.parsed.y) + 'đ';
+                                return 'Chi tiêu: ' + context.parsed.y + 'đ';
                             }
                         }
                     }
@@ -747,7 +717,7 @@ async function renderSpendingChart(budgetId, groupBy = 'day', startDate = null, 
                             },
                             padding: 10,
                             callback: function (value) {
-                                return  (value) + 'đ';
+                                return value + 'đ';
                             }
                         }
                     }
@@ -787,7 +757,20 @@ document.addEventListener("DOMContentLoaded", async function () {
     // 1) LOAD BUDGETS FIRST
     await loadBudgets();
 
-    // 2) FIX MODAL EVENT LISTENERS
+    // ✅ 2) FORCE APPLY STYLES TO FORM ELEMENTS
+    const applyFormStyles = () => {
+        const formElements = document.querySelectorAll('.form-control, .form-select, input[type="date"]');
+        formElements.forEach(el => {
+            el.style.setProperty('color', 'var(--text)', 'important');
+            el.style.setProperty('background-color', 'var(--card-bg-color)', 'important');
+            el.style.setProperty('border-color', 'rgba(255, 255, 255, 0.3)', 'important');
+        });
+    };
+
+    // Apply on load
+    applyFormStyles();
+
+    // 3) FIX MODAL EVENT LISTENERS
     const modalElement = document.getElementById("addBudgetModal");
     if (modalElement) {
         modalElement.addEventListener('show.bs.modal', function () {
@@ -812,9 +795,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.body.style.overflow = '';
             document.body.style.paddingRight = '';
         });
+
+        // ✅ Apply styles when modal opens
+        modalElement.addEventListener('shown.bs.modal', applyFormStyles);
     }
 
-    // 3) CATEGORY PICKER WITH COLOR SUPPORT
+    // 4) CATEGORY PICKER WITH COLOR SUPPORT
     const categoryToggle = document.getElementById("categoryPickerToggle");
     const categoryList = document.getElementById("categoryPickerList");
     const categoryContainer = document.getElementById("categoryPickerContainer");
@@ -831,7 +817,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 (c.type || "").toLowerCase().startsWith("exp")
             );
 
-            // ✅ Render categories with color support
             categoryContainer.innerHTML = expenseCategories.map(cat => {
                 const iconClass = (cat.icon && cat.icon.iconClass) ? cat.icon.iconClass : "fi fi-rr-ellipsis";
                 const name = cat.categoryName || "Category";
@@ -860,7 +845,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
         }
 
-        // ✅ Category selection with color display
         categoryContainer.addEventListener("click", (e) => {
             const item = e.target.closest(".category-option");
             if (!item) return;
@@ -881,7 +865,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    // 4) QUICK RANGE BUTTONS
+    // 5) QUICK RANGE BUTTONS
     const rangeBtns = document.querySelectorAll(".range-btn");
     const startDateInput = document.getElementById("budgetStartDateInput");
     const endDateInput = document.getElementById("budgetEndDateInput");
@@ -905,7 +889,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    // 5) SUBMIT ADD/EDIT BUDGET FORM
+    // 6) SUBMIT ADD/EDIT BUDGET FORM
     const form = document.getElementById("addBudgetForm");
     if (form) {
         form.addEventListener("submit", async (e) => {
@@ -936,7 +920,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 submitBtn.innerText = "Đang xử lý...";
             }
 
-            // ✅ Kiểm tra edit mode
             const editId = form.dataset.editId;
             const isEditMode = !!editId;
 
@@ -949,12 +932,11 @@ document.addEventListener("DOMContentLoaded", async function () {
                 isRecurring: isRecurring
             };
 
-            budgetData.UserID = String(userId); // dùng PascalCase và ép kiểu về string
+            budgetData.UserID = String(userId);
 
             if (isEditMode) {
                 budgetData.BudgetID = parseInt(editId, 10);
             }
-
 
             try {
                 const url = isEditMode ? `/api/BudgetApi/${editId}` : "/api/BudgetApi";
@@ -990,7 +972,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                     timerProgressBar: true
                 });
 
-                // Đóng modal và reset
                 const modalElement = document.getElementById("addBudgetModal");
                 if (modalElement) {
                     if (document.activeElement) {
@@ -1013,15 +994,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                         document.body.style.overflow = '';
                         document.body.style.paddingRight = '';
 
-                        // Reset form
                         form.reset();
                         delete form.dataset.editId;
 
-                        // Reset modal title
                         const modalTitle = document.querySelector("#addBudgetModal .modal-title");
                         if (modalTitle) modalTitle.textContent = "Thêm Ngân Sách Mới";
 
-                        // Reset category preview
                         if (categoryPreview) {
                             categoryPreview.innerHTML = "Chọn categories...";
                             categoryPreview.classList.add("text-muted");

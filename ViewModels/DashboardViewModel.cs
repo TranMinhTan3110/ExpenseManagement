@@ -17,6 +17,7 @@
         public List<IncomeVsExpenseItem> IncomeVsExpenses { get; set; } = new();
         public List<SavingGoalItem> SavingGoals { get; set; } = new ();
 
+        public List<BudgetItem> Budgets { get; set; } = new();
 
         // ✅ Tính % thay đổi (CHỈ NẾU KHÔNG PHẢI USER MỚI)
         public double BalanceChangePercent => IsNewUser ? 0 : CalculateChangePercent(TotalBalance, LastMonthBalance);
@@ -80,5 +81,15 @@
         public decimal TargetAmount { get; set; }
         public decimal CurrentAmount { get; set; }
         public int ProgressPercentage { get; set; }
+    }
+    public class BudgetItem
+    {
+        public int BudgetID { get; set; }
+        public string CategoryName { get; set; } = string.Empty;
+        public string CategoryIcon { get; set; } = string.Empty;
+        public string CategoryColor { get; set; } = string.Empty;
+        public decimal BudgetAmount { get; set; }
+        public decimal SpentAmount { get; set; }
+        public int Percentage { get; set; }
     }
 }

@@ -244,6 +244,49 @@ namespace QuanLyChiTieu_WebApp.Services
                 })
                 .ToListAsync();
 
+            //10. BUDGETS (Lấy tất cả budget của user)
+             now = DateTime.Now;
+            var budgets = await _context.Budgets
+                .AsNoTracking()
+                .Where(b => b.UserID == userId &&
+                            b.StartDate <= now &&
+                            b.EndDate >= now) // Chỉ lấy budget đang active
+                .Include(b => b.Category)
+                    .ThenInclude(c => c.Icon)
+                .Include(b => b.Category.Color)
+                .ToListAsync();
+
+            var budgetItems = new List<BudgetItem>();
+
+            foreach (var budget in budgets)
+            {
+                // Tính tổng chi tiêu của category này trong khoảng thời gian budget
+                var spentAmount = await _context.Transactions
+                    .AsNoTracking()
+                    .Where(t => walletIds.Contains(t.WalletID) &&
+                                t.CategoryID == budget.CategoryID &&
+                                t.Type == "Expense" &&
+                                t.TransactionDate >= budget.StartDate &&
+                                t.TransactionDate <= budget.EndDate)
+                    .SumAsync(t => (decimal?)t.Amount) ?? 0;
+
+                var percentage = budget.BudgetAmount > 0
+                    ? (int)Math.Round((spentAmount / budget.BudgetAmount) * 100)
+                    : 0;
+
+                budgetItems.Add(new BudgetItem
+                {
+                    BudgetID = budget.BudgetID,
+                    CategoryName = budget.Category?.CategoryName ?? "Khác",
+                    CategoryIcon = budget.Category?.Icon?.IconClass ?? "fa-solid fa-circle-question",
+                    CategoryColor = budget.Category?.Color?.HexCode ?? "#999",
+                    BudgetAmount = budget.BudgetAmount,
+                    SpentAmount = spentAmount,
+                    Percentage = percentage
+                });
+            }
+
+            
             return new DashboardViewModel
             {
                 TotalBalance = totalBalance,
@@ -257,8 +300,26 @@ namespace QuanLyChiTieu_WebApp.Services
                 RecentTransactions = recentTransactions,
                 BalanceTrends = balanceTrends,
                 IncomeVsExpenses = incomeVsExpenses,
-                SavingGoals = savingGoals  // ✅ THÊM MỚI
+                SavingGoals = savingGoals,
+                Budgets = budgetItems  
             };
+
+            //return new DashboardViewModel
+            //{
+            //    TotalBalance = totalBalance,
+            //    MonthlyIncome = monthlyIncome,
+            //    MonthlyExpenses = monthlyExpenses,
+            //    LastMonthBalance = lastMonthBalance,
+            //    LastMonthIncome = lastMonthIncome,
+            //    LastMonthExpenses = lastMonthExpenses,
+            //    IsNewUser = isNewUser,
+            //    ExpenseBreakdown = expenseBreakdown,
+            //    RecentTransactions = recentTransactions,
+            //    BalanceTrends = balanceTrends,
+            //    IncomeVsExpenses = incomeVsExpenses,
+            //    SavingGoals = savingGoals,
+                
+            //};
         }
     }
 }
