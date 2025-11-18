@@ -2,17 +2,59 @@
 using QuanLyChiTieu_WebApp.Models.EF;
 using QuanLyChiTieu_WebApp.Models.Entities;
 using QuanLyChiTieu_WebApp.Services.Admin;
-//using QuanLyChiTieu_WebApp.Services.Interface;
+using QuanLyChiTieu_WebApp.ViewModels;
 
 namespace QuanLyChiTieu_WebApp.Services
 {
     public class UserADService : IUserADService
     {
-        private readonly ApplicationDbContext _context; // Thay tên DbContext cho đúng
+        private readonly ApplicationDbContext _context;
 
         public UserADService(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        // Lấy danh sách user với phân trang và tìm kiếm
+        public async Task<PaginatedList<User>> GetUsersAsync(
+            int pageIndex = 1,
+            int pageSize = 10,
+            string searchTerm = null,
+            string roleFilter = null,
+            string statusFilter = null)
+        {
+            var query = _context.Users.AsQueryable();
+
+            // Tìm kiếm
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                searchTerm = searchTerm.ToLower();
+                query = query.Where(u =>
+                    u.FullName.ToLower().Contains(searchTerm) ||
+                    u.Email.ToLower().Contains(searchTerm) ||
+                    u.UserID.ToLower().Contains(searchTerm)
+                );
+            }
+
+            // Lọc theo Role
+            if (!string.IsNullOrWhiteSpace(roleFilter) && roleFilter != "All")
+            {
+                query = query.Where(u => u.Role == roleFilter);
+            }
+
+            // Lọc theo Status
+            if (!string.IsNullOrWhiteSpace(statusFilter))
+            {
+                if (statusFilter == "Active")
+                    query = query.Where(u => u.IsActive);
+                else if (statusFilter == "Blocked")
+                    query = query.Where(u => !u.IsActive);
+            }
+
+            // Sắp xếp
+            query = query.OrderByDescending(u => u.CreatedAt);
+
+            return await PaginatedList<User>.CreateAsync(query, pageIndex, pageSize);
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
@@ -50,6 +92,25 @@ namespace QuanLyChiTieu_WebApp.Services
             try
             {
                 _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // FIX: Update LastLogin khi user đăng nhập
+        public async Task<bool> UpdateLastLoginAsync(string userId)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(userId);
+                if (user == null)
+                    return false;
+
+                user.LastLogin = DateTime.Now;
                 await _context.SaveChangesAsync();
                 return true;
             }

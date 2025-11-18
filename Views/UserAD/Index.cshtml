@@ -12,16 +12,39 @@
         <div class="col-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                         <div>
                             <h5 class="mb-1">User Management</h5>
                             <p class="text-muted mb-0">Manage all system users and their accounts</p>
                         </div>
-                        <div class="d-flex gap-2">
-                            <input type="text" class="form-control" placeholder="Search users..." id="searchInput" style="width: 250px;">
-                            <button class="btn btn-primary">
-                                <i class="bi bi-plus-circle me-2"></i>Add User
-                            </button>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <!-- Search -->
+                            <form method="get" asp-action="Index" class="d-flex gap-2">
+                                <input type="text" class="form-control" placeholder="Search users..."
+                                       name="searchTerm" value="@Model.SearchTerm" style="width: 200px;">
+
+                                <!-- Role Filter -->
+                                <select class="form-select" name="roleFilter" style="width: 120px;">
+                                    <option value="">All Roles</option>
+                                    <option value="Admin" selected="@(Model.RoleFilter == "Admin")">Admin</option>
+                                    <option value="User" selected="@(Model.RoleFilter == "User")">User</option>
+                                </select>
+
+                                <!-- Status Filter -->
+                                <select class="form-select" name="statusFilter" style="width: 120px;">
+                                    <option value="">All Status</option>
+                                    <option value="Active" selected="@(Model.StatusFilter == "Active")">Active</option>
+                                    <option value="Blocked" selected="@(Model.StatusFilter == "Blocked")">Blocked</option>
+                                </select>
+
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-search"></i>
+                                </button>
+
+                                <a asp-action="Index" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </a>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -76,7 +99,7 @@
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h6 class="text-muted mb-1">Blocked Users</h6>
-                         <h3 class="mb-0">@Model.BlockedUsers</h3>
+                            <h3 class="mb-0">@Model.BlockedUsers</h3>
                         </div>
                     </div>
                 </div>
@@ -106,8 +129,20 @@
         <div class="col-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
+                    <!-- Hiển thị thông tin phân trang -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="text-muted">
+                            Showing @((Model.Users.PageIndex - 1) * Model.Users.PageSize + 1)
+                            to @(Math.Min(Model.Users.PageIndex * Model.Users.PageSize, Model.Users.TotalCount))
+                            of @Model.Users.TotalCount users
+                        </div>
+                        <div class="text-muted">
+                            Page @Model.Users.PageIndex of @Model.Users.TotalPages
+                        </div>
+                    </div>
+
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle" id="usersTable">
+                        <table class="table table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
                                     <th style="width: 5%;">#</th>
@@ -122,9 +157,9 @@
                             </thead>
                             <tbody>
                                 @{
-                                    int index = 1;
+                                    int index = (Model.Users.PageIndex - 1) * Model.Users.PageSize + 1;
                                 }
-                                @foreach (var user in Model.Users)
+                                @foreach (var user in Model.Users.Items)
                                 {
                                     <tr>
                                         <td>@index</td>
@@ -132,11 +167,13 @@
                                             <div class="d-flex align-items-center">
                                                 @if (!string.IsNullOrEmpty(user.AvatarUrl))
                                                 {
-                                                    <img src="@user.AvatarUrl" alt="Avatar" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                    <img src="@user.AvatarUrl" alt="Avatar" class="rounded-circle me-2"
+                                                         style="width: 40px; height: 40px; object-fit: cover;">
                                                 }
                                                 else
                                                 {
-                                                    <div class="rounded-circle bg-secondary bg-opacity-25 d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
+                                                    <div class="rounded-circle bg-secondary bg-opacity-25 d-flex align-items-center justify-content-center me-2"
+                                                         style="width: 40px; height: 40px;">
                                                         <i class="bi bi-person-fill text-secondary"></i>
                                                     </div>
                                                 }
@@ -198,16 +235,6 @@
                                                     <i class="bi bi-three-dots-vertical"></i>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a class="dropdown-item" href="@Url.Action("Details", "UserAD", new { id = user.UserID })">
-                                                            <i class="bi bi-eye me-2"></i>View Details
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item" href="@Url.Action("Edit", "UserAD", new { id = user.UserID })">
-                                                            <i class="bi bi-pencil me-2"></i>Edit
-                                                        </a>
-                                                    </li>
                                                     <li><hr class="dropdown-divider"></li>
                                                     @if (user.IsActive)
                                                     {
@@ -234,6 +261,96 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Pagination Controls -->
+                    @if (Model.Users.TotalPages > 1)
+                    {
+                        <nav aria-label="User pagination" class="mt-4">
+                            <ul class="pagination pagination-sm justify-content-center mb-0">
+                                <!-- Previous Button -->
+                                <li class="page-item @(Model.Users.HasPreviousPage ? "" : "disabled")">
+                                    <a class="page-link"
+                                       asp-action="Index"
+                                       asp-route-pageIndex="@(Model.Users.PageIndex - 1)"
+                                       asp-route-searchTerm="@Model.SearchTerm"
+                                       asp-route-roleFilter="@Model.RoleFilter"
+                                       asp-route-statusFilter="@Model.StatusFilter">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </a>
+                                </li>
+
+                                @{
+                                    int startPage = Math.Max(1, Model.Users.PageIndex - 2);
+                                    int endPage = Math.Min(Model.Users.TotalPages, Model.Users.PageIndex + 2);
+                                }
+
+                                <!-- First Page -->
+                                @if (startPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           asp-action="Index"
+                                           asp-route-pageIndex="1"
+                                           asp-route-searchTerm="@Model.SearchTerm"
+                                           asp-route-roleFilter="@Model.RoleFilter"
+                                           asp-route-statusFilter="@Model.StatusFilter">
+                                            1
+                                        </a>
+                                    </li>
+                                    @if (startPage > 2)
+                                    {
+                                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                                    }
+                                }
+
+                                <!-- Page Numbers -->
+                                @for (int i = startPage; i <= endPage; i++)
+                                {
+                                    <li class="page-item @(i == Model.Users.PageIndex ? "active" : "")">
+                                        <a class="page-link"
+                                           asp-action="Index"
+                                           asp-route-pageIndex="@i"
+                                           asp-route-searchTerm="@Model.SearchTerm"
+                                           asp-route-roleFilter="@Model.RoleFilter"
+                                           asp-route-statusFilter="@Model.StatusFilter">
+                                            @i
+                                        </a>
+                                    </li>
+                                }
+
+                                <!-- Last Page -->
+                                @if (endPage < Model.Users.TotalPages)
+                                {
+                                    @if (endPage < Model.Users.TotalPages - 1)
+                                    {
+                                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                                    }
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           asp-action="Index"
+                                           asp-route-pageIndex="@Model.Users.TotalPages"
+                                           asp-route-searchTerm="@Model.SearchTerm"
+                                           asp-route-roleFilter="@Model.RoleFilter"
+                                           asp-route-statusFilter="@Model.StatusFilter">
+                                            @Model.Users.TotalPages
+                                        </a>
+                                    </li>
+                                }
+
+                                <!-- Next Button -->
+                                <li class="page-item @(Model.Users.HasNextPage ? "" : "disabled")">
+                                    <a class="page-link"
+                                       asp-action="Index"
+                                       asp-route-pageIndex="@(Model.Users.PageIndex + 1)"
+                                       asp-route-searchTerm="@Model.SearchTerm"
+                                       asp-route-roleFilter="@Model.RoleFilter"
+                                       asp-route-statusFilter="@Model.StatusFilter">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    }
                 </div>
             </div>
         </div>
@@ -261,32 +378,27 @@
     .dropdown-menu {
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     }
+
+    .pagination .page-link {
+        color: #2563eb;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #2563eb;
+        border-color: #2563eb;
+    }
 </style>
 
-<!-- JavaScript for Search and Toggle Status -->
+<!-- JavaScript for Toggle Status -->
 <script>
-    // Search functionality
-    document.getElementById('searchInput').addEventListener('keyup', function() {
-        const searchValue = this.value.toLowerCase();
-        const tableRows = document.querySelectorAll('#usersTable tbody tr');
-
-        tableRows.forEach(row => {
-            const text = row.textContent.toLowerCase();
-            row.style.display = text.includes(searchValue) ? '' : 'none';
-        });
-    });
-
-    // Toggle user status (block/unblock)
     function toggleUserStatus(userId, activate) {
         const action = activate ? 'unblock' : 'block';
 
         if (confirm(`Are you sure you want to ${action} this user?`)) {
-            // AJAX call to update user status
             fetch(`/UserAD/ToggleStatus/${userId}`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ isActive: activate })
             })
@@ -305,6 +417,7 @@
         }
     }
 </script>
+
 @section Scripts {
     <script>
         // Khởi tạo tất cả dropdowns
@@ -313,7 +426,6 @@
             var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
                 return new bootstrap.Dropdown(dropdownToggleEl);
             });
-            console.log('Dropdowns initialized:', dropdownList.length);
         });
     </script>
 }

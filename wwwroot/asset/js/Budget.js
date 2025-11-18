@@ -127,7 +127,7 @@ function showBudgetWarning(budgetId, percentage, categoryName, spentAmount, budg
     sessionStorage.setItem('budgetNotificationState', JSON.stringify(budgetNotificationState));
 
     let title, text, icon, color;
-
+    
     if (percentage >= 100) {
         title = '⚠️ Vượt Ngân Sách!';
         text = `Ngân sách "${categoryName}" đã vượt mức!\nĐã chi: ${spentAmount.toLocaleString('vi-VN')}đ\nNgân sách: ${budgetAmount.toLocaleString('vi-VN')}đ\nVượt: ${(spentAmount - budgetAmount).toLocaleString('vi-VN')}đ`;
@@ -743,7 +743,9 @@ function renderBudgetTabs(budgets) {
             const day = String(date.getDate()).padStart(2, '0');
             return `${year}-${month}-${day}`;
         };
-
+        if (percentage >= 100) {
+            budget.remainingAmount = 0;
+        }
         const tabPane = `
             <div class="tab-pane ${index === 0 ? 'show active' : ''}" id="budget-${budget.budgetID}">
                 <div class="budgets-tab-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -820,7 +822,7 @@ function renderBudgetTabs(budgets) {
                                 <h4 class="card-title mb-0">Phân Tích Chi Tiêu</h4>
                                 
                                 <div class="d-flex gap-2 flex-wrap mt-2 mt-md-0 form-contain">
-                                    <select id="groupBy${budget.budgetID}" class="form-select form-select-sm" style="width: auto;" onchange="updateChartFilters(${budget.budgetID})">
+                                    <select id="groupBy${budget.budgetID}" class="form-select form-select-sm" style="width: auto; gap: 8px;" onchange="updateChartFilters(${budget.budgetID})">
                                         <option value="day">Theo Ngày</option>
                                         <option value="week">Theo Tuần</option>
                                         <option value="month">Theo Tháng</option>

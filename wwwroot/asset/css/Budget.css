@@ -1,9 +1,19 @@
 ﻿:root {
     --progress-bg-color: #e5e7eb;
+    /* Định nghĩa thêm biến --text nếu Main.css không load kịp */
+    --text: #6c757d;
+    --text-color: #212529;
+    --text-title: #1f2c73;
+    --card-bg-color: #FFFFFF;
+    --border-color: #dee2e6;
 }
 
 .dark-mode {
     --progress-bg-color: #1E293B;
+    --text: #ffffffd8;
+    --text-color: #fff;
+    --text-title: #ffffffd8;
+    --card-bg-color: rgb(17, 24, 39);
 }
 
 
@@ -19,7 +29,7 @@ body {
     color: var(--text-color);
 }
 
-h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p,option,select,input {
+h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p, option, select, input {
     margin-top: 0;
     margin-bottom: 0.5rem;
     line-height: 1.6;
@@ -80,9 +90,11 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p,option,select,input {
     align-items: center;
     width: 100%;
 }
-    .page-title-content p{
-        color:var(--text);
+
+    .page-title-content p {
+        color: var(--text);
     }
+
     .page-title-content .left {
         display: flex;
         flex-direction: column;
@@ -94,7 +106,7 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .p,option,select,input {
 
     .breadcrumbs a {
         text-decoration: none;
-        color:var(--text);
+        color: var(--text);
     }
 
     .breadcrumbs span {
@@ -157,7 +169,7 @@ a {
         border: 2px solid var(--nav-color, #2f2cd8);
         box-shadow: 0 0 12px rgba(47, 44, 216, 0.3);
         transform: scale(1.03);
-        z-index: 2; 
+        z-index: 2;
     }
 
 
@@ -191,15 +203,15 @@ a {
         background: var(--sidebar-text);
     }
 
-    .budgets-nav .budgets-nav-icon span {
-        font-size: 24px;
-        color: var(--primary-color);
-    }
+.budgets-nav .budgets-nav-icon span {
+    font-size: 24px;
+    color: var(--primary-color);
+}
 
-    .budgets-nav.active .budgets-nav-icon span,
-    .budgets-nav:hover .budgets-nav-icon span {
-        color: var(--card-bg-color);
-    }
+.budgets-nav.active .budgets-nav-icon span,
+.budgets-nav:hover .budgets-nav-icon span {
+    color: var(--card-bg-color);
+}
 
 .row > * {
     -ms-flex-negative: 0;
@@ -630,7 +642,7 @@ div {
     font-size: 17px;
     margin-bottom: 4px;
     font-weight: 600;
-    color: var((--sidebar-text);
+    color: var(--sidebar-text); /* <-- Đã sửa lỗi cú pháp 'var((' */
 }
 
 .budgets-nav .budgets-nav-text p {
@@ -672,7 +684,7 @@ div {
 }
 
 .card-header {
-    background-color: #f8f9fa;
+/*    background-color: #f8f9fa;*/
     border-bottom: 1px solid #e9ecef;
     padding: 15px 20px;
 }
@@ -680,6 +692,7 @@ div {
 .card-body {
     padding: 20px;
 }
+
 select.form-select-sm {
     color: var(--text) !important;
 }
@@ -709,8 +722,9 @@ select.form-select-sm {
         margin-bottom: 5px;
     }
 }
-.form-select{
-    color:var(--text) !important;
+
+.form-select {
+    color: var(--text) !important;
 }
 /* Chart Container */
 canvas {
@@ -719,10 +733,10 @@ canvas {
 
 /* Budget Widget */
 .budget-widget {
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 8px;
     text-align: center;
+    padding: 15px; /* Giữ padding để nó không bị dính */
+    background: #f8f9fa; /* Sẽ bị ghi đè bên dưới */
+    border-radius: 8px;
 }
 
     .budget-widget p {
@@ -761,8 +775,8 @@ canvas {
 .form-control, .form-select, .form-select-sm, .form-control-sm {
     color: var(--text) !important;
     background-color: var(--card-bg-color) !important;
-/*    border-color: rgba(255, 255, 255, 0.3) !important;*/
 }
+
 /* Override Bootstrap form controls for dark mode */
 .form-control,
 .form-select,
@@ -773,7 +787,7 @@ input[type="text"],
 select {
     color: var(--text) !important;
     background-color: var(--card-bg-color) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+/*    border: 1px solid rgba(255, 255, 255, 0.3) !important;*/
 }
 
     .form-control:focus,
@@ -798,3 +812,85 @@ select {
     color: var(--text) !important;
     border-color: rgba(255, 255, 255, 0.3) !important;
 }
+
+/* ================================================= */
+/* === KHỐI SỬA LỖI LAYOUT VÀ MÀU SẮC CUỐI CÙNG === */
+/* ================================================= */
+
+/* 1. FIX LỖI LAYOUT (4 ô bị xếp chồng dọc) */
+/* Selector này chỉ nhắm vào các cột 3/12 bên trong khối 9/12 nội dung chính */
+@media (min-width: 1200px) {
+    .col-xl-9 .col-xl-3 {
+        display: block !important; /* Trả lại display: block để không bị ảnh hưởng bởi style flex-column của sidebar */
+        flex: 0 0 25% !important; /* Ép cứng chiều rộng 25% */
+        max-width: 25% !important;
+    }
+}
+
+/* 2. FIX LỖI MÀU (4 ô widget bị nền trắng và chữ chìm) */
+.budget-widget {
+    background-color: transparent !important; /* Xóa nền trắng cứng đầu */
+    border: 1px solid var(--border-color); /* Thêm viền để định hình khối */
+    border-radius: 12px;
+}
+
+/* Dark Mode: Tinh chỉnh cho widget */
+.dark-mode .budget-widget {
+    background-color: rgba(255, 255, 255, 0.03) !important; /* Nền tối nhẹ trong suốt */
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+    /* Đảm bảo chữ tiêu đề trong widget hiển thị màu sáng */
+    .dark-mode .budget-widget h3 {
+        color: var(--text-title) !important;
+    }
+
+/* 3. FIX CHO INPUT/SELECT BỊ DISABLED TRONG DARK MODE */
+.dark-mode .form-control:disabled,
+.dark-mode .form-select:disabled,
+.dark-mode input:disabled,
+.dark-mode select:disabled {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: var(--text-color) !important;
+    -webkit-text-fill-color: var(--text-color) !important; /* Fix Safari/Chrome */
+    opacity: 1 !important; /* Chống mờ */
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Responsive: Trên mobile/tablet thì xếp thành 2 cột */
+@media (max-width: 768px) {
+    .col-xl-9 .col-xl-3 {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        margin-bottom: 15px;
+        padding: 0 5px; /* Giảm padding để fit hơn */
+    }
+}
+
+
+
+select.form-select-sm {
+    padding-right: 2rem; /* tạo khoảng trống bên phải */
+    background-position: right 0.75rem center; /* canh icon */
+    background-repeat: no-repeat;
+    background-size: 16px;
+   
+}
+.align-self-center{
+    margin-bottom:10px;
+}
+select.form-select-sm {
+    color: var(--text) !important;
+    background-color: var(--card-bg-color) !important;
+    border-color: var(--border-color) !important;
+    /* chỉnh icon mũi tên */
+    padding-right: 2rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%236c757d' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5.5l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+

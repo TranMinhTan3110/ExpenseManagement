@@ -413,8 +413,12 @@
 .category-name {
     color: var(--text-color) !important;
 }
-
-
+#balanceTrendChart {
+    
+}
+.form-select-sm {
+    color: var(--text);
+}
 /* Thêm màu nền nhạt (ví dụ) */
 .bg-primary-light {
     background-color: rgba(13, 110, 253, 0.1);
