@@ -1,0 +1,473 @@
+﻿@using System.Security.Claims
+@{
+    ViewData["Title"] = "Category";
+    ViewData["Subtitle"] = $"Welcome back, {User.FindFirstValue(ClaimTypes.Name)}!";
+    ViewData["Icon"] = "fi fi-rr-settings";
+    Layout = "~/Views/Shared/LayoutAdmin.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        .content-body {
+            padding-top: 0 !important;
+        }
+
+        .page-title-content h3 {
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 20px;
+        }
+
+            .nav-tabs .nav-link {
+                border: none;
+                color: #6b7280;
+                padding: 12px 24px;
+                font-weight: 500;
+                border-bottom: 2px solid transparent;
+                margin-bottom: -2px;
+            }
+
+                .nav-tabs .nav-link.active {
+                    color: #2563eb;
+                    border-bottom: 2px solid #2563eb;
+                }
+
+        .icon-grid, .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .icon-item, .color-item {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+            .icon-item:hover, .color-item:hover {
+                border-color: #2563eb;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+            }
+
+            .icon-item i {
+                font-size: 32px;
+                display: block;
+                margin-bottom: 8px;
+            }
+
+            .icon-item .icon-name {
+                font-size: 12px;
+                color: #6b7280;
+                word-break: break-word;
+            }
+
+        .color-item {
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .color-swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 6px;
+        }
+
+        .color-name {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+            font-size: 12px;
+        }
+
+        .icon-item:hover .delete-btn,
+        .color-item:hover .delete-btn {
+            opacity: 1;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+
+        .add-btn {
+            height:auto;
+            border: 2px dashed #d1d5db;
+            background: #f9fafb;
+            color: #6b7280;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .add-btn:hover {
+                border-color: #2563eb;
+                color: #2563eb;
+                background: #eff6ff;
+            }
+
+            .add-btn i {
+                font-size: 32px;
+                margin-bottom: 8px;
+            }
+    </style>
+}
+
+<div class="content-body">
+    <div class="container">
+        <div class="page-title-content mb-4">
+            <h3><i class="fi fi-rr-settings"></i> Category Management</h3>
+            <p class="mb-0 text-muted">Quản lý Icons và Colors cho toàn hệ thống</p>
+        </div>
+
+        <!-- Tabs -->
+        <ul class="nav nav-tabs" id="categoryTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="icons-tab" data-bs-toggle="tab" data-bs-target="#icons"
+                        type="button" role="tab">
+                    <i class="fi fi-rr-picture me-2"></i>Icons
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="colors-tab" data-bs-toggle="tab" data-bs-target="#colors"
+                        type="button" role="tab">
+                    <i class="fi fi-rr-palette me-2"></i>Colors
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="categoryTabContent">
+            <!-- Icons Tab -->
+            <div class="tab-pane fade show active" id="icons" role="tabpanel">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">Danh sách Icons</h4>
+                        <span class="badge bg-primary" id="icon-count">0 icons</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="icon-grid" id="icon-grid">
+                            <!-- Add Icon Button -->
+                            <div class="icon-item add-btn" id="add-icon-btn">
+                                <i class="fi fi-rr-plus"></i>
+                                <span style="font-size: 12px;">Thêm Icon</span>
+                            </div>
+                            <!-- Icons will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colors Tab -->
+            <div class="tab-pane fade" id="colors" role="tabpanel">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">Danh sách Colors</h4>
+                        <span class="badge bg-primary" id="color-count">0 colors</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="color-grid" id="color-grid">
+                            <!-- Add Color Button -->
+                            <div class="color-item add-btn" id="add-color-btn">
+                                <i class="fi fi-rr-plus"></i>
+                                <span style="font-size: 12px;">Thêm Color</span>
+                            </div>
+                            <!-- Colors will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const iconGrid = document.getElementById('icon-grid');
+            const colorGrid = document.getElementById('color-grid');
+            const iconCount = document.getElementById('icon-count');
+            const colorCount = document.getElementById('color-count');
+            const addIconBtn = document.getElementById('add-icon-btn');
+            const addColorBtn = document.getElementById('add-color-btn');
+
+            // Load Icons
+            async function loadIcons() {
+                try {
+                    const response = await fetch('/api/admin/icons');
+                    if (!response.ok) throw new Error('Failed to load icons');
+
+                    const icons = await response.json();
+
+                    // Clear grid except add button
+                    iconGrid.innerHTML = '';
+                    iconGrid.appendChild(addIconBtn);
+
+                    icons.forEach(icon => {
+                        const iconDiv = document.createElement('div');
+                        iconDiv.className = 'icon-item';
+                        iconDiv.innerHTML = `
+                            <button class="delete-btn" data-id="${icon.iconID}" data-type="icon">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                            <i class="${icon.iconClass}"></i>
+                            <div class="icon-name">${icon.iconName}</div>
+                        `;
+                        iconGrid.appendChild(iconDiv);
+                    });
+
+                    iconCount.textContent = `${icons.length} icons`;
+                } catch (error) {
+                    console.error('Error loading icons:', error);
+                    Swal.fire('Lỗi!', 'Không thể tải danh sách icons', 'error');
+                }
+            }
+
+            // Load Colors
+            async function loadColors() {
+                try {
+                    const response = await fetch('/api/admin/colors');
+                    if (!response.ok) throw new Error('Failed to load colors');
+
+                    const colors = await response.json();
+
+                    // Clear grid except add button
+                    colorGrid.innerHTML = '';
+                    colorGrid.appendChild(addColorBtn);
+
+                    colors.forEach(color => {
+                        const colorDiv = document.createElement('div');
+                        colorDiv.className = 'color-item';
+                        colorDiv.innerHTML = `
+                            <button class="delete-btn" data-id="${color.colorID}" data-type="color">
+                                <i class="fi fi-rr-trash"></i>
+                            </button>
+                            <div class="color-swatch" style="background-color: ${color.hexCode}"></div>
+                            <div class="color-name">${color.colorName}</div>
+                        `;
+                        colorGrid.appendChild(colorDiv);
+                    });
+
+                    colorCount.textContent = `${colors.length} colors`;
+                } catch (error) {
+                    console.error('Error loading colors:', error);
+                    Swal.fire('Lỗi!', 'Không thể tải danh sách colors', 'error');
+                }
+            }
+
+            // Add Icon
+            addIconBtn.addEventListener('click', async function() {
+                const { value: formValues } = await Swal.fire({
+                    title: 'Thêm Icon Mới',
+                    html:
+                        '<input id="icon-name" class="swal2-input" placeholder="Tên icon (VD: Ăn uống)">' +
+                        '<input id="icon-class" class="swal2-input" placeholder="Icon class (VD: fa-solid fa-utensils)">',
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    confirmButtonText: 'Thêm',
+                    cancelButtonText: 'Hủy',
+                    preConfirm: () => {
+                        return {
+                            iconName: document.getElementById('icon-name').value,
+                            iconClass: document.getElementById('icon-class').value
+                        }
+                    }
+                });
+
+                if (formValues) {
+                    if (!formValues.iconName || !formValues.iconClass) {
+                        Swal.fire('Lỗi!', 'Vui lòng điền đầy đủ thông tin', 'error');
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('/api/admin/icons', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(formValues)
+                        });
+
+                        if (response.ok) {
+                            Swal.fire('Thành công!', 'Icon đã được thêm', 'success');
+                            loadIcons();
+                        } else {
+                            const error = await response.json();
+                            Swal.fire('Lỗi!', error.message || 'Không thể thêm icon', 'error');
+                        }
+                    } catch (error) {
+                        Swal.fire('Lỗi!', 'Không thể kết nối đến server', 'error');
+                    }
+                }
+            });
+
+            // Add Color
+            addColorBtn.addEventListener('click', async function() {
+                const { value: formValues } = await Swal.fire({
+                    title: 'Thêm Color Mới',
+                    html: `
+                        <div style="text-align: left;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #374151;">Tên màu</label>
+                            <input id="color-name" class="swal2-input" placeholder="VD: Red, Blue, Green..." style="margin-top: 0;">
+
+                            <label style="display: block; margin-top: 16px; margin-bottom: 8px; font-weight: 500; color: #374151;">Chọn màu</label>
+                            <div style="display: flex; gap: 12px; align-items: center;">
+                                <input id="color-hex" type="color" value="#3b82f6"
+                                    style="width: 80px; height: 50px; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer;">
+                                <input id="color-hex-text" class="swal2-input" placeholder="#000000"
+                                    style="flex: 1; margin: 0; text-transform: uppercase;" maxlength="7">
+                            </div>
+                        </div>
+                    `,
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    confirmButtonText: 'Thêm',
+                    cancelButtonText: 'Hủy',
+                    didOpen: () => {
+                        const colorPicker = document.getElementById('color-hex');
+                        const colorText = document.getElementById('color-hex-text');
+
+                        // Sync color picker with text input
+                        colorPicker.addEventListener('input', (e) => {
+                            colorText.value = e.target.value.toUpperCase();
+                        });
+
+                        // Sync text input with color picker
+                        colorText.addEventListener('input', (e) => {
+                            const value = e.target.value;
+                            if (/^#[0-9A-F]{6}$/i.test(value)) {
+                                colorPicker.value = value;
+                            }
+                        });
+
+                        // Initialize text input
+                        colorText.value = colorPicker.value.toUpperCase();
+                    },
+                    preConfirm: () => {
+                        const colorName = document.getElementById('color-name').value;
+                        const hexCode = document.getElementById('color-hex').value;
+
+                        if (!colorName) {
+                            Swal.showValidationMessage('Vui lòng nhập tên màu');
+                            return false;
+                        }
+
+                        return {
+                            colorName: colorName,
+                            hexCode: hexCode
+                        }
+                    }
+                });
+
+                if (formValues) {
+                    if (!formValues.colorName || !formValues.hexCode) {
+                        Swal.fire('Lỗi!', 'Vui lòng điền đầy đủ thông tin', 'error');
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('/api/admin/colors', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(formValues)
+                        });
+
+                        if (response.ok) {
+                            Swal.fire('Thành công!', 'Màu đã được thêm', 'success');
+                            loadColors();
+                        } else {
+                            const error = await response.json();
+                            Swal.fire('Lỗi!', error.message || 'Không thể thêm màu', 'error');
+                        }
+                    } catch (error) {
+                        Swal.fire('Lỗi!', 'Không thể kết nối đến server', 'error');
+                    }
+                }
+            });
+
+            // Delete Icon/Color
+            document.addEventListener('click', async function(e) {
+                const deleteBtn = e.target.closest('.delete-btn');
+                if (!deleteBtn) return;
+
+                const id = deleteBtn.dataset.id;
+                const type = deleteBtn.dataset.type;
+
+                const result = await Swal.fire({
+                    title: 'Bạn có chắc không?',
+                    text: `Xóa ${type === 'icon' ? 'icon' : 'màu'} này sẽ không thể hoàn tác!`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy'
+                });
+
+                if (result.isConfirmed) {
+                    try {
+                        const endpoint = type === 'icon' ? `/api/admin/icons/${id}` : `/api/admin/colors/${id}`;
+                        const response = await fetch(endpoint, { method: 'DELETE' });
+
+                        if (response.ok) {
+                            Swal.fire('Đã xóa!', `${type === 'icon' ? 'Icon' : 'Màu'} đã được xóa.`, 'success');
+                            if (type === 'icon') {
+                                loadIcons();
+                            } else {
+                                loadColors();
+                            }
+                        } else {
+                            const error = await response.json();
+                            Swal.fire('Lỗi!', error.message || 'Không thể xóa', 'error');
+                        }
+                    } catch (error) {
+                        Swal.fire('Lỗi!', 'Không thể kết nối đến server', 'error');
+                    }
+                }
+            });
+
+            // Initial load
+            loadIcons();
+            loadColors();
+        });
+    </script>
+}

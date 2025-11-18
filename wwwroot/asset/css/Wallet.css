@@ -288,6 +288,7 @@
 }
 
 .table-contain {
+    margin-bottom:30px;
     box-shadow: 0 4px 15px var(--shadow-color) !important;
     --bs-gutter-x: 0;
 }
@@ -310,11 +311,11 @@
 
 /* Scoolbar cho lịch sử giao dịch */
 /* Style đẹp hơn cho scrollbar */
-.transaction-history .table-responsive {
+/*.transaction-history .table-responsive {
     max-height: 300px;
     overflow-y: auto !important;
     overflow-x: hidden;
-}
+}*/
 
     /* Custom scrollbar cho trình duyệt webkit (Chrome, Safari, Edge) */
     .transaction-history .table-responsive::-webkit-scrollbar {
@@ -486,3 +487,41 @@ input[type=number] {
 }
 
 
+/* Pagination Styles */
+.pagination-container {
+    padding: 15px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.pagination-info {
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+    .pagination-buttons button {
+        min-width: 35px;
+        height: 35px;
+        padding: 5px 10px;
+    }
+
+        .pagination-buttons button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+@media (max-width: 576px) {
+    .pagination-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .pagination-info {
+        text-align: center;
+    }
+}

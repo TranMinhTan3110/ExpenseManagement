@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QuanLyChiTieu_WebApp.Models.Entities;
 using QuanLyChiTieu_WebApp.Services.Admin;
-
 using QuanLyChiTieu_WebApp.ViewModels;
 
 namespace QuanLyChiTieu_WebApp.Controllers
@@ -15,18 +14,33 @@ namespace QuanLyChiTieu_WebApp.Controllers
             _userService = userService;
         }
 
-        // GET: Hiển thị danh sách users
-        public async Task<IActionResult> Index()
+        // GET: Hiển thị danh sách users với phân trang
+        public async Task<IActionResult> Index(
+            int pageIndex = 1,
+            string searchTerm = null,
+            string roleFilter = null,
+            string statusFilter = null)
         {
-            var users = await _userService.GetAllUsersAsync();
+            const int pageSize = 10; // Số user trên mỗi trang
+
+            var paginatedUsers = await _userService.GetUsersAsync(
+                pageIndex,
+                pageSize,
+                searchTerm,
+                roleFilter,
+                statusFilter
+            );
 
             var viewModel = new UserManagementViewModel
             {
-                Users = users,
-                TotalUsers = users.Count(),
-                ActiveUsers = users.Count(u => u.IsActive),
-                BlockedUsers = users.Count(u => !u.IsActive),
-                AdminUsers = users.Count(u => u.Role == "Admin")
+                Users = paginatedUsers,
+                TotalUsers = await _userService.GetTotalUsersCountAsync(),
+                ActiveUsers = await _userService.GetActiveUsersCountAsync(),
+                BlockedUsers = await _userService.GetBlockedUsersCountAsync(),
+                AdminUsers = await _userService.GetAdminUsersCountAsync(),
+                SearchTerm = searchTerm,
+                RoleFilter = roleFilter,
+                StatusFilter = statusFilter
             };
 
             return View(viewModel);
@@ -37,7 +51,6 @@ namespace QuanLyChiTieu_WebApp.Controllers
         public async Task<IActionResult> ToggleStatus(string id, [FromBody] ToggleStatusModel model)
         {
             var result = await _userService.ToggleUserStatusAsync(id, model.IsActive);
-
             if (!result)
                 return Json(new { success = false, message = "User not found or update failed" });
 
@@ -73,7 +86,6 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 return View(user);
 
             var result = await _userService.UpdateUserAsync(user);
-
             if (!result)
             {
                 ModelState.AddModelError("", "Failed to update user");
@@ -88,7 +100,6 @@ namespace QuanLyChiTieu_WebApp.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             var result = await _userService.DeleteUserAsync(id);
-
             if (!result)
                 return Json(new { success = false, message = "User not found or delete failed" });
 
