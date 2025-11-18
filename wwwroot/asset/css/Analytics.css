@@ -412,3 +412,39 @@ table {
         font-size: 13px;
     }
 }
+/* Áp dụng cho cả Expense và Income Breakdown */
+.list-1 ul {
+    list-style: none;
+    padding: 0;
+}
+
+.list-1 li {
+    display: flex; /* Dùng Flexbox cho container của mỗi hàng */
+    justify-content: space-between; /* Đẩy nội dung hai bên ra xa nhau */
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee; /* Đường kẻ phân cách */
+}
+
+    /* Áp dụng cho phần hiển thị tên và phần tử màu (cột 1) */
+    .list-1 li p {
+        flex-grow: 1; /* Cho phép phần tên danh mục mở rộng */
+        margin-right: 15px; /* Khoảng cách giữa tên và số tiền */
+        max-width: 60%; /* Giới hạn chiều rộng tối đa cho tên danh mục */
+        word-break: break-word; /* Nếu tên quá dài, nó sẽ xuống dòng */
+    }
+
+    /* Áp dụng cho phần hiển thị tiền và phần trăm (cột 2) */
+    .list-1 li h5 {
+        display: flex; /* Dùng Flexbox cho phần Tiền và % */
+        min-width: 120px; /* Đặt chiều rộng tối thiểu để các số liệu thẳng hàng */
+        justify-content: space-between; /* Đẩy tiền và % ra xa nhau */
+        font-size: 0.9rem;
+    }
+
+        /* Chiều rộng cố định cho cột tiền để căn lề phải */
+        .list-1 li h5 span {
+            text-align: right;
+            min-width: 70px; /* Chiều rộng cố định cho số tiền */
+            font-weight: bold;
+        }
