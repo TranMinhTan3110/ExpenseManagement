@@ -70,11 +70,18 @@ namespace QuanLyChiTieu_WebApp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            // Kiểm tra hợp lệ
+            if (model.StartDate > model.EndDate)
+                return BadRequest("StartDate must be earlier than EndDate.");
+
+            model.CreatedAt = DateTime.Now;
+
             _context.Budgets.Add(model);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetBudgetById), new { id = model.BudgetID }, model);
+            return Ok(model);
         }
+
 
         // PUT: api/budgetapi/{id}
         [HttpPut("{id}")]
@@ -172,22 +179,32 @@ namespace QuanLyChiTieu_WebApp.Controllers
         {
             try
             {
+                Console.WriteLine($"🔍 Getting spending analysis for BudgetID: {budgetId}");
+
                 var budget = await _context.Budgets
                     .Include(b => b.Category)
                     .FirstOrDefaultAsync(b => b.BudgetID == budgetId);
 
                 if (budget == null)
+                {
+                    Console.WriteLine($"❌ Budget {budgetId} not found");
                     return NotFound();
+                }
 
-                // Default date range
-                var start = startDate ?? budget.StartDate;
-                var end = endDate ?? budget.EndDate;
+                // ✅ QUAN TRỌNG: Chuyển về Date only (không có time) để so sánh chính xác
+                var start = (startDate ?? budget.StartDate).Date;
+                var end = (endDate ?? budget.EndDate).Date.AddDays(1).AddTicks(-1); // Cuối ngày (23:59:59.999)
 
+                Console.WriteLine($"📅 Date range: {start:yyyy-MM-dd} to {end:yyyy-MM-dd}");
+                Console.WriteLine($"📂 CategoryID: {budget.CategoryID}, UserID: {budget.UserID}");
+
+                // ✅ FIX: Thêm điều kiện lọc Type = "Expense"
                 var transactions = await _context.Transactions
                     .Where(t => t.CategoryID == budget.CategoryID
                              && t.UserID == budget.UserID
                              && t.TransactionDate >= start
-                             && t.TransactionDate <= end)
+                             && t.TransactionDate <= end
+                             && t.Type.ToLower().Contains("expense")) // ✅ CHỈ LẤY EXPENSE
                     .OrderBy(t => t.TransactionDate)
                     .Select(t => new
                     {
@@ -196,6 +213,8 @@ namespace QuanLyChiTieu_WebApp.Controllers
                     })
                     .ToListAsync();
 
+                Console.WriteLine($"📊 Found {transactions.Count} transactions");
+
                 // Group transactions based on groupBy parameter
                 var groupedData = groupBy.ToLower() switch
                 {
@@ -203,46 +222,48 @@ namespace QuanLyChiTieu_WebApp.Controllers
                         .GroupBy(t => t.TransactionDate.Date)
                         .Select(g => new
                         {
-                            Label = g.Key.ToString("dd/MM/yyyy"),
-                            Date = g.Key,
-                            Amount = g.Sum(x => x.Amount)
+                            label = g.Key.ToString("dd/MM/yyyy"), // ✅ Format VN
+                            date = g.Key,
+                            amount = g.Sum(x => x.Amount)
                         })
-                        .OrderBy(x => x.Date)
+                        .OrderBy(x => x.date)
                         .ToList(),
 
                     "week" => transactions
                         .GroupBy(t => GetWeekOfYear(t.TransactionDate))
                         .Select(g => new
                         {
-                            Label = $"Tuần {g.Key.Week}/{g.Key.Year}",
-                            Date = g.Min(x => x.TransactionDate),
-                            Amount = g.Sum(x => x.Amount)
+                            label = $"Tuần {g.Key.Week}/{g.Key.Year}",
+                            date = g.Min(x => x.TransactionDate),
+                            amount = g.Sum(x => x.Amount)
                         })
-                        .OrderBy(x => x.Date)
+                        .OrderBy(x => x.date)
                         .ToList(),
 
                     "month" => transactions
                         .GroupBy(t => new { t.TransactionDate.Year, t.TransactionDate.Month })
                         .Select(g => new
                         {
-                            Label = $"Tháng {g.Key.Month}/{g.Key.Year}",
-                            Date = new DateTime(g.Key.Year, g.Key.Month, 1),
-                            Amount = g.Sum(x => x.Amount)
+                            label = $"Tháng {g.Key.Month}/{g.Key.Year}",
+                            date = new DateTime(g.Key.Year, g.Key.Month, 1),
+                            amount = g.Sum(x => x.Amount)
                         })
-                        .OrderBy(x => x.Date)
+                        .OrderBy(x => x.date)
                         .ToList(),
 
                     _ => transactions
                         .GroupBy(t => t.TransactionDate.Date)
                         .Select(g => new
                         {
-                            Label = g.Key.ToString("dd/MM/yyyy"),
-                            Date = g.Key,
-                            Amount = g.Sum(x => x.Amount)
+                            label = g.Key.ToString("dd/MM/yyyy"),
+                            date = g.Key,
+                            amount = g.Sum(x => x.Amount)
                         })
-                        .OrderBy(x => x.Date)
+                        .OrderBy(x => x.date)
                         .ToList()
                 };
+
+                Console.WriteLine($"📈 Grouped into {groupedData.Count} data points");
 
                 return Ok(new
                 {
@@ -254,6 +275,8 @@ namespace QuanLyChiTieu_WebApp.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"❌ Error: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
                 return StatusCode(500, new { error = ex.Message });
             }
         }
@@ -275,7 +298,6 @@ namespace QuanLyChiTieu_WebApp.Controllers
 
             return (week, year);
         }
-
         // POST: api/budgetapi/handle-recurring
         [HttpPost("handle-recurring")]
         public async Task<IActionResult> HandleRecurringBudgets([FromQuery] string userId)
@@ -284,7 +306,7 @@ namespace QuanLyChiTieu_WebApp.Controllers
             {
                 var now = DateTime.Now;
 
-                // ✅ Lấy TẤT CẢ budgets đã hết hạn (cả recurring và non-recurring)
+                //  Lấy TẤT CẢ budgets đã hết hạn (cả recurring và non-recurring)
                 var expiredBudgets = await _context.Budgets
                     .Where(b => b.UserID == userId && b.EndDate <= now)
                     .ToListAsync();
