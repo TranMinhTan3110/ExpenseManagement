@@ -325,3 +325,90 @@ table {
     color: #999;
     padding: 20px;
 }
+
+/* ===== PAGINATION STYLES ===== */
+.pagination-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-top: 1px solid rgb(229, 234, 239);
+    background-color: var(--card-bg-color);
+}
+
+.pagination-info {
+    color: var(--text);
+    font-size: 14px;
+}
+
+.pagination {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .pagination .page-item {
+        display: inline-block;
+    }
+
+    .pagination .page-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        height: 36px;
+        padding: 0 12px;
+        border: 1px solid rgb(229, 234, 239);
+        border-radius: 6px;
+        background-color: var(--card-bg-color);
+        color: var(--text);
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+        .pagination .page-link:hover {
+            background-color: #f0f0f0;
+            border-color: #1816b9;
+            color: #1816b9;
+        }
+
+    .pagination .page-item.active .page-link {
+        background-color: #1816b9;
+        border-color: #1816b9;
+        color: white;
+        font-weight: 600;
+    }
+
+    .pagination .page-item.disabled .page-link {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    .pagination .page-item.dots .page-link {
+        border: none;
+        background: transparent;
+        cursor: default;
+    }
+
+        .pagination .page-item.dots .page-link:hover {
+            background: transparent;
+            border: none;
+        }
+
+@media (max-width: 576px) {
+    .pagination-wrapper {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .pagination .page-link {
+        min-width: 32px;
+        height: 32px;
+        font-size: 13px;
+    }
+}

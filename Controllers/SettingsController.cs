@@ -102,7 +102,6 @@ namespace QuanLyChiTieu_WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // Có lỗi (ví dụ: bỏ trống description), trả về form với lỗi
                 return View(model);
             }
 
@@ -115,7 +114,11 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 return View(model);
             }
 
-            // Thành công, chuyển hướng về trang danh sách ticket
+            // *** THAY ĐỔI TẠI ĐÂY ***
+            // 1. Lưu thông báo thành công vào TempData
+            TempData["SuccessMessage"] = "Ticket của bạn đã được tạo thành công! Chúng tôi sẽ phản hồi sớm nhất có thể.";
+
+            // 2. Thành công, chuyển hướng về trang danh sách ticket ("Support")
             return RedirectToAction("Support");
         }
     }
