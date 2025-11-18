@@ -10,6 +10,10 @@ namespace QuanLyChiTieu_WebApp.ViewModels
         public List<IncomeTransactionDto> TransactionHistory { get; set; } = new();
         public decimal TotalIncome { get; set; }
         public string SelectedMonth { get; set; }
+        // ✅ Thêm các property cho phân trang
+        public int CurrentPage { get; set; } = 1;
+        public int TotalPages { get; set; } = 0;
+        public int TotalRecords { get; set; } = 0;
     }
 
     // Item cho Pie Chart (thu nhập)

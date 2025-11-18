@@ -1,4 +1,7 @@
 ﻿let incomeChart = null;
+let currentPage = 1;
+let totalPages = 1;
+let totalRecords = 0;
 
 document.addEventListener('DOMContentLoaded', async function () {
     const walletFilter = document.getElementById('walletFilter');
@@ -14,10 +17,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     await loadWalletList();
 
     // --- LOAD DỮ LIỆU INCOME BAN ĐẦU ---
-    await loadIncomeAnalytics();
+    await loadIncomeAnalytics(1);
 
     // BUTTON FILTER
-    btnApplyFilter.addEventListener('click', loadIncomeAnalytics);
+    btnApplyFilter.addEventListener('click', () => loadIncomeAnalytics(1));
 
     // BUTTON RESET
     if (btnResetFilter) {
@@ -25,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             walletFilter.value = '';
             const now = new Date();
             monthFilter.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-            loadIncomeAnalytics();
+            loadIncomeAnalytics(1);
         });
     }
 
@@ -55,20 +58,22 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     // --- LOAD INCOME ANALYTICS ---
-    async function loadIncomeAnalytics() {
+    async function loadIncomeAnalytics(page = 1) {
         try {
+            currentPage = page; // LƯU TRẠNG THÁI TRANG HIỆN TẠI
             showLoadingState();
 
             const walletId = walletFilter.value;
             const month = monthFilter.value;
 
-            let url = `/api/analytics/income?month=${month}`;
+            // THAY ĐỔI: Thêm page và pageSize vào URL
+            let url = `/api/analytics/income?month=${month}&page=${page}&pageSize=7`;
             if (walletId) url += `&walletId=${walletId}`;
 
             console.log("📡 Calling API:", url);
 
             const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            // ... xử lý lỗi ...
 
             const data = await response.json();
             console.log("✅ Data received:", data);
@@ -77,10 +82,17 @@ document.addEventListener('DOMContentLoaded', async function () {
             const history = data.transactionHistory || data.TransactionHistory || [];
             const totalIncome = data.totalIncome || data.TotalIncome || 0;
 
+            // THÊM: Lấy thông tin phân trang từ response
+            currentPage = data.currentPage || data.CurrentPage || 1;
+            totalPages = data.totalPages || data.TotalPages || 1;
+            totalRecords = data.totalRecords || data.TotalRecords || 0;
+
             renderIncomePieChart(breakdown);
             renderBreakdownList(breakdown);
             renderTransactionTable(history);
             updateTotalIncome(totalIncome);
+
+            renderPagination(); // THÊM: Render thanh phân trang
 
         } catch (error) {
             showErrorState(error.message);
@@ -251,5 +263,108 @@ document.addEventListener('DOMContentLoaded', async function () {
             tbody.appendChild(tr);
         });
     }
+    function renderPagination() {
+        const paginationWrapper = document.getElementById('paginationWrapper');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const paginationControls = document.getElementById('paginationControls');
 
+        if (!paginationWrapper || !paginationInfo || !paginationControls) {
+            console.warn('⚠️ Không tìm thấy pagination elements');
+            return;
+        }
+
+        // Nếu không có dữ liệu hoặc chỉ có 1 trang → ẩn pagination
+        if (totalRecords === 0 || totalPages <= 1) {
+            paginationWrapper.style.display = 'none';
+            return;
+        }
+
+        // Hiển thị pagination
+        paginationWrapper.style.display = 'flex';
+
+        // Tính toán số records hiển thị
+        const pageSize = 7; // Phải khớp với pageSize mặc định trong service
+        const startRecord = (currentPage - 1) * pageSize + 1;
+        const endRecord = Math.min(currentPage * pageSize, totalRecords);
+
+        // Cập nhật pagination info
+        paginationInfo.textContent = `Hiển thị ${startRecord}-${endRecord} / ${totalRecords}`;
+
+        // Clear pagination controls
+        paginationControls.innerHTML = '';
+
+        // ===== TẠO PAGINATION BUTTONS =====
+
+        // Previous button
+        const prevLi = document.createElement('li');
+        prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+        prevLi.innerHTML = `<a class="page-link" data-page="${currentPage - 1}">‹</a>`;
+        paginationControls.appendChild(prevLi);
+
+        // Tính toán các page numbers cần hiển thị
+        const pageNumbers = calculatePageNumbers(currentPage, totalPages);
+
+        pageNumbers.forEach(page => {
+            const li = document.createElement('li');
+
+            if (page === '...') {
+                li.className = 'page-item dots';
+                li.innerHTML = '<span class="page-link">...</span>';
+            } else {
+                li.className = `page-item ${page === currentPage ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" data-page="${page}">${page}</a>`;
+            }
+
+            paginationControls.appendChild(li);
+        });
+
+        // Next button
+        const nextLi = document.createElement('li');
+        nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+        nextLi.innerHTML = `<a class="page-link" data-page="${currentPage + 1}">›</a>`;
+        paginationControls.appendChild(nextLi);
+
+        // ===== GẮN SỰ KIỆN CLICK =====
+        paginationControls.querySelectorAll('.page-link[data-page]').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const page = parseInt(this.dataset.page);
+                if (page >= 1 && page <= totalPages && page !== currentPage) {
+                    loadIncomeAnalytics(page); // QUAN TRỌNG: Gọi hàm load của Income
+
+                    // Scroll to top của transaction table
+                    document.querySelector('.transaction-table').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        console.log(`✅ Pagination rendered: Page ${currentPage}/${totalPages}`);
+    }
+
+    // ===== HÀM TÍNH TOÁN PAGE NUMBERS (COPY TỪ EXPENSE.JS VÀO ĐÂY) =====
+    function calculatePageNumbers(current, total) {
+        const delta = 2; // Số trang hiển thị trước và sau trang hiện tại
+        const range = [];
+
+        for (let i = Math.max(2, current - delta); i <= Math.min(total - 1, current + delta); i++) {
+            range.push(i);
+        }
+
+        if (current - delta > 2) {
+            range.unshift('...');
+        }
+        if (current + delta < total - 1) {
+            range.push('...');
+        }
+
+        range.unshift(1);
+        if (total > 1) {
+            range.push(total);
+        }
+
+        return range;
+    }
 });
