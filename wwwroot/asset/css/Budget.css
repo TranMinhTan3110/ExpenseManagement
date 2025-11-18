@@ -753,7 +753,9 @@ canvas {
         max-width: 100% !important;
     }
 }
-
+.form-select-sm{
+    color:var(--text);
+}
 .dark-mode .btn-close {
     filter: invert(1);
 }
