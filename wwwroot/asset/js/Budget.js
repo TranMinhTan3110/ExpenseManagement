@@ -89,7 +89,7 @@ async function reloadCategoryPicker() {
                             opacity: ${isUsed ? '0.4' : '1'};
                             position: relative;">
                     <i class="${iconClass}" style="font-size:22px; color: ${color};"></i>
-                    <div class="small mt-1" style="color: #333;">${name}</div>
+                    <div class="small mt-1">${name}</div>
                 </div>
             `;
         }).join("");
