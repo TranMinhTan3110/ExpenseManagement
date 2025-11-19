@@ -866,7 +866,9 @@ select {
         padding: 0 5px; /* Giảm padding để fit hơn */
     }
 }
-
+.category-option small{
+    color:var(--text);
+}
 
 
 select.form-select-sm {
@@ -874,7 +876,6 @@ select.form-select-sm {
     background-position: right 0.75rem center; /* canh icon */
     background-repeat: no-repeat;
     background-size: 16px;
-   
 }
 .align-self-center{
     margin-bottom:10px;
