@@ -139,13 +139,109 @@
         opacity: 0.7;
     }
 
-/* Breadcrumb */
-.breadcrumb-item {
-    var(--bs-breadcrumb-item-active-color);
+/* ====================================== */
+/* PAGINATION STYLES                      */
+/* ====================================== */
+
+#paginationContainer {
+    margin-top: 24px;
+    padding: 16px 0;
 }
-.breadcrumb-item a {
+
+.pagination {
+    margin: 0;
+    gap: 8px;
+}
+
+.page-item {
+    margin: 0;
+}
+
+.page-link {
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
     text-decoration: none;
 }
+
+    .page-link:hover {
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+    }
+
+    .page-link:focus {
+        box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+        z-index: 3;
+    }
+
+.page-item.active .page-link {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: #fff;
+    font-weight: 600;
+}
+
+.page-item.disabled .page-link {
+    background-color: var(--border-color);
+    border-color: var(--border-color);
+    color: var(--text-muted-color);
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+    .page-item.disabled .page-link:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+/* Page size selector in pagination */
+.pagination .form-select {
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .pagination .form-select:hover {
+        border-color: var(--bs-primary);
+    }
+
+    .pagination .form-select:focus {
+        border-color: var(--bs-primary);
+        box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.15);
+        background-color: var(--card-bg-color);
+        color: var(--text-color);
+    }
+
+/* Breadcrumb */
+.breadcrumb-item {
+    color: var(--bs-breadcrumb-item-active-color);
+}
+
+    .breadcrumb-item a {
+        text-decoration: none;
+        color: var(--bs-primary);
+    }
+
+        .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+
 /* Page Title */
 .page-title h3 {
     color: var(--text-title);
@@ -205,6 +301,32 @@
     animation: spin 1s linear infinite;
 }
 
+/* Card animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-result-card {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+    /* Result info text colors */
+    .search-result-card .text-muted {
+        color: var(--text-muted-color) !important;
+    }
+
+    .search-result-card .small {
+        font-size: 0.85rem;
+    }
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .search-filters {
@@ -232,6 +354,24 @@
         .empty-state i {
             font-size: 48px;
         }
+
+    /* Pagination mobile */
+    .pagination {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .page-link {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+        min-width: 36px;
+    }
+
+    .pagination .form-select {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+        margin-bottom: 8px;
+    }
 }
 
 /* Search input trong header */
@@ -273,29 +413,3 @@
         .filter-tag i:hover {
             opacity: 1;
         }
-
-/* Card animation */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.search-result-card {
-    animation: fadeInUp 0.3s ease-out;
-}
-
-    /* Result info text colors */
-    .search-result-card .text-muted {
-        color: var(--text-muted-color) !important;
-    }
-
-    .search-result-card .small {
-        font-size: 0.85rem;
-    }

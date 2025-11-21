@@ -1,4 +1,25 @@
-﻿$(document).ready(function () {
+﻿// ====================================
+// TOGGLE PASSWORD VISIBILITY
+// ====================================
+function togglePassword(inputId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(inputId + '-eye');
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fi-rr-eye');
+        icon.classList.add('fi-rr-eye-crossed');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('fi-rr-eye-crossed');
+        icon.classList.add('fi-rr-eye');
+    }
+}
+
+// ====================================
+// SIGNUP FORM SUBMISSION
+// ====================================
+$(document).ready(function () {
     $("#signup_form").on("submit", function (e) {
         e.preventDefault();
 
@@ -8,13 +29,25 @@
         var confirmPassword = $("#confirmPassword").val();
         var actionUrl = $(this).attr("action");
 
-        // (Validation của bạn ở đây: kiểm tra trống, khớp mật khẩu...)
+        // Validation: kiểm tra trống
+        if (!fullName || !email || !password || !confirmPassword) {
+            Swal.fire('Lỗi', 'Vui lòng điền đầy đủ thông tin.', 'error');
+            return;
+        }
+
+        // Validation: kiểm tra khớp mật khẩu
         if (password !== confirmPassword) {
             Swal.fire('Lỗi', 'Mật khẩu không khớp.', 'error');
             return;
         }
 
-        // --- 1. HIỆN LOADER ---
+        // Validation: kiểm tra độ dài mật khẩu
+        if (password.length < 6) {
+            Swal.fire('Lỗi', 'Mật khẩu phải có ít nhất 6 ký tự.', 'error');
+            return;
+        }
+
+        // Hiện loader
         $("#loader-overlay").show();
 
         $.ajax({
@@ -27,10 +60,8 @@
             },
             dataType: "json",
             success: function (response) {
-                // --- 2. ẨN LOADER ---
                 $("#loader-overlay").hide();
 
-                // 3. Hiện SweetAlert
                 if (response.status === 'success') {
                     Swal.fire({
                         icon: 'success',
@@ -50,10 +81,7 @@
                 }
             },
             error: function (xhr, status, error) {
-                // --- 2. ẨN LOADER (Khi bị lỗi) ---
                 $("#loader-overlay").hide();
-
-                // 3. Hiện SweetAlert
                 Swal.fire({
                     icon: 'error',
                     title: 'Lỗi!',

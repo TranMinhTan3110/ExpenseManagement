@@ -22,8 +22,8 @@ namespace QuanLyChiTieu_WebApp.Controllers
         }
 
         /// <summary>
-        /// Tìm kiếm transactions
-        /// GET: /api/search/transactions?q=cafe&type=&categoryId=&walletId=&fromDate=&toDate=
+        /// Tìm kiếm transactions với phân trang
+        /// GET: /api/search/transactions?q=cafe&type=&categoryId=&walletId=&fromDate=&toDate=&page=1&pageSize=10
         /// </summary>
         [HttpGet("transactions")]
         public async Task<IActionResult> SearchTransactions(
@@ -32,7 +32,9 @@ namespace QuanLyChiTieu_WebApp.Controllers
             [FromQuery] int? categoryId,
             [FromQuery] int? walletId,
             [FromQuery] string? fromDate,
-            [FromQuery] string? toDate)
+            [FromQuery] string? toDate,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
         {
             try
             {
@@ -43,7 +45,12 @@ namespace QuanLyChiTieu_WebApp.Controllers
                     return Unauthorized(new { message = "Không tìm thấy thông tin người dùng" });
                 }
 
-                _logger.LogInformation($"[SEARCH] UserId: {userId}, Query: {q}, Type: {type}");
+                // Validate pagination
+                if (page < 1) page = 1;
+                if (pageSize < 1) pageSize = 10;
+                if (pageSize > 100) pageSize = 100; // Giới hạn tối đa 100 items/page
+
+                _logger.LogInformation($"[SEARCH] UserId: {userId}, Query: {q}, Page: {page}, PageSize: {pageSize}");
 
                 // Lấy danh sách WalletID của user
                 var userWalletIds = await _context.Wallets
@@ -57,6 +64,9 @@ namespace QuanLyChiTieu_WebApp.Controllers
                     {
                         transactions = new List<TransactionDto>(),
                         totalCount = 0,
+                        page = page,
+                        pageSize = pageSize,
+                        totalPages = 0,
                         message = "User không có ví nào"
                     });
                 }
@@ -101,7 +111,11 @@ namespace QuanLyChiTieu_WebApp.Controllers
                     query = query.Where(t => t.TransactionDate <= to.AddDays(1).AddSeconds(-1));
                 }
 
-                // Include navigation properties
+                // Đếm tổng số kết quả
+                var totalCount = await query.CountAsync();
+                var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+                // Include navigation properties và áp dụng phân trang
                 var transactions = await query
                     .Include(t => t.Category)
                         .ThenInclude(c => c.Icon)
@@ -109,10 +123,11 @@ namespace QuanLyChiTieu_WebApp.Controllers
                         .ThenInclude(c => c.Color)
                     .Include(t => t.Wallet)
                     .OrderByDescending(t => t.TransactionDate)
-                    .Take(100) // Giới hạn 100 kết quả
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
                     .ToListAsync();
 
-                _logger.LogInformation($"[SEARCH] Found {transactions.Count} transactions");
+                _logger.LogInformation($"[SEARCH] Found {totalCount} total, showing page {page}/{totalPages}");
 
                 // Convert sang DTO
                 var transactionDtos = transactions.Select(t => new TransactionDto
@@ -148,7 +163,12 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 return Ok(new
                 {
                     transactions = transactionDtos,
-                    totalCount = transactionDtos.Count
+                    totalCount = totalCount,
+                    page = page,
+                    pageSize = pageSize,
+                    totalPages = totalPages,
+                    hasNextPage = page < totalPages,
+                    hasPreviousPage = page > 1
                 });
             }
             catch (Exception ex)
