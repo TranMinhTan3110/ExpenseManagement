@@ -133,6 +133,7 @@
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#withdrawModal"
                                                 data-goal-id="@goal.GoalID"
+                                                data-current-amount="@goal.CurrentAmount"
                                                 data-wallets='@Json.Serialize(goal.WalletContributions)'> <i class="fi fi-rr-minus"></i> Rút Tiền
                                         </button>
                                         <button class="btn btn-danger btn-sm px-3" onclick="deleteGoal(@goal.GoalID)">
@@ -253,8 +254,8 @@
                                                                 <tr>
                                                                     <th>Ngày</th>
                                                                     <th>Ví</th>
-                                                                    <th>Nôi dung</th>
-                                                                    <th>Số tiền</th>
+                                                                    <th class="ps-4">Nội dung</th>
+                                                                    <th class="text-end pe-3">Số tiền</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -264,9 +265,17 @@
                                                                         <td><span><i class="fi fi-rr-calendar"></i></span> @history.Date.ToString("dd MMM yyyy")</td>
                                                                         <td><span><i class="fi fi-rr-credit-card"></i></span> @history.WalletName</td>
                                                                         <td>@history.Description</td>
-                                                                        <td>
-                                                                            <h5>+@history.Amount.ToString("N0")đ</h5>
-                                                                            <span>@history.Balance.ToString("N0")đ</span>
+                                                                        <td class="text-end">
+                                                                            @if (history.Amount > 0)
+                                                                            {
+                                                                                <h5 class="text-success">+@history.Amount.ToString("N0")đ</h5>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <h5 class="text-danger">@history.Amount.ToString("N0")đ</h5>
+                                                                            }
+
+                                                                            <span class="text-muted small">Số dư: @history.Balance.ToString("N0")đ</span>
                                                                         </td>
                                                                     </tr>
                                                                 }

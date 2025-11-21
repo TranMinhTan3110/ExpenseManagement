@@ -1,4 +1,5 @@
 ﻿using QuanLyChiTieu_WebApp.ViewModels;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace QuanLyChiTieu_WebApp.Services
@@ -24,6 +25,6 @@ namespace QuanLyChiTieu_WebApp.Services
         Task<bool> DepositToGoalAsync(int goalId, int walletId, decimal amount, string note, string userId);
 
         // Rút tiền khỏi mục tiêu
-        Task<bool> WithdrawFromGoalAsync(int goalId, int walletId, decimal amount, string note, string userId);
+        Task<bool> WithdrawSilentAsync(int goalId, int walletId, string userId);
     }
 }

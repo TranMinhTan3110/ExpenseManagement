@@ -78,16 +78,17 @@ namespace QuanLyChiTieu_WebApp.ViewModels
         public int Id { get; set; }
     }
 
-    public class WithdrowGoalViewModel
+    public class WithdrawGoalViewModel
     {
         [Required]
         public int GoalID { get; set; }
+
         [Required]
         public int WalletID { get; set; }
-        [Required]
-        [Range(0.01 , double.MaxValue, ErrorMessage ="Số tiển phải lớn hơn 0")]
+
+        // ✅ Bỏ [Required] vì không cần thiết nữa
         public decimal Amount { get; set; }
-        [Required]
+
         public string Note { get; set; }
     }
 

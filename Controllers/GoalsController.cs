@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuanLyChiTieu_WebApp.Models.EF;
+using QuanLyChiTieu_WebApp.Models.Entities;
 using QuanLyChiTieu_WebApp.Services;
 using QuanLyChiTieu_WebApp.ViewModels;
 using System.Security.Claims;
@@ -270,31 +271,38 @@ namespace QuanLyChiTieu_WebApp.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Withdrow([FromBody] WithdrowGoalViewModel model)
+        public async Task<IActionResult> WithdrawSilent([FromBody] WithdrawGoalViewModel model)
         {
-            var userId = GetCurrentUserId();
-            if (string.IsNullOrEmpty(userId))
-                return Json(new { succes = false, message = "Phiên đăng nhập hết hạn" });
-            if (!ModelState.IsValid)
-                return Json(new { success = false, message = "Dữ liệu không hợp lệ" });
-
-            var result = await _goalService.WithdrawFromGoalAsync(
-                model.GoalID,
-                model.WalletID,
-                model.Amount,
-                model.Note,
-                userId
-                );
-            if (result)
+            try
             {
-                return Json(new { success = true, message = "Rút tiền thành công" });
-            }
-            else
-            {
-                return Json(new { success = false, message = "Không thể rút tiền . Vui lòng kiểm tra lại số tiền trong ví" });
-            }
+                var userId = GetCurrentUserId();
+                if (string.IsNullOrEmpty(userId)) return Json(new { success = false, message = "Hết phiên đăng nhập." });
 
+                // Gọi Service
+                // LƯU Ý: Nếu bạn chưa sửa Service để throw lỗi, thì Service vẫn trả về false
+                // Nhưng ở đây tôi đang giả định lỗi xảy ra khi SaveChanges() bên trong Service
+                var result = await _goalService.WithdrawSilentAsync(model.GoalID, model.WalletID, userId);
+
+                if (result)
+                {
+                    return Json(new { success = true, message = "Thành công!" });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Rút tiền thất bại (Logic trả về false)." });
+                }
+            }
+            catch (Exception ex)
+            {
+                // 🔥 ĐÂY LÀ CHỖ QUAN TRỌNG NHẤT: LẤY LỖI GỐC TỪ SQL 🔥
+                var realError = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+
+                // In ra cửa sổ Output của Visual Studio để bạn xem
+                Console.WriteLine($"❌ LỖI DB NGHIÊM TRỌNG: {realError}");
+
+                // Trả về màn hình web để bạn đọc
+                return Json(new { success = false, message = "Lỗi SQL: " + realError });
+            }
         }
-
     }
 }

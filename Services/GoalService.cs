@@ -339,7 +339,62 @@ namespace QuanLyChiTieu_WebApp.Services
                 DepositHistory = depositHistory
             };
         }
+        // 🟢 Rút tiền âm thầm (Tất toán Goal về Ví)
+        // Trong file: Services/GoalService.cs
+        // File: Services/GoalService.cs
 
+        public async Task<bool> WithdrawSilentAsync(int goalId, int walletId, string userId)
+        {
+            // Dùng Transaction để đảm bảo an toàn (sai là hoàn tác hết)
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var goal = await _context.Goals
+                    .FirstOrDefaultAsync(g => g.GoalID == goalId && g.UserID == userId);
+
+                var wallet = await _context.Wallets
+                    .FirstOrDefaultAsync(w => w.WalletID == walletId && w.UserID == userId);
+
+                if (goal == null) throw new Exception($"Không tìm thấy Goal ID {goalId}");
+                if (wallet == null) throw new Exception($"Không tìm thấy Ví ID {walletId}");
+
+                decimal amountToWithdraw = goal.CurrentAmount;
+                if (amountToWithdraw <= 0) throw new Exception("Mục tiêu này đã hết tiền (0đ).");
+
+                // 1. Cộng tiền vào ví thật
+                wallet.Balance += amountToWithdraw;
+
+                // 2. Trừ tiền Goal về 0
+                goal.CurrentAmount = 0;
+                goal.Status = "Đã hoàn thành"; // Cập nhật trạng thái
+                goal.UpdatedAt = DateTime.Now;
+
+                // 3. Ghi lịch sử Goal (Quan trọng: Thử ghi số dương nhưng đổi Note xem sao)
+                // Nếu DB cấm số âm, dòng dưới đây sẽ gây lỗi. 
+                // Tạm thời tôi để số ÂM theo ý bạn. Nếu chạy lên báo lỗi "Constraint" thì do dòng này.
+                var withdrawalRecord = new GoalDeposit
+                {
+                    GoalID = goalId,
+                    WalletID = walletId,
+                    Amount = -amountToWithdraw, // <--- Nghi phạm số 1 gây lỗi
+                    DepositDate = DateTime.Now,
+                    Note = $"Tất toán về ví {wallet.WalletName}",
+                    UserID = userId
+                };
+                _context.GoalDeposits.Add(withdrawalRecord);
+
+                // 4. Lưu vào DB
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw; // Ném lỗi ra ngoài cho Controller bắt
+            }
+        }
         private string GetWalletIcon(string walletType) => walletType?.ToLower() switch
         {
             "bank" => "fi fi-rr-bank",
