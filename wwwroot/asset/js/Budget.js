@@ -78,20 +78,20 @@ async function reloadCategoryPicker() {
             const isUsed = usedCategories.includes(cat.categoryID);
 
             return `
-                <div class="category-option border rounded p-2 text-center ${isUsed ? 'disabled' : ''}"
-                     data-id="${cat.categoryID}"
-                     data-icon="${iconClass}"
-                     data-color="${color}"
-                     data-used="${isUsed}"
-                     title="${name}${isUsed ? ' (Đã được sử dụng)' : ''}"
-                     style="width:80px; cursor:${isUsed ? 'not-allowed' : 'pointer'}; 
-                            border-color: ${color} !important; 
-                            opacity: ${isUsed ? '0.4' : '1'};
-                            position: relative;">
-                    <i class="${iconClass}" style="font-size:22px; color: ${color};"></i>
-                    <div class="small mt-1" style="color: #333;">${name}</div>
-                </div>
-            `;
+    <div class="category-option border rounded p-2 text-center ${isUsed ? 'disabled' : ''}"
+         data-id="${cat.categoryID}"
+         data-icon="${iconClass}"
+         data-color="${color}"
+         data-used="${isUsed}"
+         title="${name}${isUsed ? ' (Đã được sử dụng)' : ''}"
+         style="width:80px; cursor:${isUsed ? 'not-allowed' : 'pointer'}; 
+                border-color: ${color} !important; 
+                opacity: ${isUsed ? '0.4' : '1'};
+                position: relative;">
+        <i class="${iconClass}" style="font-size:22px; color: ${color};"></i>
+        <div class="small mt-1">${name}</div> 
+    </div>
+`;
         }).join("");
     } catch (err) {
         console.error("Error reloading categories:", err);
@@ -567,7 +567,7 @@ function renderEmptyState() {
             <div class="col-xl-12 col-md-6">
                 <div class="add-budgets-link" onclick="openAddBudgetModal()">
                     <div class="budgets-nav-text"> 
-                        <h3 class="budgets-nav-title">Add new budget</h3> 
+                        <h3 class="budgets-nav-title">AThêm ngân sách mới</h3> 
                     </div> 
                     <div class="add-link-image">
                         <span><img src="/asset/img/more.png" alt=""></span> 

@@ -866,7 +866,7 @@ select {
         padding: 0 5px; /* Giảm padding để fit hơn */
     }
 }
-.category-option small{
+.category-option .small{
     color:var(--text);
 }
 

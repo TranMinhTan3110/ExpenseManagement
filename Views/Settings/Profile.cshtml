@@ -16,15 +16,15 @@
                         <div class="row align-items-center justify-content-between">
                             <div class="col-xl-4">
                                 <div class="page-title-content">
-                                    <h3>Edit Profile</h3>
-                                    <p class="mb-2">Welcome Ekash Finance Management</p>
+                                    <h3>Chỉnh sửa hồ sơ</h3>
+                                    <p class="mb-2">Chào mừng đến với Ekash</p>
                                 </div>
                             </div>
                             <div class="col-auto">
                                 <div class="breadcrumbs">
-                                    <a asp-controller="Settings" asp-action="Profile">Settings </a>
+                                    <a asp-controller="Settings" asp-action="Profile">Cài đặt </a>
                                     <span><i class="fi fi-rr-angle-small-right"></i></span>
-                                    <a asp-controller="Settings" asp-action="Profile">Profile</a>
+                                    <a asp-controller="Settings" asp-action="Profile">Hồ sơ</a>
                                 </div>
                             </div>
                         </div>
@@ -34,15 +34,15 @@
             <div class="row">
                 <div class="col-xxl-12 col-xl-12">
                     <div class="settings-menu">
-                        <a asp-controller="Settings" asp-action="Profile" class="active">Profile</a>
-                        <a asp-controller="Settings" asp-action="Category" ">Categories</a>
-                        <a asp-controller="Settings" asp-action="Support">Support</a>
+                        <a asp-controller="Settings" asp-action="Profile" class="active">Hồ sơ</a>
+                        <a asp-controller="Settings" asp-action="Category" ">Danh mục</a>
+                        <a asp-controller="Settings" asp-action="Support">Hỗ trợ</a>
                     </div>
                     <div class="row align-items-stretch">
                         <div class="col-xxl-6 col-xl-6 col-lg-6 d-flex">
                             <div class="card flex-fill">
                                 <div class="card-header">
-                                    <h4 class="card-title">User Profile</h4>
+                                    <h4 class="card-title">Thông tin người dùng</h4>
                                 </div>
                                 <div class="card-body">
                                     <form asp-controller="Settings" asp-action="UpdateAvatar" method="post" enctype="multipart/form-data">
@@ -56,11 +56,11 @@
                                         }
                                         <div class="row g-3">
                                             <div class="col-xxl-12 col-12 mb-3">
-                                                <label class="form-label">Full Name</label>
+                                                <label class="form-label">Họ và tên</label>
                                                 <input asp-for="AvatarForm.FullName" type="text" class="form-control" placeholder="Name">
                                             </div>
                                             <div class="col-xxl-12 col-12 mb-3">
-                                                <label class="form-label">Current Email</label>
+                                                <label class="form-label">Email hiện tại</label>
                                                 <input type="email" class="form-control"
                                                        value="@Model.CurrentEmail" readonly>
                                             </div>
@@ -75,7 +75,7 @@
 
                                                     <div class="media-body">
                                                         <h4 class="mb-0">@Model.AvatarForm.FullName</h4>
-                                                        <p class="mb-0">Max file size is 20mb</p>
+                                                        <p class="mb-0">Dung lượng tối đa 20MB</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -89,7 +89,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-xxl-12 col-12 mb-3">
-                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                <button type="submit" class="btn btn-primary">Lưu</button>
                                             </div>
                                         </div>
                                     </form>
@@ -99,7 +99,7 @@
                         <div class="col-xxl-6 col-xl-6 col-lg-6 d-flex">
                             <div class="card flex-fill">
                                 <div class="card-header">
-                                    <h4 class="card-title">User Profile</h4>
+                                    <h4 class="card-title">Thông tin tài khoản</h4>
                                 </div>
                                 <div class="card-body">
                                     <form id="security-form" asp-controller="Settings" asp-action="UpdateSecurity" method="post">
@@ -141,18 +141,18 @@
                                             }
 
                                             <div class="col-12 mb-3">
-                                                <label class="form-label">@(Model.IsExternalUser ? "Set Password" : "New Password")</label>
+                                                <label class="form-label">@(Model.IsExternalUser ? "Đặt mật khẩu" : "Mật khẩu mới")</label>
                                                 <input asp-for="SecurityForm.NewPassword" type="password" class="form-control"
                                                        placeholder="@(Model.IsExternalUser ? "Đặt mật khẩu để đăng nhập thường" : "Để trống nếu không đổi")">
                                             </div>
                                             <div class="col-12 mb-3">
-                                                <label class="form-label">Confirm New Password</label>
+                                                <label class="form-label">Xác nhận mật khẩu mới</label>
                                                 <input asp-for="SecurityForm.ConfirmNewPassword" type="password" class="form-control"
                                                        placeholder="Nhập lại mật khẩu mới">
                                             </div>
 
                                             <div class="col-12 col-12 mb-3">
-                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                <button type="submit" class="btn btn-primary">Lưu</button>
                                             </div>
                                         </div>
                                     </form>
@@ -162,7 +162,7 @@
                         <div class="col-xxl-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Personal Information</h4>
+                                    <h4 class="card-title">Thông tin cá nhân</h4>
                                 </div>
                                 <div class="card-body">
                                     <form asp-controller="Settings" asp-action="UpdatePersonalInfo" method="post">
@@ -176,21 +176,21 @@
                                         }
                                         <div class="row g-4 personal-infomation">
                                             <div class="col-xxl-6 col-xl-6 col-lg-6 ">
-                                                <label class="form-label">Address</label>
+                                                <label class="form-label">Địa chỉ</label>
                                                 <input asp-for="PersonalInfoForm.Address" type="text" class="form-control"
-                                                       placeholder="Not update yet">
+                                                       placeholder="Chưa cập nhật">
                                             </div>
                                             <div class="col-xxl-6 col-xl-6 col-lg-6">
-                                                <label class="form-label">City</label>
+                                                <label class="form-label">Thành phố</label>
                                                 <input asp-for="PersonalInfoForm.City" type="text" class="form-control"
-                                                       placeholder="Not update yet">
+                                                       placeholder="Chưa cập nhật">
                                             </div>
                                             <div class="col-xxl-6 col-xl-6 col-lg-6">
-                                                <label class="form-label">Birth of date</label>
+                                                <label class="form-label">Ngày sinh</label>
                                                 <div class="input-group date" id="datepicker">
                                                     <input name="PersonalInfoForm.DateOfBirth"
                                                            value="@(Model.PersonalInfoForm.DateOfBirth)"
-                                                           type="text" class="form-control" placeholder="choose date" data-input>
+                                                           type="text" class="form-control" placeholder="Chọn ngày" data-input>
 
                                                     <span class="input-group-text" data-toggle>
                                                         <i class="fa fa-calendar calendar-icon"></i>
@@ -198,9 +198,9 @@
                                                 </div>
                                             </div>
                                             <div class="col-xxl-6 col-xl-6 col-lg-6">
-                                                <label class="form-label">Country</label>
+                                                <label class="form-label">Quốc gia</label>
                                                 <select asp-for="PersonalInfoForm.Country" class="form-select">
-                                                    <option value="">Select</option>
+                                                    <option value="">Chọn</option>
                                                     <option value="Afghanistan">Afghanistan</option>
                                                     <option value="Åland Islands">Åland Islands</option>
                                                     <option value="Albania">Albania</option>
@@ -582,7 +582,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-12">
-                                                <button class="btn btn-primary pl-5 pr-5">Save</button>
+                                                <button class="btn btn-primary pl-5 pr-5">Lưu</button>
                                             </div>
                                         </div>
                                     </form>
