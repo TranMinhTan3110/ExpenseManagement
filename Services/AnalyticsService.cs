@@ -18,11 +18,13 @@ namespace QuanLyChiTieu_WebApp.Services
         public async Task<ExpenseAnalyticsViewModel> GetExpenseAnalyticsAsync(
             string userId,
             int? walletId,
-            string? month)
+            string? month,
+            int page = 1,
+            int pageSize = 7)
         {
             try
             {
-                _logger.LogInformation($"[ANALYTICS] Start - UserId: {userId}, WalletId: {walletId}, Month: {month}");
+                _logger.LogInformation($"[ANALYTICS] Start - UserId: {userId}, WalletId: {walletId}, Month: {month}, Page: {page}");
 
                 // Parse tháng (format: "2025-11")
                 DateTime startDate, endDate;
@@ -69,7 +71,10 @@ namespace QuanLyChiTieu_WebApp.Services
                         ExpenseBreakdown = new List<ExpenseBreakdownItem>(),
                         TransactionHistory = new List<TransactionDto>(),
                         TotalExpense = 0,
-                        SelectedMonth = startDate.ToString("yyyy-MM")
+                        SelectedMonth = startDate.ToString("yyyy-MM"),
+                        CurrentPage = 1,
+                        TotalPages = 0,
+                        TotalRecords = 0
                     };
                 }
 
@@ -88,6 +93,10 @@ namespace QuanLyChiTieu_WebApp.Services
                     _logger.LogInformation($"[ANALYTICS] Filtering by WalletId: {walletId.Value}");
                 }
 
+                // ✅ Đếm tổng số records trước khi phân trang
+                var totalRecords = await query.CountAsync();
+                var totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
+
                 // ✅ QUAN TRỌNG: Include navigation properties
                 var transactions = await query
                     .Include(t => t.Category)
@@ -99,7 +108,7 @@ namespace QuanLyChiTieu_WebApp.Services
 
                 _logger.LogInformation($"[ANALYTICS] Found {transactions.Count} transactions");
 
-                // Tính Expense Breakdown cho Pie Chart
+                // Tính Expense Breakdown cho Pie Chart (dùng tất cả transactions)
                 var breakdown = transactions
                     .GroupBy(t => new
                     {
@@ -111,7 +120,7 @@ namespace QuanLyChiTieu_WebApp.Services
                     {
                         CategoryName = g.Key.CategoryName,
                         Amount = g.Sum(t => t.Amount),
-                        Percentage = 0, // Sẽ tính sau
+                        Percentage = 0,
                         ColorHex = g.Key.ColorHex
                     })
                     .OrderByDescending(x => x.Amount)
@@ -129,8 +138,14 @@ namespace QuanLyChiTieu_WebApp.Services
 
                 _logger.LogInformation($"[ANALYTICS] Breakdown: {breakdown.Count} categories, Total: {totalExpense}");
 
+                // ✅ Áp dụng phân trang cho Transaction History
+                var pagedTransactions = transactions
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
                 // ✅ Chuyển sang DTO để tránh circular reference
-                var transactionDtos = transactions.Take(50).Select(t => new TransactionDto
+                var transactionDtos = pagedTransactions.Select(t => new TransactionDto
                 {
                     TransactionID = t.TransactionID,
                     Amount = t.Amount,
@@ -167,7 +182,10 @@ namespace QuanLyChiTieu_WebApp.Services
                     ExpenseBreakdown = breakdown,
                     TransactionHistory = transactionDtos,
                     TotalExpense = totalExpense,
-                    SelectedMonth = startDate.ToString("yyyy-MM")
+                    SelectedMonth = startDate.ToString("yyyy-MM"),
+                    CurrentPage = page,
+                    TotalPages = totalPages,
+                    TotalRecords = totalRecords
                 };
             }
             catch (Exception ex)
@@ -182,16 +200,19 @@ namespace QuanLyChiTieu_WebApp.Services
                 throw;
             }
         }
+
         public async Task<IncomeAnalyticsViewModel> GetIncomeAnalyticsAsync(
-    string userId,
-    int? walletId,
-    string? month)
+            string userId,
+            int? walletId,
+            string? month,
+            int page = 1,
+            int pageSize = 7)
         {
             try
             {
-                _logger.LogInformation($"[INCOME] Start - UserId: {userId}, WalletId: {walletId}, Month: {month}");
+                _logger.LogInformation($"[INCOME] Start - UserId: {userId}, WalletId: {walletId}, Month: {month}, Page: {page}");
 
-                // --- Parse tháng yyyy-MM ---
+                // Parse tháng yyyy-MM
                 DateTime startDate, endDate;
                 if (!string.IsNullOrEmpty(month))
                 {
@@ -208,7 +229,7 @@ namespace QuanLyChiTieu_WebApp.Services
                     endDate = startDate.AddMonths(1);
                 }
 
-                // --- Lấy danh sách ví của user ---
+                // Lấy danh sách ví của user
                 var userWalletIds = await _context.Wallets
                     .Where(w => w.UserID == userId)
                     .Select(w => w.WalletID)
@@ -221,11 +242,14 @@ namespace QuanLyChiTieu_WebApp.Services
                         IncomeBreakdown = new(),
                         TransactionHistory = new(),
                         TotalIncome = 0,
-                        SelectedMonth = startDate.ToString("yyyy-MM")
+                        SelectedMonth = startDate.ToString("yyyy-MM"),
+                        CurrentPage = 1,
+                        TotalPages = 0,
+                        TotalRecords = 0
                     };
                 }
 
-                // --- Build query INCOME ---
+                // Build query INCOME
                 var query = _context.Transactions
                     .AsNoTracking()
                     .Where(t => t.Type == "Income" &&
@@ -238,6 +262,10 @@ namespace QuanLyChiTieu_WebApp.Services
                     query = query.Where(t => t.WalletID == walletId.Value);
                 }
 
+                // Đếm tổng số records
+                var totalRecords = await query.CountAsync();
+                var totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
+
                 // Include navigation
                 var transactions = await query
                     .Include(t => t.Category)
@@ -247,7 +275,7 @@ namespace QuanLyChiTieu_WebApp.Services
                     .OrderByDescending(t => t.TransactionDate)
                     .ToListAsync();
 
-                // --- BREAKDOWN ---
+                // BREAKDOWN (dùng tất cả transactions)
                 var breakdown = transactions
                     .GroupBy(t => new
                     {
@@ -275,8 +303,14 @@ namespace QuanLyChiTieu_WebApp.Services
                     }
                 }
 
-                // --- CONVERT TRANSACTION TO DTO ---
-                var transactionDtos = transactions.Select(t => new IncomeTransactionDto
+                // Phân trang cho Transaction History
+                var pagedTransactions = transactions
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                // CONVERT TRANSACTION TO DTO
+                var transactionDtos = pagedTransactions.Select(t => new IncomeTransactionDto
                 {
                     TransactionID = t.TransactionID,
                     Amount = t.Amount,
@@ -304,7 +338,10 @@ namespace QuanLyChiTieu_WebApp.Services
                     IncomeBreakdown = breakdown,
                     TransactionHistory = transactionDtos,
                     TotalIncome = totalIncome,
-                    SelectedMonth = startDate.ToString("yyyy-MM")
+                    SelectedMonth = startDate.ToString("yyyy-MM"),
+                    CurrentPage = page,
+                    TotalPages = totalPages,
+                    TotalRecords = totalRecords
                 };
             }
             catch (Exception ex)

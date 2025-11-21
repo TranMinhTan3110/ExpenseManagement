@@ -1,4 +1,8 @@
 ﻿let expenseChart = null;
+let currentPage = 1;
+let totalPages = 1;
+let totalRecords = 0;
+
 document.addEventListener('DOMContentLoaded', async function () {
     const walletFilter = document.getElementById('walletFilter');
     const monthFilter = document.getElementById('monthFilter');
@@ -13,10 +17,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     await loadWalletList();
 
     // Load dữ liệu ban đầu
-    await loadAnalytics();
+    await loadAnalytics(1);
 
     // Sự kiện click nút "Lọc"
-    btnApplyFilter.addEventListener('click', loadAnalytics);
+    btnApplyFilter.addEventListener('click', () => loadAnalytics(1));
 
     // Sự kiện click nút "Reset"
     if (btnResetFilter) {
@@ -24,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             walletFilter.value = '';
             const now = new Date();
             monthFilter.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-            loadAnalytics();
+            loadAnalytics(1);
         });
     }
 
@@ -52,17 +56,17 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     }
 
-    // --- HÀM LOAD DỮ LIỆU ANALYTICS ---
-    async function loadAnalytics() {
+    // --- HÀM LOAD DỮ LIỆU ANALYTICS (CÓ PHÂN TRANG) ---
+    async function loadAnalytics(page = 1) {
         try {
-            // Hiển thị loading state
+            currentPage = page;
             showLoadingState();
 
             const walletId = walletFilter.value;
             const month = monthFilter.value;
 
-            // Build URL - chỉ thêm walletId nếu có giá trị
-            let url = `/api/analytics/expense?month=${month}`;
+            // Build URL với page parameter
+            let url = `/api/analytics/expense?month=${month}&page=${page}&pageSize=7`;
             if (walletId && walletId !== '') {
                 url += `&walletId=${walletId}`;
             }
@@ -71,7 +75,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             const response = await fetch(url);
 
-            // Xử lý các loại lỗi khác nhau
             if (!response.ok) {
                 let errorMessage = `HTTP ${response.status}`;
                 try {
@@ -87,12 +90,17 @@ document.addEventListener('DOMContentLoaded', async function () {
             const data = await response.json();
             console.log('✅ Data received:', data);
 
-            // Xử lý cả uppercase và lowercase property names
+            // Xử lý property names (lowercase và uppercase)
             const expenseBreakdown = data.expenseBreakdown || data.ExpenseBreakdown || [];
             const transactionHistory = data.transactionHistory || data.TransactionHistory || [];
             const totalExpense = data.totalExpense || data.TotalExpense || 0;
 
-            // Vẽ Pie Chart
+            // ✅ Lấy thông tin phân trang
+            currentPage = data.currentPage || data.CurrentPage || 1;
+            totalPages = data.totalPages || data.TotalPages || 1;
+            totalRecords = data.totalRecords || data.TotalRecords || 0;
+
+            // Vẽ Pie Chart (chỉ lần đầu hoặc khi filter thay đổi)
             renderExpensePieChart(expenseBreakdown);
 
             // Vẽ danh sách breakdown
@@ -103,6 +111,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             // Cập nhật tổng chi tiêu
             updateTotalExpense(totalExpense);
+
+            // ✅ Render pagination
+            renderPagination();
 
             console.log('✅ Render completed successfully');
 
@@ -124,11 +135,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted" style="padding: 40px;"><i class="fi fi-rr-spinner"></i> Đang tải dữ liệu...</td></tr>';
         }
 
-        // Clear chart
-        const canvas = document.getElementById('chartjsExpense');
-        if (canvas) {
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Hide pagination khi loading
+        const paginationWrapper = document.getElementById('paginationWrapper');
+        if (paginationWrapper) {
+            paginationWrapper.style.display = 'none';
         }
     }
 
@@ -155,6 +165,12 @@ document.addEventListener('DOMContentLoaded', async function () {
                 </tr>
             `;
         }
+
+        // Hide pagination khi có lỗi
+        const paginationWrapper = document.getElementById('paginationWrapper');
+        if (paginationWrapper) {
+            paginationWrapper.style.display = 'none';
+        }
     }
 
     // --- CẬP NHẬT TỔNG CHI TIÊU ---
@@ -166,7 +182,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     // --- VẼ PIE CHART ---
-
     function renderExpensePieChart(breakdown) {
         const canvas = document.getElementById('chartjsExpense');
         if (!canvas) {
@@ -180,33 +195,27 @@ document.addEventListener('DOMContentLoaded', async function () {
             expenseChart = null;
         }
 
-        // Nếu không có dữ liệu → ẩn chart + hiện thông báo đẹp
+        // Nếu không có dữ liệu
         if (!breakdown || breakdown.length === 0) {
-
-            // Ẩn canvas chart
             canvas.style.display = "none";
 
-            // Tạo UI No Data nếu chưa có
             let noDataEl = document.querySelector(".chart-no-data");
             if (!noDataEl) {
                 noDataEl = document.createElement("div");
                 noDataEl.className = "chart-no-data";
                 noDataEl.innerHTML = `
-            <i class="fi fi-rr-chart-pie-alt" style="font-size: 42px; opacity: .4;"></i>
-            <p class="mt-2 mb-0">Không có dữ liệu để hiển thị</p>
-        `;
+                    <i class="fi fi-rr-chart-pie-alt" style="font-size: 42px; opacity: .4;"></i>
+                    <p class="mt-2 mb-0">Không có dữ liệu để hiển thị</p>
+                `;
                 canvas.parentNode.appendChild(noDataEl);
             }
-
             return;
         } else {
-            // Có dữ liệu → hiện canvas, ẩn No Data
             canvas.style.display = "block";
             const noDataEl = document.querySelector(".chart-no-data");
             if (noDataEl) noDataEl.remove();
         }
 
-        // Xử lý property names (cả uppercase và lowercase)
         const labels = breakdown.map(x => x.categoryName || x.CategoryName || 'Khác');
         const data = breakdown.map(x => Number(x.amount || x.Amount || 0));
         const colors = breakdown.map(x => x.colorHex || x.ColorHex || '#808080');
@@ -310,7 +319,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
 
         history.forEach((tx, index) => {
-            // Xử lý property names (cả uppercase và lowercase)
             const transactionDate = tx.transactionDate || tx.TransactionDate;
             const amount = Number(tx.amount || tx.Amount || 0);
             const description = tx.description || tx.Description || '-';
@@ -348,5 +356,111 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
 
         console.log('✅ Transaction table rendered với', history.length, 'giao dịch');
+    }
+
+    // ===== ✅ RENDER PAGINATION =====
+    function renderPagination() {
+        const paginationWrapper = document.getElementById('paginationWrapper');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const paginationControls = document.getElementById('paginationControls');
+
+        if (!paginationWrapper || !paginationInfo || !paginationControls) {
+            console.warn('⚠️ Không tìm thấy pagination elements');
+            return;
+        }
+
+        // Nếu không có dữ liệu hoặc chỉ có 1 trang → ẩn pagination
+        if (totalRecords === 0 || totalPages <= 1) {
+            paginationWrapper.style.display = 'none';
+            return;
+        }
+
+        // Hiển thị pagination
+        paginationWrapper.style.display = 'flex';
+
+        // Tính toán số records hiển thị
+        const pageSize = 7;
+        const startRecord = (currentPage - 1) * pageSize + 1;
+        const endRecord = Math.min(currentPage * pageSize, totalRecords);
+
+        // Cập nhật pagination info
+        paginationInfo.textContent = `Hiển thị ${startRecord}-${endRecord} / ${totalRecords}`;
+
+        // Clear pagination controls
+        paginationControls.innerHTML = '';
+
+        // ===== TẠO PAGINATION BUTTONS =====
+
+        // Previous button
+        const prevLi = document.createElement('li');
+        prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+        prevLi.innerHTML = `<a class="page-link" data-page="${currentPage - 1}">‹</a>`;
+        paginationControls.appendChild(prevLi);
+
+        // Tính toán các page numbers cần hiển thị
+        const pageNumbers = calculatePageNumbers(currentPage, totalPages);
+
+        pageNumbers.forEach(page => {
+            const li = document.createElement('li');
+
+            if (page === '...') {
+                li.className = 'page-item dots';
+                li.innerHTML = '<span class="page-link">...</span>';
+            } else {
+                li.className = `page-item ${page === currentPage ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" data-page="${page}">${page}</a>`;
+            }
+
+            paginationControls.appendChild(li);
+        });
+
+        // Next button
+        const nextLi = document.createElement('li');
+        nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+        nextLi.innerHTML = `<a class="page-link" data-page="${currentPage + 1}">›</a>`;
+        paginationControls.appendChild(nextLi);
+
+        // ===== GẮN SỰ KIỆN CLICK =====
+        paginationControls.querySelectorAll('.page-link[data-page]').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const page = parseInt(this.dataset.page);
+                if (page >= 1 && page <= totalPages && page !== currentPage) {
+                    loadAnalytics(page);
+
+                    // Scroll to top của transaction table
+                    document.querySelector('.transaction-table').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        console.log(`✅ Pagination rendered: Page ${currentPage}/${totalPages}`);
+    }
+
+    // ===== HÀM TÍNH TOÁN PAGE NUMBERS =====
+    function calculatePageNumbers(current, total) {
+        const delta = 2; // Số trang hiển thị trước và sau trang hiện tại
+        const range = [];
+
+        for (let i = Math.max(2, current - delta); i <= Math.min(total - 1, current + delta); i++) {
+            range.push(i);
+        }
+
+        if (current - delta > 2) {
+            range.unshift('...');
+        }
+        if (current + delta < total - 1) {
+            range.push('...');
+        }
+
+        range.unshift(1);
+        if (total > 1) {
+            range.push(total);
+        }
+
+        return range;
     }
 });
