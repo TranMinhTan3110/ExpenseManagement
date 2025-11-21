@@ -57,14 +57,23 @@
                     render: function (data) {
                         const classes = {
                             'Open': 'badge-open',
+                            'Pending': 'badge-inprogress', 
                             'InProgress': 'badge-inprogress',
                             'Resolved': 'badge-resolved',
                             'Closed': 'badge-closed'
                         };
-                        const labels = { 'InProgress': 'In Progress' };
-                        const badgeClass = classes[data] || 'badge-open';
-                        const label = labels[data] || data;
-                        return `<span class="badge ${badgeClass}">${label}</span>`;
+                        
+                        const labels = {
+                            'Open': 'Mở',
+                            'Pending': 'Đang xử lí',
+                            'InProgress': 'Đang xử lí', 
+                            'Resolved': 'Đã giải quyết',
+                            'Closed': 'Đã đóng'
+                        };
+
+                        const badgeClass = classes[data] || 'badge-open';
+                        const label = labels[data] || data;
+                        return `<span class="badge ${badgeClass}">${label}</span>`;
                     }
                 },
                 {
@@ -86,10 +95,10 @@
                     render: function (data, type, row) {
                         return `
                 <button class="btn btn-view btn-action btn-sm" onclick="viewTicket(${row.ticketID})">
-                    <i class="bi bi-eye"></i> View
+                    <i class="bi bi-eye"></i> Xem
                 </button>
                 <button class="btn btn-delete btn-action btn-sm" onclick="deleteTicket(${row.ticketID})">
-                    <i class="bi bi-trash"></i> Delete
+                    <i class="bi bi-trash"></i> Xóa
                 </button>
             `;
                     }
@@ -99,7 +108,7 @@
             responsive: true,
             language: {
                 search: "Tìm kiếm:",
-                lengthMenu: "Hiển thị _MENU_ tickets",
+                lengthMenu: "Hiển thị _MENU_ yêu cầu",
                 info: "Hiển thị _START_ đến _END_ trong tổng số _TOTAL_ tickets",
                 infoEmpty: "Không có tickets",
                 infoFiltered: "(lọc từ _MAX_ tickets)",
@@ -168,7 +177,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="detail-row">
-                        <div class="detail-label"><i class="bi bi-person me-2"></i>User Name</div>
+                        <div class="detail-label"><i class="bi bi-person me-2"></i>Tên người dùng</div>
                         <div class="detail-value">${ticket.userName || ticket.UserName}</div>
                     </div>
                 </div>
@@ -181,41 +190,41 @@
             </div>
 
             <div class="detail-row">
-                <div class="detail-label"><i class="bi bi-file-text me-2"></i>Description</div>
+                <div class="detail-label"><i class="bi bi-file-text me-2"></i>Mô tả</div>
                 <div class="detail-description">${ticket.description || ticket.Description}</div>
             </div>
 
             <div class="row">
                 <div class="col-md-6">
                     <div class="detail-row">
-                        <div class="detail-label"><i class="bi bi-tag me-2"></i>Question Type</div>
+                        <div class="detail-label"><i class="bi bi-tag me-2"></i>Loại câu hỏi</div>
                         <div class="detail-value">${ticket.questionType || ticket.QuestionType}</div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="detail-row">
-                        <div class="detail-label">Status</div>
+                        <div class="detail-label">Trạng thái</div>
                         <select class="form-select" id="ticketStatus">
-                            <option value="Open" ${(ticket.status || ticket.Status) === 'Open' ? 'selected' : ''}>Open</option>
-                            <option value="Pending" ${(ticket.status || ticket.Status) === 'Pending' ? 'selected' : ''}>Pending</option>
-                            <option value="Resolved" ${(ticket.status || ticket.Status) === 'Resolved' ? 'selected' : ''}>Resolved</option>
+                            <option value="Open" ${(ticket.status || ticket.Status) === 'Open' ? 'selected' : ''}>Mở</option>
+                            <option value="Pending" ${(ticket.status || ticket.Status) === 'Pending' ? 'selected' : ''}>Đang xử lí</option>
+                            <option value="Resolved" ${(ticket.status || ticket.Status) === 'Resolved' ? 'selected' : ''}>Đã giải quyết</option>
                         </select>
                     </div>
                 </div>
             </div>
 
             <div class="detail-row">
-                <div class="detail-label"><i class="bi bi-pencil-square me-2"></i>Admin Note</div>
+                <div class="detail-label"><i class="bi bi-pencil-square me-2"></i>Ghi chú người quản trị</div>
                <textarea class="form-control" id="adminNote" rows="3"
   placeholder="Add your notes here...">${ticket.adminNote || ticket.AdminNote || ''}</textarea>
             </div>
 
             <div class="row mt-3">
                 <div class="col-md-6">
-                    <small class="text-muted"><i class="bi bi-clock me-1"></i>Created: ${createdDate.toLocaleString('vi-VN')}</small>
+                    <small class="text-muted"><i class="bi bi-clock me-1"></i>Ngày tạo: ${createdDate.toLocaleString('vi-VN')}</small>
                 </div>
                 <div class="col-md-6 text-end">
-                    <small class="text-muted"><i class="bi bi-clock-history me-1"></i>Updated: ${updatedDate.toLocaleString('vi-VN')}</small>
+                    <small class="text-muted"><i class="bi bi-clock-history me-1"></i>Cập nhật: ${updatedDate.toLocaleString('vi-VN')}</small>
                 </div>
             </div>
 
@@ -244,8 +253,8 @@
             success: function (response) {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Success!',
-                    text: 'Ticket updated successfully',
+                    title: 'Thành công!',
+                    text: 'Yêu cầu cập nhật thành công',
                     timer: 2000,
                     showConfirmButton: false
                 });
@@ -257,8 +266,8 @@
             error: function (xhr, status, error) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Error!',
-                    text: 'Failed to update ticket: ' + error
+                    title: 'Thất bại!',
+                    text: 'Thất bại cập nhập yêu cầu: ' + error
                 });
             }
         });
@@ -267,8 +276,8 @@
     // ===== DELETE TICKET =====
     window.deleteTicket = function (ticketId) {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: 'Bạn có chắc chắn xóa không?',
+            text: "Bạn sẽ không có khả năng khôi phục nó!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#dc3545',
@@ -283,8 +292,8 @@
                     success: function (response) {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Deleted!',
-                            text: 'Ticket has been deleted.',
+                            title: 'Đã xóa!',
+                            text: 'Yêu cầu đã bị xóa.',
                             timer: 2000,
                             showConfirmButton: false
                         });
@@ -295,8 +304,8 @@
                     error: function (xhr, status, error) {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error!',
-                            text: 'Failed to delete ticket: ' + error
+                            title: 'Lỗi!',
+                            text: 'Đã thất bại khi xóa yêu cầu: ' + error
                         });
                     }
                 });

@@ -1,7 +1,7 @@
 ﻿@using System.Security.Claims
 @{
-    ViewData["Title"] = "DashBoard";
-    ViewData["Subtitle"] = $"Welcome back, {User.FindFirstValue(ClaimTypes.Name)}!";
+    ViewData["Title"] = "Tổng quan";
+    ViewData["Subtitle"] = $"Chào mừng trở lại, {User.FindFirstValue(ClaimTypes.Name)}!";
     ViewData["Icon"] = "bi bi-layout-text-sidebar-reverse";
     Layout = "~/Views/Shared/LayoutAdmin.cshtml";
 }
@@ -90,11 +90,11 @@
             </div>
             <div class="stat-details">
                 <h3 class="stat-number">@ViewBag.UserCount</h3>
-                <p class="stat-label">Users</p>
+                <p class="stat-label">Người dùng</p>
                 <small class="stat-change @(ViewBag.UserGrowth >= 0 ? "positive" : "negative")">
                     @if (ViewBag.LastMonthUserCount == 0)
                     {
-                        <i class="bi bi-star-fill"></i> <span>+@((int)ViewBag.UserGrowth) new users this month</span>
+                        <i class="bi bi-star-fill"></i> <span>+@((int)ViewBag.UserGrowth) người dùng mới trong tháng này</span>
                     }
                     else if (ViewBag.UserGrowth == 0)
                     {
@@ -116,11 +116,11 @@
             </div>
             <div class="stat-details">
                 <h3 class="stat-number">@ViewBag.TransactionCount</h3>
-                <p class="stat-label">Trans</p>
+                <p class="stat-label">Giao dịch</p>
                 <small class="stat-change @(ViewBag.TransGrowth >= 0 ? "positive" : "negative")">
                     @if (ViewBag.LastMonthTransactionCount == 0)
                     {
-                        <i class="bi bi-star-fill"></i> <span>+@((int)ViewBag.TransGrowth) new transactions this month</span>
+                        <i class="bi bi-star-fill"></i> <span>+@((int)ViewBag.TransGrowth) giao dịch mới trong tháng này</span>
                     }
                     else if (ViewBag.TransGrowth == 0)
                     {
@@ -142,10 +142,10 @@
             </div>
             <div class="stat-details">
                 <h3 class="stat-number">@ViewBag.TotalTicketCount</h3>
-                <p class="stat-label">Tickets</p>
+                <p class="stat-label">Yêu cầu</p>
                 <small class="stat-change @(ViewBag.PendingTicketCount > 0 ? "negative" : "positive")">
                     <i class="bi bi-@(ViewBag.PendingTicketCount > 0 ? "exclamation-circle" : "check-circle")"></i>
-                    @ViewBag.PendingTicketCount pending
+                    @ViewBag.PendingTicketCount yêu cầu đang xử lí 
                 </small>
             </div>
         </div>
@@ -199,7 +199,7 @@
             data: {
                 labels: chartLabels,
                 datasets: [{
-                    label: 'Số lượng Users',
+                    label: 'Số lượng người dùng',
                     data: chartData,
                     borderColor: '#2174c6',
                     backgroundColor: gradient,

@@ -1,11 +1,13 @@
-﻿@{
-    ViewData["Title"] = "User";
-    ViewData["Subtitle"] = "Welcome back, Administrator!";
+﻿@using System.Security.Claims
+@{
+    ViewData["Title"] = "Quản lí người dùng";
+    ViewData["Subtitle"] = $"Chào mừng trở lại, {User.FindFirstValue(ClaimTypes.Name)}!";
     ViewData["Icon"] = "bi bi-person";
     Layout = "~/Views/Shared/LayoutAdmin.cshtml";
 }
 @model QuanLyChiTieu_WebApp.ViewModels.UserManagementViewModel
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <div class="container-fluid">
     <!-- Header Section -->
     <div class="row mb-4">
@@ -14,27 +16,27 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                         <div>
-                            <h5 class="mb-1">User Management</h5>
-                            <p class="text-muted mb-0">Manage all system users and their accounts</p>
+                            <h5 class="mb-1">Quản lí người dùng</h5>
+                            <p class="text-muted mb-0">quản lý tất cả người dùng và tài khoản của họ</p>
                         </div>
                         <div class="d-flex gap-2 flex-wrap">
                             <!-- Search -->
                             <form method="get" asp-action="Index" class="d-flex gap-2">
-                                <input type="text" class="form-control" placeholder="Search users..."
+                                <input type="text" class="form-control" placeholder="Tìm kiếm người dùng..."
                                        name="searchTerm" value="@Model.SearchTerm" style="width: 200px;">
 
                                 <!-- Role Filter -->
                                 <select class="form-select" name="roleFilter" style="width: 120px;">
-                                    <option value="">All Roles</option>
-                                    <option value="Admin" selected="@(Model.RoleFilter == "Admin")">Admin</option>
-                                    <option value="User" selected="@(Model.RoleFilter == "User")">User</option>
+                                    <option value="">Vai trò</option>
+                                    <option value="Admin" selected="@(Model.RoleFilter == "Admin")">Quản trị</option>
+                                    <option value="User" selected="@(Model.RoleFilter == "User")">Người dùng</option>
                                 </select>
 
                                 <!-- Status Filter -->
                                 <select class="form-select" name="statusFilter" style="width: 120px;">
-                                    <option value="">All Status</option>
-                                    <option value="Active" selected="@(Model.StatusFilter == "Active")">Active</option>
-                                    <option value="Blocked" selected="@(Model.StatusFilter == "Blocked")">Blocked</option>
+                                    <option value="">Trạng thái</option>
+                                    <option value="Active" selected="@(Model.StatusFilter == "Active")">Hoạt động</option>
+                                    <option value="Blocked" selected="@(Model.StatusFilter == "Blocked")">Chặn</option>
                                 </select>
 
                                 <button type="submit" class="btn btn-primary">
@@ -64,7 +66,7 @@
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <h6 class="text-muted mb-1">Total Users</h6>
+                            <h6 class="text-muted mb-1">Tổng người dùng</h6>
                             <h3 class="mb-0">@Model.TotalUsers</h3>
                         </div>
                     </div>
@@ -81,7 +83,7 @@
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <h6 class="text-muted mb-1">Active Users</h6>
+                            <h6 class="text-muted mb-1">Số người dùng hoạt động</h6>
                             <h3 class="mb-0">@Model.ActiveUsers</h3>
                         </div>
                     </div>
@@ -98,7 +100,7 @@
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <h6 class="text-muted mb-1">Blocked Users</h6>
+                            <h6 class="text-muted mb-1">Số người dùng bị chặn</h6>
                             <h3 class="mb-0">@Model.BlockedUsers</h3>
                         </div>
                     </div>
@@ -115,7 +117,7 @@
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <h6 class="text-muted mb-1">Administrators</h6>
+                            <h6 class="text-muted mb-1">Số quản trị viên</h6>
                             <h3 class="mb-0">@Model.AdminUsers</h3>
                         </div>
                     </div>
@@ -132,12 +134,12 @@
                     <!-- Hiển thị thông tin phân trang -->
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="text-muted">
-                            Showing @((Model.Users.PageIndex - 1) * Model.Users.PageSize + 1)
-                            to @(Math.Min(Model.Users.PageIndex * Model.Users.PageSize, Model.Users.TotalCount))
-                            of @Model.Users.TotalCount users
+                            Cho thấy từ @((Model.Users.PageIndex - 1) * Model.Users.PageSize + 1)
+                            đến @(Math.Min(Model.Users.PageIndex * Model.Users.PageSize, Model.Users.TotalCount))
+                            trong tổng số @Model.Users.TotalCount users
                         </div>
                         <div class="text-muted">
-                            Page @Model.Users.PageIndex of @Model.Users.TotalPages
+                            Trang @Model.Users.PageIndex của @Model.Users.TotalPages
                         </div>
                     </div>
 
@@ -146,13 +148,13 @@
                             <thead class="table-light">
                                 <tr>
                                     <th style="width: 5%;">#</th>
-                                    <th style="width: 20%;">User</th>
+                                    <th style="width: 20%;">Người dùng</th>
                                     <th style="width: 20%;">Email</th>
-                                    <th style="width: 10%;">Role</th>
-                                    <th style="width: 15%;">Created Date</th>
-                                    <th style="width: 15%;">Last Login</th>
-                                    <th style="width: 10%;">Status</th>
-                                    <th style="width: 5%;">Actions</th>
+                                    <th style="width: 10%;">Vai trò</th>
+                                    <th style="width: 15%;">Ngày tạo</th>
+                                    <th style="width: 15%;">Đăng nhập cuối</th>
+                                    <th style="width: 10%;">Trạng thái</th>
+                                    <th style="width: 5%;">Điều khiển</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -184,19 +186,19 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <i class="bi bi-envelope me-2 text-muted"></i>@user.Email
+                                            @user.Email
                                         </td>
                                         <td>
                                             @if (user.Role == "Admin")
                                             {
                                                 <span class="badge bg-primary rounded-pill">
-                                                    <i class="bi bi-shield-fill me-1"></i>Admin
+                                                    <i class="bi bi-shield-fill me-1"></i>Quản trị
                                                 </span>
                                             }
                                             else
                                             {
                                                 <span class="badge bg-secondary rounded-pill">
-                                                    <i class="bi bi-person-fill me-1"></i>User
+                                                    <i class="bi bi-person-fill me-1"></i>Người dùng
                                                 </span>
                                             }
                                         </td>
@@ -212,20 +214,20 @@
                                             }
                                             else
                                             {
-                                                <span class="text-muted fst-italic">Never logged in</span>
+                                                <span class="text-muted fst-italic">Chưa bao giờ đăng nhập</span>
                                             }
                                         </td>
                                         <td>
                                             @if (user.IsActive)
                                             {
                                                 <span class="badge bg-success rounded-pill">
-                                                    <i class="bi bi-check-circle me-1"></i>Active
+                                                    <i class="bi bi-check-circle me-1"></i>Hoạt động
                                                 </span>
                                             }
                                             else
                                             {
                                                 <span class="badge bg-danger rounded-pill">
-                                                    <i class="bi bi-x-circle me-1"></i>Blocked
+                                                    <i class="bi bi-x-circle me-1"></i>Chặn
                                                 </span>
                                             }
                                         </td>
@@ -240,7 +242,7 @@
                                                     {
                                                         <li>
                                                             <a class="dropdown-item text-danger" href="#" onclick="toggleUserStatus('@user.UserID', false)">
-                                                                <i class="bi bi-lock-fill me-2"></i>Block User
+                                                                <i class="bi bi-lock-fill me-2"></i>Chặn người dùng
                                                             </a>
                                                         </li>
                                                     }
@@ -248,7 +250,7 @@
                                                     {
                                                         <li>
                                                             <a class="dropdown-item text-success" href="#" onclick="toggleUserStatus('@user.UserID', true)">
-                                                                <i class="bi bi-unlock-fill me-2"></i>Unblock User
+                                                                <i class="bi bi-unlock-fill me-2"></i>Gỡ chặn
                                                             </a>
                                                         </li>
                                                     }
@@ -390,31 +392,76 @@
 </style>
 
 <!-- JavaScript for Toggle Status -->
+<!-- JavaScript for Toggle Status -->
 <script>
     function toggleUserStatus(userId, activate) {
-        const action = activate ? 'unblock' : 'block';
+        const action = activate ? 'gỡ chặn' : 'chặn';
+        const actionTitle = activate ? 'Gỡ chặn người dùng?' : 'Chặn người dùng?';
+        const actionText = activate ? 'Người dùng này sẽ được phép truy cập lại hệ thống' : 'Người dùng này sẽ không thể đăng nhập vào hệ thống';
 
-        if (confirm(`Are you sure you want to ${action} this user?`)) {
-            fetch(`/UserAD/ToggleStatus/${userId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ isActive: activate })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while updating user status.');
-            });
-        }
+        Swal.fire({
+            title: actionTitle,
+            text: actionText,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: activate ? '#28a745' : '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: activate ? '<i class="bi bi-unlock-fill me-1"></i> Gỡ chặn' : '<i class="bi bi-lock-fill me-1"></i> Chặn',
+            cancelButtonText: '<i class="bi bi-x-circle me-1"></i> Hủy',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Hiển thị loading
+                Swal.fire({
+                    title: 'Đang xử lý...',
+                    text: 'Vui lòng đợi trong giây lát',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                fetch(`/UserAD/ToggleStatus/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ isActive: activate })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: activate ? 'Đã gỡ chặn người dùng thành công' : 'Đã chặn người dùng thành công',
+                            confirmButtonColor: '#2563eb',
+                            timer: 2000,
+                            timerProgressBar: true
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: data.message || 'Có lỗi xảy ra khi cập nhật trạng thái người dùng',
+                            confirmButtonColor: '#2563eb'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Không thể kết nối đến máy chủ. Vui lòng thử lại sau.',
+                        confirmButtonColor: '#2563eb'
+                    });
+                });
+            }
+        });
     }
 </script>
 
