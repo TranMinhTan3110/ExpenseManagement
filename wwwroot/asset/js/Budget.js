@@ -469,6 +469,22 @@ window.openAddBudgetModal = async function () {
 
         await reloadCategoryPicker();
 
+
+        //const amountInput = document.getElementById("budgetAmountInput");
+        //if (amountInput) {
+        //    amountInput.addEventListener("input", () => {
+        //        if (amountInput.value < 0) {
+        //            amountInput.value = 0;
+        //            Swal.fire({
+        //                icon: 'warning',
+        //                title: 'Số tiền không hợp lệ',
+        //                text: 'Không được nhập số âm!',
+        //                confirmButtonColor: '#ffc107'
+        //            });
+        //        }
+        //    });
+        //}
+
         const appContainer = document.querySelector('.app-container');
         if (appContainer) {
             appContainer.removeAttribute('aria-hidden');
@@ -478,6 +494,7 @@ window.openAddBudgetModal = async function () {
         modal.show();
     }
 };
+
 
 // ============= LOAD BUDGETS =============
 async function loadBudgets() {
@@ -1276,6 +1293,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                 });
                 return;
             }
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
 
             const editId = form.dataset.editId;
             const categoryInUse = await checkCategoryInUse(categoryId, editId);
