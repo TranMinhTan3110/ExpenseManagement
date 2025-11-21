@@ -23,34 +23,38 @@ namespace QuanLyChiTieu_WebApp.Controllers
 
         /// <summary>
         /// Lấy analytics cho Expense
-        /// GET: /api/analytics/expense?walletId=1002&month=2025-11
+        /// GET: /api/analytics/expense?walletId=1002&month=2025-11&page=1&pageSize=7
         /// </summary>
         [HttpGet("expense")]
         public async Task<IActionResult> GetExpenseAnalytics(
             [FromQuery] int? walletId,
-            [FromQuery] string? month)
+            [FromQuery] string? month,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 7)
         {
             try
             {
                 // Lấy userId từ claims
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                
+
                 if (string.IsNullOrEmpty(userId))
                 {
                     _logger.LogWarning("[API] UserId not found in claims");
                     return Unauthorized(new { message = "Không tìm thấy thông tin người dùng" });
                 }
 
-                _logger.LogInformation($"[API] GetExpenseAnalytics - UserId: {userId}, WalletId: {walletId}, Month: {month}");
+                _logger.LogInformation($"[API] GetExpenseAnalytics - UserId: {userId}, WalletId: {walletId}, Month: {month}, Page: {page}");
 
                 // Gọi service
                 var result = await _analyticsService.GetExpenseAnalyticsAsync(
                     userId,
                     walletId,
-                    month
+                    month,
+                    page,
+                    pageSize
                 );
 
-                _logger.LogInformation($"[API] Success - {result.TransactionHistory.Count} transactions, {result.ExpenseBreakdown.Count} categories");
+                _logger.LogInformation($"[API] Success - {result.TransactionHistory.Count} transactions, Page {result.CurrentPage}/{result.TotalPages}");
 
                 // Trả về JSON với property names lowercase
                 return Ok(new
@@ -58,30 +62,34 @@ namespace QuanLyChiTieu_WebApp.Controllers
                     expenseBreakdown = result.ExpenseBreakdown,
                     transactionHistory = result.TransactionHistory,
                     totalExpense = result.TotalExpense,
-                    selectedMonth = result.SelectedMonth
+                    selectedMonth = result.SelectedMonth,
+                    currentPage = result.CurrentPage,
+                    totalPages = result.TotalPages,
+                    totalRecords = result.TotalRecords
                 });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "[API] Error in GetExpenseAnalytics");
-                
-                // Trả về lỗi chi tiết (chỉ trong development)
+
                 return StatusCode(500, new
                 {
                     message = "Đã xảy ra lỗi khi xử lý yêu cầu",
                     error = ex.Message,
-                    // Chỉ hiển thị trong development
-                    #if DEBUG
+#if DEBUG
                     stackTrace = ex.StackTrace,
                     innerException = ex.InnerException?.Message
-                    #endif
+#endif
                 });
             }
         }
+
         [HttpGet("income")]
         public async Task<IActionResult> GetIncomeAnalytics(
-    [FromQuery] int? walletId,
-    [FromQuery] string? month)
+            [FromQuery] int? walletId,
+            [FromQuery] string? month,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 7)
         {
             try
             {
@@ -89,12 +97,14 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 if (string.IsNullOrEmpty(userId))
                     return Unauthorized(new { message = "Không tìm thấy thông tin người dùng" });
 
-                _logger.LogInformation($"[API] GetIncomeAnalytics - UserId: {userId}, WalletId: {walletId}, Month: {month}");
+                _logger.LogInformation($"[API] GetIncomeAnalytics - UserId: {userId}, WalletId: {walletId}, Month: {month}, Page: {page}");
 
                 var result = await _analyticsService.GetIncomeAnalyticsAsync(
                     userId,
                     walletId,
-                    month
+                    month,
+                    page,
+                    pageSize
                 );
 
                 return Ok(new
@@ -102,7 +112,10 @@ namespace QuanLyChiTieu_WebApp.Controllers
                     incomeBreakdown = result.IncomeBreakdown,
                     transactionHistory = result.TransactionHistory,
                     totalIncome = result.TotalIncome,
-                    selectedMonth = result.SelectedMonth
+                    selectedMonth = result.SelectedMonth,
+                    currentPage = result.CurrentPage,
+                    totalPages = result.TotalPages,
+                    totalRecords = result.TotalRecords
                 });
             }
             catch (Exception ex)
@@ -115,6 +128,5 @@ namespace QuanLyChiTieu_WebApp.Controllers
                 });
             }
         }
-
     }
 }

@@ -100,3 +100,20 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        var successMessage = '@Html.Raw(TempData["SuccessMessage"])';
+
+        if (successMessage && successMessage.trim() !== '') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Tạo Ticket Thành Công!',
+                text: successMessage,
+                showConfirmButton: false,
+                timer: 4000
+            });
+        }
+    </script>
+}
