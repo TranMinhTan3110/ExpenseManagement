@@ -4,21 +4,26 @@
     background-size: cover;
     background-position: center;
 }
+
 .dashboard .content-body {
     margin-left: 80px;
     margin-right: 0px;
     margin-top: 0px;
     background-color: #e6f0fa;
 }
+
 .authincation {
     height: 100vh;
 }
-.authincation > .container {
-  height: 100vh;
-}
-.authincation > .container > .row {
-  height: 100vh;
-}
+
+    .authincation > .container {
+        height: 100vh;
+    }
+
+        .authincation > .container > .row {
+            height: 100vh;
+        }
+
 .welcome-content {
     background: url("/asset/img/backgroundLogin.jpg") no-repeat !important;
     background-size: cover !important;
@@ -31,33 +36,36 @@
     min-height: 160px;
     margin-bottom: 100px;
 }
-.welcome-content::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: #2f2cd8;
-  opacity: 0.75;
-  z-index: -1;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
-.welcome-content .welcome-title {
-  padding-left: 30px;
-  padding-top: 30px;
-}
-    .welcome-content .welcome-title h3,
-    .welcome-content .welcome-title .h3 {
-        font-size: 28px; /* to hơn */
-        font-weight: 700; /* đậm hơn */
-        color: #ffffff; /* giữ trắng */
-        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* hiệu ứng đổ bóng nhẹ */
-        letter-spacing: 0.5px; /* giãn chữ nhẹ */
-        animation: fadeInDown 1s ease-in-out;
+
+    .welcome-content::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: #2f2cd8;
+        opacity: 0.75;
+        z-index: -1;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
     }
-/* Hiệu ứng mờ dần hiện xuống */
+
+    .welcome-content .welcome-title {
+        padding-left: 30px;
+        padding-top: 30px;
+    }
+
+        .welcome-content .welcome-title h3,
+        .welcome-content .welcome-title .h3 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            animation: fadeInDown 1s ease-in-out;
+        }
+
 @keyframes fadeInDown {
     from {
         opacity: 0;
@@ -69,112 +77,174 @@
         transform: translateY(0);
     }
 }
+
 .welcome-content .privacy-social {
-  position: absolute;
-  bottom: 0;
-  bottom: 30px;
-  left: 30px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: reverse;
-  -ms-flex-direction: column-reverse;
-  flex-direction: column-reverse;
+    position: absolute;
+    bottom: 0;
+    bottom: 30px;
+    left: 30px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+    -ms-flex-direction: column-reverse;
+    flex-direction: column-reverse;
 }
+
 .welcome-content .privacy-link a {
-  color: #fff;
-  font-size: 12px;
-  line-height: 0;
+    color: #fff;
+    font-size: 12px;
+    line-height: 0;
 }
+
 .welcome-content .intro-social {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
-.welcome-content .intro-social ul {
-  margin-bottom: 0;
-  padding: 0;
-}
-.welcome-content .intro-social ul li {
-  display: inline-block;
-  transition: transform 200ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 200ms;
-}
-.welcome-content .intro-social ul li a {
-  color: #fff;
-  font-size: 14px;
-  padding-right: 15px;
-}
-.welcome-content .intro-social ul li:hover {
-  transform: scale(1.2);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
-  outline: none;
-}
+
+    .welcome-content .intro-social ul {
+        margin-bottom: 0;
+        padding: 0;
+    }
+
+        .welcome-content .intro-social ul li {
+            display: inline-block;
+            transition: transform 200ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 200ms;
+        }
+
+            .welcome-content .intro-social ul li a {
+                color: #fff;
+                font-size: 14px;
+                padding-right: 15px;
+            }
+
+            .welcome-content .intro-social ul li:hover {
+                transform: scale(1.2);
+                box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+                outline: none;
+            }
+
 .auth-form {
-  padding: 30px 20px;
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
-  background: #fff;
-  min-height: 260px;
+    padding: 30px 20px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    background: #fff;
+    min-height: 260px;
 }
 
 .privacy-link a {
-  display: inline-block;
-  font-size: 14px;
-  line-height: 28px;
-  color: #0f172a;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 28px;
+    color: #0f172a;
 }
+
 .authincation a {
-  color: #615fe1;
-  text-decoration: none;
+    color: #615fe1;
+    text-decoration: none;
 }
+
 .undefiend {
-  color: rgba(0, 0, 0, 0.371);
+    color: rgba(0, 0, 0, 0.371);
 }
+
 .mt-3.d-grid.gap-2 {
-  transition: transform 200ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 200ms;
+    transition: transform 200ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 200ms;
 }
-.mt-3.d-grid.gap-2:hover {
-  transform: scale(0.99);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
-  outline: none;
-}
+
+    .mt-3.d-grid.gap-2:hover {
+        transform: scale(0.99);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+        outline: none;
+    }
+
 .google {
     background-color: #fff;
     border: 1px solid #e0e0e0;
 }
-.google:hover{
-        background-color: #f5f5f5;
-}
-/* ----- THÊM MỚI CSS CHO LOADER ----- */
 
-/* Lớp phủ mờ toàn màn hình */
+    .google:hover {
+        background-color: #f5f5f5;
+    }
+
+/* ====================================== */
+/* PASSWORD TOGGLE STYLES                 */
+/* ====================================== */
+
+/* Wrapper cho input password và icon */
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+    /* Input password chiếm toàn bộ chiều rộng */
+    .password-input-wrapper .form-control {
+        padding-right: 40px; /* Để chừa chỗ cho icon */
+        width: 100%;
+    }
+
+/* Icon toggle (con mắt) */
+.password-toggle-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+    font-size: 18px;
+    transition: color 0.3s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+    .password-toggle-icon:hover {
+        color: #2f2cd8;
+    }
+
+    .password-toggle-icon i {
+        pointer-events: none; /* Đảm bảo click vào icon sẽ trigger được onclick */
+    }
+
+    /* Animation khi đổi icon */
+    .password-toggle-icon i {
+        transition: opacity 0.2s ease;
+    }
+
+/* ====================================== */
+/* LOADER STYLES                          */
+/* ====================================== */
+
 #loader-overlay {
-    display: none; /* Ẩn đi theo mặc định */
-    position: fixed; /* Che toàn bộ màn hình */
+    display: none;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.7); /* Màu trắng mờ */
-    z-index: 9998; /* Nằm trên mọi thứ */
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 9998;
 }
 
-/* Biểu tượng quay tròn (spinner) */
 .loader-spinner {
     position: absolute;
     top: 50%;
     left: 50%;
     width: 50px;
     height: 50px;
-    margin-left: -25px; /* Căn giữa (một nửa chiều rộng) */
-    margin-top: -25px; /* Căn giữa (một nửa chiều cao) */
-    border: 5px solid #f3f3f3; /* Vòng màu xám nhạt */
-    border-top: 5px solid #3498db; /* Vòng màu xanh */
+    margin-left: -25px;
+    margin-top: -25px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
     border-radius: 50%;
-    animation: spin 1s linear infinite; /* Animation quay */
+    animation: spin 1s linear infinite;
     z-index: 9999;
 }
 
-/* Keyframe cho animation quay */
 @keyframes spin {
     0% {
         transform: rotate(0deg);

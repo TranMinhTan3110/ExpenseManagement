@@ -1,24 +1,24 @@
 ﻿@{
     ViewBag.Title = "Search Transactions";
 }
-
 @section Styles {
     <link rel="stylesheet" href="~/asset/css/Search.css" />
 }
 
 <div class="content-body">
     <div class="container-dashboard">
+        <!-- Page Header -->
         <div class="page-header d-flex justify-content-between align-items-center mb-4">
             <div class="page-title">
                 <h2 class="mb-0">Tìm kiếm giao dịch</h2>
                 <p class="mb-0 text-muted">Tìm kiếm và lọc giao dịch của bạn</p>
             </div>
-            <nav aria-label="breadcrumb">
+            @* <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Home</a></li>
-                    <li class="breadcrumb-item" aria-current="page">Search</li>
+                    <li class="breadcrumb-item active" aria-current="page">Search</li>
                 </ol>
-            </nav>
+            </nav> *@
         </div>
 
         <!-- Search Filters -->
@@ -74,12 +74,17 @@
             <div class="search-results-header">
                 <h5 id="resultCount">Đang tìm kiếm...</h5>
             </div>
+
+            <!-- Results Container -->
             <div id="searchResultsContainer">
                 <div class="empty-state">
                     <i class="fi fi-rr-spinner"></i>
                     <p>Đang tải...</p>
                 </div>
             </div>
+
+            <!-- Pagination Container -->
+            <div id="paginationContainer"></div>
         </div>
     </div>
 </div>
