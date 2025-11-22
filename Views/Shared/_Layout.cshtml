@@ -55,42 +55,42 @@
                     </li>
                     <li>
                         <a asp-controller="DashBoard" asp-action="Index"
-                           title="Dashboard" data-bs-toggle="tooltip" data-bs-placement="right"
+                           title="Tổng quan" data-bs-toggle="tooltip" data-bs-placement="right"
                            class="@(currentController == "DashBoard" ? "active" : "")">
                             <span class="sidebar-icon"><i class="fi fi-rr-dashboard"></i></span>
                         </a>
                     </li>
                     <li>
                         <a asp-controller="Wallets" asp-action="Index"
-                           title="Wallets" data-bs-toggle="tooltip" data-bs-placement="right"
+                           title="Ví" data-bs-toggle="tooltip" data-bs-placement="right"
                            class="@(currentController == "Wallets" ? "active" : "")">
                             <span class="sidebar-icon"><i class="fa-solid fa-wallet"></i></span>
                         </a>
                     </li>
                     <li>
                         <a asp-controller="Budget" asp-action="Index"
-                           title="Budgets" data-bs-toggle="tooltip" data-bs-placement="right"
+                           title="Ngân sách" data-bs-toggle="tooltip" data-bs-placement="right"
                            class="@(currentController == "Budget" ? "active" : "")">
                             <span class="sidebar-icon"><i class="fi fi-rr-donate"></i></span>
                         </a>
                     </li>
                     <li>
                         <a asp-controller="Goals" asp-action="Index"
-                           title="Goals" data-bs-toggle="tooltip" data-bs-placement="right"
+                           title="Mục tiêu" data-bs-toggle="tooltip" data-bs-placement="right"
                            class="@(currentController == "Goals" ? "active" : "")">
                             <span class="sidebar-icon"><i class="fi fi-br-bullseye-arrow"></i></span>
                         </a>
                     </li>
                     <li>
                         <a asp-controller="Settings" asp-action="Profile"
-                           title="Settings" data-bs-toggle="tooltip" data-bs-placement="right"
+                           title="Cài đặt" data-bs-toggle="tooltip" data-bs-placement="right"
                            class="@(currentController == "Settings" ? "active" : "")">
                             <span class="sidebar-icon"><i class="fi fi-rr-user"></i></span>
                         </a>
                     </li>
                     <li>
                         <a asp-controller="Analytics" asp-action="Income"
-                           title="Analytics" data-bs-toggle="tooltip" data-bs-placement="right"
+                           title="Phân tích" data-bs-toggle="tooltip" data-bs-placement="right"
                            class="@(currentController == "Analytics" ? "active" : "")">
                             <span class="sidebar-icon"><i class="fi fi-rr-chart-histogram"></i></span>
                         </a>
@@ -216,20 +216,20 @@
 
                                     <a asp-controller="Settings" asp-action="Profile" class="dropdown-link">
                                         <i class="fi fi-rr-user"></i>
-                                        <span>Profile</span>
+                                        <span>Hồ sơ</span>
                                     </a>
                                     <a asp-controller="Wallets" asp-action="Index" class="dropdown-link">
                                         <i class="fa-solid fa-wallet"></i>
-                                        <span>Wallets</span>
+                                        <span>Ví của bạn</span>
                                     </a>
                                     <a asp-controller="Settings" asp-action="Profile" class="dropdown-link">
                                         <i class="fi fi-rr-settings"></i>
-                                        <span>Settings</span>
+                                        <span>Cài đặt</span>
                                     </a>
 
                                     <a asp-controller="Login" asp-action="Logout" class="dropdown-logout">
                                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                                        <span>Logout</span>
+                                        <span>Đăng xuất</span>
                                     </a>
                                 </div>
                             </div>

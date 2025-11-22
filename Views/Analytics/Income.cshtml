@@ -13,15 +13,15 @@
                     <div class="row align-items-center justify-content-between">
                         <div class="col-xl-4">
                             <div class="page-title-content">
-                                <h3>Income</h3>
-                                <p class="mb-2">Welcome Ekash Finance Management</p>
+                                <h3>Analytics</h3>
+                                <p class="mb-2">Chào mừng đến với Ekash</p>
                             </div>
                         </div>
                         <div class="col-auto">
                             <div class="breadcrumbs">
-                                <a href="@Url.Action("Index", "Home")">Home </a>
+                                <a href="@Url.Action("Index", "Home")">Trang chủ</a>
                                 <span><i class="fi fi-rr-angle-small-right"></i></span>
-                                <a asp-controller="Analytics" asp-action="Income">Income</a>
+                                <a asp-controller="Analytics" asp-action="Income">Thu nhập</a>
                             </div>
                         </div>
                     </div>
@@ -33,8 +33,8 @@
             <div class="col-xxl-12 col-xl-12">
 
                 <div class="settings-menu">
-                    <a asp-controller="Analytics" asp-action="Expense">Expenses</a>
-                    <a asp-controller="Analytics" asp-action="Income" class="active">Income</a>
+                    <a asp-controller="Analytics" asp-action="Expense">Chi tiêu</a>
+                    <a asp-controller="Analytics" asp-action="Income" class="active">Thu nhập</a>
                 </div>
 
                 @* ----------- FILTER CARD (giống Expense) ----------- *@
@@ -60,7 +60,7 @@
                             <div class="col-md-2">
                                 <label class="form-label">&nbsp;</label>
                                 <button id="btnResetFilter" class="btn btn-outline-secondary w-100">
-                                    <i class="fi fi-rr-refresh"></i> Reset
+                                    <i class="fi fi-rr-refresh"></i> Làm mới
                                 </button>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                     <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Income Breakdown</h4>
+                                <h4 class="card-title">Cơ cấu thu nhập</h4>
                             </div>
                             <div class="card-body">
                                 <div class="chart-wrapper">
@@ -97,7 +97,7 @@
                     <div class="col-xl-8">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Transaction History</h4>
+                                <h4 class="card-title">Lich sử giao dịch</h4>
                                 <span id="totalIncome" class="badge bg-success" style="font-size: 14px;">
                                     Tổng: 0đ
                                 </span>
@@ -108,10 +108,10 @@
                                         <table class="table mb-0 table-responsive-sm">
                                             <thead>
                                                 <tr>
-                                                    <th>Category</th>
-                                                    <th>Date</th>
-                                                    <th>Description</th>
-                                                    <th class="text-end">Amount</th>
+                                                    <th>Danh mục</th>
+                                                    <th>Ngày</th>
+                                                    <th>Nội dung</th>
+                                                    <th class="text-end">Số tiền</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

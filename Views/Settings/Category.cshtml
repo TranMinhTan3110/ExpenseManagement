@@ -18,15 +18,15 @@
                     <div class="row align-items-center justify-content-between">
                         <div class="col-xl-4 pape-title">
                             <div class="page-title-content">
-                                <h3>Categories</h3>
-                                <p class="mb-2">Welcome Ekash Finance Management</p>
+                                <h3>Danh mục    </h3>
+                                <p class="mb-2">Chào mừng đến với Ekash</p>
                             </div>
                         </div>
                         <div class="col-auto">
                             <div class="breadcrumbs">
-                                <a asp-controller="Settings" asp-action="Profile">Settings </a>
+                                <a asp-controller="Settings" asp-action="Profile">Cài đặt </a>
                                 <span><i class="fi fi-rr-angle-small-right"></i></span>
-                                <a asp-controller="Settings" asp-action="Category">Categories</a>
+                                <a asp-controller="Settings" asp-action="Category">Danh mục</a>
                             </div>
                         </div>
                     </div>
@@ -36,30 +36,30 @@
         <div class="row">
             <div class="col-xxl-12 col-xl-12">
                 <div class="settings-menu">
-                    <a asp-controller="Settings" asp-action="Profile">Profile</a>
-                    <a asp-controller="Settings" asp-action="Category" class="active">Categories</a>
-                    <a asp-controller="Settings" asp-action="Support">Support</a>
+                    <a asp-controller="Settings" asp-action="Profile">Hồ sơ</a>
+                    <a asp-controller="Settings" asp-action="Category" class="active">Danh mục</a>
+                    <a asp-controller="Settings" asp-action="Support">Hỗ trợ</a>
                 </div>
                 <div class="row">
                     <div class="col-xxl-4 col-xl-4 col-lg-6">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Create a new categories</h4>
+                                <h4 class="card-title">Tạo một danh mục mới</h4>
                             </div>
                             <div class="card-body">
                                 <div class="create-new-category">
 
                                     <form class="row" id="create-category-form">
                                         <div class="mb-3 col-12">
-                                            <label class="form-label">Name </label>
-                                            <input name="CategoryName" type="text" class="form-control" placeholder="category name">
+                                            <label class="form-label">Tên</label>
+                                            <input name="CategoryName" type="text" class="form-control" placeholder="Tên danh mục">
                                         </div>
                                         <div class="mb-3 col-12">
-                                            <label class="form-label">Type </label>
+                                            <label class="form-label">Loại</label>
                                             <select name="Type" class="form-select">
-                                                <option selected class="form-control" value="">Choose...</option>
-                                                <option value="Income">Income</option>
-                                                <option value="Expense">Expenses</option>
+                                                <option selected class="form-control" value="">Chọn...</option>
+                                                <option value="Income">Thu nhập</option>
+                                                <option value="Expense">Chi tiêu</option>
                                             </select>
                                         </div>
                                         <div class="mb-3 col-6">
@@ -67,7 +67,7 @@
                                             <div class="border rounded p-2 d-flex align-items-center justify-content-between form-control"
                                                  id="iconPickerToggle" style="cursor:pointer;">
                                                 <span id="selectedIconPreview" class="text-muted">
-                                                    Choose icon...
+                                                    Chọn icon...
                                                 </span>
                                                 <i class="fi fi-rr-angle-small-down"></i>
                                             </div>
@@ -78,11 +78,11 @@
                                             <input type="hidden" id="selectedIcon" name="IconID">
                                         </div>
                                         <div class="mb-3 col-6">
-                                            <label class="form-label">Color </label>
+                                            <label class="form-label">Màu </label>
                                             <div class="border rounded p-2 d-flex align-items-center justify-content-between form-control"
                                                  id="colorPickerToggle" style="cursor:pointer;">
                                                 <span id="selectedColorPreview" class="d-flex align-items-center gap-2 text-muted">
-                                                    Choose color...
+                                                    Chọn màu...
                                                 </span>
                                                 <i class="fi fi-rr-angle-small-down"></i>
                                             </div>
@@ -93,7 +93,7 @@
                                             <input type="hidden" id="selectedColor" name="ColorID">
                                         </div>
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-success w-100">Create new category</button>
+                                            <button type="submit" class="btn btn-success w-100">Tạo danh mục mới</button>
                                         </div>
                                     </form>
                                 </div>
@@ -103,7 +103,7 @@
                     <div class="col-xxl-8 col-xl-8 col-lg-6">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Income Categories</h4>
+                                <h4 class="card-title">Danh mục thu nhập</h4>
                             </div>
                             <div class="card-body">
                                 <div class="category-type">
@@ -114,7 +114,7 @@
                         </div>
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Expense Categories</h4>
+                                <h4 class="card-title">Danh mục chi tiêu</h4>
                             </div>
                             <div class="card-body">
                                 <div class="category-type">

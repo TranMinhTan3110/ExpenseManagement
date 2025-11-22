@@ -1,6 +1,6 @@
 ﻿@model QuanLyChiTieu_WebApp.ViewModels.CreateTicketViewModel
 @{
-    ViewBag.Title = "Create Ticket";
+    ViewBag.Title = "Tạo yêu cầu";
 }
 @section Styles {
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
@@ -18,15 +18,15 @@
                     <div class="row align-items-center justify-content-between">
                         <div class="col-xl-4 page-title">
                             <div class="page-title-content">
-                                <h3>Create Ticket</h3>
-                                <p class="mb-2">Welcome Ekash Finance Management</p>
+                                <h3>Tạo yêu cầu</h3>
+                                <p class="mb-2">Chào mừng đến với Ekash</p>
                             </div>
                         </div>
                         <div class="col-auto">
                             <div class="breadcrumbs">
-                                <a asp-controller="Settings" asp-action="Support">Support </a>
+                                <a asp-controller="Settings" asp-action="Support">Hỗ trợ</a>
                                 <span><i class="fi fi-rr-angle-small-right"></i></span>
-                                <a asp-controller="Settings" asp-action="CreateTicket">Create Ticket</a>
+                                <a asp-controller="Settings" asp-action="CreateTicket">Tạo yêu cầu</a>
                             </div>
                         </div>
                     </div>
@@ -37,16 +37,23 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Create Ticket</h4>
-                        <a asp-controller="Settings" asp-action="Support" class="btn btn-danger">Cancel</a>
-
+                        <h4 class="card-title">Tạo yêu cầu</h4>
+                        <a asp-controller="Settings" asp-action="Support" class="btn btn-danger">Hủy</a>
                     </div>
                     <div class="card-body">
                         <form asp-controller="Settings" asp-action="CreateTicket" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
                             <div class="mb-3">
-                                <label class="form-label">What the type question do you want?</label>
+                                <label class="form-label">Bạn cần hỗ trợ về vấn đề gì?</label>
                                 <select asp-for="QuestionType" class="form-select">
+@* <<<<<<< HEAD *@
+                                    <option value="">-- Chọn danh mục --</option>
+                                    <option>Thu nhập</option>
+                                    <option>Rút tiền</option>
+                                    <option>Hồ sơ cá nhân</option>
+                                    <option>Vấn đề chung</option>
+                                    <option>Khác</option>
+@* =======
                                     <option value="">-- Choose Type --</option>
                                     <option> Earning</option>
                                     <option> Withdrawals</option>
@@ -60,40 +67,33 @@
                                     <option> Payment & Subscription</option>
                                     <option> Feature Request</option>
                                     <option> Others</option>
+>>>>>>> a120f0bc03fbb51a882157fbd83cb8766f608b78 *@
                                 </select>
                                 <span asp-validation-for="QuestionType" class="text-danger"></span>
                             </div>
+
+                            @* Các phần comment mình giữ nguyên code nhưng nếu mở ra thì bạn sửa text trong <option> nhé *@
                             @* <div class="mb-3">
-                                <label class="form-label">Employe Respond</label>
+                                <label class="form-label">Phản hồi của nhân viên</label>
                                 <select asp-for ="RespondType" class="form-select">
-                                    <option value="">-- Choose Type --</option>
-                                    <option> Earning</option>
-                                    <option> Withdrawals</option>
-                                    <option> Profile</option>
-                                    <option> General</option>
-                                    <option> Others</option>
+                                    <option value="">-- Chọn loại --</option>
+                                    <option>Thu nhập</option>
+                                    <option>Rút tiền</option>
+                                    <option>Hồ sơ</option>
+                                    <option>Chung</option>
+                                    <option>Khác</option>
                                 </select>
                                 <span asp-validation-for="RespondType" class="text-danger"></span>
                             </div> *@
-                            @* <div class="mb-3">
-                                <label class="form-label">What language do you prefer to be answered?</label>
-                                <select class="form-select">
-                                    <option> Earning</option>
-                                    <option> Withdrawals</option>
-                                    <option> Profile</option>
-                                    <option> General</option>
-                                    <option> Others</option>
-                                </select>
-                            </div> *@
+
                             <div class="mb-3">
                                 <label class="form-label">
-                                    Please provide a description of the problem you are
-                                    encountering
+                                    Vui lòng mô tả chi tiết vấn đề bạn đang gặp phải
                                 </label>
-                                <textarea asp-for="Description" rows="5" class="form-control"></textarea>
+                                <textarea asp-for="Description" rows="5" class="form-control" placeholder="Nhập nội dung yêu cầu..."></textarea>
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <button type="submit" class="btn btn-primary">Gửi yêu cầu</button>
                         </form>
                     </div>
                 </div>

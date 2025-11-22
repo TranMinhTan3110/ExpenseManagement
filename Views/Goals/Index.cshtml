@@ -27,15 +27,15 @@
                 <div class="row align-items-center justify-content-between">
                     <div class="col-xl-4">
                         <div class="page-title-content">
-                            <h3>Goals</h3>
-                            <p class="mb-2">Welcome Ekash Finance Management</p>
+                            <h3>Mục tiêu tiết kiệm</h3>
+                            <p class="mb-2">Chào mừng đến với Ekash</p>
                         </div>
                     </div>
                     <div class="col-auto mb-3">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Goals</li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Mục tiêu</li>
                             </ol>
                         </nav>
                     </div>
@@ -104,7 +104,7 @@
                         </div>
                     </div>
                     <div class="add-goals-link" data-bs-toggle="modal" data-bs-target="#addGoalModal">
-                        <h5 class="mb-0">Add new goals</h5>
+                        <h5 class="mb-0">Thêm mục tiêu mới</h5>
                         <a href="javascript:void(0)">
                             <i class="fi fi-rr-square-plus"></i>
                         </a>  
@@ -133,6 +133,7 @@
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#withdrawModal"
                                                 data-goal-id="@goal.GoalID"
+                                                data-current-amount="@goal.CurrentAmount"
                                                 data-wallets='@Json.Serialize(goal.WalletContributions)'> <i class="fi fi-rr-minus"></i> Rút Tiền
                                         </button>
                                         <button class="btn btn-danger btn-sm px-3" onclick="deleteGoal(@goal.GoalID)">
@@ -155,11 +156,11 @@
                                                     }
                                                 <div class="d-flex justify-content-between card-save">
                                                     <div>
-                                                        <span>Saved</span>
+                                                        <span>Đã tích lũy</span>
                                                         <h3>@goal.CurrentAmount.ToString("N0")đ</h3>
                                                     </div>
                                                     <div class="text-end">
-                                                        <span>Goals</span>
+                                                        <span>Mục tiêu</span>
                                                         <h3>@goal.TargetAmount.ToString("N0")đ</h3>
                                                     </div>
                                                 </div>
@@ -211,7 +212,7 @@
                                         <div class="col-xl-12">
                                             <div class="card">
                                                 <div class="card-header">
-                                                    <h4 class="card-title">Available by Wallet</h4>
+                                                    <h4 class="card-title">Nguồn tiền từ ví</h4>
                                                 </div>
                                                 <div class="card-body available-wallet">
                                                     @foreach (var wallet in goal.WalletContributions)
@@ -224,7 +225,7 @@
                                                                 <div class="goals-info flex-grow-2 me-3">
                                                                     <div class="d-flex justify-content-between mb-1">
                                                                         <h5 class="mb-1">@wallet.WalletName</h5>
-                                                                        <p class="mb-0">@wallet.Amount.ToString("C0")</p>
+                                                                        <p class="mb-0">@wallet.Amount.ToString("N0")đ</p>
                                                                     </div>
                                                                     <div class="progress">
                                                                         <div class="progress-bar" role="progressbar" style="width: @wallet.ProgressPercentage%;"></div>
@@ -244,17 +245,17 @@
                                         <div class="col-xl-12">
                                             <div class="card">
                                                 <div class="card-header">
-                                                    <h4 class="card-title">History</h4>
+                                                    <h4 class="card-title">Lịch sử đóng góp</h4>
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="table-responsive">
                                                         <table class="table mb-0 table-responsive-sm goals-history-table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Date</th>
-                                                                    <th>Wallet</th>
-                                                                    <th>Description</th>
-                                                                    <th>Amount</th>
+                                                                    <th>Ngày</th>
+                                                                    <th>Ví</th>
+                                                                    <th class="ps-4">Nội dung</th>
+                                                                    <th class="text-end pe-3">Số tiền</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -264,9 +265,17 @@
                                                                         <td><span><i class="fi fi-rr-calendar"></i></span> @history.Date.ToString("dd MMM yyyy")</td>
                                                                         <td><span><i class="fi fi-rr-credit-card"></i></span> @history.WalletName</td>
                                                                         <td>@history.Description</td>
-                                                                        <td>
-                                                                            <h5>+@history.Amount.ToString("C2")</h5>
-                                                                            <span>@history.Balance.ToString("C2")</span>
+                                                                        <td class="text-end">
+                                                                            @if (history.Amount > 0)
+                                                                            {
+                                                                                <h5 class="text-success">+@history.Amount.ToString("N0")đ</h5>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <h5 class="text-danger">@history.Amount.ToString("N0")đ</h5>
+                                                                            }
+
+                                                                            <span class="text-muted small">Số dư: @history.Balance.ToString("N0")đ</span>
                                                                         </td>
                                                                     </tr>
                                                                 }
@@ -435,7 +444,7 @@
                         <small class="text-muted">Nhập số tiền bạn muốn rút</small>
                     </div>
 
-                    <!-- Ghi chú (tùy chọn) -->
+                    @* <!-- Ghi chú (tùy chọn) -->
                     <div class="mb-3">
                         <label for="withdrawNote" class="form-label">
                             <i class="fi fi-rr-edit"></i> Ghi chú (Tùy chọn)
@@ -446,7 +455,7 @@
                             rows="2" 
                             placeholder="Ví dụ: Tiết kiệm tháng 1, Thưởng cuối năm..."
                             maxlength="500"></textarea>
-                    </div>
+                    </div> *@
                 </form>
             </div>
             <div class="modal-footer">

@@ -359,7 +359,7 @@ namespace QuanLyChiTieu_WebApp.Models.EF
                       .IsRequired()
                       .HasColumnType("decimal(18,2)");
 
-                entity.HasCheckConstraint("CK_GoalDeposit_Amount_Positive", "Amount > 0");
+                //entity.HasCheckConstraint("CK_GoalDeposit_Amount_Positive", "Amount > 0");
 
                 entity.Property(e => e.DepositDate)
                       .HasDefaultValueSql("GETDATE()");
