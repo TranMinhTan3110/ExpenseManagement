@@ -1,4 +1,25 @@
-﻿$(document).ready(function () {
+﻿// ====================================
+// TOGGLE PASSWORD VISIBILITY
+// ====================================
+function togglePassword(inputId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(inputId + '-eye');
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fi-rr-eye');
+        icon.classList.add('fi-rr-eye-crossed');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('fi-rr-eye-crossed');
+        icon.classList.add('fi-rr-eye');
+    }
+}
+
+// ====================================
+// LOGIN FORM SUBMISSION
+// ====================================
+$(document).ready(function () {
     $("#login_form").on("submit", function (e) {
         e.preventDefault();
         var username = $("#username").val().trim();
@@ -26,34 +47,29 @@
                         timer: 1500,
                         showConfirmButton: false
                     }).then(function () {
-
-                        // ✅ DÙNG REDIRECT TỪ SERVER
                         window.location.href = response.redirect;
-
                     });
                 } else {
-                    // 1. Kiểm tra xem có phải lỗi do "bị khóa" không
-                    // (Chúng ta tìm chữ "khóa" trong message trả về)
+                    // Kiểm tra xem có phải lỗi do "bị khóa" không
                     if (response.message && response.message.includes("khóa")) {
                         Swal.fire({
-                            icon: 'warning', // Đổi icon thành cảnh báo
-                            title: 'Tài khoản bị khóa!', // Tiêu đề rõ ràng
-                            text: response.message // Hiển thị message từ server
+                            icon: 'warning',
+                            title: 'Tài khoản bị khóa!',
+                            text: response.message
                         });
                     }
-                    // 2. Nếu không phải lỗi "bị khóa", thì đó là lỗi sai pass/email
+                    // Nếu không phải lỗi "bị khóa", thì đó là lỗi sai pass/email
                     else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Đăng nhập thất bại',
-                            text: response.message // Hiển thị "Email hoặc mật khẩu không chính xác."
+                            text: response.message
                         });
                     }
                 }
             },
             error: function () {
                 $("#loader-overlay").hide();
-
                 Swal.fire({
                     icon: 'error',
                     title: 'Lỗi!',

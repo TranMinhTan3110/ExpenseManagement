@@ -1,7 +1,7 @@
 ﻿@using System.Security.Claims
 @{
-    ViewData["Title"] = "Category";
-    ViewData["Subtitle"] = $"Welcome back, {User.FindFirstValue(ClaimTypes.Name)}!";
+    ViewData["Title"] = "Danh mục";
+    ViewData["Subtitle"] = $"Chào mừng trở lại, {User.FindFirstValue(ClaimTypes.Name)}!";
     ViewData["Icon"] = "fi fi-rr-settings";
     Layout = "~/Views/Shared/LayoutAdmin.cshtml";
 }
@@ -164,13 +164,13 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="icons-tab" data-bs-toggle="tab" data-bs-target="#icons"
                         type="button" role="tab">
-                    <i class="fi fi-rr-picture me-2"></i>Icons
+                    <i class="fi fi-rr-picture me-2"></i>Biểu tượng
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="colors-tab" data-bs-toggle="tab" data-bs-target="#colors"
                         type="button" role="tab">
-                    <i class="fi fi-rr-palette me-2"></i>Colors
+                    <i class="fi fi-rr-palette me-2"></i>Màu sắc
                 </button>
             </li>
         </ul>
@@ -181,15 +181,15 @@
             <div class="tab-pane fade show active" id="icons" role="tabpanel">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title mb-0">Danh sách Icons</h4>
-                        <span class="badge bg-primary" id="icon-count">0 icons</span>
+                        <h4 class="card-title mb-0">Danh sách biểu tượng</h4>
+                        <span class="badge bg-primary" id="icon-count">0 biểu tượng</span>
                     </div>
                     <div class="card-body">
                         <div class="icon-grid" id="icon-grid">
                             <!-- Add Icon Button -->
                             <div class="icon-item add-btn" id="add-icon-btn">
                                 <i class="fi fi-rr-plus"></i>
-                                <span style="font-size: 12px;">Thêm Icon</span>
+                                <span style="font-size: 12px;">Thêm biểu tượng</span>
                             </div>
                             <!-- Icons will be loaded here -->
                         </div>
@@ -201,15 +201,15 @@
             <div class="tab-pane fade" id="colors" role="tabpanel">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title mb-0">Danh sách Colors</h4>
-                        <span class="badge bg-primary" id="color-count">0 colors</span>
+                        <h4 class="card-title mb-0">Danh sách màu</h4>
+                        <span class="badge bg-primary" id="color-count">0 màu</span>
                     </div>
                     <div class="card-body">
                         <div class="color-grid" id="color-grid">
                             <!-- Add Color Button -->
                             <div class="color-item add-btn" id="add-color-btn">
                                 <i class="fi fi-rr-plus"></i>
-                                <span style="font-size: 12px;">Thêm Color</span>
+                                <span style="font-size: 12px;">Thêm màu</span>
                             </div>
                             <!-- Colors will be loaded here -->
                         </div>
@@ -256,10 +256,10 @@
                         iconGrid.appendChild(iconDiv);
                     });
 
-                    iconCount.textContent = `${icons.length} icons`;
+                    iconCount.textContent = `${icons.length} biểu tượng`;
                 } catch (error) {
                     console.error('Error loading icons:', error);
-                    Swal.fire('Lỗi!', 'Không thể tải danh sách icons', 'error');
+                    Swal.fire('Lỗi!', 'Không thể tải danh sách biểu tượng', 'error');
                 }
             }
 
@@ -288,17 +288,17 @@
                         colorGrid.appendChild(colorDiv);
                     });
 
-                    colorCount.textContent = `${colors.length} colors`;
+                    colorCount.textContent = `${colors.length} màu`;
                 } catch (error) {
                     console.error('Error loading colors:', error);
-                    Swal.fire('Lỗi!', 'Không thể tải danh sách colors', 'error');
+                    Swal.fire('Lỗi!', 'Không thể tải danh sách màu', 'error');
                 }
             }
 
             // Add Icon
             addIconBtn.addEventListener('click', async function() {
                 const { value: formValues } = await Swal.fire({
-                    title: 'Thêm Icon Mới',
+                    title: 'Thêm biểu tượng mới',
                     html:
                         '<input id="icon-name" class="swal2-input" placeholder="Tên icon (VD: Ăn uống)">' +
                         '<input id="icon-class" class="swal2-input" placeholder="Icon class (VD: fa-solid fa-utensils)">',
@@ -343,7 +343,7 @@
             // Add Color
             addColorBtn.addEventListener('click', async function() {
                 const { value: formValues } = await Swal.fire({
-                    title: 'Thêm Color Mới',
+                    title: 'Thêm màu mới',
                     html: `
                         <div style="text-align: left;">
                             <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #374151;">Tên màu</label>

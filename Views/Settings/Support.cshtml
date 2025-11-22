@@ -57,7 +57,7 @@
                             <div class="ticket-list">
                                 @foreach (var ticket in Model.MyTickets)
                                 {
-                                    <a href="#">
+                                    <a asp-controller="MyTickets" asp-action="Index">
                                         <div>
                                             <h5>
                                                 @ticket.QuestionType: @ticket.Description.Substring(0, Math.Min(ticket.Description.Length, 50))...
