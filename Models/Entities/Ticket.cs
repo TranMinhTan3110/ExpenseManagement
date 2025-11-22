@@ -12,7 +12,7 @@
         public string Status { get; set; } = "Open";
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public string AdminNote { get; set; } = "Thanks for your feedback, we will consider it soon";
+        public string AdminNote { get; set; } = "Cảm ơn bạn đã góp ý. Chúng tôi sẽ xem xét nó sớm nhất có thể!";
         public DateTime? UpdatedAt { get; set; }
         public DateTime? ResolvedAt { get; set; }
 

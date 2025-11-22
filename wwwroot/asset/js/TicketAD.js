@@ -167,7 +167,7 @@
             const resolvedDate = new Date(ticket.resolvedAt || ticket.ResolvedAt);
             resolvedInfo = `
                 <div class="detail-row">
-                    <div class="detail-label">Resolved At</div>
+                    <div class="detail-label">Đã giải quyết lúc</div>
                     <div class="detail-value">${resolvedDate.toLocaleString('vi-VN')}</div>
                 </div>
             `;

@@ -431,7 +431,7 @@ input[type=number] {
 
     /* Circle progress cho mục tiêu hoàn thành */
     .goals-nav.goal-completed .goals-nav-circle {
-        background: rgba(255, 255, 255, 0.25);
+/*        background: rgba(255, 255, 255, 0.25);*/
     }
 
     .goals-nav.goal-completed .percent-goal {
